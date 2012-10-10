@@ -42,7 +42,6 @@ public class MainActivity extends Activity {
     private void setWebClientOptions(){
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
     }
 
     private void prepareProgressBar(){
