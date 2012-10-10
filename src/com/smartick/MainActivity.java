@@ -1,13 +1,11 @@
 package com.smartick;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.Window;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -25,6 +23,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         webView = (WebView) findViewById(R.id.webview);
         
