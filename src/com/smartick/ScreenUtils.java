@@ -18,7 +18,7 @@ public class ScreenUtils {
         } catch (NoSuchMethodError e) { 
         	width = display.getWidth();
         }
-        Double val = new Double(width)/new Double(1000);
+        Double val = new Double(width)/new Double(1200);
         val = val * 100d;
         return val.intValue();
     }
