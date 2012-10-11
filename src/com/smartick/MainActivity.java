@@ -1,9 +1,11 @@
 package com.smartick;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -19,7 +21,9 @@ public class MainActivity extends Activity {
 	private ProgressBar progressBar;
 	private WebView webView;
 	
-	private static final String URL_SMARTICK_ACCESO = "http://10.0.2.2/acceso.html";
+	private static final String URL_CONTEXT = "http://10.0.2.2/";
+	private static final String URL_SMARTICK_ACCESO = URL_CONTEXT+"acceso.html";
+	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,38 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
+        menu.findItem(R.id.menu_logout).setEnabled(enableMenuLogout());
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_logout:
+                logout();
+                return true;
+            case R.id.menu_exit:
+            	exit();
+            	return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    private boolean enableMenuLogout(){
+    	return webView.getUrl().contains("/alumno/");
+    }
+    
+    private void exit(){
+    	Intent intent = new Intent(Intent.ACTION_MAIN);
+    	intent.addCategory(Intent.CATEGORY_HOME);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	startActivity(intent);
+    }
+    
+    private void logout(){
+    	webView.loadUrl(URL_LOGOUT);
     }
     
 }
