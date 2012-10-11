@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+
 public class MainActivity extends Activity {
 
 	private ProgressBar progressBar;
@@ -26,12 +27,12 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         webView = (WebView) findViewById(R.id.webview);
-        
+
+        webView.loadUrl(URL_SMARTICK_ACCESO);
+
         setWebClientOptions();
         
         overrideWebClientMethods();
-
-        webView.loadUrl(URL_SMARTICK_ACCESO);
         
 		progressBar = (ProgressBar) findViewById(R.id.progressbar);
         prepareProgressBar();
@@ -39,8 +40,15 @@ public class MainActivity extends Activity {
     }
     
     private void setWebClientOptions(){
+        webView.setPadding(0, 0, 0, 0);
+        webView.setInitialScale(ScreenUtils.getScale(getWindowManager()));
+        
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setUseWideViewPort(false);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setSupportZoom(false);
+        webSettings.setBuiltInZoomControls(false);
     }
 
     private void prepareProgressBar(){
@@ -77,9 +85,11 @@ public class MainActivity extends Activity {
 		});
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
+    
 }
