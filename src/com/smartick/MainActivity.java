@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
 	private static final String URL_CONTEXT = "http://10.0.2.2/";
 	private static final String URL_SMARTICK_ACCESO = URL_CONTEXT+"acceso.html";
 	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
+	private static final String PATH_ALUMNO = "/alumno/";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class MainActivity extends Activity {
     }
     
     private boolean enableMenuLogout(){
-    	return webView.getUrl().contains("/alumno/");
+    	return webView.getUrl().contains(PATH_ALUMNO);
     }
     
     @Override
@@ -128,7 +129,6 @@ public class MainActivity extends Activity {
             	}
                 return super.onKeyDown(keycode, e);
         }
-
         return super.onKeyDown(keycode, e);
     }
 
