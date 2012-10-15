@@ -11,14 +11,16 @@ public class ScreenUtils {
 	public static int getScale(WindowManager windowManager){
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
-        int width;
+        int width, height;
         try { 
         	display.getSize(size);
         	width = size.x;
+        	height = size.y;
         } catch (NoSuchMethodError e) { 
         	width = display.getWidth();
+        	height = display.getHeight();
         }
-        Double val = new Double(width)/new Double(1200);
+        Double val = new Double(height)/new Double(width);
         val = val * 100d;
         return val.intValue();
     }

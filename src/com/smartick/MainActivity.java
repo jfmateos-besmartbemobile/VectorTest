@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ public class MainActivity extends Activity {
 
 	private ProgressBar progressBar;
 	private WebView webView;
+	private Menu menu;
 	
 	private static final String URL_CONTEXT = "http://10.0.2.2/";
 	private static final String URL_SMARTICK_ACCESO = URL_CONTEXT+"acceso.html";
@@ -92,6 +94,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.activity_main, menu);
         menu.findItem(R.id.menu_logout).setEnabled(enableMenuLogout());
         return true;
@@ -116,6 +119,19 @@ public class MainActivity extends Activity {
     	return webView.getUrl().contains("/alumno/");
     }
     
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent e) {
+        switch(keycode) {
+            case KeyEvent.KEYCODE_MENU:
+            	if(menu != null){
+            		menu.findItem(R.id.menu_logout).setEnabled(enableMenuLogout());
+            	}
+                return super.onKeyDown(keycode, e);
+        }
+
+        return super.onKeyDown(keycode, e);
+    }
+
     private void exit(){
     	Intent intent = new Intent(Intent.ACTION_MAIN);
     	intent.addCategory(Intent.CATEGORY_HOME);
