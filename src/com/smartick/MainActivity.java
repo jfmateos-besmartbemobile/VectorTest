@@ -89,6 +89,11 @@ public class MainActivity extends Activity {
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 			    handler.proceed();
 			}
+			
+			@Override
+			public void onScaleChanged (WebView view, float oldScale, float newScale){
+				super.onScaleChanged(view, oldScale, ScreenUtils.getScale(getWindowManager()));
+			}
 		});
     }
 

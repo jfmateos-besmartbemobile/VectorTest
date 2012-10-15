@@ -16,12 +16,12 @@ public class ScreenUtils {
         	display.getSize(size);
         	width = size.x;
         	height = size.y;
-        } catch (NoSuchMethodError e) { 
+        }catch (NoSuchMethodError e) { 
         	width = display.getWidth();
         	height = display.getHeight();
         }
         Double val = new Double(height)/new Double(width);
-        val = val * 100d;
+        val = val * 110d;
         return val.intValue();
     }
 
