@@ -21,7 +21,7 @@ public class ScreenUtils {
         	height = display.getHeight();
         }
         Double val = new Double(height)/new Double(width);
-        val = val * 110d;
+        val = val * 100d;
         return val.intValue();
     }
 

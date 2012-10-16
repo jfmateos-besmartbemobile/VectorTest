@@ -1,14 +1,23 @@
 package com.smartick;
 
+import org.apache.http.cookie.Cookie;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -23,27 +32,34 @@ public class MainActivity extends Activity {
 	private WebView webView;
 	private Menu menu;
 	
-	private static final String URL_CONTEXT = "http://10.0.2.2/";
-	private static final String URL_SMARTICK_ACCESO = URL_CONTEXT+"acceso.html";
+	private static final String URL_CONTEXT = "http://www.smartick.es/";
+//	private static final String URL_SMARTICK_ACCESO = URL_CONTEXT+"acceso.html";
 	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
 	private static final String PATH_ALUMNO = "/alumno/";
+	private String url;
 	
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
-        webView = (WebView) findViewById(R.id.webview);
 
-        webView.loadUrl(URL_SMARTICK_ACCESO);
-
-        setWebClientOptions();
-        
-        overrideWebClientMethods();
-        
-		progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        prepareProgressBar();
-		
+        if(!isOnline()){
+        	toOfflineActivity();
+        }else{
+            Bundle b = getIntent().getExtras();
+            url = b.getString("url");
+	        setContentView(R.layout.activity_main);
+	        webView = (WebView) findViewById(R.id.webview);
+	        prepareCookie(url);
+	        webView.loadUrl(url);
+	
+	        setWebClientOptions();
+	        
+	        overrideWebClientMethods();
+	        
+			progressBar = (ProgressBar) findViewById(R.id.progressbar);
+	        prepareProgressBar();
+        }
     }
     
     private void setWebClientOptions(){
@@ -99,7 +115,7 @@ public class MainActivity extends Activity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu){
         this.menu = menu;
         getMenuInflater().inflate(R.menu.activity_main, menu);
         menu.findItem(R.id.menu_logout).setEnabled(enableMenuLogout());
@@ -107,7 +123,7 @@ public class MainActivity extends Activity {
     }
     
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_logout:
@@ -126,7 +142,7 @@ public class MainActivity extends Activity {
     }
     
     @Override
-    public boolean onKeyDown(int keycode, KeyEvent e) {
+    public boolean onKeyDown(int keycode, KeyEvent e){
         switch(keycode) {
             case KeyEvent.KEYCODE_MENU:
             	if(menu != null){
@@ -148,4 +164,36 @@ public class MainActivity extends Activity {
     	webView.loadUrl(URL_LOGOUT);
     }
     
+    private boolean isOnline(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+    
+    private void prepareCookie(String url){
+    	CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(webView.getContext());
+        CookieManager cookieManager = CookieManager.getInstance();
+//        cookieManager.removeAllCookie();
+        cookieManager.setCookie(URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("="))+" ; Domain=smartick.es");
+        cookieSyncManager.sync();
+//        Log.d("cookie:", cookieManager.getCookie(URL_CONTEXT));
+        
+    }
+    
+    private void toOfflineActivity(){
+    	Intent intent = new Intent(this, OfflineActivity.class);
+    	startActivity(intent);
+    }
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 }

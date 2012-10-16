@@ -6,5 +6,8 @@
     <string name="title_activity_main">Smartick</string>
     <string name="menu_exit">Salir</string>
     <string name="menu_logout">Desconectar</string>
+    <string name="need_internet_message">Necesitas tener acceso a Internet si quieres usar Smartick</string>
+    <string name="need_internet">Necesitas Internet</string>
+    <string name="retry">Volver a intentar</string>
 
 </resources>
