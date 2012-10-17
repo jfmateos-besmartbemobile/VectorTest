@@ -1,21 +1,34 @@
 package com.smartick;
 
-import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.ProtocolException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultRedirectHandler;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 
 import android.R.drawable;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -29,11 +42,12 @@ public class LoginActivity extends Activity {
 	private EditText password;
 	private String urlResult;
 	
-	private static final String URL_CONTEXT = "http://www.smartick.es/";
+	private static final String URL_CONTEXT = "http://10.0.2.2/";
 	private static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
 	private static final String USERS_FILE = "usersSmk";
 	
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -41,6 +55,7 @@ public class LoginActivity extends Activity {
 		View button = findViewById(R.id.buttonLogin);
 		username = (EditText) findViewById(R.id.loginUsername);
 		password = (EditText) findViewById(R.id.loginPassword);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	doForm();
@@ -52,7 +67,6 @@ public class LoginActivity extends Activity {
     	try {
 			new LoginSmartick().execute(new URL(URL_SMARTICK_LOGIN));
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -60,16 +74,7 @@ public class LoginActivity extends Activity {
     private class LoginSmartick extends AsyncTask<URL, Integer, Long> {
     	@Override
         protected Long doInBackground(URL... urls) {
-    		try{
-                String urlEncodedContent = preparePostContent();
-                HttpURLConnection urlConnection = doHttpPost(URL_SMARTICK_LOGIN, urlEncodedContent);
-                urlConnection.connect();
-                urlConnection.getInputStream();
-                urlResult = urlConnection.getURL().toString();
-            }
-            catch(IOException ioException){
-    			// TODO Auto-generated catch block
-            }
+            doHttpPost();
 			return null;
         }
     	
@@ -101,45 +106,48 @@ public class LoginActivity extends Activity {
     	alertDialog.show();
     }
     
-    
-    private HttpURLConnection doHttpPost(String targetUrl, String content) throws IOException{
-        HttpURLConnection urlConnection = null;
-        DataOutputStream dataOutputStream = null;
-        try{
-            urlConnection = (HttpURLConnection)(new URL(targetUrl).openConnection());
-            urlConnection.setDoInput(true);
-            urlConnection.setDoOutput(true);
-            urlConnection.setRequestMethod("POST");
-            dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+    private void doHttpPost(){
+    	urlResult = null;
+    	DefaultHttpClient httpClient = new DefaultHttpClient();
+    	MyRedirectHandler handler = new MyRedirectHandler();
+    	httpClient.setRedirectHandler(handler);
 
-            // throws IOException
-            dataOutputStream.writeBytes(content);
-            dataOutputStream.flush();
-            dataOutputStream.close();
-
-            return urlConnection;
-        }
-        catch(IOException ioException){
-            if (dataOutputStream != null){
-                try{
-                    dataOutputStream.close();
-                }
-                catch(Throwable ignore){
-                }
-            }
-            if (urlConnection != null){
-                urlConnection.disconnect();
-            }
-            throw ioException;
-        }
+    	HttpPost httpost = new HttpPost(URL_SMARTICK_LOGIN);
+        List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+        nvps.add(new BasicNameValuePair("j_username", username.getText().toString()));
+        nvps.add(new BasicNameValuePair("j_password", password.getText().toString()));
+        try {
+			httpost.setEntity(new UrlEncodedFormEntity(nvps));
+			httpClient.execute(httpost);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
     }
     
-    private String preparePostContent() throws UnsupportedEncodingException{
-        String encodedLoginUserName = URLEncoder.encode(username.getText().toString(), "UTF-8");
-        String encodedLoginPassword = URLEncoder.encode(password.getText().toString(), "UTF-8");
-        return "j_username="+encodedLoginUserName+"&j_password="+encodedLoginPassword;
+    public class MyRedirectHandler extends DefaultRedirectHandler {
+
+        public URI lastRedirectedUri;
+
+        @Override
+        public boolean isRedirectRequested(HttpResponse response, HttpContext context) {
+            return super.isRedirectRequested(response, context);
+        }
+
+        @Override
+        public URI getLocationURI(HttpResponse response, HttpContext context) throws ProtocolException {
+        	lastRedirectedUri = super.getLocationURI(response, context);
+        	if(urlResult == null){
+        		urlResult = lastRedirectedUri.toString();
+        	}
+            return lastRedirectedUri;
+        }
     }
-    
+
     private void negotiateStoreUsers() throws IOException{
 		String token = username.getText().toString()+"***"+password.getText().toString();
     	try {

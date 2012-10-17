@@ -1,16 +1,14 @@
 package com.smartick;
 
-import org.apache.http.cookie.Cookie;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,8 +30,7 @@ public class MainActivity extends Activity {
 	private WebView webView;
 	private Menu menu;
 	
-	private static final String URL_CONTEXT = "http://www.smartick.es/";
-//	private static final String URL_SMARTICK_ACCESO = URL_CONTEXT+"acceso.html";
+	private static final String URL_CONTEXT = "http://10.0.2.2/";
 	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
 	private static final String PATH_ALUMNO = "/alumno/";
 	private String url;
@@ -50,13 +47,8 @@ public class MainActivity extends Activity {
             url = b.getString("url");
 	        setContentView(R.layout.activity_main);
 	        webView = (WebView) findViewById(R.id.webview);
-	        prepareCookie(url);
-	        webView.loadUrl(url);
-	
-	        setWebClientOptions();
-	        
-	        overrideWebClientMethods();
-	        
+//	        prepareCookie(url);
+	        new WebViewTask().execute();
 			progressBar = (ProgressBar) findViewById(R.id.progressbar);
 	        prepareProgressBar();
         }
@@ -173,16 +165,6 @@ public class MainActivity extends Activity {
         return false;
     }
     
-    private void prepareCookie(String url){
-    	CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(webView.getContext());
-        CookieManager cookieManager = CookieManager.getInstance();
-//        cookieManager.removeAllCookie();
-        cookieManager.setCookie(URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("="))+" ; Domain=smartick.es");
-        cookieSyncManager.sync();
-//        Log.d("cookie:", cookieManager.getCookie(URL_CONTEXT));
-        
-    }
-    
     private void toOfflineActivity(){
     	Intent intent = new Intent(this, OfflineActivity.class);
     	startActivity(intent);
@@ -195,5 +177,33 @@ public class MainActivity extends Activity {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	
+	private class WebViewTask extends AsyncTask<Void, Void, Boolean> {  
+        CookieManager cookieManager;  
+  
+        @Override  
+        protected void onPreExecute() {  
+            CookieSyncManager.createInstance(MainActivity.this);  
+            cookieManager = CookieManager.getInstance();  
+            cookieManager.removeSessionCookie();   
+            super.onPreExecute();  
+        }  
+        protected Boolean doInBackground(Void... param) {  
+                        // this is very important - THIS IS THE HACK  
+            SystemClock.sleep(1000);  
+            return false;  
+        }  
+        @Override  
+        protected void onPostExecute(Boolean result) {  
+            cookieManager.setCookie(URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("=")));
+            CookieSyncManager.getInstance().sync();  
+	        setWebClientOptions();
+	        
+	        overrideWebClientMethods();
+	        webView.loadUrl(url);
+        } 
+	}
+
 	
 }

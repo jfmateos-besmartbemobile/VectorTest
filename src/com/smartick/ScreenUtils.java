@@ -6,6 +6,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 public class ScreenUtils {
+	private final static Double WIDTH_BODY = (double) 1000;
 	
 	@SuppressLint("NewApi")
 	public static int getScale(WindowManager windowManager){
@@ -20,7 +21,7 @@ public class ScreenUtils {
         	width = display.getWidth();
         	height = display.getHeight();
         }
-        Double val = new Double(height)/new Double(width);
+        Double val = new Double(width)/new Double(WIDTH_BODY);
         val = val * 100d;
         return val.intValue();
     }

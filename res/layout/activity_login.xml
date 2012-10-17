@@ -3,8 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" android:background="@drawable/bg_main">
+ 
+ 
 <ProgressBar
     android:id="@+id/progressbar"
     style="@android:style/Widget.ProgressBar.Horizontal"
@@ -15,37 +16,35 @@
 
 <TextView
     android:id="@+id/textView1"
-    android:layout_width="match_parent"
+    android:layout_width="532dp"
     android:layout_height="wrap_content"
-    android:text="login"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:text="¡Bienvenido a Smartick! ¿Quién eres?"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:background="@color/grey" android:drawableTop="@drawable/bg_header"/>
 
 <EditText
     android:id="@+id/loginUsername"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:ems="10"
-    android:inputType="textPersonName" >
+    android:inputType="textPersonName"
+    android:text="nombre" >
+
     <requestFocus />
 </EditText>
 
 <EditText
     android:id="@+id/loginPassword"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:ems="10"
-    android:inputType="textPassword" />
+    android:inputType="textPassword"
+    android:text="contraseña" />
 
 <Button
     android:id="@+id/buttonLogin"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Button" />
-
-<ImageView
-    android:id="@+id/imageView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_launcher" />
+    android:text="Entrar" />
 
 </LinearLayout>
