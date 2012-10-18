@@ -1,5 +1,6 @@
 package com.smartick;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
 	
 	private static final String URL_CONTEXT = "http://192.168.1.148/";
 	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
+	private static final String URL_SIGNIN = URL_CONTEXT+"registro.html";
 	private static final String PATH_ALUMNO = "/alumno/";
 	private String url;
 	
@@ -190,19 +192,25 @@ public class MainActivity extends Activity {
             cookieManager.removeSessionCookie();   
             super.onPreExecute();  
         }  
+        
         protected Boolean doInBackground(Void... param) {  
             //Workaround porque hay un problema al pasar una cookie al webview : http://walletapp.net/es/cookbook/android-passing-cookie-to-webview
             SystemClock.sleep(1000);  
             return false;  
         }  
-        @Override  
-        protected void onPostExecute(Boolean result) {  
-            cookieManager.setCookie(URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("=")));
-            CookieSyncManager.getInstance().sync();  
+        
+        @SuppressLint("NewApi")
+		@Override  
+        protected void onPostExecute(Boolean result) {
 	        setWebClientOptions();
-	        
 	        overrideWebClientMethods();
-	        webView.loadUrl(url);
+        	if(url == null || url.toString().isEmpty()){
+    	        webView.loadUrl(URL_SIGNIN);
+        	}else{
+                cookieManager.setCookie(URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("=")));
+                CookieSyncManager.getInstance().sync();  
+    	        webView.loadUrl(url);
+        	}
         } 
 	}
 
