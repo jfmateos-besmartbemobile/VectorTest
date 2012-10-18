@@ -3,24 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:orientation="vertical" android:background="@drawable/bg_main">
- 
- 
-<ProgressBar
-    android:id="@+id/progressbar"
-    style="@android:style/Widget.ProgressBar.Horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="3dp" 
-    android:visibility="gone"/>
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:src="@drawable/logo" />
 
 <TextView
     android:id="@+id/textView1"
-    android:layout_width="532dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="¡Bienvenido a Smartick! ¿Quién eres?"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:background="@color/grey" android:drawableTop="@drawable/bg_header"/>
+    android:background="@color/grey"
+    android:drawableTop="@drawable/bg_header"
+    android:text="@string/whoYouAre"
+    android:textAppearance="?android:attr/textAppearanceLarge" />
 
 <EditText
     android:id="@+id/loginUsername"
@@ -28,8 +27,7 @@
     android:layout_height="wrap_content"
     android:ems="10"
     android:inputType="textPersonName"
-    android:text="nombre" >
-
+    android:hint="@string/user" >
     <requestFocus />
 </EditText>
 
@@ -39,12 +37,12 @@
     android:layout_height="wrap_content"
     android:ems="10"
     android:inputType="textPassword"
-    android:text="contraseña" />
+    android:hint="@string/password" />
 
 <Button
     android:id="@+id/buttonLogin"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Entrar" />
+    android:text="@string/enter" />
 
 </LinearLayout>

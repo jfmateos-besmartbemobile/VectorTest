@@ -3,6 +3,7 @@ package com.smartick;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
@@ -30,7 +31,7 @@ public class MainActivity extends Activity {
 	private WebView webView;
 	private Menu menu;
 	
-	private static final String URL_CONTEXT = "http://10.0.2.2/";
+	private static final String URL_CONTEXT = "http://192.168.1.148/";
 	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
 	private static final String PATH_ALUMNO = "/alumno/";
 	private String url;
@@ -47,8 +48,7 @@ public class MainActivity extends Activity {
             url = b.getString("url");
 	        setContentView(R.layout.activity_main);
 	        webView = (WebView) findViewById(R.id.webview);
-//	        prepareCookie(url);
-	        new WebViewTask().execute();
+	        new SmartickViewTask().execute();
 			progressBar = (ProgressBar) findViewById(R.id.progressbar);
 	        prepareProgressBar();
         }
@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
     
     private void setWebClientOptions(){
         webView.setPadding(0, 0, 0, 0);
-        webView.setInitialScale(ScreenUtils.getScale(getWindowManager()));
+        webView.setInitialScale(ScreenUtils.getScale(getWindowManager(), webView.getUrl()));
         
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -97,10 +97,11 @@ public class MainActivity extends Activity {
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 			    handler.proceed();
 			}
-			
+			/*Captura cuando empieza la página*/
 			@Override
-			public void onScaleChanged (WebView view, float oldScale, float newScale){
-				super.onScaleChanged(view, oldScale, ScreenUtils.getScale(getWindowManager()));
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				view.setInitialScale(ScreenUtils.getScale(getWindowManager(), url));
+				super.onPageStarted(view, url, favicon);
 			}
 		});
     }
@@ -178,8 +179,8 @@ public class MainActivity extends Activity {
 		this.url = url;
 	}
 	
-	
-	private class WebViewTask extends AsyncTask<Void, Void, Boolean> {  
+	/*Clase para implementar los métodos del webview*/
+	private class SmartickViewTask extends AsyncTask<Void, Void, Boolean> {  
         CookieManager cookieManager;  
   
         @Override  
@@ -190,7 +191,7 @@ public class MainActivity extends Activity {
             super.onPreExecute();  
         }  
         protected Boolean doInBackground(Void... param) {  
-                        // this is very important - THIS IS THE HACK  
+            //Workaround porque hay un problema al pasar una cookie al webview : http://walletapp.net/es/cookbook/android-passing-cookie-to-webview
             SystemClock.sleep(1000);  
             return false;  
         }  

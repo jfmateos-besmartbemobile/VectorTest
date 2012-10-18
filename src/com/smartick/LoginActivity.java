@@ -42,7 +42,7 @@ public class LoginActivity extends Activity {
 	private EditText password;
 	private String urlResult;
 	
-	private static final String URL_CONTEXT = "http://10.0.2.2/";
+	private static final String URL_CONTEXT = "http://192.168.1.148/";
 	private static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
 	private static final String USERS_FILE = "usersSmk";
 	
@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
 		View button = findViewById(R.id.buttonLogin);
 		username = (EditText) findViewById(R.id.loginUsername);
 		password = (EditText) findViewById(R.id.loginPassword);
-
+		restoreSaveUsers();
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	doForm();
@@ -149,7 +149,7 @@ public class LoginActivity extends Activity {
     }
 
     private void negotiateStoreUsers() throws IOException{
-		String token = username.getText().toString()+"***"+password.getText().toString();
+		String token = username.getText().toString()+"###"+password.getText().toString()+"@@@";
     	try {
 			String fileContent = readUsersInStore();
 			if(!fileContent.toString().contains(token)){
@@ -175,6 +175,22 @@ public class LoginActivity extends Activity {
 		    fileContent.append(new String(buffer));
 		}
 		return fileContent.toString();
+    }
+    
+    @SuppressLint("NewApi")
+	private void restoreSaveUsers(){
+    	String fileContent = "";
+		try {
+			fileContent = readUsersInStore();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		for (String userPassword : fileContent.toString().split("@@@")) {
+			if(!userPassword.isEmpty() && userPassword.contains("###")){
+				username.setText(userPassword.split("###")[0]);
+				password.setText(userPassword.split("###")[1]);
+			}
+		}
     }
     
 }

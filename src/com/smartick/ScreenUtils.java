@@ -6,10 +6,11 @@ import android.view.Display;
 import android.view.WindowManager;
 
 public class ScreenUtils {
-	private final static Double WIDTH_BODY = (double) 1000;
+	private final static Double WIDTH_BODY = 1000d;
+	private final static Double HEIGHT_BODY = 700d;
 	
-	@SuppressLint("NewApi")
-	public static int getScale(WindowManager windowManager){
+	@SuppressLint({ "NewApi", "UseValueOf" })
+	public static int getScale(WindowManager windowManager, String pathUrl){
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         int width, height;
@@ -18,12 +19,22 @@ public class ScreenUtils {
         	width = size.x;
         	height = size.y;
         }catch (NoSuchMethodError e) { 
+        	/*Para SDKs antiguas*/
         	width = display.getWidth();
         	height = display.getHeight();
         }
-        Double val = new Double(width)/new Double(WIDTH_BODY);
+        Double val = 0d;
+        if(isProblemasPath(pathUrl)){
+        	val = new Double(height)/HEIGHT_BODY;
+        }else{
+            val = new Double(width)/WIDTH_BODY;
+        }
         val = val * 100d;
         return val.intValue();
     }
+	
+	private static boolean isProblemasPath(String pathUrl){
+		return pathUrl == null ? false : pathUrl.contains("/presentacionProblema.html");
+	}
 
 }

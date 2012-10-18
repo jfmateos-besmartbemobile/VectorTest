@@ -9,5 +9,9 @@
     <string name="need_internet_message">Necesitas tener acceso a Internet si quieres usar Smartick</string>
     <string name="need_internet">Necesitas Internet</string>
     <string name="retry">Volver a intentar</string>
+    <string name="whoYouAre">¡Bienvenido a Smartick! ¿Quién eres?</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="enter">Entrar</string>
 
 </resources>
