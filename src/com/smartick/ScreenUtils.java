@@ -36,5 +36,5 @@ public class ScreenUtils {
 	private static boolean isProblemasPath(String pathUrl){
 		return pathUrl == null ? false : pathUrl.contains("/presentacionProblema.html");
 	}
-
+	
 }

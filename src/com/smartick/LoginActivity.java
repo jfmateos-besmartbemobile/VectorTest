@@ -30,6 +30,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -61,12 +62,16 @@ public class LoginActivity extends ListActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        if(!NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))){
+        	toOfflineActivity();
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         restoreSaveUsers();
         prepareView();
     }
     
+    /*Prepara los elementos del login*/
     private void prepareView(){
 		View button = findViewById(R.id.buttonLogin);
 		TextView singIn = (TextView) findViewById(R.id.singIn);
@@ -108,6 +113,7 @@ public class LoginActivity extends ListActivity {
         }
     }
     
+    /*Si el login es correcto se pasa al webview*/
     private void redirectLogin(){
         if(!urlResult.contains("acceso")){
         	try {
@@ -121,6 +127,7 @@ public class LoginActivity extends ListActivity {
         }
     }
     
+    /*Pasa a la actividad principal*/
     private void toMainActivity(){
     	Intent intent = new Intent(this, MainActivity.class);
     	intent.putExtra("url", urlResult);
@@ -154,7 +161,6 @@ public class LoginActivity extends ListActivity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
     }
     
     public class MyRedirectHandler extends DefaultRedirectHandler {
@@ -249,5 +255,10 @@ public class LoginActivity extends ListActivity {
     	username.setText(user);
     	password.setText(usersMap.get(user));
     	doForm();
+    }
+    
+    private void toOfflineActivity(){
+    	Intent intent = new Intent(this, OfflineActivity.class);
+    	startActivity(intent);
     }
 }

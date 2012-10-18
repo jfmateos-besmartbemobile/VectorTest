@@ -20,7 +20,8 @@
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_main" >
         </activity>
-        <activity android:name=".OfflineActivity"></activity>
+        <activity android:name=".OfflineActivity"
+            	  android:screenOrientation="landscape" />
         <activity android:name=".LoginActivity"
            		  android:screenOrientation="landscape">
             <intent-filter>

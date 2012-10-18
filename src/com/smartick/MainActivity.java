@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        if(!isOnline()){
+        if(!NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))){
         	toOfflineActivity();
         }else{
             Bundle b = getIntent().getExtras();
@@ -157,15 +157,6 @@ public class MainActivity extends Activity {
     
     private void logout(){
     	webView.loadUrl(URL_LOGOUT);
-    }
-    
-    private boolean isOnline(){
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        }
-        return false;
     }
     
     private void toOfflineActivity(){

@@ -5,21 +5,23 @@
     android:layout_gravity="center_horizontal|right"
     android:layout_marginTop="5dp"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/bg_main" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/offLineError"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/need_internet"
-        android:src="@android:drawable/ic_delete" />
+        android:background="@color/grey"
+        android:drawableTop="@drawable/bg_header"
+        android:text="@string/offLineError"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="195dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="20dp"
         android:text="@string/need_internet_message"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -27,7 +29,7 @@
         android:id="@+id/button1"
         android:layout_width="248dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="0dp"
         android:text="@string/retry" />
 
     <ImageView
