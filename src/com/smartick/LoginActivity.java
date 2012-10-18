@@ -31,10 +31,8 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
@@ -45,7 +43,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
+@SuppressLint("NewApi")
 public class LoginActivity extends ListActivity {
 
 	private EditText username;
@@ -58,7 +56,7 @@ public class LoginActivity extends ListActivity {
 	private static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
 	private static final String USERS_FILE = "usersSmk";
 	
-    @SuppressLint("NewApi")
+    
 	@Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -211,7 +209,6 @@ public class LoginActivity extends ListActivity {
 		return fileContent.toString();
     }
     
-    @SuppressLint("NewApi")
 	private void restoreSaveUsers(){
     	String fileContent = "";
     	List<String> usersList = new ArrayList<String>();
