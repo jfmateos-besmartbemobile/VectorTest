@@ -90,6 +90,9 @@ public class MainActivity extends Activity {
         	/*Para que no se abra en un navegador*/
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
+				if(url.equals(URL_LOGOUT)){
+					toLoginActivity();
+				}
 				return false;
 			}	
 			
@@ -160,6 +163,11 @@ public class MainActivity extends Activity {
     
     private void toOfflineActivity(){
     	Intent intent = new Intent(this, OfflineActivity.class);
+    	startActivity(intent);
+    }
+    
+    private void toLoginActivity(){
+    	Intent intent = new Intent(this, LoginActivity.class);
     	startActivity(intent);
     }
 
