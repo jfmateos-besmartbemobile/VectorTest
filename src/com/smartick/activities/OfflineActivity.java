@@ -1,4 +1,4 @@
-package com.smartick;
+package com.smartick.activities;
 
 import android.app.Activity;
 import android.content.Intent;

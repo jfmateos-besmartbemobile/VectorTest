@@ -1,4 +1,4 @@
-package com.smartick;
+package com.smartick.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,6 +23,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
+import com.smartick.utils.NetworkUtils;
+import com.smartick.utils.ScreenUtils;
 
 
 public class MainActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.smartick;
+package com.smartick.utils;
 
 import android.annotation.SuppressLint;
 import android.graphics.Point;

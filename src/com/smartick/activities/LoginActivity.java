@@ -1,9 +1,12 @@
-package com.smartick;
+package com.smartick.activities;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -43,18 +46,25 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.smartick.pojos.ListUser;
+import com.smartick.utils.NetworkUtils;
+import com.smartick.utils.UsersListAdapter;
+
 @SuppressLint("NewApi")
 public class LoginActivity extends ListActivity {
 
 	private EditText username;
 	private EditText password;
 	private String urlResult;
+	private String avatarUrl;
 	Map<String, String> usersMap = new HashMap<String, String>();
 
 	
 	private static final String URL_CONTEXT = "http://192.168.1.148/";
 	private static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
 	private static final String USERS_FILE = "usersSmk";
+	private static final String TOKEN_SEPARATOR = "###";
+	private static final String USER_SEPARATOR = "@@@";
 	
     
 	@Override
@@ -151,7 +161,11 @@ public class LoginActivity extends ListActivity {
         nvps.add(new BasicNameValuePair("j_password", password.getText().toString()));
         try {
 			httpost.setEntity(new UrlEncodedFormEntity(nvps));
-			httpClient.execute(httpost);
+			HttpResponse response = httpClient.execute(httpost);
+			if(!urlResult.contains("acceso")){
+				findAvatarUrl(response.getEntity().getContent());
+			}
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -160,6 +174,22 @@ public class LoginActivity extends ListActivity {
 			e.printStackTrace();
 		}
     }
+    
+    private void findAvatarUrl(InputStream is) throws IOException {
+        String line = "";
+        StringBuilder total = new StringBuilder();
+        
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+        while ((line = rd.readLine()) != null) { 
+            total.append(line); 
+        }
+        String html = total.toString();
+        avatarUrl = html.substring(html.indexOf("<img id=\"avatarImgId\" class=\"avatarimg\" src=\"")+"<img id=\"avatarImgId\" class=\"avatarimg\" src=\"".length(), html.indexOf("\" alt=\"Avatar\" />"));
+        avatarUrl = avatarUrl.replace("gra", "peq");
+        
+    }
+
     
     public class MyRedirectHandler extends DefaultRedirectHandler {
 
@@ -181,7 +211,7 @@ public class LoginActivity extends ListActivity {
     }
 
     private void negotiateStoreUsers() throws IOException{
-		String token = username.getText().toString()+"###"+password.getText().toString()+"@@@";
+		String token = username.getText().toString()+TOKEN_SEPARATOR+password.getText().toString()+TOKEN_SEPARATOR+avatarUrl+USER_SEPARATOR;
     	try {
 			String fileContent = readUsersInStore();
 			if(!fileContent.toString().contains(token)){
@@ -198,7 +228,7 @@ public class LoginActivity extends ListActivity {
 		usersFile.close();
     }
     
-    private String readUsersInStore() throws IOException{
+    private String readUsersInStore() throws FileNotFoundException, IOException{
     	FileInputStream usersFile = openFileInput(USERS_FILE);
 		StringBuffer fileContent = new StringBuffer("");
 		byte[] buffer = new byte[1024];
@@ -211,16 +241,23 @@ public class LoginActivity extends ListActivity {
     
 	private void restoreSaveUsers(){
     	String fileContent = "";
-    	List<String> usersList = new ArrayList<String>();
+    	List<ListUser> usersList = new ArrayList<ListUser>();
 		try {
 			fileContent = readUsersInStore();
+		} catch (FileNotFoundException fe){
+			try {
+				saveUserInStore("");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for (String userPassword : fileContent.toString().split("@@@")) {
-			if(!userPassword.isEmpty() && userPassword.contains("###")){
-				usersMap.put(userPassword.split("###")[0], userPassword.split("###")[1]);
-				usersList.add(userPassword.split("###")[0]);
+		for (String userPassword : fileContent.toString().split(USER_SEPARATOR)) {
+			if(!userPassword.isEmpty() && userPassword.contains(TOKEN_SEPARATOR)){
+				usersMap.put(userPassword.split(TOKEN_SEPARATOR)[0], userPassword.split(TOKEN_SEPARATOR)[1]);
+				ListUser listUser = new ListUser(userPassword.split(TOKEN_SEPARATOR)[0], userPassword.split(TOKEN_SEPARATOR)[1], userPassword.split(TOKEN_SEPARATOR)[2]);
+				usersList.add(listUser);
 			}
 		}
 		if(usersList.isEmpty()){
@@ -237,8 +274,8 @@ public class LoginActivity extends ListActivity {
     	lv.setVisibility(View.GONE);
     }
     
-    private void prepareListView(List<String> usersList){
-    	setListAdapter(new ArrayAdapter<String>(this, R.layout.users_list, usersList));
+    private void prepareListView(List<ListUser> usersList){
+    	setListAdapter(new UsersListAdapter(this, R.layout.users_list, usersList));
     	ListView lv = getListView();  
     	lv.setTextFilterEnabled(true);  
     	lv.setOnItemClickListener(new OnItemClickListener() {    
