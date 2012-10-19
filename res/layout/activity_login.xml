@@ -24,8 +24,8 @@
 <ListView
     android:id="@android:id/list"
     android:layout_width="match_parent"
-    android:layout_height="61dp" 
-    android:fadeScrollbars="false"/>
+    android:layout_height="62dp"
+    android:fadeScrollbars="false" />
 
 <TextView
     android:id="@+id/otherUser"
