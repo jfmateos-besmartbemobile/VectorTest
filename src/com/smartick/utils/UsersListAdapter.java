@@ -2,6 +2,7 @@ package com.smartick.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.smartick.pojos.ListUser;
 
 public class UsersListAdapter extends ArrayAdapter<ListUser> {
 	private static final String URL_CONTEXT = "http://192.168.1.148/";
+	private static final String URL_DEFAULT_AVATAR = "images/avatares/login-default/s_azul_t.png";
 	private Context context;
 	private ImageView avatar;
 	private TextView userName;
@@ -63,11 +65,17 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 			
 	    protected Bitmap doInBackground(ListUser... users) {
 			try {
-				Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(URL_CONTEXT+users[0].getAvatarUrl()).getContent());
-				return bitmap;
+				return BitmapFactory.decodeStream((InputStream)new URL(URL_CONTEXT+users[0].getAvatarUrl()).getContent());
 			} catch (IOException e) {
-				return null;
+				try {
+					return BitmapFactory.decodeStream((InputStream)new URL(URL_CONTEXT+URL_DEFAULT_AVATAR).getContent());
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
+			return null;
 	    }
 	    
 	    @Override

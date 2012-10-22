@@ -41,7 +41,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -62,6 +61,7 @@ public class LoginActivity extends ListActivity {
 	
 	private static final String URL_CONTEXT = "http://192.168.1.148/";
 	private static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
+	private static final String URL_DEFAULT_AVATAR = "images/avatares/login-default/s_azul_t.png";
 	private static final String USERS_FILE = "usersSmk";
 	private static final String TOKEN_SEPARATOR = "###";
 	private static final String USER_SEPARATOR = "@@@";
@@ -185,9 +185,12 @@ public class LoginActivity extends ListActivity {
             total.append(line); 
         }
         String html = total.toString();
-        avatarUrl = html.substring(html.indexOf("<img id=\"avatarImgId\" class=\"avatarimg\" src=\"")+"<img id=\"avatarImgId\" class=\"avatarimg\" src=\"".length(), html.indexOf("\" alt=\"Avatar\" />"));
-        avatarUrl = avatarUrl.replace("gra", "peq");
-        
+        try{
+        	avatarUrl = html.substring(html.indexOf("<img id=\"avatarImgId\" class=\"avatarimg\" src=\"")+"<img id=\"avatarImgId\" class=\"avatarimg\" src=\"".length(), html.indexOf("\" alt=\"Avatar\" />"));
+        	avatarUrl = avatarUrl.replace("gra", "peq");
+        }catch(Exception e){
+        	avatarUrl = URL_DEFAULT_AVATAR;
+        }
     }
 
     
@@ -280,7 +283,7 @@ public class LoginActivity extends ListActivity {
     	lv.setTextFilterEnabled(true);  
     	lv.setOnItemClickListener(new OnItemClickListener() {    
     		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      
-    			setUserValues((String) ((TextView) view).getText());
+    			setUserValues((String) ((TextView)view.findViewById(R.id.nameUser)).getText());
     			}  
     		});
     }    
