@@ -46,6 +46,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.smartick.pojos.ListUser;
+import com.smartick.utils.Constants;
 import com.smartick.utils.NetworkUtils;
 import com.smartick.utils.UsersListAdapter;
 
@@ -58,15 +59,6 @@ public class LoginActivity extends ListActivity {
 	private String avatarUrl;
 	Map<String, String> usersMap = new HashMap<String, String>();
 
-	
-	private static final String URL_CONTEXT = "http://192.168.1.148/";
-	private static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
-	private static final String URL_DEFAULT_AVATAR = "images/avatares/login-default/s_azul_t.png";
-	private static final String USERS_FILE = "usersSmk";
-	private static final String TOKEN_SEPARATOR = "###";
-	private static final String USER_SEPARATOR = "@@@";
-	
-    
 	@Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -100,7 +92,7 @@ public class LoginActivity extends ListActivity {
 
     private void doForm(){
     	try {
-			new LoginSmartick().execute(new URL(URL_SMARTICK_LOGIN));
+			new LoginSmartick().execute(new URL(Constants.URL_SMARTICK_LOGIN));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -155,7 +147,7 @@ public class LoginActivity extends ListActivity {
     	MyRedirectHandler handler = new MyRedirectHandler();
     	httpClient.setRedirectHandler(handler);
 
-    	HttpPost httpost = new HttpPost(URL_SMARTICK_LOGIN);
+    	HttpPost httpost = new HttpPost(Constants.URL_SMARTICK_LOGIN);
         List <NameValuePair> nvps = new ArrayList <NameValuePair>();
         nvps.add(new BasicNameValuePair("j_username", username.getText().toString()));
         nvps.add(new BasicNameValuePair("j_password", password.getText().toString()));
@@ -189,7 +181,7 @@ public class LoginActivity extends ListActivity {
         	avatarUrl = html.substring(html.indexOf("<img id=\"avatarImgId\" class=\"avatarimg\" src=\"")+"<img id=\"avatarImgId\" class=\"avatarimg\" src=\"".length(), html.indexOf("\" alt=\"Avatar\" />"));
         	avatarUrl = avatarUrl.replace("gra", "peq");
         }catch(Exception e){
-        	avatarUrl = URL_DEFAULT_AVATAR;
+        	avatarUrl = Constants.URL_DEFAULT_AVATAR;
         }
     }
 
@@ -214,7 +206,7 @@ public class LoginActivity extends ListActivity {
     }
 
     private void negotiateStoreUsers() throws IOException{
-		String token = username.getText().toString()+TOKEN_SEPARATOR+password.getText().toString()+TOKEN_SEPARATOR+avatarUrl+USER_SEPARATOR;
+		String token = username.getText().toString()+Constants.TOKEN_SEPARATOR+password.getText().toString()+Constants.TOKEN_SEPARATOR+avatarUrl+Constants.USER_SEPARATOR;
     	try {
 			String fileContent = readUsersInStore();
 			if(!fileContent.toString().contains(token)){
@@ -226,13 +218,13 @@ public class LoginActivity extends ListActivity {
     }
     
     private void saveUserInStore(String token) throws IOException{
-		FileOutputStream usersFile = openFileOutput(USERS_FILE, Context.MODE_APPEND);
+		FileOutputStream usersFile = openFileOutput(Constants.USERS_FILE, Context.MODE_APPEND);
 		usersFile.write(token.getBytes());
 		usersFile.close();
     }
     
     private String readUsersInStore() throws FileNotFoundException, IOException{
-    	FileInputStream usersFile = openFileInput(USERS_FILE);
+    	FileInputStream usersFile = openFileInput(Constants.USERS_FILE);
 		StringBuffer fileContent = new StringBuffer("");
 		byte[] buffer = new byte[1024];
 		int length;
@@ -256,10 +248,10 @@ public class LoginActivity extends ListActivity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for (String userPassword : fileContent.toString().split(USER_SEPARATOR)) {
-			if(!userPassword.isEmpty() && userPassword.contains(TOKEN_SEPARATOR)){
-				usersMap.put(userPassword.split(TOKEN_SEPARATOR)[0], userPassword.split(TOKEN_SEPARATOR)[1]);
-				ListUser listUser = new ListUser(userPassword.split(TOKEN_SEPARATOR)[0], userPassword.split(TOKEN_SEPARATOR)[1], userPassword.split(TOKEN_SEPARATOR)[2]);
+		for (String userPassword : fileContent.toString().split(Constants.USER_SEPARATOR)) {
+			if(!userPassword.isEmpty() && userPassword.contains(Constants.TOKEN_SEPARATOR)){
+				usersMap.put(userPassword.split(Constants.TOKEN_SEPARATOR)[0], userPassword.split(Constants.TOKEN_SEPARATOR)[1]);
+				ListUser listUser = new ListUser(userPassword.split(Constants.TOKEN_SEPARATOR)[0], userPassword.split(Constants.TOKEN_SEPARATOR)[1], userPassword.split(Constants.TOKEN_SEPARATOR)[2]);
 				usersList.add(listUser);
 			}
 		}

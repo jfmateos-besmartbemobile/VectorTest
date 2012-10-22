@@ -24,6 +24,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.smartick.utils.Constants;
 import com.smartick.utils.NetworkUtils;
 import com.smartick.utils.ScreenUtils;
 
@@ -34,10 +35,6 @@ public class MainActivity extends Activity {
 	private WebView webView;
 	private Menu menu;
 	
-	private static final String URL_CONTEXT = "http://192.168.1.148/";
-	private static final String URL_LOGOUT = URL_CONTEXT+"smartick_logout";
-	private static final String URL_SIGNIN = URL_CONTEXT+"registro.html";
-	private static final String PATH_ALUMNO = "/alumno/";
 	private String url;
 	
     @Override
@@ -93,7 +90,7 @@ public class MainActivity extends Activity {
         	/*Para que no se abra en un navegador*/
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
-				if(url.equals(URL_LOGOUT)){
+				if(url.equals(Constants.URL_LOGOUT)){
 					toLoginActivity();
 				}
 				return false;
@@ -138,7 +135,7 @@ public class MainActivity extends Activity {
     }
     
     private boolean enableMenuLogout(){
-    	return webView.getUrl().contains(PATH_ALUMNO);
+    	return webView.getUrl().contains(Constants.PATH_ALUMNO);
     }
     
     @Override
@@ -161,7 +158,7 @@ public class MainActivity extends Activity {
     }
     
     private void logout(){
-    	webView.loadUrl(URL_LOGOUT);
+    	webView.loadUrl(Constants.URL_LOGOUT);
     }
     
     private void toOfflineActivity(){
@@ -206,9 +203,9 @@ public class MainActivity extends Activity {
 	        setWebClientOptions();
 	        overrideWebClientMethods();
         	if(url == null || url.toString().isEmpty()){
-    	        webView.loadUrl(URL_SIGNIN);
+    	        webView.loadUrl(Constants.URL_SIGNIN);
         	}else{
-                cookieManager.setCookie(URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("=")));
+                cookieManager.setCookie(Constants.URL_CONTEXT,"JSESSIONID"+url.substring(url.lastIndexOf("=")));
                 CookieSyncManager.getInstance().sync();  
     	        webView.loadUrl(url);
         	}
