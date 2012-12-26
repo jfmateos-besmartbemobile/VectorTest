@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
 				if(url.equals(Constants.URL_LOGOUT)){
-					NetworkUtils.toOfflineActivity(activity);
+					NetworkUtils.toLoginActivity(activity);
 				}
 				return false;
 			}	
