@@ -3,7 +3,6 @@ package com.smartick.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.http.SslError;
@@ -43,7 +42,7 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         if(!NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))){
-        	toOfflineActivity();
+        	NetworkUtils.toOfflineActivity(this);
         }else{
             Bundle b = getIntent().getExtras();
             url = b.getString("url");
@@ -86,12 +85,13 @@ public class MainActivity extends Activity {
     }
     
     private void overrideWebClientMethods(){
+    	final Activity activity = this;
         webView.setWebViewClient(new WebViewClient(){
         	/*Para que no se abra en un navegador*/
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url){
 				if(url.equals(Constants.URL_LOGOUT)){
-					toLoginActivity();
+					NetworkUtils.toOfflineActivity(activity);
 				}
 				return false;
 			}	
@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
                 logout();
                 return true;
             case R.id.menu_exit:
-            	exit();
+            	NetworkUtils.exit(this);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -150,27 +150,11 @@ public class MainActivity extends Activity {
         return super.onKeyDown(keycode, e);
     }
 
-    private void exit(){
-    	Intent intent = new Intent(Intent.ACTION_MAIN);
-    	intent.addCategory(Intent.CATEGORY_HOME);
-    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    	startActivity(intent);
-    }
     
     private void logout(){
     	webView.loadUrl(Constants.URL_LOGOUT);
     }
     
-    private void toOfflineActivity(){
-    	Intent intent = new Intent(this, OfflineActivity.class);
-    	startActivity(intent);
-    }
-    
-    private void toLoginActivity(){
-    	Intent intent = new Intent(this, LoginActivity.class);
-    	startActivity(intent);
-    }
-
 	public String getUrl() {
 		return url;
 	}

@@ -1,12 +1,9 @@
 package com.smartick.activities;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -63,7 +60,7 @@ public class LoginActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         if(!NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))){
-        	toOfflineActivity();
+        	NetworkUtils.toOfflineActivity(this);
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
@@ -90,6 +87,7 @@ public class LoginActivity extends ListActivity {
 		});
     }
 
+    /*Envía el formulario*/
     private void doForm(){
     	try {
 			new LoginSmartick().execute(new URL(Constants.URL_SMARTICK_LOGIN));
@@ -127,13 +125,14 @@ public class LoginActivity extends ListActivity {
         }
     }
     
-    /*Pasa a la actividad principal*/
+    /*Pasa a la actividad principal pasándole la url de destino como parámetro*/
     private void toMainActivity(){
     	Intent intent = new Intent(this, MainActivity.class);
     	intent.putExtra("url", urlResult);
     	startActivity(intent);
     }
     
+    /*Dialog de login incorrecto*/
     private void showAlertDialog(){
     	AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
     	alertDialog.setMessage("Has introducido un usuario o una contraseña incorrectas");
@@ -141,6 +140,7 @@ public class LoginActivity extends ListActivity {
     	alertDialog.show();
     }
     
+    /*Llamada al login del servidor*/
     private void doHttpPost(){
     	urlResult = null;
     	DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -153,11 +153,7 @@ public class LoginActivity extends ListActivity {
         nvps.add(new BasicNameValuePair("j_password", password.getText().toString()));
         try {
 			httpost.setEntity(new UrlEncodedFormEntity(nvps));
-			HttpResponse response = httpClient.execute(httpost);
-			if(!urlResult.contains("acceso")){
-				findAvatarUrl(response.getEntity().getContent());
-			}
-			
+			httpClient.execute(httpost);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -167,27 +163,9 @@ public class LoginActivity extends ListActivity {
 		}
     }
     
-    private void findAvatarUrl(InputStream is) throws IOException {
-        String line = "";
-        StringBuilder total = new StringBuilder();
-        
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-
-        while ((line = rd.readLine()) != null) { 
-            total.append(line); 
-        }
-        String html = total.toString();
-        try{
-        	avatarUrl = html.substring(html.indexOf("<img id=\"avatarImgId\" class=\"avatarimg\" src=\"")+"<img id=\"avatarImgId\" class=\"avatarimg\" src=\"".length(), html.indexOf("\" alt=\"Avatar\" />"));
-        	avatarUrl = avatarUrl.replace("gra", "peq");
-        }catch(Exception e){
-        	avatarUrl = Constants.URL_DEFAULT_AVATAR;
-        }
-    }
-
     
+    /*Captura las redirecciones que se producen. Nos quedamos con la primera porque en las siguientes llamadas el urlrewrite del servidor borra la jsessionid*/
     public class MyRedirectHandler extends DefaultRedirectHandler {
-
         public URI lastRedirectedUri;
 
         @Override
@@ -205,6 +183,7 @@ public class LoginActivity extends ListActivity {
         }
     }
 
+    /*Guarda, si no está ya guardado, un usuario en local*/
     private void negotiateStoreUsers() throws IOException{
 		String token = username.getText().toString()+Constants.TOKEN_SEPARATOR+password.getText().toString()+Constants.TOKEN_SEPARATOR+avatarUrl+Constants.USER_SEPARATOR;
     	try {
@@ -217,12 +196,14 @@ public class LoginActivity extends ListActivity {
 		}
     }
     
+    /*Guarda un usuario*/
     private void saveUserInStore(String token) throws IOException{
 		FileOutputStream usersFile = openFileOutput(Constants.USERS_FILE, Context.MODE_APPEND);
 		usersFile.write(token.getBytes());
 		usersFile.close();
     }
     
+    /*Lee del almacenanimiento local los usuarios*/
     private String readUsersInStore() throws FileNotFoundException, IOException{
     	FileInputStream usersFile = openFileInput(Constants.USERS_FILE);
 		StringBuffer fileContent = new StringBuffer("");
@@ -234,6 +215,7 @@ public class LoginActivity extends ListActivity {
 		return fileContent.toString();
     }
     
+    /*Recoge los usuarios almacenados y los añade a la lista*/
 	private void restoreSaveUsers(){
     	String fileContent = "";
     	List<ListUser> usersList = new ArrayList<ListUser>();
@@ -262,6 +244,7 @@ public class LoginActivity extends ListActivity {
 		}
     }
     
+	/*Esconde, si el fichero de almacenamiento está vacío, la parte de la pantalla de usuarios ya logados*/
     private void hideOldUsers(){
     	TextView tv = (TextView) findViewById(R.id.otherUser);
     	ListView lv = (ListView) findViewById(android.R.id.list);
@@ -269,6 +252,7 @@ public class LoginActivity extends ListActivity {
     	lv.setVisibility(View.GONE);
     }
     
+    /*Prepara la lista de usuarios*/
     private void prepareListView(List<ListUser> usersList){
     	setListAdapter(new UsersListAdapter(this, R.layout.users_list, usersList));
     	ListView lv = getListView();  
@@ -286,8 +270,4 @@ public class LoginActivity extends ListActivity {
     	doForm();
     }
     
-    private void toOfflineActivity(){
-    	Intent intent = new Intent(this, OfflineActivity.class);
-    	startActivity(intent);
-    }
 }
