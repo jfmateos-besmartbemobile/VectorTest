@@ -2,7 +2,6 @@ package com.smartick.activities;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -30,10 +29,12 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -46,6 +47,7 @@ import com.smartick.pojos.ListUser;
 import com.smartick.utils.Constants;
 import com.smartick.utils.NetworkUtils;
 import com.smartick.utils.UsersListAdapter;
+import com.smartick.utils.usersDBHandler;
 
 @SuppressLint("NewApi")
 public class LoginActivity extends ListActivity {
@@ -55,6 +57,8 @@ public class LoginActivity extends ListActivity {
 	private String urlResult;
 	private String avatarUrl;
 	Map<String, String> usersMap = new HashMap<String, String>();
+	
+	usersDBHandler db;
 
 	@Override
     public void onCreate(Bundle savedInstanceState){
@@ -64,27 +68,40 @@ public class LoginActivity extends ListActivity {
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        restoreSaveUsers();
+        //examina usuarios almacenados y crea la lista en caso de que existan
+        
+        //clear de stored preferences
+        SharedPreferences accounts = getSharedPreferences(Constants.USERS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = accounts.edit();
+        editor.clear();
+        editor.commit(); 
+
+        //cargamos usuarios almacenados en la DB
+        db = new usersDBHandler(this);
+        if ((db.getUserCount() == 0)){
+            // test data
+            db.addUser(new ListUser("user1", "1111","avatar1.png"));
+            db.addUser(new ListUser("user2", "2222","avatar2.png"));
+            db.addUser(new ListUser("user3", "3333","avatar3.png"));
+            db.addUser(new ListUser("user4", "4444","avatar4.png"));
+        }
+       
+        //usando DB
+        restoreSavedUsers();
         prepareView();
     }
     
     /*Prepara los elementos del login*/
     private void prepareView(){
 		View button = findViewById(R.id.buttonLogin);
-		TextView singIn = (TextView) findViewById(R.id.singIn);
-		singIn.setMovementMethod(LinkMovementMethod.getInstance());
 		username = (EditText) findViewById(R.id.loginUsername);
 		password = (EditText) findViewById(R.id.loginPassword);
+		//usuario existente -> hacer login
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	doForm();
             }
         });
-        singIn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				toMainActivity();
-			}
-		});
     }
 
     /*Envía el formulario*/
@@ -113,21 +130,23 @@ public class LoginActivity extends ListActivity {
     
     /*Si el login es correcto se pasa al webview*/
     private void redirectLogin(){
-        if(!urlResult.contains("acceso")){
+
+//        if(!urlResult.contains("acceso")){
         	try {
 				negotiateStoreUsers();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         	toMainActivity();
-        }else{
-        	showAlertDialog();
-        }
+//        }else{
+//        	showAlertDialog();
+//        }
     }
     
     /*Pasa a la actividad principal pasándole la url de destino como parámetro*/
     private void toMainActivity(){
     	Intent intent = new Intent(this, MainActivity.class);
+    	urlResult = null;
     	intent.putExtra("url", urlResult);
     	startActivity(intent);
     }
@@ -183,64 +202,45 @@ public class LoginActivity extends ListActivity {
         }
     }
 
+    
     /*Guarda, si no está ya guardado, un usuario en local*/
     private void negotiateStoreUsers() throws IOException{
-		String token = username.getText().toString()+Constants.TOKEN_SEPARATOR+password.getText().toString()+Constants.TOKEN_SEPARATOR+avatarUrl+Constants.USER_SEPARATOR;
-    	try {
-			String fileContent = readUsersInStore();
-			if(!fileContent.toString().contains(token)){
-				saveUserInStore(token);
-			}
-		} catch (FileNotFoundException e) {
-			saveUserInStore(token);
-		}
+
+    	ListUser listUser= new ListUser(username.getText().toString(),password.getText().toString(),avatarUrl);
+    	//si es la primera vez que se usa este usuario lo guardamos
+    	if(isStoredUser(listUser) == (usersDBHandler.INVALID_USER_ID))
+			db.addUser(listUser);
     }
     
-    /*Guarda un usuario*/
-    private void saveUserInStore(String token) throws IOException{
-		FileOutputStream usersFile = openFileOutput(Constants.USERS_FILE, Context.MODE_APPEND);
-		usersFile.write(token.getBytes());
-		usersFile.close();
-    }
     
-    /*Lee del almacenanimiento local los usuarios*/
-    private String readUsersInStore() throws FileNotFoundException, IOException{
-    	FileInputStream usersFile = openFileInput(Constants.USERS_FILE);
-		StringBuffer fileContent = new StringBuffer("");
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = usersFile.read(buffer)) != -1) {
-		    fileContent.append(new String(buffer));
-		}
-		return fileContent.toString();
-    }
-    
-    /*Recoge los usuarios almacenados y los añade a la lista*/
-	private void restoreSaveUsers(){
-    	String fileContent = "";
-    	List<ListUser> usersList = new ArrayList<ListUser>();
-		try {
-			fileContent = readUsersInStore();
-		} catch (FileNotFoundException fe){
-			try {
-				saveUserInStore("");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		for (String userPassword : fileContent.toString().split(Constants.USER_SEPARATOR)) {
-			if(!userPassword.isEmpty() && userPassword.contains(Constants.TOKEN_SEPARATOR)){
-				usersMap.put(userPassword.split(Constants.TOKEN_SEPARATOR)[0], userPassword.split(Constants.TOKEN_SEPARATOR)[1]);
-				ListUser listUser = new ListUser(userPassword.split(Constants.TOKEN_SEPARATOR)[0], userPassword.split(Constants.TOKEN_SEPARATOR)[1], userPassword.split(Constants.TOKEN_SEPARATOR)[2]);
-				usersList.add(listUser);
+    // busca un usuario en db y devuelve su id si existe 
+    private int isStoredUser(ListUser listUser){
+    	List<ListUser> userList = new ArrayList<ListUser>();
+    	userList = db.getAllUsers();
+
+		for (int i=0; i< userList.size(); i++)
+		{
+			if (listUser.getUserName().equals(userList.get(i).getUserName()))
+			{
+				return userList.get(i).getId();
 			}
 		}
-		if(usersList.isEmpty()){
+		
+		return usersDBHandler.INVALID_USER_ID;	
+    }
+    
+
+    // carga usuarios desde preferencias de la app
+    private void restoreSavedUsers(){
+    	List<ListUser> userList = new ArrayList<ListUser>();
+    	
+    	userList = db.getAllUsers();
+    	
+        //lista vac�a
+		if(userList.isEmpty()){
 			hideOldUsers();
 		}else{
-			prepareListView(usersList);
+			prepareListView(userList);
 		}
     }
     
@@ -257,13 +257,16 @@ public class LoginActivity extends ListActivity {
     	setListAdapter(new UsersListAdapter(this, R.layout.users_list, usersList));
     	ListView lv = getListView();  
     	lv.setTextFilterEnabled(true);  
+    	
+    	//al tocar en un usuario de la lista se envia el formulario con sus datos de acceso recordados
     	lv.setOnItemClickListener(new OnItemClickListener() {    
-    		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {      
+    		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {     
     			setUserValues((String) ((TextView)view.findViewById(R.id.nameUser)).getText());
     			}  
     		});
     }    
     
+    //rellena y env�a el formulario automaticamente
     private void setUserValues(String user){
     	username.setText(user);
     	password.setText(usersMap.get(user));

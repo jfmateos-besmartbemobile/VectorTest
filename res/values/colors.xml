@@ -1,5 +1,10 @@
 <resources>
 
+    <color name="white">#FFFFFF</color>
     <color name="grey">#E3E0E5</color>
+    <color name="light_blue">#33CCFF</color>
+    <color name="clear_blue">#ADEBFF</color>
+    <color name="start_gradient_blue">#478FB2</color>
+    <color name="end_gradient_blue">#94DBFF</color>
 
 </resources>

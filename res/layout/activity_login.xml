@@ -1,78 +1,75 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="149dp"
-        android:layout_height="43dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/logo" />
+    <TextView
+        android:id="@+id/whoAreYou"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/grey"
+        android:drawableTop="@drawable/bg_header"
+        android:text="@string/whoAreYou"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-<TextView
-    android:id="@+id/whoAreYou"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey"
-    android:drawableTop="@drawable/bg_header"
-    android:text="@string/whoAreYou"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/whoAreYou"
+        android:fadeScrollbars="false" />
 
-<ListView
-    android:id="@android:id/list"
-    android:layout_width="match_parent"
-    android:layout_height="62dp"
-    android:fadeScrollbars="false" />
+    <TextView
+        android:id="@+id/otherUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@android:id/list"
+        android:background="@color/grey"
+        android:text="@string/otherUser"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-<TextView
-    android:id="@+id/otherUser"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey"
-    android:text="@string/otherUser"
-    android:textAppearance="?android:attr/textAppearanceMedium" />
+    <EditText
+        android:id="@+id/loginUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/otherUser"
+        android:layout_marginLeft="22dp"
+        android:ems="10"
+        android:hint="@string/user"
+        android:inputType="textPersonName" >
 
-<EditText
-    android:id="@+id/loginUsername"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="left"
-    android:layout_marginTop="5dp"
-    android:ems="10"
-    android:hint="@string/user"
-    android:inputType="textPersonName" />
+        <requestFocus />
+    </EditText>
 
-<Button
-    android:id="@+id/buttonLogin"
-    android:layout_width="208dp"
-    android:layout_height="35dp"
-    android:layout_marginLeft="90dp"
-    android:layout_marginTop="-15dp"
-    android:text="@string/enter" />
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/loginUsername"
+        android:layout_alignBottom="@+id/loginUsername"
+        android:layout_marginLeft="29dp"
+        android:layout_toRightOf="@+id/loginUsername"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword" />
 
-<EditText
-    android:id="@+id/loginPassword"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="left"
-    android:layout_marginTop="-20dp"
-    android:ems="10"
-    android:hint="@string/password"
-    android:inputType="textPassword" >
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="208dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/otherUser"
+        android:layout_toRightOf="@+id/loginPassword"
+        android:text="@string/enter"
+        android:background="@drawable/button"
+        style="@style/button" />
 
-    <requestFocus />
-</EditText>
-
-<TextView
-    android:id="@+id/singIn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="90dp"
-    android:layout_marginTop="-20dp"
-    android:text="@string/singIn"
-    android:textAppearance="?android:attr/textAppearanceSmall" />
-
-</LinearLayout>
+</RelativeLayout>

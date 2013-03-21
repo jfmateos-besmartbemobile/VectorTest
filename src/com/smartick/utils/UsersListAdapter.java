@@ -11,10 +11,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +29,8 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 	private Context context;
 	private ImageView avatar;
 	private TextView userName;
+	private Button delete;
+	private usersDBHandler db;
 	private List<ListUser> users = new ArrayList<ListUser>();
 
 	public UsersListAdapter(Context context, int textViewResourceId,
@@ -55,10 +60,61 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 		userName = (TextView) row.findViewById(R.id.nameUser);
 		
 		userName.setText(user.getUserName());
+		
+		delete = (Button) row.findViewById(R.id.deleteButton);
+		delete.setClickable(false);
+		delete.setFocusable(false);
+		
+		delete.setTag(position);
+		
+		db = new usersDBHandler(this.context);
+		
+		delete.setOnClickListener(new OnClickListener() {
+
+			//Listener para boton de borrado de entrada en lista
+			public void onClick(View v) {
+				//obtenemos posicion en listView
+				int position = (Integer) v.getTag();
+				TextView userName = (TextView) ((View )v.getParent()).findViewById(R.id.nameUser);
+				String userNameToDelete = userName.getText().toString();
+				
+				//eliminamos elemento de la listview
+				users.remove(position);
+			    notifyDataSetChanged();
+			    
+			    //finalmente, eliminamos el elemento de la base de datos
+
+			    //getAllUsers
+			    List<ListUser> userList = db.getAllUsers();
+			    
+			    //obtener el id de mi user
+			    int id = usersDBHandler.INVALID_USER_ID;
+			    
+			    for (int i=0;i<userList.size();i++){
+			    	if (userList.get(i).getUserName().equals(userNameToDelete))
+			    	{
+			    		id = userList.get(i).getId();
+			    		break;
+			    	}
+			    }
+			    
+			    //borrar usando listuser id
+			    ListUser listuser = new ListUser();
+			    listuser.setId(id);
+			    db.deleteUser(listuser);
+			}
+			
+		});
+
+		
+		//modificar sistema de recuperaci—n de avatares TO DO
+//		public static final String URL_DEFAULT_AVATAR = "avatares/avatares/peq/8564.png";
 		new RetreiveAvatar().execute(user);
 
 		return row;
 	}
+	
+	//TO DO - Cambiar para obtener avatar de DB
 	
 	private class RetreiveAvatar extends AsyncTask<ListUser, Bitmap, Bitmap> {
 			
