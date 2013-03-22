@@ -131,22 +131,21 @@ public class LoginActivity extends ListActivity {
     /*Si el login es correcto se pasa al webview*/
     private void redirectLogin(){
 
-//        if(!urlResult.contains("acceso")){
+        if(!urlResult.contains("acceso")){
         	try {
 				negotiateStoreUsers();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         	toMainActivity();
-//        }else{
-//        	showAlertDialog();
-//        }
+        }else{
+        	showAlertDialog();
+        }
     }
     
     /*Pasa a la actividad principal pasándole la url de destino como parámetro*/
     private void toMainActivity(){
     	Intent intent = new Intent(this, MainActivity.class);
-    	urlResult = null;
     	intent.putExtra("url", urlResult);
     	startActivity(intent);
     }

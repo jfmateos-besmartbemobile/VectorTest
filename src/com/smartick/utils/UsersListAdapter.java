@@ -107,14 +107,11 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 		});
 
 		
-		//modificar sistema de recuperaci—n de avatares TO DO
-//		public static final String URL_DEFAULT_AVATAR = "avatares/avatares/peq/8564.png";
 		new RetreiveAvatar().execute(user);
 
 		return row;
 	}
 	
-	//TO DO - Cambiar para obtener avatar de DB
 	
 	private class RetreiveAvatar extends AsyncTask<ListUser, Bitmap, Bitmap> {
 			
