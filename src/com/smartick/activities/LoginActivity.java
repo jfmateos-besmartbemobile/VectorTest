@@ -1,7 +1,6 @@
 package com.smartick.activities;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -24,6 +23,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 
 import android.R.drawable;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -33,7 +34,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -43,6 +43,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.smartick.pojos.DeviceInfo;
+import com.smartick.pojos.Installation;
 import com.smartick.pojos.ListUser;
 import com.smartick.utils.Constants;
 import com.smartick.utils.NetworkUtils;
@@ -56,6 +58,7 @@ public class LoginActivity extends ListActivity {
 	private EditText password;
 	private String urlResult;
 	private String avatarUrl;
+	private String installationId;
 	Map<String, String> usersMap = new HashMap<String, String>();
 	
 	usersDBHandler db;
@@ -66,13 +69,67 @@ public class LoginActivity extends ListActivity {
         if(!NetworkUtils.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))){
         	NetworkUtils.toOfflineActivity(this);
         }
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        //examina usuarios almacenados y crea la lista en caso de que existan
         
-        //clear de stored preferences
+
+        // Tutor tiene cuenta almacenada en accounts, de forma que pueda acceder con su cuenta de google, facebook o linkedin
+        // Cada tutor almacena en la DB una serie de alumnos que le corresponden
+        //1.- Nuevo tutor sin cuenta en smartick
+        	//1.a - Pantalla de registro para crear nueva cuenta o login con cuenta de otro lugar
+        //2.- Tutor con cuenta en smartick
+        	//2.a - Cuenta guardada en account manager, recuperar y comprobar si tiene alumnos en la db
+        		//2.a.1 - Si los tiene: cargar la lista normalmente y permitir que a–ada nuevos
+        		//2.a.2 - No tiene alumnos - mostrar pantalla para a–adir alguno
+        
+        
+        //Pantalla welcome
+
+        //test obtenci—n de cuenta
+        AccountManager am = AccountManager.get(this); // "this" references the current Context
+        Account[] ac = am.getAccounts();
+        if (ac!= null){
+        	for(int i=0;i<ac.length;i++){
+        		Log.d("LoginActivity", i + ": Name: " + ac[i].name + " Type: " + ac[i].type);
+        	}
+        }
+
+        //Comprobacion de id de instalacion y de usuarios almacenados
         SharedPreferences accounts = getSharedPreferences(Constants.USERS_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = accounts.edit();
+        SharedPreferences.Editor editor;
+        SharedPreferences install = getSharedPreferences(Constants.INSTALLATION_ID_FILE, Context.MODE_PRIVATE);
+        SharedPreferences deviceInfo = getSharedPreferences(Constants.DEVICE_INFO_FILE, Context.MODE_PRIVATE);
+        
+        /*Comprobaci—n de id de instalaci—n œnico*/
+        installationId = install.getString(Constants.INSTALLATION_PREF_NAME, null);
+        if (installationId == null){
+        	Context context = this.getApplicationContext();
+        	installationId = Installation.id(context);
+        	editor = install.edit();
+        	editor.putString(Constants.INSTALLATION_PREF_NAME, installationId);
+        	editor.commit();
+        }
+        
+        //obtencion de datos del dispositivo, se crea un fichero de texto y se guarda su path en preferencias de la app para poder acceder a el
+        String devInfoFileName = deviceInfo.getString(Constants.DEVICE_INFO_FILE, null); 
+        if (devInfoFileName == null){
+        	//crear fichero con datos
+        	Context context = this.getApplicationContext();
+        	String path = DeviceInfo.createDeviceInfoFile(context);
+
+        	//almacenar nombre de fichero en preferencias
+        	editor = deviceInfo.edit();
+        	editor.putString(Constants.DEVICE_INFO_FILE, path);
+        	editor.commit();
+        }
+
+        //prueba de lectura de specs del dispositivo
+    	File f = new File(devInfoFileName);
+    	Log.d("LoginActivity",DeviceInfo.readDeviceInfoFile(f));
+
+        //examina usuarios almacenados y crea la lista en caso de que existan
+        //clear de stored preferences
+        editor = accounts.edit();
         editor.clear();
         editor.commit(); 
 
@@ -147,13 +204,14 @@ public class LoginActivity extends ListActivity {
     private void toMainActivity(){
     	Intent intent = new Intent(this, MainActivity.class);
     	intent.putExtra("url", urlResult);
+    	intent.putExtra("username", username.getText().toString());
     	startActivity(intent);
     }
     
     /*Dialog de login incorrecto*/
     private void showAlertDialog(){
     	AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-    	alertDialog.setMessage("Has introducido un usuario o una contraseÃ±a incorrectas");
+    	alertDialog.setMessage("Has introducido un usuario o una contrase–a incorrectas");
     	alertDialog.setIcon(drawable.ic_delete);
     	alertDialog.show();
     }
@@ -268,8 +326,14 @@ public class LoginActivity extends ListActivity {
     //rellena y env’a el formulario automaticamente
     private void setUserValues(String user){
     	username.setText(user);
-    	password.setText(usersMap.get(user));
+    	//obtenemos su pass desde db y lo asignamos para poder loguearle
+    	db = new usersDBHandler(this);
+    	ListUser listUser = db.getUser(user);
+    	password.setText(listUser.getUserPassword());
+    	db.close();
     	doForm();
     }
+    
+   
     
 }

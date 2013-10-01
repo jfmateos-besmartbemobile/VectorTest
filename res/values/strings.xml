@@ -20,5 +20,8 @@
     <string name="enter">Entrar</string>
     <string name="singIn">Registrarse</string>
     <string name="offLineError">Error de conexión</string>
-
+    <string name="loginAlumno">Alumno</string>
+    <string name="loginTutor">Tutor</string>
+    <string name="youAre">Eres:</string>
+    <string name="back">Volver</string>
 </resources>

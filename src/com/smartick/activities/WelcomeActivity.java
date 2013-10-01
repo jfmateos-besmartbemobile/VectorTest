@@ -12,6 +12,14 @@ import com.smartick.utils.NetworkUtils;
 
 public class WelcomeActivity extends Activity{
 	
+	
+	private View loginButton;
+	private View registerButton;
+	private View alumnoLoginButton; 
+	private View tutorLoginButton;
+	private View botonVolver;
+	private View textoEres;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,28 +30,64 @@ public class WelcomeActivity extends Activity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
         
-      
         //establece elementos de la vista
         prepareView();
      }
      
      /*Prepara los elementos del login*/
      private void prepareView(){
- 		View loginbutton = findViewById(R.id.loginUser);
- 		View registerbutton = findViewById(R.id.registerUser);
+    	loginButton = findViewById(R.id.login);
+    	registerButton = findViewById(R.id.registerUser);
+    	alumnoLoginButton = findViewById(R.id.loginAlumno);
+ 		tutorLoginButton = findViewById(R.id.loginTutor);
+ 		botonVolver = findViewById(R.id.back);
+ 		textoEres = findViewById(R.id.youAre);
+ 		
+ 		//hacer login -> se ocultan los botones y se muestran las dos opciones de login
+        loginButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				loginButton.setVisibility(View.GONE);
+				registerButton.setVisibility(View.GONE);
+				alumnoLoginButton.setVisibility(View.VISIBLE);
+				tutorLoginButton.setVisibility(View.VISIBLE);
+				textoEres.setVisibility(View.VISIBLE);
+				botonVolver.setVisibility(View.VISIBLE);
+			}
+		});
+ 		
 
- 		//usuario existente -> hacer login
-         loginbutton.setOnClickListener(new View.OnClickListener() {
-             public void onClick(View v) {
-            	 toLoginActivity();
-             }
-         });
-         //nuevo usuario -> se le manda a la home usando MainActivity
-         registerbutton.setOnClickListener(new View.OnClickListener() {
+         //nuevo usuario -> registerActivity
+         registerButton.setOnClickListener(new View.OnClickListener() {
  			public void onClick(View v) {
  				toMainActivity();
  			}
  		});
+         
+  		//hacer login alumno
+         alumnoLoginButton.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+            	 toLoginActivity();
+             }
+         });
+         
+   		//hacer login tutor
+         tutorLoginButton.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+            	 toTutorLoginActivity();
+             }
+         });
+         
+    	//boton volver
+         botonVolver.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+ 				loginButton.setVisibility(View.VISIBLE);
+ 				registerButton.setVisibility(View.VISIBLE);
+ 				alumnoLoginButton.setVisibility(View.GONE);
+ 				tutorLoginButton.setVisibility(View.GONE);
+ 				textoEres.setVisibility(View.GONE);
+ 				botonVolver.setVisibility(View.GONE);
+             }
+         });
      }
      
      // intents para paso a Login y Main activities
@@ -59,6 +103,10 @@ public class WelcomeActivity extends Activity{
      	startActivity(intent);
      }
      
+     private void toTutorLoginActivity(){
+    	 Intent intent = new Intent(this, TutorLoginActivity.class);
+    	 startActivity(intent);
+     }
      
      
      

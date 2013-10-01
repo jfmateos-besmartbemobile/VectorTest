@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
     <TextView
         android:id="@+id/whoAreYou"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="70dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
@@ -17,59 +18,70 @@
         android:drawableTop="@drawable/bg_header"
         android:text="@string/whoAreYou"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    
     <ListView
         android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="124dp"
         android:layout_alignParentLeft="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/whoAreYou"
+        android:layout_above="@+id/footer"
         android:fadeScrollbars="false" />
 
-    <TextView
-        android:id="@+id/otherUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@android:id/list"
-        android:background="@color/grey"
-        android:text="@string/otherUser"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/loginUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/otherUser"
-        android:layout_marginLeft="22dp"
-        android:ems="10"
-        android:hint="@string/user"
-        android:inputType="textPersonName" >
-
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/loginPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/loginUsername"
-        android:layout_alignBottom="@+id/loginUsername"
-        android:layout_marginLeft="29dp"
-        android:layout_toRightOf="@+id/loginUsername"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="208dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/otherUser"
-        android:layout_toRightOf="@+id/loginPassword"
-        android:text="@string/enter"
-        android:background="@drawable/button"
-        style="@style/button" />
+    
+    
+        <RelativeLayout  
+        android:id="@+id/footer"
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp" 
+        android:layout_marginBottom="50dp"
+        >
+		    <TextView
+		        android:id="@+id/otherUser"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@color/grey"
+		        android:text="@string/otherUser"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		    <EditText
+		        android:id="@+id/loginUsername"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/otherUser"
+		        android:layout_marginLeft="22dp"
+		        android:layout_marginTop="10dp"
+		        android:ems="10"
+		        android:hint="@string/user"
+		        android:inputType="textPersonName" >
+		    </EditText>
+		
+		    <EditText
+		        android:id="@+id/loginPassword"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignBaseline="@+id/loginUsername"
+		        android:layout_alignBottom="@+id/loginUsername"
+		        android:layout_marginLeft="29dp"
+		        android:layout_marginTop="10dp"
+		        android:layout_toRightOf="@+id/loginUsername"
+		        android:ems="10"
+		        android:hint="@string/password"
+		        android:inputType="textPassword" />
+		
+		    <Button
+		        android:id="@+id/buttonLogin"
+		        android:layout_width="208dp"
+		        android:layout_height="50dp"
+		        android:layout_marginLeft="20dp"
+		        android:layout_below="@+id/otherUser"
+		        android:layout_toRightOf="@+id/loginPassword"
+		        android:text="@string/enter"
+		        android:background="@drawable/button"
+		        style="@style/button" />
+		    
+    </RelativeLayout>
 
 </RelativeLayout>

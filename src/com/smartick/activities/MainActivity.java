@@ -1,5 +1,7 @@
 package com.smartick.activities;
 
+import java.io.File;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -23,9 +25,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.smartick.pojos.ListUser;
 import com.smartick.utils.Constants;
 import com.smartick.utils.NetworkUtils;
 import com.smartick.utils.ScreenUtils;
+import com.smartick.utils.usersDBHandler;
 
 public class MainActivity extends Activity {
 
@@ -34,7 +38,8 @@ public class MainActivity extends Activity {
 	private Menu menu;
 
 	private String url;
-
+	private String username;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,9 +50,9 @@ public class MainActivity extends Activity {
 				.isOnline((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))) {
 			NetworkUtils.toOfflineActivity(this);
 		} else {
-
 			Bundle b = getIntent().getExtras();
 			url = b.getString("url");
+			username = b.getString("username");
 			setContentView(R.layout.activity_main);
 			webView = (WebView) findViewById(R.id.webview);
 			new SmartickViewTask().execute();
@@ -67,7 +72,21 @@ public class MainActivity extends Activity {
 		webSettings.setLoadWithOverviewMode(true);
 		webSettings.setSupportZoom(false);
 		webSettings.setBuiltInZoomControls(false);
+		
+		webView.addJavascriptInterface(new SmartickJavaScriptInterface(), "smartick");
 	}
+	
+	
+   public class SmartickJavaScriptInterface{
+        // This annotation is required in Jelly Bean and later:
+        //@JavascriptInterface
+        public void receiveValueFromJs(String str) {
+        	if (str!= null && str.length()>0){
+        		guardarUrlAvatarAlumno(str);
+        	}
+       }
+    }
+   
 
 	private void prepareProgressBar() {
 		webView.setWebChromeClient(new WebChromeClient() {
@@ -112,6 +131,12 @@ public class MainActivity extends Activity {
 				view.setInitialScale(ScreenUtils.getScale(getWindowManager(),
 						url));
 				super.onPageStarted(view, url, favicon);
+			}
+			
+			/*	Obtiene el valor src de la imagen del avatar desde home */
+			@Override
+			  public void onPageFinished(WebView view, String url){
+				view.loadUrl("javascript:androidGetAvatarSrc()");
 			}
 		});
 	}
@@ -166,6 +191,25 @@ public class MainActivity extends Activity {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	public Context getMainContext(){
+		return this;
+	}
+	
+	private void guardarUrlAvatarAlumno(String url){
+		//obtener nombre archivo de la url
+		File f = new File(url);
+		String imgName = f.getName();
+		//buscamos user en db, si no hay avatar lo insertamos
+		usersDBHandler db = new usersDBHandler(getMainContext());
+	    ListUser user = db.getUser(username);
+	    if (user.getAvatarUrl()==null || user.getAvatarUrl().isEmpty()){
+		    user.setAvatarUrl(imgName);
+		    db.updateUser(user);
+	    }
+	    db.close();
+	}
+	
 
 	/* Clase para implementar los métodos del webview */
 	private class SmartickViewTask extends AsyncTask<Void, Void, Boolean> {
@@ -202,5 +246,6 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
 
 }

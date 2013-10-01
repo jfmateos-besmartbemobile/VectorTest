@@ -55,7 +55,7 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 
 		ListUser user = getItem(position);
 		
-		avatar = (ImageView) row.findViewById(R.id.avatar);
+		ImageView avatar = (ImageView) row.findViewById(R.id.avatar);
 		
 		userName = (TextView) row.findViewById(R.id.nameUser);
 		
@@ -107,17 +107,24 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 		});
 
 		
-		new RetreiveAvatar().execute(user);
+		new RetreiveAvatar(avatar).execute(user);
 
 		return row;
 	}
 	
 	
 	private class RetreiveAvatar extends AsyncTask<ListUser, Bitmap, Bitmap> {
+		
+		ImageView avatar;
+		
+		public RetreiveAvatar(ImageView avatar){
+			this.avatar = avatar;
+		}
 			
 	    protected Bitmap doInBackground(ListUser... users) {
 			try {
-				return BitmapFactory.decodeStream((InputStream)new URL(Constants.URL_CONTEXT+users[0].getAvatarUrl()).getContent());
+				URL url = new URL(Constants.URL_CONTEXT+Constants.URL_PEQ_AVATAR+users[0].getAvatarUrl());
+				return BitmapFactory.decodeStream((InputStream)url.getContent());
 			} catch (IOException e) {
 				try {
 					return BitmapFactory.decodeStream((InputStream)new URL(Constants.URL_CONTEXT+URL_DEFAULT_AVATAR).getContent());
@@ -132,8 +139,7 @@ public class UsersListAdapter extends ArrayAdapter<ListUser> {
 	    
 	    @Override
 	    protected void onPostExecute(Bitmap result) {
-	    	avatar.setImageBitmap(result);
-	    	super.onPostExecute(result);
+	    	this.avatar.setImageBitmap(result);
 	    }
 	 }
 

@@ -98,11 +98,30 @@ public class usersDBHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
      
-        ListUser listUser = new ListUser(cursor.getString(1), 
+        ListUser listUser = new ListUser(
+        						cursor.getString(1), 
         						cursor.getString(2),
         						cursor.getString(3)
         						);
         // return listUser
+        db.close();
+        return listUser;
+    }
+    
+    public ListUser getUser(String username){
+    	String query = "Select * FROM " + TABLE_USERS + " WHERE username" + " =  \"" + username + "\"";
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	Cursor cursor = db.rawQuery(query, null);
+    	ListUser listUser = new ListUser();
+		if (cursor.moveToFirst()) {
+	        listUser = new ListUser(
+	        		cursor.getInt(0),
+	        		cursor.getString(1), 
+					cursor.getString(2),
+					cursor.getString(3)
+					);
+			cursor.close();
+		}
         db.close();
         return listUser;
     }
