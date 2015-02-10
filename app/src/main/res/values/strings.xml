@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Smartick</string>
+    <string name="menu_logout">Desconectar</string>
+    <string name="menu_exit">Salir</string>
+    <string name="action_settings">Settings</string>
+    <string name="invitado">Invitado</string>
+    <string name="registro">Registro</string>
+    <string name="mas_informacion">+Información</string>
+    <string name="ya_soy_usuario">Ya soy usuario de Smartick"></string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="alumnos">Alumnos</string>
+    <string name="tutores">Tutores</string>
+    <string name="entrar_alumno">Entrar como otro Alumno</string>
+    <string name="entrar_tutor">Entrar como otro Tutor</string>
+    <string name="alias_hint">Alias</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="añadir">Añadir</string>
+    <string name="error_usuario">Has introducido un usuario o una contraseña incorrectas</string>
+    <string name="error_conexion">Error de conexión</string>
+    <string name="need_internet">Necesitas tener acceso a Internet para usar Smartick</string>
+    <string name="retry">Volver a intentar</string>
+    <string name="title_activity_registro">RegistroActivity</string>
+
+</resources>

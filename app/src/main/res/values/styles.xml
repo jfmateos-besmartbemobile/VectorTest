@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!-- botones de entrada -->
+    <declare-styleable name="ButtonStrokeText">
+        <attr name="textStrokeColor" format="color"/>
+        <attr name="textStrokeWidth" format="dimension"/>
+    </declare-styleable>
+
+</resources>

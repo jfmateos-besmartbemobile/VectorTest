@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smartick.activities.LoginActivity">
+
+    <Button
+        android:id="@+id/login_button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/purple_button_back_selector"
+        android:clickable="true"
+        android:onClick="irWelcome"
+    />
+
+    <Button
+        android:id="@+id/login_student_flip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/student_login_flip_selector"
+        android:clickable="true"
+        android:onClick="mostrarLoginTutor"
+        android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
+        />
+
+    <Button
+        android:id="@+id/login_tutor_flip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tutor_login_flip_selector"
+        android:clickable="true"
+        android:onClick="mostrarLoginAlumno"
+        android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
+        />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_panel_tutores"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/tutor_panel_holder"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/login_label_cabecera_tutores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tutores"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="30dp" />
+        <ListView
+            android:id="@+id/list_tutores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+        </ListView>
+
+        <Button
+            android:id="@+id/login_tutor_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entrar_tutor"
+            android:onClick="entrarComoOtroTutor"
+            android:background="@drawable/add_tutor_selector"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_panel_alumnos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/student_panel_holder"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/login_label_cabecera_alumnos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alumnos"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="30dp" />
+<!--
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+            android:id="@+id/login_alumno_button_list"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+-->
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+        </ListView>
+
+        <Button
+            android:id="@+id/login_alumno_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="entrarComoOtroAlumno"
+            android:text="@string/entrar_alumno"
+            android:background="@drawable/add_student_selector" />
+
+    </LinearLayout>
+
+    <include layout="@layout/panel_login_alumno" />
+    <include layout="@layout/panel_login_tutor" />
+
+</RelativeLayout>

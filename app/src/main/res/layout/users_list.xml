@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|center_horizontal">
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+-->
+
+
+    <Button
+        android:id="@+id/userslist_botonlogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+    android:background="@drawable/login_entry_panel_selector" />
+
+    <ImageView
+        android:id="@+id/userslist_avatar"
+        android:layout_alignLeft="@id/userslist_botonlogin"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+<!--
+<TextView 
+    android:id="@+id/userslist_username"
+	android:layout_width="fill_parent"    
+	android:layout_height="fill_parent"    
+	android:padding="10dp"  
+	android:layout_marginLeft="20dp"  
+	android:textSize="16sp" >
+</TextView>
+-->
+
+<!--
+<Button android:id="@+id/userslist_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="X" />
+-->
+<!--</LinearLayout>-->
+</RelativeLayout>

@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smartick.activities.WelcomeActivity"
+    android:background="@drawable/home_screen_bg">
+
+    <!-- background: Ojo al escalado con 16:9 AR -->
+<!--
+    <ImageView  android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:src="@drawable/home_screen_bg"
+        android:adjustViewBounds="true" android:scaleType="centerCrop"/>
+-->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="80dp">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".25" >
+            </View>
+<!--
+            <com.example.gorgue.myapplication.components.StrokedTextView
+                android:id="@+id/main_button_invitado"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_confirm_selector"
+                android:text="@string/invitado"
+                android:textSize="20dp"
+                custom:strokeColor="#0000FF"
+                custom:strokeTextColor="#FFFFFF"
+                custom:strokeWidth="3"/>
+-->
+            <Button
+                android:id="@+id/main_button_invitado"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_confirm_selector"
+                android:text="@string/invitado"
+                android:textColor="@color/white"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".25" >
+            </View>
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".25" >
+            </View>
+            <Button
+                android:id="@+id/main_button_registro"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:background="@drawable/orange_confirm_selector"
+                android:onClick="irRegistro"
+                android:text="@string/registro"
+                android:textColor="@color/white"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".25" >
+            </View>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:src="@drawable/button_intro"
+        android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"/>
+    <TextView
+        android:id="@+id/main_label_mas_informacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mas_informacion"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="bottom|right"
+        android:paddingBottom="10dp"
+        android:clickable="true"
+        android:onClick="irLogin"
+    >
+
+        <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:src="@drawable/home_screen_login_button_icon"
+            android:layout_alignParentBottom="true" android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/main_label_ya_soy_usuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ya_soy_usuario"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true" android:layout_alignParentRight="true"/>
+    </LinearLayout>
+
+</RelativeLayout>
+
