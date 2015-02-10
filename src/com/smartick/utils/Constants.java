@@ -3,7 +3,8 @@ package com.smartick.utils;
 
 public class Constants {
 	
-	public static final String URL_CONTEXT = "http://192.168.1.129/";  //Cambiar por smartick.es
+	public static final String URL_CONTEXT = "http://10.0.0.12/";  //Cambiar por smartick.es
+    //public static final String URL_CONTEXT = "https://www.smartick.es/";
 	public static final String URL_SMARTICK_LOGIN = URL_CONTEXT+"smartick_login";
 	public static final String URL_DEFAULT_AVATAR = "images/avatares/login-default/s_azul_t.png";	
 	public static final String URL_PEQ_AVATAR = "avatares/avatares/peq/";

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\gorgue\AndroidStudioProjects\smartickAndroid\libs\android-support-v4.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="612846c9857077a039b533718f72db3bc041d389">
+        <dex dex="C:\Users\gorgue\AndroidStudioProjects\smartickAndroid\build\intermediates\pre-dexed\debug\android-support-v4-f5a79ca49a3b0f11f902c92fceab9739abd040db.jar" />
+    </item>
+
+</items>
