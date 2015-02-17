@@ -2,9 +2,11 @@ package com.smartick.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +17,20 @@ import com.example.gorgue.myapplication.R;
  * Fragmento paso 1 del registro
  * Created by gorgue on 12/02/2015.
  */
-public class RegistroPaso1Fragment extends Fragment {
+public class RegistroPaso1Fragment extends AbstractRegistroPasoFragment {
 
     private ImageView iconoUsername;
     private ImageView iconoPassword;
     private TextView textUsername;
     private TextView textPassword;
+
+    // Numero de paso
+    private final static int numOrden = 1;
+
+    @Override
+    public int getNumOrdern() {
+        return numOrden;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +61,18 @@ public class RegistroPaso1Fragment extends Fragment {
                 }else {
                     iconoPassword.setSelected(false);
                 }
+            }
+        });
+
+        // Click al siguiente
+        Button next = (Button)rootView.findViewById(R.id.registro_paso1_forward_button);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Comprobacion de si es un alias valido
+                // TODO
+
+                registroPager.setCurrentItem(numOrden + 1);
             }
         });
 

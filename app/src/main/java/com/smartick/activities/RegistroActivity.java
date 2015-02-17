@@ -82,9 +82,13 @@ public class RegistroActivity extends FragmentActivity {
             switch (position) {
                 // Paso 0
                 case 0:
-                    return new RegistroPaso1Fragment();
+                    RegistroPaso1Fragment paso1 = new RegistroPaso1Fragment();
+                    paso1.setRegistroPager(registroPager);
+                    return paso1;
                 case 1:
-                    return new RegistroPaso2Fragment();
+                    RegistroPaso2Fragment paso2 = new RegistroPaso2Fragment();
+                    paso2.setRegistroPager(registroPager);
+                    return paso2;
                 //case 2:
                 //    return null;
                 default:

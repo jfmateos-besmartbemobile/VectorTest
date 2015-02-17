@@ -74,7 +74,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/registro_forward_button"
+            android:id="@+id/registro_paso1_forward_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/registro_forward_green_selector"
