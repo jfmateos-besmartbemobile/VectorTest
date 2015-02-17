@@ -1,0 +1,86 @@
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="@drawable/register_panel"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/registro_home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/registro_home_selector"
+            android:clickable="true"
+            android:onClick="irMain"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="9dp" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/registro_student_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/student_username_selector"
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp" />
+                <EditText
+                    android:id="@+id/registro_alias"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/rounded_corner"
+                    android:hint="@string/alias_hint"
+                    android:inputType="text"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/registro_student_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/student_password_selector"
+                    android:clickable="false"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp" />
+                <EditText
+                    android:id="@+id/registro_password"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/rounded_corner"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/registro_forward_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/registro_forward_green_selector"
+            android:clickable="true"
+            android:onClick="irSiguiente"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="12dp" />
+
+    </LinearLayout>

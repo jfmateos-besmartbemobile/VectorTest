@@ -17,6 +17,8 @@
     <string name="entrar_tutor">Entrar como otro Tutor</string>
     <string name="alias_hint">Alias</string>
     <string name="password_hint">Contraseña</string>
+    <string name="nombre_hint">Nombre</string>
+    <string name="apellidos_hint">Apellidos</string>
     <string name="cancelar">Cancelar</string>
     <string name="añadir">Añadir</string>
     <string name="error_usuario">Has introducido un usuario o una contraseña incorrectas</string>
