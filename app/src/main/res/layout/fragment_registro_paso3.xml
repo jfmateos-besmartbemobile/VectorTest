@@ -1,0 +1,81 @@
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="@drawable/register_panel"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/registro_paso3_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/registro_back_selector"
+            android:clickable="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="9dp" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_gravity="center">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <ImageView  android:layout_width="150dp" android:layout_height="150dp"
+                    android:src="@drawable/boy_avatar"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_corner_boy"
+                    android:onClick="seleccionChico"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chico"
+                    android:textColor="@color/blue"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <ImageView  android:layout_width="150dp" android:layout_height="150dp"
+                    android:src="@drawable/girl_avatar"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_corner_girl"
+                    android:onClick="seleccionChico"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chica"
+                    android:textColor="@color/blue"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/registro_paso3_forward_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/registro_forward_green_selector"
+            android:clickable="true"
+            android:onClick="irSiguiente"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="12dp" />
+
+    </LinearLayout>

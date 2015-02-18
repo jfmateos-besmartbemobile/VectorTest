@@ -25,7 +25,7 @@ public class RegistroPaso1Fragment extends AbstractRegistroPasoFragment {
     private TextView textPassword;
 
     // Numero de paso
-    private final static int numOrden = 1;
+    private final static int numOrden = 0;
 
     @Override
     public int getNumOrdern() {

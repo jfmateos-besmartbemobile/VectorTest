@@ -12,6 +12,7 @@ import android.view.View;
 import com.example.gorgue.myapplication.R;
 import com.smartick.fragments.RegistroPaso1Fragment;
 import com.smartick.fragments.RegistroPaso2Fragment;
+import com.smartick.fragments.RegistroPaso3Fragment;
 
 /**
  * Activity para registro de alumnos y tutores
@@ -71,7 +72,7 @@ public class RegistroActivity extends FragmentActivity {
     private class RegistroPagerAdapter extends FragmentPagerAdapter {
 
         // Numero de pasos
-        private static final int NUM_PAGES = 2;
+        private static final int NUM_PAGES = 3;
 
         public RegistroPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -89,8 +90,10 @@ public class RegistroActivity extends FragmentActivity {
                     RegistroPaso2Fragment paso2 = new RegistroPaso2Fragment();
                     paso2.setRegistroPager(registroPager);
                     return paso2;
-                //case 2:
-                //    return null;
+                case 2:
+                    RegistroPaso3Fragment paso3 = new RegistroPaso3Fragment();
+                    paso3.setRegistroPager(registroPager);
+                    return paso3;
                 default:
                     return null;
             }

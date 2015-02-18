@@ -26,5 +26,7 @@
     <string name="need_internet">Necesitas tener acceso a Internet para usar Smartick</string>
     <string name="retry">Volver a intentar</string>
     <string name="title_activity_registro">RegistroActivity</string>
+    <string name="chico">Chico</string>
+    <string name="chica">Chica</string>
 
 </resources>
