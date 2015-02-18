@@ -339,7 +339,6 @@ public class LoginActivity extends ListActivity {
         @Override
         protected User doInBackground(Void... params) {
             try {
-                //final String url = "http://www.smartick.es/getAvatarImageForUser.html?username={username}";
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 User user = restTemplate.getForObject(Constants.GET_AVATAR_IMAGE_SERVICE, User.class, username);
@@ -364,7 +363,7 @@ public class LoginActivity extends ListActivity {
             negotiateStoreUsers();
 
             // Damos pasa a la aplicacion
-            System.out.println("----->> webview");
+            //System.out.println("----->> webview");
             irMain(null);
 
         }

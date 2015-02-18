@@ -1,8 +1,11 @@
 package com.smartick.fragments;
 
+import android.app.AlertDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gorgue.myapplication.R;
+import com.smartick.pojos.UserStatus;
+import com.smartick.util.Constants;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 
 /**
@@ -70,9 +78,7 @@ public class RegistroPaso1Fragment extends AbstractRegistroPasoFragment {
             @Override
             public void onClick(View v) {
                 // Comprobacion de si es un alias valido
-                // TODO
-
-                registroPager.setCurrentItem(numOrden + 1);
+                new LoginMobile().execute(textUsername.getText().toString(), textPassword.getText().toString());
             }
         });
 
@@ -81,4 +87,49 @@ public class RegistroPaso1Fragment extends AbstractRegistroPasoFragment {
 
         return rootView;
     }
+
+    /**
+     * Dialogo de error
+     */
+    private void showAlertDialog(int msg){
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setMessage(getString(msg));
+        // TODO
+        //alertDialog.setIcon(android.R.drawable.ic_delete);
+        alertDialog.show();
+    }
+
+    private class LoginMobile extends AsyncTask<String, Void, UserStatus> {
+
+        @Override
+        protected UserStatus doInBackground(String... params) {
+            try {
+                // Recuperamos los datos del usuario
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                UserStatus user = restTemplate.getForObject(Constants.LOGIN_MOBILE_SERVICE, UserStatus.class, params[0], params[1]);
+                return user;
+            } catch (Exception e) {
+                Log.e("LoginMobile", e.getMessage(), e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(UserStatus user) {
+
+            // Comprobamos que el username no esta en uso
+            if (user == null) {
+                showAlertDialog(R.string.error_conexion);
+            } else if (!user.getStatus().equals(UserStatus.Status.login_invalid)){
+                showAlertDialog(R.string.usuario_ya_existe);
+            } else {
+                // Los datos son validos
+                registroPager.setCurrentItem(numOrden + 1);
+            }
+        }
+
+    }
+
 }

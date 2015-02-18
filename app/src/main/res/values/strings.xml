@@ -24,6 +24,7 @@
     <string name="error_usuario">Has introducido un usuario o una contraseña incorrectas</string>
     <string name="error_conexion">Error de conexión</string>
     <string name="need_internet">Necesitas tener acceso a Internet para usar Smartick</string>
+    <string name="usuario_ya_existe">El nombre de usuario ya está en uso</string>
     <string name="retry">Volver a intentar</string>
     <string name="title_activity_registro">RegistroActivity</string>
     <string name="chico">Chico</string>
