@@ -6,9 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gorgue.myapplication.R;
+import com.example.gorgue.myapplication.components.EFStrokeTextView;
 
 
 public class WelcomeActivity extends ActionBarActivity {
@@ -25,6 +27,14 @@ public class WelcomeActivity extends ActionBarActivity {
         botonInvitado.setTypeface(tfBoogaloo);
         Button botonRegistro = (Button)findViewById(R.id.main_button_registro);
         botonRegistro.setTypeface(tfBoogaloo);
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.activity_welcome_linear_layout);
+
+        EFStrokeTextView invitadoTextView = new EFStrokeTextView(getApplicationContext());
+        invitadoTextView.setText("invitadoStroke");
+        invitadoTextView.setTextColor(0xFFFFFF);
+        invitadoTextView.setStrokeColor(0xFF0000);
+        layout.addView(invitadoTextView);
 
         Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
         TextView textMasInformacion = (TextView)findViewById(R.id.main_label_mas_informacion);
