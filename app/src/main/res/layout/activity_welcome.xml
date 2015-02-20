@@ -3,7 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.smartick.activities.WelcomeActivity"
+    tools:context="com.mobile.android.smartick.activities.WelcomeActivity"
     android:background="@drawable/home_screen_bg">
 
     <!-- background: Ojo al escalado con 16:9 AR -->
@@ -31,7 +31,7 @@
                 android:layout_weight=".25" >
             </View>
 <!--
-            <com.example.gorgue.myapplication.components.StrokedTextView
+            <com.mobile.android.smartick.UI.StrokedTextView
                 android:id="@+id/main_button_invitado"
                 android:layout_width="0dp"
                 android:layout_weight=".5"
