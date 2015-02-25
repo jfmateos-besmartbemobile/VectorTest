@@ -28,17 +28,17 @@ public class WelcomeActivity extends ActionBarActivity {
         Button botonRegistro = (Button)findViewById(R.id.main_button_registro);
         botonRegistro.setTypeface(tfBoogaloo);
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.activity_welcome_linear_layout);
+//        LinearLayout layout = (LinearLayout)findViewById(R.id.activity_welcome_linear_layout);
+//
+//        EFStrokeTextView invitadoTextView = new EFStrokeTextView(getApplicationContext());
+//        invitadoTextView.setText("invitadoStroke");
+//        invitadoTextView.setTextColor(0xFFFFFF);
+//        invitadoTextView.setStrokeColor(0xFF0000);
+//        layout.addView(invitadoTextView);
 
-        EFStrokeTextView invitadoTextView = new EFStrokeTextView(getApplicationContext());
-        invitadoTextView.setText("invitadoStroke");
-        invitadoTextView.setTextColor(0xFFFFFF);
-        invitadoTextView.setStrokeColor(0xFF0000);
-        layout.addView(invitadoTextView);
-
-        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+/*        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
         TextView textMasInformacion = (TextView)findViewById(R.id.main_label_mas_informacion);
-        textMasInformacion.setTypeface(tfDidact);
+        textMasInformacion.setTypeface(tfDidact);*/
 
     }
 

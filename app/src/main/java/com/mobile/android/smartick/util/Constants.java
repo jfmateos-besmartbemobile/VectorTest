@@ -8,8 +8,8 @@ public class Constants {
 
 
 
-    public static final String URL_CONTEXT = "https://www.smartick.es/";
-    //public static final String URL_CONTEXT = "https://10.0.0.12/";
+    //public static final String URL_CONTEXT = "https://www.smartick.es/";
+    public static final String URL_CONTEXT = "http://10.0.0.12/";
     public static final String URL_SMARTICK_LOGIN = URL_CONTEXT + "smartick_login";
     public static final String GET_AVATAR_IMAGE_SERVICE = URL_CONTEXT + "/getAvatarImageForUser.html?username={username}";
     public static final String LOGIN_MOBILE_SERVICE = URL_CONTEXT + "/loginMobile.html?user={username}&password={password}";

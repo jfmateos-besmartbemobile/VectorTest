@@ -41,6 +41,9 @@ import org.apache.http.protocol.HttpContext;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
 public class LoginActivity extends ListActivity {
 
     enum TipoLogin {ALUMNO, TUTOR};
@@ -60,7 +63,6 @@ public class LoginActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         // Inicializamos systemInfo
         sysInfo = new SystemInfo(this.getApplicationContext());
@@ -92,6 +94,7 @@ public class LoginActivity extends ListActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("url", resultURL);
         intent.putExtra("username", username);
+        intent.putExtra("password", password);
         startActivity(intent);
 
         //startActivity(new Intent(this, MainActivity.class));

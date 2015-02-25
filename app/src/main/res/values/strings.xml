@@ -2,32 +2,31 @@
 <resources>
 
     <string name="app_name">Smartick</string>
-    <string name="menu_logout">Desconectar</string>
-    <string name="menu_exit">Salir</string>
+    <string name="menu_logout">Log out</string>
+    <string name="menu_exit">Exit</string>
     <string name="action_settings">Settings</string>
-    <string name="invitado">Invitado</string>
-    <string name="registro">Registro</string>
-    <string name="mas_informacion">+Información</string>
-    <string name="ya_soy_usuario">Ya soy usuario de Smartick"></string>
+    <string name="invitado">Guest</string>
+    <string name="registro">Register</string>
+    <string name="mas_informacion">+Info</string>
+    <string name="ya_soy_usuario">I\'m already a Smartick user></string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="alumnos">Alumnos</string>
-    <string name="tutores">Tutores</string>
-    <string name="entrar_alumno">Entrar como otro Alumno</string>
-    <string name="entrar_tutor">Entrar como otro Tutor</string>
-    <string name="alias_hint">Alias</string>
-    <string name="password_hint">Contraseña</string>
-    <string name="nombre_hint">Nombre</string>
-    <string name="apellidos_hint">Apellidos</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="añadir">Añadir</string>
-    <string name="error_usuario">Has introducido un usuario o una contraseña incorrectas</string>
-    <string name="error_conexion">Error de conexión</string>
-    <string name="need_internet">Necesitas tener acceso a Internet para usar Smartick</string>
-    <string name="usuario_ya_existe">El nombre de usuario ya está en uso</string>
-    <string name="retry">Volver a intentar</string>
+    <string name="alumnos">Students</string>
+    <string name="tutores">Tutors</string>
+    <string name="entrar_alumno">Log in as another student</string>
+    <string name="entrar_tutor">Log in as another tutor</string>
+    <string name="alias_hint">User name</string>
+    <string name="password_hint">Password</string>
+    <string name="nombre_hint">Name</string>
+    <string name="apellidos_hint">Last name</string>
+    <string name="cancelar">Cancel</string>
+    <string name="añadir">Add</string>
+    <string name="error_usuario">User name and/or password are incorrect</string>
+    <string name="error_conexion">Connextion error</string>
+    <string name="need_internet">You must be connected to the internet</string>
+    <string name="usuario_ya_existe">User name is alreday in use</string>
+    <string name="retry">Retry</string>
     <string name="title_activity_registro">RegistroActivity</string>
-    <string name="chico">Chico</string>
-    <string name="chica">Chica</string>
+    <string name="chico">Boy</string>
+    <string name="chica">Girl</string>
 
 </resources>
