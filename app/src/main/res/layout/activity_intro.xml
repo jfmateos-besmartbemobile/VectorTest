@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.mobile.android.smartick.UI.IntroScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/horizontalScroll"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background = "@color/blue"
+    android:scrollbars="none"
+    android:overScrollMode="never"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/horizontalScroll_linear"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:fillViewport="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/page1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/intro_page1_bg"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/intro_page1_logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="260dp"
+                android:background="@drawable/intro_page1_sea"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="220dp"
+                android:background="@drawable/intro_page1_bubbles"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/intro_page1_sea_floor"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="220dp"
+                android:background="@drawable/intro_page1_sea_floor_elements"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/page2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@drawable/intro_page2_bg"
+            >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="260dp"
+                android:background="@drawable/intro_page2_sea"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/intro_page2_sea_floor"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/page3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@drawable/intro_page3_bg"
+            >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="260dp"
+                android:background="@drawable/intro_page3_sea"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="270dp"
+                android:background="@drawable/intro_page3_sand"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/page4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@drawable/intro_page4_bg"
+            >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/intro_page4_fg"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/page5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@drawable/intro_page5_bg"
+            >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/intro_page5_fg"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</com.mobile.android.smartick.UI.IntroScrollView>

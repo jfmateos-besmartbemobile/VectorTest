@@ -18,8 +18,12 @@ public class Constants {
     public static final String PATH_ALUMNO = "/alumno/";
     public static final String URL_PEQ_AVATAR = "avatares/avatares/peq/";
 
+    public static final String WEBVIEW_LOG_TAG = "webView_log_tag";
+    public static final String INTRO_LOG_TAG = "intro_log_tag";
+
     public static final String DEVICE_INFO_FILE = "device_info_file";
     public static final String INSTALLATION_ID_FILE = "installation_id";
     public static final String INSTALLATION_PREF_NAME = "install_id_pref";
+
 
 }

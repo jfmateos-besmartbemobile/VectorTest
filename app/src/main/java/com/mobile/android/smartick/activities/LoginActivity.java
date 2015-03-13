@@ -27,6 +27,7 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.util.Network;
+import com.mobile.android.smartick.util.RedirectHandler;
 import com.mobile.android.smartick.widgets.adapters.UsersListAdapter;
 
 import org.apache.http.HttpResponse;
@@ -203,7 +204,7 @@ public class LoginActivity extends ListActivity {
 
         // TODO: revisar si tiene sentido aqui la comprobacion de conectividad
         if (Network.isConnected(this)) {
-            new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN);
+            irMain(null);
         } else {
             // error conexion
             showAlertDialog(R.string.error_conexion);
@@ -223,7 +224,7 @@ public class LoginActivity extends ListActivity {
     private String doHttpPost(String url){
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        MyRedirectHandler handler = new MyRedirectHandler();
+        RedirectHandler handler = new RedirectHandler();
         httpClient.setRedirectHandler(handler);
 
         HttpPost post = new HttpPost(url);
@@ -350,26 +351,4 @@ public class LoginActivity extends ListActivity {
         }
 
     }
-
-    /**
-     * Captura las redirecciones que se producen.
-     * Nos quedamos con la primera porque en las siguientes llamadas el urlrewrite del servidor borra la jsessionid
-     */
-    private class MyRedirectHandler extends DefaultRedirectHandler {
-        public URI lastRedirectedUri;
-
-        @Override
-        public boolean isRedirectRequested(HttpResponse response, HttpContext context) {
-            return super.isRedirectRequested(response, context);
-        }
-
-        @Override
-        public URI getLocationURI(HttpResponse response, HttpContext context) throws ProtocolException {
-            lastRedirectedUri = super.getLocationURI(response, context);
-            // TODO: revisar
-            resultURL = lastRedirectedUri.toString();
-            return lastRedirectedUri;
-        }
-    }
-
 }

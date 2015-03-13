@@ -20,7 +20,7 @@
 
             <Button
                 android:id="@+id/main_button_invitado"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="80sp"
                 android:layout_gravity="center"
                 android:background="@drawable/blue_confirm_selector"
@@ -42,7 +42,7 @@
                       android:layout_width="fill_parent">
             <Button
                 android:id="@+id/main_button_registro"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="75sp"
                 android:layout_gravity="center"
                 android:background="@drawable/orange_confirm_selector"
@@ -52,7 +52,7 @@
 
             <Button
                 android:id="@+id/main_button_login"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="50sp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20sp"
