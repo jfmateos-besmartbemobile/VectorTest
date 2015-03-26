@@ -10,6 +10,7 @@
     <string name="mas_informacion">+Info</string>
     <string name="ya_soy_usuario">I\'m already a Smartick user></string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_intro">IntroActivity</string>
     <string name="alumnos">Students</string>
     <string name="tutores">Tutors</string>
     <string name="entrar_alumno">Log in as another student</string>

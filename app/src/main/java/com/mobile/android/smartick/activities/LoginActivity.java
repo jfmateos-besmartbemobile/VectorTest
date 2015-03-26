@@ -85,7 +85,8 @@ public class LoginActivity extends ListActivity {
     /** Volver a la pantalla de inicio */
     public void irWelcome(View view) {
         // Cambiamos a la pantalla de inicio
-        startActivity(new Intent(this, WelcomeActivity.class));
+//        startActivity(new Intent(this, WelcomeActivity.class));
+        finish();
     }
 
     /** Vamos a la pantalla de webview con la aplicacion */

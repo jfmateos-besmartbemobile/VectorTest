@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,12 +20,14 @@ import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
@@ -34,28 +38,42 @@ import com.mobile.android.smartick.util.Network;
 import com.mobile.android.smartick.util.RedirectHandler;
 import com.mobile.android.smartick.util.ScreenUtils;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ProtocolException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultRedirectHandler;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EncodingUtils;
 import org.apache.http.util.EntityUtils;
 
+import org.xwalk.core.XWalkJavascriptResult;
+import org.xwalk.core.XWalkPreferences;
+import org.xwalk.core.XWalkResourceClient;
+import org.xwalk.core.XWalkUIClient;
+import org.xwalk.core.XWalkView;
+import org.xwalk.core.internal.XWalkClient;
+import org.xwalk.core.internal.XWalkCookieManager;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity {
 
 	private ProgressBar progressBar;
-	private WebView webView;
-	private Menu menu;
+	private XWalkView webView;
+    private XWalkCookieManager cookieManager = null;
 
 	private String url;
+    private String urlResult;
 	private String username;
     private String password;
     private SystemInfo sysInfo;
@@ -82,129 +100,124 @@ public class MainActivity extends Activity {
 
 			setContentView(R.layout.activity_main);
 
-			webView = (WebView) findViewById(R.id.webview);
+            webView=(XWalkView)findViewById(R.id.webview);
 
-            //preapres webView settings and overrides event listener methods
+            //sets cookie manager
+            cookieManager = new XWalkCookieManager();
+            cookieManager.setAcceptCookie(true);
+            cookieManager.setAcceptFileSchemeCookies(true);
+
+            //sets clients
+            webView.setUIClient(new UIClient(webView));
+            webView.setResourceClient(new ResourceClient(webView));
+
+            //prepares webView settings and overrides event listener methods
             setWebClientOptions();
-            overrideWebClientMethods();
 
+            //Enables remote debugging
+            XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+
+            //performs login
             new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN,username,password,sysInfo.getInstallationId());
 
             //sets progress bar
-			progressBar = (ProgressBar) findViewById(R.id.progressbar);
-			prepareProgressBar();
+//			progressBar = (ProgressBar) findViewById(R.id.progressbar);
+//			prepareProgressBar();
 		}
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        menu.findItem(R.id.menu_logout).setEnabled(enableMenuLogout());
-        return true;
+    //to login
+    private void toLogin() {
+        finish();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menu_logout:
-                logout();
-                return true;
-            case R.id.menu_exit:
-                toExit();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keycode, KeyEvent e) {
-        switch (keycode) {
-            case KeyEvent.KEYCODE_MENU:
-                if (menu != null) {
-                    menu.findItem(R.id.menu_logout).setEnabled(enableMenuLogout());
-                }
-                return super.onKeyDown(keycode, e);
-        }
-        return super.onKeyDown(keycode, e);
+    //no network
+    private void toOffline() {
+        startActivity(new Intent(this, OfflineActivity.class));
     }
 
     //WebView setttings and control
 	private void setWebClientOptions() {
 		webView.setPadding(0, 0, 0, 0);
-		webView.setInitialScale(ScreenUtils.getScale(getWindowManager(),
-				webView.getUrl()));
-
-		WebSettings webSettings = webView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setUseWideViewPort(false);
-		webSettings.setLoadWithOverviewMode(true);
-		webSettings.setSupportZoom(false);
-		webSettings.setBuiltInZoomControls(false);
-
-		webView.addJavascriptInterface(new SmartickJavaScriptInterface(), "smartick");
+        webView.setMinimumHeight(600);
+        webView.setMinimumWidth(800);
 	}
 
-    private void overrideWebClientMethods() {
-        final Activity activity = this;
-        webView.setWebViewClient(new WebViewClient() {
-            /* Para que no se abra en un navegador */
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d(Constants.WEBVIEW_LOG_TAG,"shouldIverrideUrlLoading - url: " + url);
-                if (url.equals(Constants.URL_LOGOUT)) {
-                    toLogin();
-                }
-                return false;
-            }
+    class ResourceClient extends XWalkResourceClient {
 
-            /* Ignora problemas certificado */
-            @Override
-            public void onReceivedSslError(WebView view,
-                                           SslErrorHandler handler, SslError error) {
-                Log.d(Constants.WEBVIEW_LOG_TAG,"onReceivedSSLError: " + error);
-                handler.proceed();
-            }
+        public ResourceClient(XWalkView xwalkView) {
+            super(xwalkView);
+        }
 
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
-                Log.d(Constants.WEBVIEW_LOG_TAG,"onReceivedError url: " + failingUrl + " description: " + description);
-            }
+        public void onLoadStarted(XWalkView view, String url) {
+            super.onLoadStarted(view, url);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Started:" + url);
+        }
 
-            /* Captura cuando empieza la página */
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                Log.d(Constants.WEBVIEW_LOG_TAG,"onPageStarted url: " + url);
-                view.setInitialScale(ScreenUtils.getScale(getWindowManager(),
-                        url));
-                super.onPageStarted(view, url, favicon);
-            }
+        public void onLoadFinished(XWalkView view, String url) {
+            super.onLoadFinished(view, url);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Finished:" + url);
+        }
 
-            /*	Obtiene el valor src de la imagen del avatar desde home */
-            @Override
-            public void onPageFinished(WebView view, String url){
-                Log.d(Constants.WEBVIEW_LOG_TAG,"onPageFinished url: " + url);
-            }
-        });
-    }
+        public void onProgressChanged(XWalkView view, int progressInPercent) {
+            super.onProgressChanged(view, progressInPercent);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Loading Progress:" + progressInPercent);
+        }
 
-    private boolean enableMenuLogout() {
-        return webView.getUrl().contains(Constants.PATH_ALUMNO);
-    }
+        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Intercept load request");
+            return super.shouldInterceptLoadRequest(view, url);
+        }
 
-    private void logout() {
-        webView.loadUrl(Constants.URL_LOGOUT);
-    }
+        public void onReceivedLoadError(XWalkView view, int errorCode, String description,
+                                        String failingUrl) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Failed:" + description);
+            super.onReceivedLoadError(view, errorCode, description, failingUrl);
+        }
 
-    //WebView javascript interview
-    public class SmartickJavaScriptInterface{
-        // This annotation is required in Jelly Bean and later:
-        //@JavascriptInterface
-        public void receiveValueFromJs(String str) {
+        public void onReceivedSslError(XWalkView view, ValueCallback<java.lang.Boolean> callback, SslError error) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Received SSL Error: " + error.toString());
         }
     }
+
+    class UIClient extends XWalkUIClient {
+
+        public UIClient(XWalkView xwalkView) {
+            super(xwalkView);
+        }
+
+        public void onJavascriptCloseWindow(XWalkView view) {
+            super.onJavascriptCloseWindow(view);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Window closed.");
+        }
+
+        public boolean onJavascriptModalDialog(XWalkView view, JavascriptMessageType type,
+                                               String url,
+                                               String message, String defaultValue, XWalkJavascriptResult result) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Show JS dialog.");
+            return super.onJavascriptModalDialog(view, type, url, message, defaultValue, result);
+        }
+
+        public void onFullscreenToggled(XWalkView view, boolean enterFullscreen) {
+            super.onFullscreenToggled(view, enterFullscreen);
+            if (enterFullscreen) {
+                Log.d(Constants.WEBVIEW_LOG_TAG, "Entered fullscreen.");
+            } else {
+                Log.d(Constants.WEBVIEW_LOG_TAG, "Exited fullscreen.");
+            }
+        }
+
+        public void openFileChooser(XWalkView view, ValueCallback<Uri> uploadFile,
+                                    String acceptType, String capture) {
+            super.openFileChooser(view, uploadFile, acceptType, capture);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Opened file chooser.");
+        }
+
+        public void onScaleChanged(XWalkView view, float oldScale, float newScale) {
+            super.onScaleChanged(view, oldScale, newScale);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Scale changed.");
+        }
+    }
+
 
 
     // login request
@@ -223,7 +236,7 @@ public class MainActivity extends Activity {
     private String doHttpPost(String url,String username, String password, String installationId){
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        RedirectHandler handler = new RedirectHandler();
+        MyRedirectHandler handler = new MyRedirectHandler();
         httpClient.setRedirectHandler(handler);
 
         HttpPost post = new HttpPost(url);
@@ -236,26 +249,28 @@ public class MainActivity extends Activity {
 
         //User agent para app Android
         post.addHeader("User-Agent","Smartick_Android");
-
+        HttpResponse response = null;
         try {
             post.setEntity(new UrlEncodedFormEntity(nvps));
-            httpClient.execute(post);
+            response = httpClient.execute(post);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Throwable t) {
             System.out.println(t.getMessage());
         }
-        return handler.lastRedirectedUri.toString();
+
+        URI last = handler.lastRedirectedUri;
+        Log.d(Constants.WEBVIEW_LOG_TAG,"LAST_REDIRECT: " + last.toString());
+        return last.toString();
     }
 
     /**
      * Si el login es correcto se pasa al webview
      */
     private void redirectLogin(String urlRedirect){
-
         if(!urlRedirect.contains("acceso")) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"Login valid");
-            webView.loadUrl(urlRedirect);
+            webView.load(urlRedirect,null);
         } else {
             Log.d(Constants.WEBVIEW_LOG_TAG,"Login failed");
         }
@@ -269,44 +284,63 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    private void toLogin() {
-        startActivity(new Intent(this, LoginActivity.class));
-    }
+//    //Progress Bar
+//    private void prepareProgressBar() {
+//        webView.setWebChromeClient(new WebChromeClient() {
+//            /* Barra de carga */
+//            @Override
+//            public void onProgressChanged(WebView view, int progress) {
+//                progressBar.setProgress(0);
+//                progressBar.setVisibility(View.VISIBLE);
+//                MainActivity.this.setProgress(progress * 1000);
+//
+//                progressBar.incrementProgressBy(progress);
+//
+//                if (progress == 100) {
+//                    progressBar.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//    }
+//
+//    public String getUrl() {
+//        return url;
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url = url;
+//    }
+//
+//    public Context getMainContext(){
+//        return this;
+//    }
 
-    private void toOffline() {
-        startActivity(new Intent(this, OfflineActivity.class));
-    }
 
+    /*Captura las redirecciones que se producen. Nos quedamos con la primera porque en las siguientes llamadas el urlrewrite del servidor borra la jsessionid*/
+    public class MyRedirectHandler extends DefaultRedirectHandler {
+        public URI lastRedirectedUri;
 
-    //Progress Bar
-    private void prepareProgressBar() {
-        webView.setWebChromeClient(new WebChromeClient() {
-            /* Barra de carga */
-            @Override
-            public void onProgressChanged(WebView view, int progress) {
-                progressBar.setProgress(0);
-                progressBar.setVisibility(View.VISIBLE);
-                MainActivity.this.setProgress(progress * 1000);
+        @Override
+        public boolean isRedirectRequested(HttpResponse response, HttpContext context) {
+            return super.isRedirectRequested(response, context);
+        }
 
-                progressBar.incrementProgressBy(progress);
+        @Override
+        public URI getLocationURI(HttpResponse response, HttpContext context) throws ProtocolException {
+            lastRedirectedUri = super.getLocationURI(response, context);
+            if(urlResult == null){
+                urlResult = lastRedirectedUri.toString();
 
-                if (progress == 100) {
-                    progressBar.setVisibility(View.GONE);
+                //retreives cookies from response
+                Header [] headers = response.getAllHeaders();
+                for (Header h: headers){
+                    if (h.getName().equalsIgnoreCase("set-cookie"))
+                    {
+                        cookieManager.setCookie(urlResult,h.getValue());
+                    }
                 }
             }
-        });
+            return lastRedirectedUri;
+        }
     }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Context getMainContext(){
-        return this;
-    }
-
 }

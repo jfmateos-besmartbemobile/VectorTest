@@ -26,7 +26,6 @@ public class RedirectHandler extends DefaultRedirectHandler {
     @Override
     public URI getLocationURI(HttpResponse response, HttpContext context) throws ProtocolException {
         lastRedirectedUri = super.getLocationURI(response, context);
-        lastRedirectedUri.toString();
         return lastRedirectedUri;
     }
 }
