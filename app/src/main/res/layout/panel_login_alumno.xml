@@ -79,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_weight=".35"
             android:layout_height="wrap_content"
-            android:onClick="loginAlumno"
+            android:onClick="addAlumno"
             android:background="@drawable/orange_confirm_selector"
             android:text="@string/añadir"
             android:textColor="@color/white"/>

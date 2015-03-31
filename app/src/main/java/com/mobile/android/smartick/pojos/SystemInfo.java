@@ -28,7 +28,7 @@ public class SystemInfo {
         if (context == null){
             return null;
         }
-        SharedPreferences install = context.getSharedPreferences(Constants.INSTALLATION_ID_FILE, Context.MODE_PRIVATE);
+        SharedPreferences install = context.getSharedPreferences(Constants.SMARTICK_PREFS, Context.MODE_PRIVATE);
         installationId = install.getString(Constants.INSTALLATION_PREF_NAME, null);
         if (installationId == null){
             installationId = Installation.id(context);

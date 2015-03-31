@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -33,6 +35,7 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
+import com.mobile.android.smartick.util.AudioPlayer;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.util.Network;
 import com.mobile.android.smartick.util.RedirectHandler;
@@ -52,6 +55,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EncodingUtils;
 import org.apache.http.util.EntityUtils;
 
+import org.xwalk.core.JavascriptInterface;
 import org.xwalk.core.XWalkJavascriptResult;
 import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkResourceClient;
@@ -59,6 +63,7 @@ import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.internal.XWalkClient;
 import org.xwalk.core.internal.XWalkCookieManager;
+import org.xwalk.core.internal.XWalkSettings;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,6 +76,9 @@ public class MainActivity extends Activity {
 	private ProgressBar progressBar;
 	private XWalkView webView;
     private XWalkCookieManager cookieManager = null;
+    private AudioPlayer audioPlayer;
+    private String audioCallback = null;
+    private Context ctx;
 
 	private String url;
     private String urlResult;
@@ -87,6 +95,8 @@ public class MainActivity extends Activity {
 		if (!Network.isConnected(this)) {
 			toOffline();
 		} else {
+
+            ctx = this.getApplicationContext();
             //retreives parameters from intent
 			Bundle b = getIntent().getExtras();
 			url = b.getString("url");
@@ -96,7 +106,7 @@ public class MainActivity extends Activity {
             password = b.getString("password");
 
             //initializaes systemInfo
-            sysInfo = new SystemInfo(this.getApplicationContext());
+            sysInfo = new SystemInfo(ctx);
 
 			setContentView(R.layout.activity_main);
 
@@ -111,23 +121,56 @@ public class MainActivity extends Activity {
             webView.setUIClient(new UIClient(webView));
             webView.setResourceClient(new ResourceClient(webView));
 
-            //prepares webView settings and overrides event listener methods
+            //webView settings
             setWebClientOptions();
+
+            //Inits Audio Player
+            audioPlayer = new AudioPlayer();
+            audioPlayer.init(ctx);
+
+            //sets player callbacks
+            MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    audioPlayer.finishedPlayback();
+                    executeAudioCallback();
+                }
+            };
+            audioPlayer.setPlayerCallbacks(audioPlayer.player,onCompletionListener);
+
 
             //Enables remote debugging
             XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+
+            //Button listeners
+            Button backButton = (Button) findViewById(R.id.back_button_main);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backButtonPressed();
+                }
+            });
 
             //performs login
             new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN,username,password,sysInfo.getInstallationId());
 
             //sets progress bar
-//			progressBar = (ProgressBar) findViewById(R.id.progressbar);
-//			prepareProgressBar();
+			progressBar = (ProgressBar) findViewById(R.id.progressbar);
 		}
 	}
 
+//Button listeners
+
+    //back button pressed
+    private void backButtonPressed(){
+        toLogin();
+    }
+
+//Acivity switching
+
     //to login
     private void toLogin() {
+        audioPlayer.stop();
+        doLogout();
         finish();
     }
     //no network
@@ -135,12 +178,54 @@ public class MainActivity extends Activity {
         startActivity(new Intent(this, OfflineActivity.class));
     }
 
-    //WebView setttings and control
+
+
+//WebView setttings and control
+
 	private void setWebClientOptions() {
+        webView.addJavascriptInterface(new JsInterface(),"SmartickAudioInterface");
 		webView.setPadding(0, 0, 0, 0);
-        webView.setMinimumHeight(600);
-        webView.setMinimumWidth(800);
+//        webView.setMinimumHeight(600);
+//        webView.setMinimumWidth(800);
 	}
+
+//Javascript Interface
+    public class JsInterface {
+        public JsInterface() {
+        }
+
+        @JavascriptInterface
+        public void playUrl(String path) {
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Play audio file: " + path);
+            audioPlayer.playURL(Constants.URL_CONTEXT + path);
+        }
+
+        @JavascriptInterface
+        public void stop(){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Stop Audio");
+            audioPlayer.stop();
+        }
+
+        @JavascriptInterface
+        public void bind(String callback){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - bind audio callback to " + callback);
+            audioCallback = callback;
+        }
+
+
+        @JavascriptInterface
+        public void unbind(){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - unbind audio callback");
+            audioCallback = null;
+        }
+    }
+
+    private void executeAudioCallback(){
+        if (audioCallback != null){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - execute callback");
+            webView.evaluateJavascript(audioCallback + "()",null);
+        }
+    }
 
     class ResourceClient extends XWalkResourceClient {
 
@@ -161,6 +246,15 @@ public class MainActivity extends Activity {
         public void onProgressChanged(XWalkView view, int progressInPercent) {
             super.onProgressChanged(view, progressInPercent);
             Log.d(Constants.WEBVIEW_LOG_TAG, "Loading Progress:" + progressInPercent);
+
+            progressBar.setProgress(0);
+            progressBar.setVisibility(View.VISIBLE);
+
+            progressBar.incrementProgressBy(progressInPercent);
+
+            if (progressInPercent == 100) {
+                progressBar.setVisibility(View.GONE);
+            }
         }
 
         public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
@@ -219,7 +313,6 @@ public class MainActivity extends Activity {
     }
 
 
-
     // login request
     private class AsyncLogin extends AsyncTask<String, Integer, String> {
         @Override
@@ -264,6 +357,10 @@ public class MainActivity extends Activity {
         return last.toString();
     }
 
+    private void doLogout(){
+
+    }
+
     /**
      * Si el login es correcto se pasa al webview
      */
@@ -283,38 +380,6 @@ public class MainActivity extends Activity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-//    //Progress Bar
-//    private void prepareProgressBar() {
-//        webView.setWebChromeClient(new WebChromeClient() {
-//            /* Barra de carga */
-//            @Override
-//            public void onProgressChanged(WebView view, int progress) {
-//                progressBar.setProgress(0);
-//                progressBar.setVisibility(View.VISIBLE);
-//                MainActivity.this.setProgress(progress * 1000);
-//
-//                progressBar.incrementProgressBy(progress);
-//
-//                if (progress == 100) {
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//    }
-//
-//    public String getUrl() {
-//        return url;
-//    }
-//
-//    public void setUrl(String url) {
-//        this.url = url;
-//    }
-//
-//    public Context getMainContext(){
-//        return this;
-//    }
-
 
     /*Captura las redirecciones que se producen. Nos quedamos con la primera porque en las siguientes llamadas el urlrewrite del servidor borra la jsessionid*/
     public class MyRedirectHandler extends DefaultRedirectHandler {

@@ -8,24 +8,21 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
-	private String urlAvatar;
     private String perfil;
 	
 	public User(){
 	}
 
-	public User(int id, String userName, String userPassword, String avatarUrl, String perfil) {
+	public User(int id, String userName, String userPassword, String perfil) {
 		this.id = id;
 		this.username = userName;
 		this.password = userPassword;
-		this.urlAvatar = avatarUrl;
         this.perfil = perfil;
 	}
 	
-	public User(String userName, String userPassword, String avatarUrl, String perfil) {
+	public User(String userName, String userPassword, String perfil) {
 		this.username = userName;
 		this.password = userPassword;
-		this.urlAvatar = avatarUrl;
         this.perfil = perfil;
 	}
 	
@@ -53,14 +50,7 @@ public class User {
 
         this.password = userPassword;
 	}
-	public String getUrlAvatar() {
 
-        return urlAvatar;
-	}
-	public void setUrlAvatar(String avatarUrl) {
-
-        this.urlAvatar = avatarUrl;
-	}
     public String getPerfil() {
         return this.perfil;
     }

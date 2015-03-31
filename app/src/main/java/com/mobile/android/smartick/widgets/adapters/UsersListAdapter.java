@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.Constants;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -23,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsersListAdapter extends ArrayAdapter<User> {
-	private static final String URL_DEFAULT_AVATAR = "images/avatares/login-default/s_azul_t.png";
+	private static final String URL_DEFAULT_AVATAR = "/images/avatares/login-default/s_azul_t.png";
 	private Context context;
 	private ImageView avatar;
 	//private TextView userName;
@@ -113,12 +117,41 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 			
 		});
 */
-
         ImageView avatar = (ImageView) row.findViewById(R.id.userslist_avatar);
         new RetrieveAvatar(avatar).execute(user);
 
 		return row;
 	}
+
+    public class GetAvatarResponse{
+
+        private String urlAvatar;
+        private String username;
+
+        public GetAvatarResponse(){
+        }
+
+        public GetAvatarResponse(String urlAvatar,String username){
+            this.urlAvatar = urlAvatar;
+            this.username = username;
+        }
+
+        public String getUrlAvatar(){
+            return this.urlAvatar;
+        }
+
+        public String getUsername(){
+            return this.username;
+        }
+
+        public void setUrlAvatar(String urlAvatar){
+            this.urlAvatar = urlAvatar;
+        }
+
+        public void setUsername(String username){
+            this.username = username;
+        }
+    }
 	
 	
 	private class RetrieveAvatar extends AsyncTask<User, Bitmap, Bitmap> {
@@ -131,40 +164,35 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 			
 	    protected Bitmap doInBackground(User... users) {
 			try {
-                URL url = new URL(Constants.URL_CONTEXT + Constants.URL_PEQ_AVATAR + ((users[0].getUrlAvatar()!=null)?getAvatarName(users[0].getUrlAvatar()):URL_DEFAULT_AVATAR));
-				return BitmapFactory.decodeStream((InputStream) url.getContent());
+                if (users != null && users[0] != null && users[0].getUsername() != null && users[0].getUsername() != ""){
+                    RestTemplate restTemplate = new RestTemplate();
+                    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                    GetAvatarResponse r = restTemplate.getForObject(Constants.GET_AVATAR_IMAGE_SERVICE, GetAvatarResponse.class, users[0].getUsername());
+                    Log.d(Constants.USER_LIST_TAG,"requestdImg: " + r.getUrlAvatar());
+                    URL url = new URL(r.getUrlAvatar());
+                    return BitmapFactory.decodeStream((InputStream) url.getContent());
+                }
 			} catch (IOException e) {
 				try {
+                    Log.d(Constants.USER_LIST_TAG,"Default avatar set");
 					return BitmapFactory.decodeStream((InputStream) new URL(Constants.URL_CONTEXT + URL_DEFAULT_AVATAR).getContent());
 				} catch (MalformedURLException e1) {
 					e1.printStackTrace();
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
-			}
+			} catch (Exception e) {
+                Log.d(Constants.USER_LIST_TAG,"Error decoding image");
+                return null;
+            }
+
 			return null;
 	    }
 	    
 	    @Override
 	    protected void onPostExecute(Bitmap result) {
-
+            Log.d(Constants.USER_LIST_TAG,"results -> " + result);
             this.avatar.setImageBitmap(result);
 	    }
-
-        /**
-         * A partir del path completo obtenemos el nombre
-         * Devuelve null si no hay nom bre de fichero en el path
-         * @param path path del avatar
-         */
-        private String getAvatarName(String path) {
-            System.out.println("path del avatar:" + path);
-            if (path.lastIndexOf('/') != -1) {
-                return path.substring(path.lastIndexOf('/') + 1);
-            } else {
-                return null;
-            }
-
-        }
 	 }
-
 }

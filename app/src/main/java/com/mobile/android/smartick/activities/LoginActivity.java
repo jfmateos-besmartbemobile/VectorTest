@@ -76,7 +76,7 @@ public class LoginActivity extends ListActivity {
         findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
 
         // TODO: temporal para pruebas!!
-        //localDB.deleteAll();
+//        localDB.deleteAll();
 
         prepareListView(localDB.getAllUsers());
     }
@@ -152,8 +152,7 @@ public class LoginActivity extends ListActivity {
                 System.out.println("Click en el usuario " + user.getUsername());
                 username = user.getUsername();
                 password = user.getPassword();
-                avatarURL = user.getUrlAvatar();
-                loginAlumno();
+                doLoginAlumno();
                 //setUserValues((String) ((TextView)view.findViewById(R.id.username)).getText());
             }
         });
@@ -177,11 +176,7 @@ public class LoginActivity extends ListActivity {
      * @param view vista origen
      */
     public void loginAlumno(View view) {
-        // usuario y pass
-        username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
-        password = ((EditText)findViewById(R.id.login_password)).getText().toString();
-
-        loginAlumno();
+        doLoginAlumno();
     }
 
     /**
@@ -201,7 +196,7 @@ public class LoginActivity extends ListActivity {
     /**
      * Comprueba las credenciales
      */
-    private void loginAlumno() {
+    private void doLoginAlumno() {
 
         // TODO: revisar si tiene sentido aqui la comprobacion de conectividad
         if (Network.isConnected(this)) {
@@ -210,7 +205,15 @@ public class LoginActivity extends ListActivity {
             // error conexion
             showAlertDialog(R.string.error_conexion);
         }
+    }
 
+    public void addAlumno(View view){
+        username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
+        password = ((EditText)findViewById(R.id.login_password)).getText().toString();
+        negotiateStoreUsers();
+        findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
+        ((EditText)findViewById(R.id.login_alias)).setText("");
+        ((EditText)findViewById(R.id.login_password)).setText("");
     }
 
     /**
@@ -221,59 +224,14 @@ public class LoginActivity extends ListActivity {
         findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
     }
 
-    /*Llamada al login del servidor*/
-    private String doHttpPost(String url){
-
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        RedirectHandler handler = new RedirectHandler();
-        httpClient.setRedirectHandler(handler);
-
-        HttpPost post = new HttpPost(url);
-        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        nvps.add(new BasicNameValuePair("j_username", username));
-        nvps.add(new BasicNameValuePair("j_password", password));
-        // id de dispositivo para la visualizacion adaptada a tablets
-        post.addHeader("android-app", sysInfo.getInstallationId());
-        try {
-            post.setEntity(new UrlEncodedFormEntity(nvps));
-            httpClient.execute(post);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Throwable t) {
-            System.out.println(t.getMessage());
-        }
-        return handler.lastRedirectedUri.toString();
-    }
-
-    /**
-     * Si el login es correcto se pasa al webview
-     */
-    private void redirectLogin(String urlRedirect){
-
-        if(!urlRedirect.contains("acceso")) {
-            System.out.println("login OK!");
-
-            // Si no tenemos el avatar hay que recuperarlo
-            if (avatarURL == null || avatarURL.equals("")) {
-                new GetAvatarImageForUser().execute();
-            } else {
-                // login!!
-                irMain(null);
-            }
-        } else {
-            showAlertDialog(R.string.error_usuario);
-        }
-    }
-
     /**
      * Guarda, si no esta ya guardado, un usuario en local
      */
     private void negotiateStoreUsers() {
         // Inicialmente no tenemos la url del avatar
-        User newUser = new User(username, password, "", "ALUMNO");
+        User newUser = new User(username, password, "ALUMNO");
         //si es la primera vez que se usa este usuario lo guardamos
         if(!isStoredUser(newUser)) {
-            newUser.setUrlAvatar(avatarURL);
             localDB.addUser(newUser);
         }
     }
@@ -296,60 +254,5 @@ public class LoginActivity extends ListActivity {
         // TODO
         //alertDialog.setIcon(android.R.drawable.ic_delete);
         alertDialog.show();
-    }
-
-    /**
-     * Lanza la tarea de login asincrona
-     */
-    private class AsyncLogin extends AsyncTask<String, Integer, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            String urlRedirect = null;
-            for(String url : urls) {
-                urlRedirect = doHttpPost(url);
-            }
-            return urlRedirect;
-        }
-
-        @Override
-        protected void onPostExecute(String urlRedirect) {
-            redirectLogin(urlRedirect);
-        }
-    }
-
-    private class GetAvatarImageForUser extends AsyncTask<Void, Void, User> {
-
-        @Override
-        protected User doInBackground(Void... params) {
-            try {
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                User user = restTemplate.getForObject(Constants.GET_AVATAR_IMAGE_SERVICE, User.class, username);
-                return user;
-            } catch (Exception e) {
-                Log.e("LoginActivity", e.getMessage(), e);
-            } catch (Throwable s) {
-                Log.e("LoginActivity", s.getMessage(), s);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(User user) {
-
-            // Es posible que sea un usuario sin avatar
-            if (user != null) {
-                avatarURL = user.getUrlAvatar();
-            }
-            // Tenemos el avatar, guardamos el usuario en local
-            negotiateStoreUsers();
-
-            // Damos pasa a la aplicacion
-            //System.out.println("----->> webview");
-            irMain(null);
-
-        }
-
     }
 }

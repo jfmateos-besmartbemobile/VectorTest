@@ -27,7 +27,6 @@ public class UsersDBHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
-    private static final String KEY_AVATAR = "avatarUrl";
     private static final String KEY_PERFIL = "perfil";
 
     public static final int INVALID_USER_ID = -1;
@@ -42,8 +41,7 @@ public class UsersDBHandler extends SQLiteOpenHelper {
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
         				+ KEY_ID + " INTEGER PRIMARY KEY,"
         				+ KEY_USERNAME + " TEXT,"
-        				+ KEY_PASSWORD + " TEXT," 
-        				+ KEY_AVATAR + " TEXT,"
+        				+ KEY_PASSWORD + " TEXT,"
                         + KEY_PERFIL + " TEXT"
         				+ ")";
         
@@ -80,7 +78,6 @@ public class UsersDBHandler extends SQLiteOpenHelper {
 	    ContentValues values = new ContentValues();
 	    values.put(KEY_USERNAME, user.getUsername());
 	    values.put(KEY_PASSWORD, user.getPassword());
-	    values.put(KEY_AVATAR, user.getUrlAvatar());
         values.put(KEY_PERFIL, user.getPerfil());
 	 
 	    // Inserting Row
@@ -96,7 +93,6 @@ public class UsersDBHandler extends SQLiteOpenHelper {
         		KEY_ID,
                 KEY_USERNAME,
                 KEY_PASSWORD,
-                KEY_AVATAR,
                 KEY_PERFIL
         		}, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
@@ -106,8 +102,7 @@ public class UsersDBHandler extends SQLiteOpenHelper {
         User user = new User(
         						cursor.getString(1), 
         						cursor.getString(2),
-        						cursor.getString(3),
-                                cursor.getString(4)
+        						cursor.getString(3)
         						);
         // return listUser
         db.close();
@@ -124,8 +119,7 @@ public class UsersDBHandler extends SQLiteOpenHelper {
 	        		cursor.getInt(0),
 	        		cursor.getString(1), 
 					cursor.getString(2),
-					cursor.getString(3),
-                    cursor.getString(4)
+					cursor.getString(3)
 					);
 			cursor.close();
 		}
@@ -151,8 +145,7 @@ public class UsersDBHandler extends SQLiteOpenHelper {
 	            user.setId(Integer.parseInt(cursor.getString(0)));
 	            user.setUsername(cursor.getString(1));
 	            user.setPassword(cursor.getString(2));
-	            user.setUrlAvatar(cursor.getString(3));
-                user.setPerfil(cursor.getString(4));
+                user.setPerfil(cursor.getString(3));
 
 	            userList.add(user);
 	        } while (cursor.moveToNext());
@@ -170,7 +163,6 @@ public class UsersDBHandler extends SQLiteOpenHelper {
 	    ContentValues values = new ContentValues();
 	    values.put(KEY_USERNAME, user.getUsername());
 	    values.put(KEY_PASSWORD, user.getPassword());
-	    values.put(KEY_AVATAR, user.getUrlAvatar());
         values.put(KEY_PERFIL, user.getPerfil());
 	 
 	    // updating row

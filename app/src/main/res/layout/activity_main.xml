@@ -3,16 +3,7 @@
     android:id="@+id/relativeMain"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:visibility="gone"/>
+    android:orientation="horizontal" >
 
     <org.xwalk.core.XWalkView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,14 +13,26 @@
         android:background="#000000"/>
 
     <Button
-        android:id="@+id/login_button_back"
+        android:id="@+id/back_button_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/purple_button_back_selector"
         android:clickable="true"
-        android:onClick="toLogin"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/custom_progressbar"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         />
 
 </RelativeLayout>
