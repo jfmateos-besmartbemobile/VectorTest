@@ -16,15 +16,21 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.Constants;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class UsersListAdapter extends ArrayAdapter<User> {
 	private static final String URL_DEFAULT_AVATAR = "/images/avatares/login-default/s_azul_t.png";
@@ -123,37 +129,6 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 		return row;
 	}
 
-    public class GetAvatarResponse{
-
-        private String urlAvatar;
-        private String username;
-
-        public GetAvatarResponse(){
-        }
-
-        public GetAvatarResponse(String urlAvatar,String username){
-            this.urlAvatar = urlAvatar;
-            this.username = username;
-        }
-
-        public String getUrlAvatar(){
-            return this.urlAvatar;
-        }
-
-        public String getUsername(){
-            return this.username;
-        }
-
-        public void setUrlAvatar(String urlAvatar){
-            this.urlAvatar = urlAvatar;
-        }
-
-        public void setUsername(String username){
-            this.username = username;
-        }
-    }
-	
-	
 	private class RetrieveAvatar extends AsyncTask<User, Bitmap, Bitmap> {
 		
 		ImageView avatar;
@@ -165,14 +140,20 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 	    protected Bitmap doInBackground(User... users) {
 			try {
                 if (users != null && users[0] != null && users[0].getUsername() != null && users[0].getUsername() != ""){
-                    RestTemplate restTemplate = new RestTemplate();
-                    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                    GetAvatarResponse r = restTemplate.getForObject(Constants.GET_AVATAR_IMAGE_SERVICE, GetAvatarResponse.class, users[0].getUsername());
-                    Log.d(Constants.USER_LIST_TAG,"requestdImg: " + r.getUrlAvatar());
-                    URL url = new URL(r.getUrlAvatar());
-                    return BitmapFactory.decodeStream((InputStream) url.getContent());
+
+                    JSONObject response = requestWebService(Constants.GET_AVATAR_IMAGE_SERVICE + users[0].getUsername());
+                    if (response!=null){
+                        String urlAvatar = response.getString("urlAvatar");
+                        if (urlAvatar != null){
+                            Log.d(Constants.USER_LIST_TAG,"requestdImg: " + urlAvatar);
+                            urlAvatar = Constants.URL_CONTEXT + urlAvatar;
+                            URL url = new URL(urlAvatar);
+                            return BitmapFactory.decodeStream((InputStream) url.getContent());
+                        }
+                    }
+                    return null;
                 }
-			} catch (IOException e) {
+			}catch (IOException e) {
 				try {
                     Log.d(Constants.USER_LIST_TAG,"Default avatar set");
 					return BitmapFactory.decodeStream((InputStream) new URL(Constants.URL_CONTEXT + URL_DEFAULT_AVATAR).getContent());
@@ -195,4 +176,51 @@ public class UsersListAdapter extends ArrayAdapter<User> {
             this.avatar.setImageBitmap(result);
 	    }
 	 }
+
+
+    public static JSONObject requestWebService(String serviceUrl) {
+
+        HttpURLConnection urlConnection = null;
+        try {
+            // create connection
+            URL urlToRequest = new URL(serviceUrl);
+            urlConnection = (HttpURLConnection)
+                    urlToRequest.openConnection();
+
+            // handle issues
+            int statusCode = urlConnection.getResponseCode();
+            if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                // handle unauthorized (if service requires user login)
+            } else if (statusCode != HttpURLConnection.HTTP_OK) {
+                // handle any other errors, like 404, 500,..
+            }
+
+            // create JSON object from content
+            InputStream in = new BufferedInputStream(
+                    urlConnection.getInputStream());
+            return new JSONObject(getResponseText(in));
+
+        } catch (MalformedURLException e) {
+            // URL is invalid
+        } catch (SocketTimeoutException e) {
+            // data retrieval or connection timed out
+        } catch (IOException e) {
+            // could not read response body
+            // (could not create input stream)
+        } catch (JSONException e) {
+            // response body is no valid JSON string
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+
+        return null;
+    }
+
+    private static String getResponseText(InputStream inStream) {
+        // very nice trick from
+        // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
+        return new Scanner(inStream).useDelimiter("\\A").next();
+    }
 }

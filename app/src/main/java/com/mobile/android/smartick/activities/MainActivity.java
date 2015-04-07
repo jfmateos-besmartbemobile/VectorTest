@@ -13,11 +13,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
@@ -137,7 +139,6 @@ public class MainActivity extends Activity {
             };
             audioPlayer.setPlayerCallbacks(audioPlayer.player,onCompletionListener);
 
-
             //Enables remote debugging
             XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
 
@@ -150,6 +151,14 @@ public class MainActivity extends Activity {
                 }
             });
 
+            Button logoutButton = (Button) findViewById(R.id.logout_button_main);
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logoutButtonPressed();
+                }
+            });
+
             //performs login
             new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN,username,password,sysInfo.getInstallationId());
 
@@ -158,11 +167,43 @@ public class MainActivity extends Activity {
 		}
 	}
 
-//Button listeners
 
-    //back button pressed
+//Buttons
     private void backButtonPressed(){
+        String urlWebView = webView.getUrl();
+        if (urlWebView.contains("presentacionProblema")
+                || urlWebView.contains("alumno/tutorialSesion")
+                || urlWebView.contains("alumno/home")
+                || urlWebView.contains("initial-feedback")
+                || urlWebView.contains("alumno/fin")
+                || urlWebView.contains("tutor/")){
+         toLogin();
+        }else{
+            webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
+        }
+    }
+
+    private void logoutButtonPressed(){
         toLogin();
+    }
+
+    private void showLogoutButton(){
+        Button logoutButton = (Button) findViewById(R.id.logout_button_main);
+        logoutButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLogoutButton(){
+        Button logoutButton = (Button) findViewById(R.id.logout_button_main);
+        logoutButton.setVisibility(View.INVISIBLE);
+    }
+
+//Web location
+    private boolean isOnStudentWeb(){
+        return webView.getUrl().contains("/alumno");
+    }
+
+    private boolean isOnTutorWeb(){
+        return webView.getUrl().contains("/tutor");
     }
 
 //Acivity switching
@@ -183,13 +224,11 @@ public class MainActivity extends Activity {
 //WebView setttings and control
 
 	private void setWebClientOptions() {
-        webView.addJavascriptInterface(new JsInterface(),"SmartickAudioInterface");
-		webView.setPadding(0, 0, 0, 0);
-//        webView.setMinimumHeight(600);
-//        webView.setMinimumWidth(800);
+        webView.addJavascriptInterface(new JsInterface(), "SmartickAudioInterface");
+        webView.clearCache(true);
 	}
 
-//Javascript Interface
+//Javascript Interface3
     public class JsInterface {
         public JsInterface() {
         }
@@ -241,6 +280,26 @@ public class MainActivity extends Activity {
         public void onLoadFinished(XWalkView view, String url) {
             super.onLoadFinished(view, url);
             Log.d(Constants.WEBVIEW_LOG_TAG, "Load Finished:" + url);
+
+            //disables touch highlighting
+            webView.evaluateJavascript("document.documentElement.style.webkitUserSelect='none';" +
+                                       "document.documentElement.style.webkitTouchCallout='none';" +
+                                       "document.documentElement.style.webkitTapHighlightColor='rgba(0,0,0,0)';",null);
+
+            //shows/hides logout button
+            if (isOnStudentWeb()){
+                String urlWebView = webView.getUrl();
+                if (urlWebView.contains("presentacionProblema")
+                        || urlWebView.contains("alumno/home")
+                        || urlWebView.contains("alumno/fin")
+                        || urlWebView.contains("tutorialAyudaSesion")
+                        || urlWebView.contains("/initial-feedback")
+                        || urlWebView.contains("/final-feedback")){
+                    hideLogoutButton();
+                }else{
+                    showLogoutButton();
+                }
+            }
         }
 
         public void onProgressChanged(XWalkView view, int progressInPercent) {
@@ -259,6 +318,16 @@ public class MainActivity extends Activity {
 
         public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
             Log.d(Constants.WEBVIEW_LOG_TAG, "Intercept load request");
+
+            if (url.contains("bajarDiploma") || url.contains("diploma.html?idDIploma") || url.contains("truco.html?idTruco")){
+                downloadPDFFromUrl(url);
+                return null;
+            }
+            if (url.contains("accceso")){
+                toLogin();
+                return null;
+            }
+
             return super.shouldInterceptLoadRequest(view, url);
         }
 
@@ -358,6 +427,10 @@ public class MainActivity extends Activity {
     }
 
     private void doLogout(){
+
+    }
+
+    private void downloadPDFFromUrl(String url){
 
     }
 

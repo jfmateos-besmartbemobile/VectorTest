@@ -230,6 +230,11 @@ public class AudioPlayer {
                 // this will be useful so that you can show a tipical 0-100% progress bar
                 int lenghtOfFile = conexion.getContentLength();
 
+                //cache oversized?
+                if (getAudioCacheSize() + lenghtOfFile > MAX_SIZE_AUDIO_CACHE){
+                    clearAudioCache();
+                }
+
                 // download the file
                 InputStream input = new BufferedInputStream(urlDownload.openStream());
                 String fileName = getFileNameFromUrl(url[0]);
@@ -250,7 +255,7 @@ public class AudioPlayer {
                 output.flush();
                 output.close();
                 input.close();
-                Log.d(Constants.AUDIO_LOG_TAG, fileName + "created on audio cache");
+                Log.d(Constants.AUDIO_LOG_TAG, fileName + " created on audio cache");
             } catch (Exception e) {
                 Log.d(Constants.AUDIO_LOG_TAG,e.toString());
             }
