@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.mobile.android.smartick.R;
+import com.mobile.android.smartick.network.GetAvatarImageForUserResponse;
+import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.Constants;
 
@@ -31,6 +33,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class UsersListAdapter extends ArrayAdapter<User> {
 	private static final String URL_DEFAULT_AVATAR = "/images/avatares/login-default/s_azul_t.png";
@@ -63,93 +69,37 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 		}
 
 		User user = getItem(position);
-		
-		//userName = (TextView) row.findViewById(R.id.userslist_username);
-		//userName.setText(user.getUsername());
 
         botonLogin = (Button) row.findViewById(R.id.userslist_botonlogin);
         botonLogin.setText(user.getUsername());
-        // El action lo tenemos en el elemento del listview
-//        botonLogin.setOnClickListener(new OnClickListener() {
 
-            //Listener para boton de login
-//            public void onClick(View v) {
-//                Button botonLogin = (Button)v;
-//                System.out.println("LOG ME IN!!");
-//            }
-//        });
-
-
-/*
-        db = new UsersDBHandler(this.context);
-		delete = (Button) row.findViewById(R.id.userslist_delete);
-		delete.setClickable(false);
-		delete.setFocusable(false);
-		delete.setTag(position);
-		delete.setOnClickListener(new OnClickListener() {
-
-			//Listener para boton de borrado de entrada en lista
-			public void onClick(View v) {
-				//obtenemos posicion en listView
-				int position = (Integer) v.getTag();
-				TextView userName = (TextView) ((View)v.getParent()).findViewById(R.id.userslist_username);
-				String userNameToDelete = userName.getText().toString();
-				
-				//eliminamos elemento de la listview
-				users.remove(position);
-			    notifyDataSetChanged();
-			    
-			    //finalmente, eliminamos el elemento de la base de datos
-
-			    //getAllUsers
-			    List<ListUser> userList = db.getAllUsers();
-			    
-			    //obtener el id de mi user
-			    int id = UsersDBHandler.INVALID_USER_ID;
-			    
-			    for (int i=0;i<userList.size();i++){
-			    	if (userList.get(i).getUsername().equals(userNameToDelete))
-			    	{
-			    		id = userList.get(i).getId();
-			    		break;
-			    	}
-			    }
-			    
-			    //borrar usando listuser id
-			    ListUser listuser = new ListUser();
-			    listuser.setId(id);
-			    db.deleteUser(listuser);
-			}
-			
-		});
-*/
         ImageView avatar = (ImageView) row.findViewById(R.id.userslist_avatar);
-        new RetrieveAvatar(avatar).execute(user);
+        Log.d(Constants.USER_LIST_TAG,"retreiving avatar for user: " + user.getUsername());
+        new RetrieveAvatar(avatar,user.getUsername()).execute();
 
 		return row;
 	}
 
-	private class RetrieveAvatar extends AsyncTask<User, Bitmap, Bitmap> {
-		
-		ImageView avatar;
-		
-		public RetrieveAvatar(ImageView avatar){
-			this.avatar = avatar;
-		}
-			
-	    protected Bitmap doInBackground(User... users) {
-			try {
-                if (users != null && users[0] != null && users[0].getUsername() != null && users[0].getUsername() != ""){
+	private class RetrieveAvatar extends AsyncTask<String, Bitmap, Bitmap> {
 
-                    JSONObject response = requestWebService(Constants.GET_AVATAR_IMAGE_SERVICE + users[0].getUsername());
-                    if (response!=null){
-                        String urlAvatar = response.getString("urlAvatar");
-                        if (urlAvatar != null){
-                            Log.d(Constants.USER_LIST_TAG,"requestdImg: " + urlAvatar);
-                            urlAvatar = Constants.URL_CONTEXT + urlAvatar;
-                            URL url = new URL(urlAvatar);
-                            return BitmapFactory.decodeStream((InputStream) url.getContent());
-                        }
+		ImageView avatar;
+        String username;
+
+		public RetrieveAvatar(ImageView avatar,String username){
+			this.avatar = avatar;
+            this.username = username;
+		}
+
+	    protected Bitmap doInBackground(String... params) {
+			try {
+                Log.d(Constants.USER_LIST_TAG,"doInBackground");
+                if (this.username != null && this.username.length() > 0){
+                    GetAvatarImageForUserResponse response = SmartickRestClient.get().getAvatarImageForUser(this.username);
+                    if (response!= null){
+                        String urlAvatar = Constants.URL_CONTEXT + response.getUrlAvatar();
+                        URL url = new URL(urlAvatar);
+                        Log.d(Constants.USER_LIST_TAG,"setting avatar to" + urlAvatar);
+                        return BitmapFactory.decodeStream((InputStream) url.getContent());
                     }
                     return null;
                 }
@@ -163,64 +113,17 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 					e2.printStackTrace();
 				}
 			} catch (Exception e) {
-                Log.d(Constants.USER_LIST_TAG,"Error decoding image");
+                Log.d(Constants.USER_LIST_TAG, "Error decoding image");
                 return null;
             }
 
 			return null;
 	    }
-	    
+
 	    @Override
 	    protected void onPostExecute(Bitmap result) {
             Log.d(Constants.USER_LIST_TAG,"results -> " + result);
             this.avatar.setImageBitmap(result);
 	    }
 	 }
-
-
-    public static JSONObject requestWebService(String serviceUrl) {
-
-        HttpURLConnection urlConnection = null;
-        try {
-            // create connection
-            URL urlToRequest = new URL(serviceUrl);
-            urlConnection = (HttpURLConnection)
-                    urlToRequest.openConnection();
-
-            // handle issues
-            int statusCode = urlConnection.getResponseCode();
-            if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                // handle unauthorized (if service requires user login)
-            } else if (statusCode != HttpURLConnection.HTTP_OK) {
-                // handle any other errors, like 404, 500,..
-            }
-
-            // create JSON object from content
-            InputStream in = new BufferedInputStream(
-                    urlConnection.getInputStream());
-            return new JSONObject(getResponseText(in));
-
-        } catch (MalformedURLException e) {
-            // URL is invalid
-        } catch (SocketTimeoutException e) {
-            // data retrieval or connection timed out
-        } catch (IOException e) {
-            // could not read response body
-            // (could not create input stream)
-        } catch (JSONException e) {
-            // response body is no valid JSON string
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-
-        return null;
-    }
-
-    private static String getResponseText(InputStream inStream) {
-        // very nice trick from
-        // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
-        return new Scanner(inStream).useDelimiter("\\A").next();
-    }
 }

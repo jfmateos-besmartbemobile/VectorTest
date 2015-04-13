@@ -224,14 +224,14 @@ public class AudioPlayer {
             try {
                 Log.d(Constants.AUDIO_LOG_TAG, "Downloading audio file: " + url[0]);
                 URL urlDownload = new URL(url[0]);
-                URLConnection conexion = urlDownload.openConnection();
-                conexion.connect();
+                URLConnection conn = urlDownload.openConnection();
+                conn.connect();
 
                 // this will be useful so that you can show a tipical 0-100% progress bar
-                int lenghtOfFile = conexion.getContentLength();
+                int lengthOfFile = conn.getContentLength();
 
-                //cache oversized?
-                if (getAudioCacheSize() + lenghtOfFile > MAX_SIZE_AUDIO_CACHE){
+                //cache over sized?
+                if (getAudioCacheSize() + lengthOfFile > MAX_SIZE_AUDIO_CACHE){
                     clearAudioCache();
                 }
 
@@ -248,7 +248,7 @@ public class AudioPlayer {
                 while ((count = input.read(data)) != -1) {
                     total += count;
                     // publishing the progress....
-                    publishProgress((int)(total*100/lenghtOfFile));
+                    publishProgress((int)(total*100/lengthOfFile));
                     output.write(data, 0, count);
                 }
 

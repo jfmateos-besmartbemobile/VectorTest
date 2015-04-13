@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
@@ -35,6 +37,8 @@ import android.widget.RelativeLayout;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
+import com.mobile.android.smartick.network.FileDownloader;
+import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.AudioPlayer;
@@ -73,6 +77,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.client.Response;
+
 public class MainActivity extends Activity {
 
 	private ProgressBar progressBar;
@@ -99,6 +105,7 @@ public class MainActivity extends Activity {
 		} else {
 
             ctx = this.getApplicationContext();
+
             //retreives parameters from intent
 			Bundle b = getIntent().getExtras();
 			url = b.getString("url");
@@ -159,6 +166,9 @@ public class MainActivity extends Activity {
                 }
             });
 
+            //logout button is not visible by default
+            logoutButton.setVisibility(View.INVISIBLE);
+
             //performs login
             new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN,username,password,sysInfo.getInstallationId());
 
@@ -177,14 +187,15 @@ public class MainActivity extends Activity {
                 || urlWebView.contains("initial-feedback")
                 || urlWebView.contains("alumno/fin")
                 || urlWebView.contains("tutor/")){
-         toLogin();
+           doLogout();
+           toLogin();
         }else{
             webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
         }
     }
 
     private void logoutButtonPressed(){
-        toLogin();
+        doLogout();
     }
 
     private void showLogoutButton(){
@@ -210,8 +221,6 @@ public class MainActivity extends Activity {
 
     //to login
     private void toLogin() {
-        audioPlayer.stop();
-        doLogout();
         finish();
     }
     //no network
@@ -316,17 +325,23 @@ public class MainActivity extends Activity {
             }
         }
 
-        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
-            Log.d(Constants.WEBVIEW_LOG_TAG, "Intercept load request");
+        public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
 
-            if (url.contains("bajarDiploma") || url.contains("diploma.html?idDIploma") || url.contains("truco.html?idTruco")){
-                downloadPDFFromUrl(url);
-                return null;
+            if (url.contains("bajarDiploma") || url.contains("diploma.html?idDiploma") || url.contains("truco.html?idTruco")){
+                new AsyncDownloadFile(url).execute();
+                return true;
             }
             if (url.contains("accceso")){
+                doLogout();
                 toLogin();
-                return null;
+                return true;
             }
+
+            return false;
+        }
+
+        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Intercept load request");
 
             return super.shouldInterceptLoadRequest(view, url);
         }
@@ -427,11 +442,61 @@ public class MainActivity extends Activity {
     }
 
     private void doLogout(){
-
+        audioPlayer.stop();
+        webView.load(Constants.URL_LOGOUT,null);
     }
 
-    private void downloadPDFFromUrl(String url){
+    private File downloadPDFFromUrl(String url){
+        Log.d(Constants.WEBVIEW_LOG_TAG,"Downloading pdf from: " + url);
 
+        File folder = new File(ctx.getExternalCacheDir(), "/smk_pdf/");
+        if (!folder.exists()){
+            folder.mkdirs();
+        }
+
+        String c = cookieManager.getCookie(Constants.URL_CONTEXT);
+
+        File fileDL = new File(folder, "diploma.pdf");
+        FileDownloader.download(url,fileDL,c);
+
+        File file = new File(folder, "diploma.pdf");
+        return file;
+    }
+
+    private void showPDF(File file){
+        if (file!= null && file.exists()){
+            PackageManager packageManager = getPackageManager();
+            Intent testIntent = new Intent(Intent.ACTION_VIEW);
+            testIntent.setType("application/pdf");
+            List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri, "application/pdf");
+            startActivity(intent);
+        }else{
+            Log.d(Constants.WEBVIEW_LOG_TAG,"ShowPDF - File does not exist!");
+        }
+    }
+
+    // download file async task
+    private class AsyncDownloadFile extends AsyncTask<String, Integer, File> {
+
+        private String url;
+
+        public AsyncDownloadFile(String url){
+            this.url = url;
+        }
+
+        @Override
+        protected File doInBackground(String... params) {
+            return downloadPDFFromUrl(this.url);
+        }
+
+        @Override
+        protected void onPostExecute(File file) {
+            showPDF(file);
+        }
     }
 
     /**

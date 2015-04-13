@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +24,9 @@ import java.util.List;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
+import com.mobile.android.smartick.network.LoginStatusResponse;
+import com.mobile.android.smartick.network.SmartickAPI;
+import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.DeviceInfo;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
@@ -45,7 +50,12 @@ import org.springframework.web.client.RestTemplate;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoginActivity extends ListActivity {
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class LoginActivity extends ListActivity implements TextWatcher{
 
     enum TipoLogin {ALUMNO, TUTOR};
 
@@ -75,6 +85,19 @@ public class LoginActivity extends ListActivity {
         findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
         findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
 
+        //login form validation
+        EditText studentUsernameEditText = (EditText) findViewById(R.id.login_alias);
+        studentUsernameEditText.addTextChangedListener(this);
+
+        EditText studentPasswordEditText = (EditText) findViewById(R.id.login_password);
+        studentPasswordEditText.addTextChangedListener(this);
+
+        EditText tutorUsernameEditText = (EditText) findViewById(R.id.login_alias2);
+        tutorUsernameEditText.addTextChangedListener(this);
+
+        EditText tutorPasswordEditText = (EditText) findViewById(R.id.login_password2);
+        tutorPasswordEditText.addTextChangedListener(this);
+
         // TODO: temporal para pruebas!!
 //        localDB.deleteAll();
 
@@ -85,21 +108,16 @@ public class LoginActivity extends ListActivity {
     /** Volver a la pantalla de inicio */
     public void irWelcome(View view) {
         // Cambiamos a la pantalla de inicio
-//        startActivity(new Intent(this, WelcomeActivity.class));
         finish();
     }
 
     /** Vamos a la pantalla de webview con la aplicacion */
     public void irMain(View view) {
-        // Cambiamos a la pantalla de inicio
-        // TODO: revisar
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("url", resultURL);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
         startActivity(intent);
-
-        //startActivity(new Intent(this, MainActivity.class));
     }
 
     /** Muestra el panel de login de alumnos */
@@ -153,7 +171,6 @@ public class LoginActivity extends ListActivity {
                 username = user.getUsername();
                 password = user.getPassword();
                 doLoginAlumno();
-                //setUserValues((String) ((TextView)view.findViewById(R.id.username)).getText());
             }
         });
     }
@@ -207,6 +224,20 @@ public class LoginActivity extends ListActivity {
         }
     }
 
+    private void checkLoginStatus(){
+        SmartickRestClient.get().getLoginStatus(username, password, new Callback<LoginStatusResponse>() {
+            @Override
+            public void success(LoginStatusResponse loginStatusResponse, Response response) {
+                loginStatusResponse.getStatus();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+            }
+        });
+    }
+
     public void addAlumno(View view){
         username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
         password = ((EditText)findViewById(R.id.login_password)).getText().toString();
@@ -228,7 +259,6 @@ public class LoginActivity extends ListActivity {
      * Guarda, si no esta ya guardado, un usuario en local
      */
     private void negotiateStoreUsers() {
-        // Inicialmente no tenemos la url del avatar
         User newUser = new User(username, password, "ALUMNO");
         //si es la primera vez que se usa este usuario lo guardamos
         if(!isStoredUser(newUser)) {
@@ -240,9 +270,7 @@ public class LoginActivity extends ListActivity {
      * busca un usuario en db y devuelve su id si existe
       */
     private boolean isStoredUser(User newUser){
-
         return (localDB.getAllUsers().contains(newUser));
-
     }
 
     /**
@@ -254,5 +282,30 @@ public class LoginActivity extends ListActivity {
         // TODO
         //alertDialog.setIcon(android.R.drawable.ic_delete);
         alertDialog.show();
+    }
+
+    //Login validation
+    private void validateStudentLogin(){
+        String username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
+        String password = ((EditText)findViewById(R.id.login_password)).getText().toString();
+        if (username!= null && username.length() > 0 && password!=null && password.length() > 0){
+            //TO DO sends request to validate login
+        }
+    }
+
+    //TextWatcher methods
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        validateStudentLogin();
     }
 }
