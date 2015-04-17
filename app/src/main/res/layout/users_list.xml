@@ -17,7 +17,7 @@
         android:id="@+id/userslist_botonloginText"
         android:layout_width="300dp"
         android:layout_height="80dp"
-        android:textColor="@color/smartick_blue"
+        android:textColor="@color/BlueColor"
         android:layout_marginLeft="100dp"
         android:textSize="19dp"
         android:text="sdasdsadasdasdasdasdsadasasad"

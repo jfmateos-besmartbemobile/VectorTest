@@ -152,7 +152,8 @@ public class MainActivity extends Activity {
 
             //sets progress bar
             pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.BlueColor));
+            pDialog.getProgressHelper().setRimColor(getResources().getColor(R.color.LightBlueColor));
             pDialog.setTitleText(getString(R.string.Cargando));
             pDialog.setCancelable(false);
             pDialog.show();
@@ -166,7 +167,6 @@ public class MainActivity extends Activity {
             }else{
                 tutorNameHolder.setVisibility(View.GONE);
             }
-
 		}
 	}
 

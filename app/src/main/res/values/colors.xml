@@ -6,6 +6,27 @@
     <color name="blue">#0000FF</color>
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>
-    <color name="smartick_blue">#3BA7F1</color>
-
+    <color name="LightBlueSeaColor">#5ED2E6</color>
+    <color name="DarkBlueishGreyColor">#607DC5</color>
+    <color name="LoginTableBackgroundBlue">#E3F3F7</color>
+    <color name="PurpleTextShadowColor">#5F369F</color>
+    <color name="OrangeRegisterBGColor">#FFF8EB</color>
+    <color name="BlueSectorColor">#19BEE8</color>
+    <color name="GreenTextShadowColor">#026D06</color>
+    <color name="OrangeTextShadowColor">#D55500</color>
+    <color name="BlueTextShadowColor">#1E63D1</color>
+    <color name="GrayColor">#89A4B0</color>
+    <color name="BlueishGreyColor">#D1E7ED</color>
+    <color name="SoftBlueColor">#7EC9FF</color>
+    <color name="LightGreenColor">#6ABB61</color>
+    <color name="LightBlueColor">#51CBE3</color>
+    <color name="OrangeColorDarker">#C98626</color>
+    <color name="GreenColorDarker">#5F9C2D</color>
+    <color name="BlueColorDarker">#287CB5</color>
+    <color name="VioletColor">#A16CCC</color>
+    <color name="GreenColor">#7AC43D</color>
+    <color name="BlueColor">#3BA7F1</color>
+    <color name="WhiteColor">#FFFFFF</color>
+    <color name="LightOrangeColor">#FDE2B8</color>
+    <color name="OrangeColor">#FCA72D</color>
 </resources>
