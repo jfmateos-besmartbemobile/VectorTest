@@ -21,19 +21,32 @@ public interface SmartickAPI {
     //ASYNC
 
     @GET("/loginMobile.html")
-    public void getLoginStatus(@Query("user") String user, @Query("password") String password, Callback<LoginStatusResponse> callback);
+    public void getLoginStatus(@Query("user") String user,
+                               @Query("password") String password,
+                               Callback<LoginStatusResponse> callback);
 
     @GET("/getAvatarImageForUser.html")
-    public void getAvatarImageForUser(@Query("username") String user, Callback<GetAvatarImageForUserResponse> callback);
+    public void getAvatarImageForUser(@Query("username") String user,
+                                      Callback<GetAvatarImageForUserResponse> callback);
 
-    @GET("/diploma.html")
-    @Streaming
-    void getDiploma(@Query("idDiploma") String id,@Path("filename") String filename,Callback<Response> callback);
+    @GET("/loginMobile.html")
+    public void getLoginStatus(@Query("user") String user,
+                              @Query("password")String password,
+                              @Query("installationId") String installationID,
+                              @Query("device") String device,
+                              @Query("version") String version,
+                              @Query("osVersion") String osVersion,
+                              Callback<LoginStatusResponse> callback);
 
     //SYNC
 
     @GET("/loginMobile.html")
-    public LoginStatusResponse getLoginStatus(@Query("user") String user, @Query("password") String password);
+    public LoginStatusResponse getLoginStatus(@Query("user") String user,
+                                              @Query("password")String password,
+                                              @Query("installationID") String installationID,
+                                              @Query("device") String device,
+                                              @Query("version") String version,
+                                              @Query("osVersion") String osVersion);
 
     @GET("/getAvatarImageForUser.html")
     public GetAvatarImageForUserResponse getAvatarImageForUser(@Query("username") String user);

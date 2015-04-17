@@ -4,7 +4,7 @@ package com.mobile.android.smartick.pojos;
  * Usuario de Smartick, tanto alumnos como tutores
  */
 public class User {
-	
+
 	private int id;
 	private String username;
 	private String password;

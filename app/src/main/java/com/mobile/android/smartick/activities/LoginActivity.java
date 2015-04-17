@@ -1,13 +1,10 @@
 package com.mobile.android.smartick.activities;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -17,41 +14,21 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.LoginStatusResponse;
-import com.mobile.android.smartick.network.SmartickAPI;
 import com.mobile.android.smartick.network.SmartickRestClient;
-import com.mobile.android.smartick.pojos.DeviceInfo;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
+import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.Constants;
-import com.mobile.android.smartick.util.Network;
-import com.mobile.android.smartick.util.RedirectHandler;
+import com.mobile.android.smartick.network.NetworkStatus;
 import com.mobile.android.smartick.widgets.adapters.UsersListAdapter;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.ProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.DefaultRedirectHandler;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HttpContext;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -65,8 +42,13 @@ public class LoginActivity extends ListActivity implements TextWatcher{
 
     private String username;
     private String password;
+    private UserType userType;
     private String avatarURL;
     private String resultURL;
+
+    private final String LOGIN_VALID = "login_valid";
+    private final int MIN_USERNAME_LENGTH = 3;
+    private final int MIN_PASSWORD_LENGTH = 4;
 
     private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -112,11 +94,12 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     }
 
     /** Vamos a la pantalla de webview con la aplicacion */
-    public void irMain(View view) {
+    public void irMain() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("url", resultURL);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
+        intent.putExtra("userType",userType.toString());
         startActivity(intent);
     }
 
@@ -167,10 +150,8 @@ public class LoginActivity extends ListActivity implements TextWatcher{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Obtenemos el usuario seleccionado y cargamos sus datos
                 User user = (User) getListAdapter().getItem(position);
-                System.out.println("Click en el usuario " + user.getUsername());
-                username = user.getUsername();
-                password = user.getPassword();
-                doLoginAlumno();
+                UserType userType = UserType.valueOf(user.getPerfil());
+                doLogin(user.getUsername(), user.getPassword(), userType);
             }
         });
     }
@@ -190,45 +171,100 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     /**
      * Comprueba las credenciales del alumno
      * Añade el alumno al listado junto con su avatar
-     * @param view vista origen
      */
-    public void loginAlumno(View view) {
-        doLoginAlumno();
-    }
-
-    /**
-     * Comprueba las credenciales del tutor
-     * Añade al tutor al listado de tutores
-     * @param view vista origen
-     */
-    public void loginTutor(View view) {
-        // usuario y pass
-        username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
-        password = ((EditText)findViewById(R.id.login_password)).getText().toString();
-
-        // TODO
-        //loginTutor();
+    public void loginAlumno(String username, String password) {
+        doLogin(username, password, UserType.ALUMNO);
     }
 
     /**
      * Comprueba las credenciales
      */
-    private void doLoginAlumno() {
+    private void doLogin(String username, String password,UserType userType) {
 
-        // TODO: revisar si tiene sentido aqui la comprobacion de conectividad
-        if (Network.isConnected(this)) {
-            irMain(null);
+        if (NetworkStatus.isConnected(this)) {
+            checkLoginStatusForLogin(username,password,userType);
         } else {
             // error conexion
-            showAlertDialog(R.string.error_conexion);
+            showAlertDialog(getString(R.string.error_conexion),
+                    SweetAlertDialog.ERROR_TYPE,
+                    null,
+                    null,null,getString(R.string.Aceptar),null);
         }
     }
 
-    private void checkLoginStatus(){
-        SmartickRestClient.get().getLoginStatus(username, password, new Callback<LoginStatusResponse>() {
+    private void checkLoginStatusForLogin(String username, String password, UserType userType){
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+        SmartickRestClient.get().getLoginStatus(username,
+                password,
+                sysInfo.getInstallationId(),
+                sysInfo.getDevice(),
+                sysInfo.getVersion(),
+                sysInfo.getOsVersion(),
+                new Callback<LoginStatusResponse>() {
+                    @Override
+                    public void success(LoginStatusResponse loginStatusResponse, Response response) {
+                        Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
+                        if (loginStatusResponse.getStatus().equals(LOGIN_VALID)){
+                            irMain();
+                        }else {
+                            showAlertDialog(getString(R.string.login_invalido), SweetAlertDialog.WARNING_TYPE, getString(R.string.comprueba_datos), null, null, getString(R.string.Aceptar), null);
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        // something went wrong
+                    }
+                });
+    }
+
+    //Add new users
+
+    public void addUser(String username, String password,UserType type){
+        Log.d(Constants.LOGIN_LOG_TAG,"adding" + type.toString() +": " + username + " " + password);
+        if ((username != null) && (password != null)){
+            if (negotiateStoreUsers(username,password,type)){
+                Log.d(Constants.LOGIN_LOG_TAG,"new " + type.toString() + " added");
+                //refresh listview?
+                prepareListView(localDB.getAllUsers());
+            }else{
+                showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+                resetLoginAlumnoPanel();
+                resetLoginTutorPanel();
+            }
+        }
+    }
+    public void checkLoginAlumno(View view){
+        username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
+        password = ((EditText)findViewById(R.id.login_password)).getText().toString();
+        if (validateStudentLogin(username, password)){
+            checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
+        }else{
+            showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+            resetLoginAlumnoPanel();
+        }
+    }
+
+    private void checkLoginStatusAddNewUser(final String username, final String password,final UserType type){
+        SmartickRestClient.get().getLoginStatus(username,
+                                                password,
+                                                sysInfo.getInstallationId(),
+                                                sysInfo.getDevice(),
+                                                sysInfo.getVersion(),
+                                                sysInfo.getOsVersion(),
+                                                new Callback<LoginStatusResponse>() {
             @Override
             public void success(LoginStatusResponse loginStatusResponse, Response response) {
-                loginStatusResponse.getStatus();
+                Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
+                if (loginStatusResponse.getStatus().equals(LOGIN_VALID)){
+                    addUser(username, password, type);
+                }else{
+                    showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+                    resetLoginAlumnoPanel();
+                    resetLoginAlumnoPanel();
+                }
             }
 
             @Override
@@ -238,13 +274,17 @@ public class LoginActivity extends ListActivity implements TextWatcher{
         });
     }
 
-    public void addAlumno(View view){
-        username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
-        password = ((EditText)findViewById(R.id.login_password)).getText().toString();
-        negotiateStoreUsers();
-        findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
+    private void resetLoginAlumnoPanel(){
         ((EditText)findViewById(R.id.login_alias)).setText("");
         ((EditText)findViewById(R.id.login_password)).setText("");
+    }
+
+    private void setLoginAlumnoPanelVisible(boolean visible){
+        if (visible){
+            findViewById(R.id.panel_login_alumno).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -252,23 +292,50 @@ public class LoginActivity extends ListActivity implements TextWatcher{
      * @param view
      */
     public void cancelar(View view) {
-        findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
+        setLoginAlumnoPanelVisible(false);
+        setLoginTutorPanelVisible(false);
+    }
+
+    public void checkLoginTutor(View view){
+        username = ((EditText)findViewById(R.id.login_alias2)).getText().toString();
+        password = ((EditText)findViewById(R.id.login_password2)).getText().toString();
+        if (validateTutorLogin(username, password)){
+            checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
+        }else{
+            showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+            resetLoginTutorPanel();
+        }
+    }
+
+    private void resetLoginTutorPanel(){
+        ((EditText)findViewById(R.id.login_alias2)).setText("");
+        ((EditText)findViewById(R.id.login_password2)).setText("");
+    }
+
+    private void setLoginTutorPanelVisible(boolean visible){
+        if (visible){
+            findViewById(R.id.panel_login_tutor).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
+        }
     }
 
     /**
      * Guarda, si no esta ya guardado, un usuario en local
      */
-    private void negotiateStoreUsers() {
-        User newUser = new User(username, password, "ALUMNO");
+    private boolean negotiateStoreUsers(String username, String password,UserType type) {
+        User newUser = new User(username, password, type.toString());
         //si es la primera vez que se usa este usuario lo guardamos
         if(!isStoredUser(newUser)) {
             localDB.addUser(newUser);
+            return true;
         }
+        return false;
     }
 
     /**
      * busca un usuario en db y devuelve su id si existe
-      */
+     */
     private boolean isStoredUser(User newUser){
         return (localDB.getAllUsers().contains(newUser));
     }
@@ -276,20 +343,48 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     /**
      * Dialogo de error
      */
-    private void showAlertDialog(int msg){
-        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-        alertDialog.setMessage(getString(msg));
-        // TODO
-        //alertDialog.setIcon(android.R.drawable.ic_delete);
+    private void showAlertDialog(String titleText,int type,String contentText,String cancelButtonText, SweetAlertDialog.OnSweetClickListener cancelListener, String confirmButtonText,SweetAlertDialog.OnSweetClickListener confirmListener){
+        SweetAlertDialog alertDialog = new SweetAlertDialog(this, type);
+        if (cancelButtonText != null){
+            alertDialog.setCancelText(cancelButtonText);
+        }
+        if (cancelListener != null){
+            alertDialog.setCancelClickListener(cancelListener);
+        }
+        if (confirmButtonText != null){
+            alertDialog.setConfirmText(confirmButtonText);
+        }
+        if (contentText != null){
+            alertDialog.setContentText(contentText);
+        }
+        if (confirmListener != null){
+            alertDialog.setConfirmClickListener(confirmListener);
+        }
+
+        alertDialog.setTitleText(titleText);
         alertDialog.show();
     }
 
     //Login validation
-    private void validateStudentLogin(){
-        String username = ((EditText)findViewById(R.id.login_alias)).getText().toString();
-        String password = ((EditText)findViewById(R.id.login_password)).getText().toString();
-        if (username!= null && username.length() > 0 && password!=null && password.length() > 0){
-            //TO DO sends request to validate login
+    private boolean validateStudentLogin(String username, String password){
+        if (username!= null && username.length() > MIN_USERNAME_LENGTH && password!=null && password.length() > MIN_PASSWORD_LENGTH){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validateTutorLogin(String username, String password){
+        if (username!= null && username.length() > MIN_USERNAME_LENGTH && isValidEmail(username) && password!=null && password.length() > MIN_PASSWORD_LENGTH){
+            return true;
+        }
+        return false;
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
 
@@ -306,6 +401,6 @@ public class LoginActivity extends ListActivity implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        validateStudentLogin();
+
     }
 }

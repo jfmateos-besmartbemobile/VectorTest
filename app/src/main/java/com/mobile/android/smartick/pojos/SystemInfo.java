@@ -2,6 +2,8 @@ package com.mobile.android.smartick.pojos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 
 import com.mobile.android.smartick.util.Constants;
 
@@ -40,7 +42,7 @@ public class SystemInfo {
     }
 
     private String obtainOsVersion(){
-        return System.getProperty("os.version");
+        return android.os.Build.VERSION.RELEASE;
     }
 
     private String obtainDevice(){
@@ -48,7 +50,18 @@ public class SystemInfo {
     }
 
     private String obtainVersion(){
-        return System.getProperty("versionName");
+        int versionCode = 0;
+        String versionName = null;
+        if (context == null){
+            return null;
+        }
+        try {
+            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+            versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            // Huh? Really?
+        }
+        return versionName + "b" + versionCode;
     }
 
     public String getInstallationId() {

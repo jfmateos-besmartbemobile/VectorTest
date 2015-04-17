@@ -1,65 +1,42 @@
 package com.mobile.android.smartick.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
-import android.view.Display;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
-import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.FileDownloader;
-import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.SystemInfo;
-import com.mobile.android.smartick.pojos.User;
+import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.AudioPlayer;
 import com.mobile.android.smartick.util.Constants;
-import com.mobile.android.smartick.util.Network;
-import com.mobile.android.smartick.util.RedirectHandler;
-import com.mobile.android.smartick.util.ScreenUtils;
+import com.mobile.android.smartick.network.NetworkStatus;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.ProtocolException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultRedirectHandler;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EncodingUtils;
-import org.apache.http.util.EntityUtils;
 
 import org.xwalk.core.JavascriptInterface;
 import org.xwalk.core.XWalkJavascriptResult;
@@ -67,9 +44,7 @@ import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
-import org.xwalk.core.internal.XWalkClient;
 import org.xwalk.core.internal.XWalkCookieManager;
-import org.xwalk.core.internal.XWalkSettings;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,21 +52,23 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.client.Response;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends Activity {
 
-	private ProgressBar progressBar;
 	private XWalkView webView;
     private XWalkCookieManager cookieManager = null;
     private AudioPlayer audioPlayer;
     private String audioCallback = null;
     private Context ctx;
+    private SweetAlertDialog pDialog;
 
 	private String url;
     private String urlResult;
 	private String username;
     private String password;
+    private UserType userType;
+    private RelativeLayout tutorNameHolder;
     private SystemInfo sysInfo;
 
 	@Override
@@ -100,8 +77,8 @@ public class MainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Network availability check
-		if (!Network.isConnected(this)) {
-			toOffline();
+		if (!NetworkStatus.isConnected(this)) {
+			toLogin();
 		} else {
 
             ctx = this.getApplicationContext();
@@ -113,6 +90,7 @@ public class MainActivity extends Activity {
             //retreives username and password from bundle
 			username = b.getString("username");
             password = b.getString("password");
+            userType = UserType.valueOf(b.getString("userType"));
 
             //initializaes systemInfo
             sysInfo = new SystemInfo(ctx);
@@ -173,7 +151,22 @@ public class MainActivity extends Activity {
             new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN,username,password,sysInfo.getInstallationId());
 
             //sets progress bar
-			progressBar = (ProgressBar) findViewById(R.id.progressbar);
+            pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText(getString(R.string.Cargando));
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            //if user is tutor, sets tutor name holder on top
+            tutorNameHolder = (RelativeLayout) findViewById(R.id.tutor_name_holder);
+            if (userType.equals(UserType.TUTOR)){
+                TextView tutorName = (TextView) findViewById(R.id.tutor_name_text);
+                tutorName.setText(username);
+                tutorNameHolder.setVisibility(View.VISIBLE);
+            }else{
+                tutorNameHolder.setVisibility(View.GONE);
+            }
+
 		}
 	}
 
@@ -188,7 +181,6 @@ public class MainActivity extends Activity {
                 || urlWebView.contains("alumno/fin")
                 || urlWebView.contains("tutor/")){
            doLogout();
-           toLogin();
         }else{
             webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
         }
@@ -234,37 +226,69 @@ public class MainActivity extends Activity {
 
 	private void setWebClientOptions() {
         webView.addJavascriptInterface(new JsInterface(), "SmartickAudioInterface");
+        webView.addJavascriptInterface(new JsScrollInterface(), "SmartickJsScrollInterface");
         webView.clearCache(true);
 	}
 
-//Javascript Interface3
+//Javascript Interface
     public class JsInterface {
         public JsInterface() {
         }
 
         @JavascriptInterface
-        public void playUrl(String path) {
+        public synchronized void playUrl(String path) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Play audio file: " + path);
             audioPlayer.playURL(Constants.URL_CONTEXT + path);
         }
 
         @JavascriptInterface
-        public void stop(){
+        public synchronized void stop(){
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Stop Audio");
             audioPlayer.stop();
         }
 
         @JavascriptInterface
-        public void bind(String callback){
+        public synchronized void bind(String callback){
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - bind audio callback to " + callback);
             audioCallback = callback;
         }
 
 
         @JavascriptInterface
-        public void unbind(){
+        public synchronized void unbind(){
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - unbind audio callback");
             audioCallback = null;
+        }
+    }
+
+    public class JsScrollInterface {
+        public JsScrollInterface(){
+        }
+
+        @JavascriptInterface
+        public synchronized void scrolled(){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"WebView scrolled");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (tutorNameHolder.getVisibility() != View.GONE){
+                        tutorNameHolder.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public synchronized void reachedTop(){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"WebView scroll is at the top");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (tutorNameHolder.getVisibility() != View.VISIBLE){
+                        tutorNameHolder.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
     }
 
@@ -288,6 +312,11 @@ public class MainActivity extends Activity {
 
         public void onLoadFinished(XWalkView view, String url) {
             super.onLoadFinished(view, url);
+
+            if (pDialog.isShowing()){
+                pDialog.hide();
+            }
+
             Log.d(Constants.WEBVIEW_LOG_TAG, "Load Finished:" + url);
 
             //disables touch highlighting
@@ -309,30 +338,28 @@ public class MainActivity extends Activity {
                     showLogoutButton();
                 }
             }
+
+            //sets javascript scroll listeners
+            webView.evaluateJavascript("var $win = $(window);$win.scroll(function () {if ($win.scrollTop() == 0){ SmartickJsScrollInterface.reachedTop();}else{SmartickJsScrollInterface.scrolled();}});",null);
         }
 
         public void onProgressChanged(XWalkView view, int progressInPercent) {
             super.onProgressChanged(view, progressInPercent);
             Log.d(Constants.WEBVIEW_LOG_TAG, "Loading Progress:" + progressInPercent);
-
-            progressBar.setProgress(0);
-            progressBar.setVisibility(View.VISIBLE);
-
-            progressBar.incrementProgressBy(progressInPercent);
-
-            if (progressInPercent == 100) {
-                progressBar.setVisibility(View.GONE);
-            }
         }
 
         public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
-
-            if (url.contains("bajarDiploma") || url.contains("diploma.html?idDiploma") || url.contains("truco.html?idTruco")){
+            super.shouldOverrideUrlLoading(view,url);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading: " + url);
+            if (url.contains("bajarDiploma")
+                    || url.contains("diploma.html?idDiploma")
+                    || url.contains("truco.html?idTruco")
+                    || url.contains("trucoPdf.html")){
                 new AsyncDownloadFile(url).execute();
+                Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading - Download pdf");
                 return true;
             }
-            if (url.contains("accceso")){
-                doLogout();
+            if (url.contains("acceso")){
                 toLogin();
                 return true;
             }
@@ -348,12 +375,21 @@ public class MainActivity extends Activity {
 
         public void onReceivedLoadError(XWalkView view, int errorCode, String description,
                                         String failingUrl) {
-            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Failed:" + description);
-            super.onReceivedLoadError(view, errorCode, description, failingUrl);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Failed - Error: " + errorCode + " - " + description);
+            if (errorCode == ERROR_CONNECT
+                    || errorCode == ERROR_HOST_LOOKUP
+                    || errorCode == ERROR_TIMEOUT
+                    || errorCode == ERROR_REDIRECT_LOOP
+                    || errorCode == ERROR_TOO_MANY_REQUESTS){
+                toLogin();
+            }else{
+                super.onReceivedLoadError(view, errorCode, description, failingUrl);
+            }
         }
 
         public void onReceivedSslError(XWalkView view, ValueCallback<java.lang.Boolean> callback, SslError error) {
             Log.d(Constants.WEBVIEW_LOG_TAG, "Received SSL Error: " + error.toString());
+            super.onReceivedSslError(view,callback,error);
         }
     }
 
@@ -425,7 +461,7 @@ public class MainActivity extends Activity {
         post.addHeader("android-app", installationId);
 
         //User agent para app Android
-        post.addHeader("User-Agent","Smartick_Android");
+        post.addHeader("User-Agent","Smartick_Android/" + sysInfo.getVersion() + " (Android: " + sysInfo.getOsVersion() + " " + sysInfo.getDevice() +")");
         HttpResponse response = null;
         try {
             post.setEntity(new UrlEncodedFormEntity(nvps));
@@ -437,11 +473,15 @@ public class MainActivity extends Activity {
         }
 
         URI last = handler.lastRedirectedUri;
-        Log.d(Constants.WEBVIEW_LOG_TAG,"LAST_REDIRECT: " + last.toString());
-        return last.toString();
+        if (last!= null){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"LAST_REDIRECT: " + last.toString());
+            return last.toString();
+        }
+        return null;
     }
 
     private void doLogout(){
+        Log.d(Constants.WEBVIEW_LOG_TAG, "doLogout");
         audioPlayer.stop();
         webView.load(Constants.URL_LOGOUT,null);
     }
@@ -503,11 +543,12 @@ public class MainActivity extends Activity {
      * Si el login es correcto se pasa al webview
      */
     private void redirectLogin(String urlRedirect){
-        if(!urlRedirect.contains("acceso")) {
+        if(urlRedirect != null && !urlRedirect.contains("acceso")) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"Login valid");
             webView.load(urlRedirect,null);
         } else {
             Log.d(Constants.WEBVIEW_LOG_TAG,"Login failed");
+            toLogin();
         }
     }
 

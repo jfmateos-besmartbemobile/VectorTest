@@ -22,6 +22,38 @@
         android:clickable="true"
         />
 
+    <RelativeLayout
+        android:id="@+id/tutor_name_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/tutor_background"
+            />
+
+        <TextView
+            android:id="@+id/tutor_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/smartick_blue"
+            android:text="Test"/>
+
+        </RelativeLayout>
+
+
+
+
+
     <Button
         android:id="@+id/logout_button_main"
         android:layout_width="wrap_content"
@@ -33,17 +65,5 @@
         android:clickable="true"
         />
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/custom_progressbar"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        />
 
 </RelativeLayout>

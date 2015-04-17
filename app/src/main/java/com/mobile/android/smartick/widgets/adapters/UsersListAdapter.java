@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.network.GetAvatarImageForUserResponse;
@@ -44,6 +45,7 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 	private ImageView avatar;
 	//private TextView userName;
     private Button botonLogin;
+    private TextView botonLoginText;
 	//private Button delete;
 	//private UsersDBHandler db;
 	private List<User> users = new ArrayList<User>();
@@ -71,7 +73,8 @@ public class UsersListAdapter extends ArrayAdapter<User> {
 		User user = getItem(position);
 
         botonLogin = (Button) row.findViewById(R.id.userslist_botonlogin);
-        botonLogin.setText(user.getUsername());
+        botonLoginText = (TextView) row.findViewById(R.id.userslist_botonloginText);
+        botonLoginText.setText(user.getUsername());
 
         ImageView avatar = (ImageView) row.findViewById(R.id.userslist_avatar);
         Log.d(Constants.USER_LIST_TAG,"retreiving avatar for user: " + user.getUsername());

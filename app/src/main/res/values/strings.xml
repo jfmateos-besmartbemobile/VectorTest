@@ -29,5 +29,9 @@
     <string name="title_activity_registro">RegistroActivity</string>
     <string name="chico">Boy</string>
     <string name="chica">Girl</string>
+    <string name="Cargando">Loading</string>
+    <string name="Aceptar">OK</string>
+    <string name="login_invalido">Login data is incorrect</string>
+    <string name="comprueba_datos">Please re-check the user/password you provided</string>
 
 </resources>

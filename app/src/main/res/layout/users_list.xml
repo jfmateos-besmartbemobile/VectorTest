@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical|center_horizontal">
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
--->
-
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/userslist_botonlogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="510dp"
+        android:layout_height="110dp"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-    android:background="@drawable/login_entry_panel_selector" />
+        android:background="@drawable/login_entry_panel_selector"
+        />
+
+    <TextView
+        android:id="@+id/userslist_botonloginText"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:textColor="@color/smartick_blue"
+        android:layout_marginLeft="100dp"
+        android:textSize="19dp"
+        android:text="sdasdsadasdasdasdasdsadasasad"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        />
 
     <ImageView
         android:id="@+id/userslist_avatar"
@@ -25,24 +31,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:layout_width="80dp"
-        android:layout_height="80dp"/>
-<!--
-<TextView 
-    android:id="@+id/userslist_username"
-	android:layout_width="fill_parent"    
-	android:layout_height="fill_parent"    
-	android:padding="10dp"  
-	android:layout_marginLeft="20dp"  
-	android:textSize="16sp" >
-</TextView>
--->
+        android:layout_height="80dp"
+        />
 
-<!--
-<Button android:id="@+id/userslist_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="X" />
--->
-<!--</LinearLayout>-->
 </RelativeLayout>
