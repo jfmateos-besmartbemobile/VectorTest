@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,29 +28,19 @@ public class WelcomeActivity extends ActionBarActivity {
         botonInvitado.setTypeface(tfBoogaloo);
         Button botonRegistro = (Button)findViewById(R.id.main_button_registro);
         botonRegistro.setTypeface(tfBoogaloo);
-
-//        LinearLayout layout = (LinearLayout)findViewById(R.id.activity_welcome_linear_layout);
-//
-//        EFStrokeTextView invitadoTextView = new EFStrokeTextView(getApplicationContext());
-//        invitadoTextView.setText("invitadoStroke");
-//        invitadoTextView.setTextColor(0xFFFFFF);
-//        invitadoTextView.setStrokeColor(0xFF0000);
-//        layout.addView(invitadoTextView);
-
-/*        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
-        TextView textMasInformacion = (TextView)findViewById(R.id.main_label_mas_informacion);
-        textMasInformacion.setTypeface(tfDidact);*/
-
+        TextView textIntro = (TextView)findViewById(R.id.main_intro_text);
+        textIntro.setTypeface(tfBoogaloo);
     }
 
-    /** Ya es usuario de smartick */
     public void irLogin(View view) {
-        // Cambiamos a la pantalla de login
         startActivity(new Intent(this, LoginActivity.class));
     }
 
     public void irRegistro(View view) {
-        // Cambiamos a la pantalla de registro
         startActivity(new Intent(this, RegistroActivity.class));
+    }
+
+    public void irIntro(View view) {
+        startActivity(new Intent(this, IntroActivity.class));
     }
 }

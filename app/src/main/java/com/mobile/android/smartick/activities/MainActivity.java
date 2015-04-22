@@ -314,7 +314,7 @@ public class MainActivity extends Activity {
             super.onLoadFinished(view, url);
 
             if (pDialog.isShowing()){
-                pDialog.hide();
+                pDialog.dismiss();
             }
 
             Log.d(Constants.WEBVIEW_LOG_TAG, "Load Finished:" + url);

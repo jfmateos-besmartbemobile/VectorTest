@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.mobile.android.smartick.util.Constants;
 
@@ -59,7 +60,7 @@ public class SystemInfo {
             versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
             versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            // Huh? Really?
+            Log.d(Constants.SYSINFO_LOG_TAG, e.toString());
         }
         return versionName + "b" + versionCode;
     }

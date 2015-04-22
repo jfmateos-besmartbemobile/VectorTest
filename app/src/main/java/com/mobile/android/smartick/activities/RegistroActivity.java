@@ -34,9 +34,9 @@ public class RegistroActivity extends FragmentActivity {
         setContentView(R.layout.activity_registro);
 
         // Instanciamos ViewPager y PagerAdapter
-        registroPager = (ViewPager)findViewById(R.id.registro_pager);
-        registroViewPager = new RegistroPagerAdapter(getSupportFragmentManager());
-        registroPager.setAdapter(registroViewPager);
+//        registroPager = (ViewPager)findViewById(R.id.registro_pager);
+//        registroViewPager = new RegistroPagerAdapter(getSupportFragmentManager());
+//        registroPager.setAdapter(registroViewPager);
 
         // Arrancamos con el paso 1 del registro
 //        FragmentManager fragmentManager = getSupportFragmentManager();

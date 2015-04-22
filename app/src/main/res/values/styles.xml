@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
     <!-- Base application theme. -->
@@ -10,5 +11,48 @@
         <attr name="textStrokeColor" format="color"/>
         <attr name="textStrokeWidth" format="dimension"/>
     </declare-styleable>
+
+    <style name="button_text_blue" >
+        <item name="android:layout_width" >fill_parent</item>
+        <item name="android:layout_height" >wrap_content</item>
+        <item name="android:textColor" >@color/white</item>
+        <item name="android:gravity" >center</item>
+        <item name="android:layout_margin" >3dp</item>
+        <item name="android:textSize" >45dp</item>
+        <item name="android:textStyle" >bold</item>
+        <item name="android:shadowColor" >@color/BlueTextShadowColor</item>
+        <item name="android:shadowDx" >0</item>
+        <item name="android:shadowDy" >0</item>
+        <item name="android:shadowRadius" >1</item>
+    </style>
+
+    <style name="button_text_orange" >
+        <item name="android:layout_width" >fill_parent</item>
+        <item name="android:layout_height" >wrap_content</item>
+        <item name="android:textColor" >@color/white</item>
+        <item name="android:gravity" >center</item>
+        <item name="android:layout_margin" >3dp</item>
+        <item name="android:textSize" >45dp</item>
+        <item name="android:textStyle" >bold</item>
+        <item name="android:shadowColor" >@color/OrangeTextShadowColor</item>
+        <item name="android:shadowDx" >0</item>
+        <item name="android:shadowDy" >0</item>
+        <item name="android:shadowRadius" >1</item>
+    </style>
+
+    <style name="button_text_green" >
+        <item name="android:layout_width" >fill_parent</item>
+        <item name="android:layout_height" >wrap_content</item>
+        <item name="android:textColor" >@color/white</item>
+        <item name="android:gravity" >center</item>
+        <item name="android:layout_margin" >3dp</item>
+        <item name="android:textSize" >18dp</item>
+        <item name="android:textStyle" >bold</item>
+        <item name="android:shadowColor" >@color/GreenTextShadowColor</item>
+        <item name="android:shadowDx" >0</item>
+        <item name="android:shadowDy" >0</item>
+        <item name="android:shadowRadius" >1</item>
+    </style>
+
 
 </resources>
