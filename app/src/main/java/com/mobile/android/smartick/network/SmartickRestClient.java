@@ -5,7 +5,7 @@ import com.mobile.android.smartick.util.Constants;
 import retrofit.RestAdapter;
 
 /**
- * Created by imac on 09/04/15.
+ * Created by sbarrio on 09/04/15.
  */
 public class SmartickRestClient {
 

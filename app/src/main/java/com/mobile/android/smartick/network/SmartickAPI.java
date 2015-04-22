@@ -20,11 +20,6 @@ public interface SmartickAPI {
 
     //ASYNC
 
-    @GET("/loginMobile.html")
-    public void getLoginStatus(@Query("user") String user,
-                               @Query("password") String password,
-                               Callback<LoginStatusResponse> callback);
-
     @GET("/getAvatarImageForUser.html")
     public void getAvatarImageForUser(@Query("username") String user,
                                       Callback<GetAvatarImageForUserResponse> callback);
@@ -38,7 +33,53 @@ public interface SmartickAPI {
                               @Query("osVersion") String osVersion,
                               Callback<LoginStatusResponse> callback);
 
+    @GET("(registerAlumnoMobile.html")
+    public void registerAlumnoMobile(
+            @Query("username") String username,
+            @Query("password") String password,
+            @Query("nombre") String nombre,
+            @Query("apellidos") String apellidos,
+            @Query("diaNacimiento") String diaNacimiento,
+            @Query("mesNacimiento") String mesNacimiento,
+            @Query("anioNacimiento") String anioNacimiento,
+            @Query("tutorUsername") String tutorUsername,
+            @Query("installationId") String installationID,
+            @Query("device") String device,
+            @Query("version") String version,
+            @Query("osVersion") String osVersion,
+            Callback<RegisterAlumnoResponse> callback);
+
+    @GET("(registerTutorMobile.html")
+    public void registerAlumnoMobile(
+            @Query("tutorMail") String tutorMail,
+            @Query("password") String password,
+            @Query("nombre") String nombre,
+            @Query("apellidos") String apellidos,
+            @Query("telefono") String telefono,
+            @Query("installationId") String installationID,
+            @Query("device") String device,
+            @Query("version") String version,
+            @Query("osVersion") String osVersion,
+            Callback<RegisterTutorResponse> callback);
+
+    @GET("getFreemiumSessionStatus.html")
+    public void getFreemiumSessionStatus(
+            @Query("installationId") String installationId,
+            @Query("lastSessionDate") String lastSessionDate,
+            @Query("sessionFinished") Boolean sessionFinished,
+            Callback<GetFreemiumSessionStatusResponse> callback);
+
+    @GET("clearFreemiumSession")
+    public void clearFreemoumSessionStatus(
+            @Query("installationId") String installationId,
+            @Query("deleted") Boolean deleted,
+            Callback<ClearFreemiumSessionResponse> callback);
+
     //SYNC
+
+    @GET("/getAvatarImageForUser.html")
+    public GetAvatarImageForUserResponse getAvatarImageForUser(@Query("username") String user);
+
 
     @GET("/loginMobile.html")
     public LoginStatusResponse getLoginStatus(@Query("user") String user,
@@ -48,6 +89,43 @@ public interface SmartickAPI {
                                               @Query("version") String version,
                                               @Query("osVersion") String osVersion);
 
-    @GET("/getAvatarImageForUser.html")
-    public GetAvatarImageForUserResponse getAvatarImageForUser(@Query("username") String user);
+    @GET("(registerAlumnoMobile.html")
+    public RegisterAlumnoResponse registerAlumnoMobile(
+            @Query("username") String username,
+            @Query("password") String password,
+            @Query("nombre") String nombre,
+            @Query("apellidos") String apellidos,
+            @Query("diaNacimiento") String diaNacimiento,
+            @Query("mesNacimiento") String mesNacimiento,
+            @Query("anioNacimiento") String anioNacimiento,
+            @Query("tutorUsername") String tutorUsername,
+            @Query("installationId") String installationID,
+            @Query("device") String device,
+            @Query("version") String version,
+            @Query("osVersion") String osVersion);
+
+    @GET("(registerTutorMobile.html")
+    public RegisterTutorResponse registerAlumnoMobile(
+            @Query("tutorMail") String tutorMail,
+            @Query("password") String password,
+            @Query("nombre") String nombre,
+            @Query("apellidos") String apellidos,
+            @Query("telefono") String telefono,
+            @Query("installationId") String installationID,
+            @Query("device") String device,
+            @Query("version") String version,
+            @Query("osVersion") String osVersion);
+
+
+    @GET("getFreemiumSessionStatus.html")
+    public GetFreemiumSessionStatusResponse getFreemiumSessionStatus(
+            @Query("installationId") String installationId,
+            @Query("lastSessionDate") String lastSessionDate,
+            @Query("sessionFinished") Boolean sessionFinished);
+
+    @GET("clearFreemiumSession")
+    public ClearFreemiumSessionResponse clearFreemoumSessionStatus(
+            @Query("installationId") String installationId,
+            @Query("deleted") Boolean deleted);
+
 }
