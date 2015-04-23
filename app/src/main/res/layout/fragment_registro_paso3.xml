@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/chico"
+                    android:text="@string/Boy"
                     android:textColor="@color/blue"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp" />
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/chica"
+                    android:text="@string/Girl"
                     android:textColor="@color/blue"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp" />

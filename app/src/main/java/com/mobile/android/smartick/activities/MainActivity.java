@@ -154,7 +154,7 @@ public class MainActivity extends Activity {
             pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.BlueColor));
             pDialog.getProgressHelper().setRimColor(getResources().getColor(R.color.LightBlueColor));
-            pDialog.setTitleText(getString(R.string.Cargando));
+            pDialog.setTitleText(getString(R.string.Loading));
             pDialog.setCancelable(false);
             pDialog.show();
 
@@ -215,11 +215,6 @@ public class MainActivity extends Activity {
     private void toLogin() {
         finish();
     }
-    //no network
-    private void toOffline() {
-        startActivity(new Intent(this, OfflineActivity.class));
-    }
-
 
 
 //WebView setttings and control

@@ -24,12 +24,12 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:background="@drawable/blue_confirm_selector"
-                android:text="@string/invitado"
+                android:text="@string/Guest"
                 style="@style/button_text_blue"/>
 
             <RelativeLayout
                 android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_height="118dp"
                 android:onClick="irIntro"
                 android:clickable="true"
                 >
@@ -46,7 +46,7 @@
                     android:id="@+id/main_intro_text"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/mas_informacion"
+                    android:text="@string/plusInfo"
                     android:textSize="18dp"
                     android:textColor="@color/WhiteColor"
                     android:layout_alignParentBottom="true"
@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/orange_confirm_selector"
                 android:onClick="irRegistro"
-                android:text="@string/registro"
+                android:text="@string/Register"
                 style="@style/button_text_orange"/>
 
             <Button
@@ -80,7 +80,7 @@
                 android:layout_marginTop="20sp"
                 android:background="@drawable/green_login_button"
                 android:onClick="irLogin"
-                android:text="@string/ya_soy_usuario"
+                android:text="@string/I_already_use_Smartick"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="32dp"
                 style="@style/button_text_green"/>

@@ -1,106 +1,98 @@
 package com.mobile.android.smartick.activities;
 
+import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
-import com.mobile.android.smartick.fragments.RegistroPaso1Fragment;
-import com.mobile.android.smartick.fragments.RegistroPaso2Fragment;
-import com.mobile.android.smartick.fragments.RegistroPaso3Fragment;
+import com.mobile.android.smartick.UI.IntroScrollView;
+import com.mobile.android.smartick.UI.IntroScrollViewListener;
+import com.mobile.android.smartick.UI.RegisterScrollView;
+import com.mobile.android.smartick.UI.RegisterScrollViewListener;
 
-/**
- * Activity para registro de alumnos y tutores
- */
-public class RegistroActivity extends FragmentActivity {
+public class RegistroActivity extends Activity implements RegisterScrollViewListener {
 
-    // Pager adapter
-    FragmentPagerAdapter registroViewPager;
+    private RegisterScrollView scrollView1 = null;
 
-    // Pager widget
-    ViewPager registroPager;
-
-    private String username;
-    private String password;
+    //scroll view control
+    private int pageWidth = 0;
+    private int numPages = 9;  //5 alumno 4 alumno
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        // Instanciamos ViewPager y PagerAdapter
-//        registroPager = (ViewPager)findViewById(R.id.registro_pager);
-//        registroViewPager = new RegistroPagerAdapter(getSupportFragmentManager());
-//        registroPager.setAdapter(registroViewPager);
+        //Changes font of text
+        setUpTextFontForView("fonts/DidactGothic.ttf");
 
-        // Arrancamos con el paso 1 del registro
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        RegistroPaso1Fragment paso1 = new RegistroPaso1Fragment();
-//        fragmentTransaction.replace(R.id.paso_registro, paso1);
-//        fragmentTransaction.commit();
+        //gets window width and adapts width of every page
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        pageWidth = size.x;
 
+        ViewGroup rootView = (ViewGroup) findViewById(R.id.register_horizontalScroll_linear);
+        adaptScrollViewPageWidth(rootView,pageWidth);
+
+        scrollView1 = (RegisterScrollView) findViewById(R.id.register_horizontalScroll);
+        scrollView1.setRegisterScrollViewListener(this);
     }
 
+    private void adaptScrollViewPageWidth(ViewGroup parent, int width){
 
-    /**
-     * Siguiente paso en el registro
-     * @param view
-     */
-    public void irSiguiente(View view) {
-        // Recuperamos el usuario y el password
-        //username = textUsername.getText().toString();
-        //password = textPassword.getText().toString();
+        int count = parent.getChildCount();
+        for(int i = 0; i < parent.getChildCount(); i++)
+        {
+            View child = parent.getChildAt(i);
+            LinearLayout.LayoutParams paramsLinear = (LinearLayout.LayoutParams)child.getLayoutParams();
 
-        // Comprobar usuario y pass
-        // TODO
-
-        // Vamos al siguiente paso
-        // TODO
+            paramsLinear.width= width;
+            child.setLayoutParams(paramsLinear);
+        }
     }
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
-    private class RegistroPagerAdapter extends FragmentPagerAdapter {
+    public void goNext(View view) {
+        currentPage++;
+        if (currentPage > numPages){
+            currentPage = numPages;
+        }
+        int scrollTo = currentPage * pageWidth;
+        scrollView1.customSmoothScroll(scrollTo,RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
+    }
 
-        // Numero de pasos
-        private static final int NUM_PAGES = 3;
-
-        public RegistroPagerAdapter(FragmentManager fm) {
-            super(fm);
+    public void goBack(View view) {
+        currentPage--;
+        if (currentPage < 0){
+            currentPage = 0;
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                // Paso 0
-                case 0:
-                    RegistroPaso1Fragment paso1 = new RegistroPaso1Fragment();
-                    paso1.setRegistroPager(registroPager);
-                    return paso1;
-                case 1:
-                    RegistroPaso2Fragment paso2 = new RegistroPaso2Fragment();
-                    paso2.setRegistroPager(registroPager);
-                    return paso2;
-                case 2:
-                    RegistroPaso3Fragment paso3 = new RegistroPaso3Fragment();
-                    paso3.setRegistroPager(registroPager);
-                    return paso3;
-                default:
-                    return null;
-            }
-        }
+        int scrollTo = currentPage * pageWidth;
+        scrollView1.customSmoothScroll(scrollTo,RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
+    }
 
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
+    public void goHome(View view) {
+        finish();
+    }
+
+    public void setUpTextFontForView(String fontPath){
+        Typeface dGothic = Typeface.createFromAsset(getAssets(), fontPath);
+        TextView titleStudentCred = (TextView) findViewById(R.id.student_credentials_title);
+        titleStudentCred.setTypeface(dGothic);
+    }
+
+    //scrollView listener methods
+    public void onScrollChanged(RegisterScrollView scrollView, int x, int y, int oldx, int oldy) {
+
     }
 }

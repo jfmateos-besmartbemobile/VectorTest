@@ -119,9 +119,9 @@ public class RegistroPaso1Fragment extends AbstractRegistroPasoFragment {
 
             // Comprobamos que el username no esta en uso
             if (user == null) {
-                showAlertDialog(R.string.error_conexion);
+                showAlertDialog(R.string.You_must_be_connected_to_the_internet);
             } else if (!user.getStatus().equals(UserStatus.Status.login_invalid)){
-                showAlertDialog(R.string.usuario_ya_existe);
+                showAlertDialog(R.string.username_not_valid_or_already_exists);
             } else {
                 // Los datos son validos
                 registroPager.setCurrentItem(numOrden + 1);

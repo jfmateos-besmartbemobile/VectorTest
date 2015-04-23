@@ -16,7 +16,6 @@ import com.mobile.android.smartick.UI.EFStrokeTextView;
 
 public class WelcomeActivity extends ActionBarActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

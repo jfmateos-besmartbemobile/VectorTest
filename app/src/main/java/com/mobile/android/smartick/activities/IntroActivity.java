@@ -10,19 +10,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.IntroScrollView;
-import com.mobile.android.smartick.UI.ScrollViewListener;
+import com.mobile.android.smartick.UI.IntroScrollViewListener;
 import com.mobile.android.smartick.util.Constants;
 
 /**
  * Created by sbarrio on 25/02/15.
  */
-public class IntroActivity extends Activity implements ScrollViewListener{
+public class IntroActivity extends Activity implements IntroScrollViewListener {
 
     private IntroScrollView scrollView1 = null;
 
@@ -37,7 +35,6 @@ public class IntroActivity extends Activity implements ScrollViewListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_intro);
 
         //gets window width and adapts width of every page
@@ -46,11 +43,11 @@ public class IntroActivity extends Activity implements ScrollViewListener{
         display.getSize(size);
         pageWidth = size.x;
 
-        ViewGroup rootView = (ViewGroup) findViewById(R.id.horizontalScroll_linear);
+        ViewGroup rootView = (ViewGroup) findViewById(R.id.intro_horizontalScroll_linear);
         adaptScrollViewPageWidth(rootView,pageWidth);
 
-        scrollView1 = (IntroScrollView) findViewById(R.id.horizontalScroll);
-        scrollView1.setScrollViewListener(this);
+        scrollView1 = (IntroScrollView) findViewById(R.id.intro_horizontalScroll);
+        scrollView1.setIntroScrollViewListener(this);
         setTouchListeners(scrollView1);
     }
 
@@ -89,7 +86,7 @@ public class IntroActivity extends Activity implements ScrollViewListener{
                     int featureWidth = v.getMeasuredWidth();
                     mActiveFeature = ((scrollX + (featureWidth / 2)) / featureWidth);
                     int scrollTo = mActiveFeature * featureWidth;
-                    scrollView.smoothScrollTo(scrollTo,0);
+                    scrollView.customSmoothScroll(scrollTo,IntroScrollView.SMOOTH_SCROLL_SPEED_MID);
                     return true;
                 } else {
                     return false;
@@ -107,7 +104,7 @@ public class IntroActivity extends Activity implements ScrollViewListener{
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     int featureWidth = scrollView1.getMeasuredWidth();
                     mActiveFeature = (mActiveFeature < (numPages - 1))? mActiveFeature + 1:numPages -1;
-                    scrollView1.smoothScrollTo(mActiveFeature*featureWidth, 0);
+                    scrollView1.customSmoothScroll(mActiveFeature*featureWidth,IntroScrollView.SMOOTH_SCROLL_SPEED_MID);
                     Log.d(Constants.INTRO_LOG_TAG,"going right!");
                     return true;
                 }
@@ -115,7 +112,7 @@ public class IntroActivity extends Activity implements ScrollViewListener{
                 else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     int featureWidth = scrollView1.getMeasuredWidth();
                     mActiveFeature = (mActiveFeature > 0)? mActiveFeature - 1:0;
-                    scrollView1.smoothScrollTo(mActiveFeature*featureWidth, 0);
+                    scrollView1.customSmoothScroll(mActiveFeature*featureWidth,IntroScrollView.SMOOTH_SCROLL_SPEED_MID);
                     Log.d(Constants.INTRO_LOG_TAG,"going left!");
                     return true;
                 }

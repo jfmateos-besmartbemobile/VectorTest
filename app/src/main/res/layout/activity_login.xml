@@ -50,7 +50,7 @@
             android:id="@+id/login_label_cabecera_tutores"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tutores"
+            android:text="@string/Tutors"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:paddingTop="30dp" />
@@ -65,7 +65,7 @@
             android:id="@+id/login_tutor_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/entrar_tutor"
+            android:text="@string/Login_as_other_Tutor"
             android:onClick="entrarComoOtroTutor"
             android:background="@drawable/add_tutor_selector"/>
 
@@ -87,7 +87,7 @@
             android:id="@+id/login_label_cabecera_alumnos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/alumnos"
+            android:text="@string/Students"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:paddingTop="30dp" />
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="entrarComoOtroAlumno"
-            android:text="@string/entrar_alumno"
+            android:text="@string/Login_as_other_Student"
             android:background="@drawable/add_student_selector" />
 
     </LinearLayout>

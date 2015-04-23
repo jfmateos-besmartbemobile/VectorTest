@@ -2,7 +2,7 @@
 
 <com.mobile.android.smartick.UI.IntroScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/horizontalScroll"
+    android:id="@+id/intro_horizontalScroll"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +13,7 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/horizontalScroll_linear"
+        android:id="@+id/intro_horizontalScroll_linear"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

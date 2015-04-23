@@ -47,6 +47,8 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     private String resultURL;
 
     private final String LOGIN_VALID = "login_valid";
+    private final String LOGIN_INVALID = "login_invalid";
+    private final String LOGIN_NO_ACTIVE_SUB = "no_active_subscription";
     private final int MIN_USERNAME_LENGTH = 3;
     private final int MIN_PASSWORD_LENGTH = 4;
 
@@ -185,10 +187,10 @@ public class LoginActivity extends ListActivity implements TextWatcher{
             checkLoginStatusForLogin(username,password,userType);
         } else {
             // error conexion
-            showAlertDialog(getString(R.string.error_conexion),
+            showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),
                     SweetAlertDialog.ERROR_TYPE,
                     null,
-                    null,null,getString(R.string.Aceptar),null);
+                    null,null,getString(R.string.OK),null);
         }
     }
 
@@ -209,7 +211,10 @@ public class LoginActivity extends ListActivity implements TextWatcher{
                         if (loginStatusResponse.getStatus().equals(LOGIN_VALID)){
                             irMain();
                         }else {
-                            showAlertDialog(getString(R.string.login_invalido), SweetAlertDialog.WARNING_TYPE, getString(R.string.comprueba_datos), null, null, getString(R.string.Aceptar), null);
+                            if (loginStatusResponse.getStatus().equals(LOGIN_INVALID))
+                                showAlertDialog(getString(R.string.username_not_valid_or_already_exists), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
+                            if (loginStatusResponse.getStatus().equals(LOGIN_NO_ACTIVE_SUB))
+                                showAlertDialog(getString(R.string.User_does_not_have_an_active_subscription), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
                         }
                     }
 
@@ -230,7 +235,7 @@ public class LoginActivity extends ListActivity implements TextWatcher{
                 //refresh listview?
                 prepareListView(localDB.getAllUsers());
             }else{
-                showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+                showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
                 resetLoginAlumnoPanel();
                 resetLoginTutorPanel();
             }
@@ -242,7 +247,7 @@ public class LoginActivity extends ListActivity implements TextWatcher{
         if (validateStudentLogin(username, password)){
             checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
         }else{
-            showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+            showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
             resetLoginAlumnoPanel();
         }
     }
@@ -261,9 +266,12 @@ public class LoginActivity extends ListActivity implements TextWatcher{
                 if (loginStatusResponse.getStatus().equals(LOGIN_VALID)){
                     addUser(username, password, type);
                 }else{
-                    showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+                    if (loginStatusResponse.getStatus().equals(LOGIN_INVALID))
+                        showAlertDialog(getString(R.string.username_not_valid_or_already_exists), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
+                    if (loginStatusResponse.getStatus().equals(LOGIN_NO_ACTIVE_SUB))
+                        showAlertDialog(getString(R.string.User_does_not_have_an_active_subscription), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
                     resetLoginAlumnoPanel();
-                    resetLoginAlumnoPanel();
+                    resetLoginTutorPanel();
                 }
             }
 
@@ -302,7 +310,7 @@ public class LoginActivity extends ListActivity implements TextWatcher{
         if (validateTutorLogin(username, password)){
             checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
         }else{
-            showAlertDialog(getString(R.string.login_invalido),SweetAlertDialog.WARNING_TYPE,getString(R.string.comprueba_datos),null,null,getString(R.string.Aceptar),null);
+            showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
             resetLoginTutorPanel();
         }
     }

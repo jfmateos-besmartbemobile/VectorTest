@@ -36,7 +36,7 @@
                     android:layout_height="60dp"
                     android:layout_weight="0.5"
                     android:background="@drawable/rounded_corner"
-                    android:hint="@string/nombre_hint"
+                    android:hint="@string/Name"
                     android:inputType="text"
                     android:layout_margin="20dp"
                     android:layout_gravity="center_vertical" />
@@ -46,7 +46,7 @@
                     android:layout_height="60dp"
                     android:layout_weight="0.5"
                     android:background="@drawable/rounded_corner"
-                    android:hint="@string/apellidos_hint"
+                    android:hint="@string/Last_name"
                     android:inputType="text"
                     android:layout_margin="20dp"
                     android:layout_gravity="center_vertical" />

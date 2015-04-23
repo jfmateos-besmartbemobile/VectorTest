@@ -1,22 +1,435 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.mobile.android.smartick.UI.RegisterScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/register_horizontalScroll"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mobile.android.smartick.activities.RegistroActivity"
-    android:gravity="center_vertical|center_horizontal">
+    android:animateLayoutChanges="true"
+    android:background = "@drawable/intro_page6_bg_sky"
+    android:scrollbars="none"
+    android:overScrollMode="never"
+    android:fillViewport="true">
 
-    <!--
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/register_horizontalScroll_linear"
         android:orientation="horizontal"
-        android:id="@+id/paso_registro"/>
-    -->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/registro_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </android.support.v4.view.ViewPager>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:fillViewport="true"
+        >
 
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/register_page1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/register_panel"
+                android:layout_gravity="center"
+                android:id="@+id/register_panel1"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/student_credentials_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="32dp"
+                android:text="@string/Students_Data"
+                android:layout_alignTop="@+id/register_panel1"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:id="@+id/student_username_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/student_username_on"
+                android:layout_below="@+id/student_credentials_title"
+                android:layout_toLeftOf="@+id/student_credentials_title"
+                android:layout_toStartOf="@+id/student_credentials_title"
+                android:layout_marginRight="24dp"
+                android:layout_marginEnd="64dp"
+                android:layout_marginTop="34dp"/>
+
+            <ImageView
+                android:id="@+id/student_password_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/student_password_on"
+                android:layout_below="@+id/student_username_icon"
+                android:layout_alignLeft="@+id/student_username_icon"
+                android:layout_alignStart="@+id/student_username_icon"
+                android:layout_marginTop="36dp" />
+
+            <EditText
+                android:id="@+id/student_alias_edittext"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:background="@drawable/rounded_edittext_register"
+                android:hint="@string/Alias"
+                android:paddingLeft="20dp"
+                android:textSize="20dp"
+                android:textColor="@color/GrayColor"
+                android:layout_alignTop="@+id/student_username_icon"
+                android:layout_toRightOf="@+id/student_username_icon"
+                android:layout_toEndOf="@+id/student_username_icon" />
+
+            <EditText
+                android:id="@+id/student_password_edittext"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:background="@drawable/rounded_edittext_register"
+                android:hint="@string/Password"
+                android:paddingLeft="20dp"
+                android:textSize="20dp"
+                android:textColor="@color/GrayColor"
+                android:layout_alignTop="@+id/student_password_icon"
+                android:layout_toRightOf="@+id/student_username_icon"
+                android:layout_toEndOf="@+id/student_username_icon" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/registro_home_selector"
+                android:onClick="goHome"
+                android:clickable="true"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/register_panel1"
+                android:layout_alignStart="@+id/register_panel1"
+                android:layout_marginLeft="10dp"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/registro_forward_green_selector"
+                android:onClick="goNext"
+                android:clickable="true"
+                android:layout_centerVertical="true"
+                android:layout_alignRight="@+id/register_panel1"
+                android:layout_alignEnd="@+id/register_panel1"
+                android:layout_marginRight="10dp"
+                 />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+        android:id="@+id/register_page2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        >
+
+            <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/register_panel"
+            android:layout_gravity="center"
+            android:id="@+id/register_panel2"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+            <TextView
+            android:id="@+id/student_info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/BlueColor"
+            android:textSize="32dp"
+            android:text="@string/Students_Data"
+            android:layout_alignTop="@+id/register_panel2"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true" />
+
+            <ImageView
+            android:id="@+id/student_info_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/student_info_icon"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/student_info_title"
+            android:layout_toStartOf="@+id/student_info_title"
+            android:layout_marginRight="54dp"
+            android:layout_marginEnd="54dp" />
+
+            <EditText
+            android:id="@+id/student_name_edittext"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:background="@drawable/rounded_edittext_register"
+            android:hint="@string/Name"
+            android:paddingLeft="20dp"
+            android:textSize="20dp"
+            android:textColor="@color/GrayColor"
+            android:layout_alignTop="@+id/student_info_icon"
+            android:layout_toRightOf="@+id/student_info_icon"
+            android:layout_toEndOf="@+id/student_info_icon" />
+
+            <EditText
+            android:id="@+id/student_lastname_edittext"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:background="@drawable/rounded_edittext_register"
+            android:hint="@string/Last_name"
+            android:paddingLeft="20dp"
+            android:textSize="20dp"
+            android:textColor="@color/GrayColor"
+            android:layout_alignBottom="@+id/student_info_icon"
+            android:layout_toRightOf="@+id/student_info_icon"
+            android:layout_toEndOf="@+id/student_info_icon" />
+
+            <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/registro_back_selector"
+            android:onClick="goBack"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/register_panel2"
+            android:layout_alignStart="@+id/register_panel2"
+            android:layout_marginLeft="10dp"
+            />
+
+            <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/registro_forward_green_selector"
+            android:onClick="goNext"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/register_panel2"
+            android:layout_alignEnd="@+id/register_panel2"
+            android:layout_marginRight="10dp"
+            />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/register_page3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/register_panel"
+                android:layout_gravity="center"
+                android:id="@+id/register_panel3"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/student_sex_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="32dp"
+                android:text="@string/Students_Data"
+                android:layout_alignTop="@+id/register_panel3"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:id="@+id/icon_boy"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/boy_avatar"
+                android:background="@drawable/sex_selector_background"
+                android:layout_marginRight="141dp"
+                android:layout_marginEnd="141dp"
+                android:layout_alignTop="@+id/icon_girl"
+                android:layout_alignRight="@+id/student_sex_title"
+                android:layout_alignEnd="@+id/student_sex_title" />
+
+            <ImageView
+                android:id="@+id/icon_girl"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/girl_avatar"
+                android:background="@drawable/sex_selector_background"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/student_sex_title"
+                android:layout_alignStart="@+id/student_sex_title"
+                android:layout_marginLeft="128dp"
+                android:layout_marginStart="128dp" />
+
+
+
+            <TextView
+                android:id="@+id/text_boy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="20dp"
+                android:text="@string/Boy"
+                android:layout_below="@+id/icon_boy"
+                android:layout_toLeftOf="@+id/student_sex_title"
+                android:layout_toStartOf="@+id/student_sex_title" />
+
+            <TextView
+                android:id="@+id/text_girl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="20dp"
+                android:text="@string/Girl"
+                android:layout_alignTop="@+id/text_boy"
+                android:layout_toRightOf="@+id/icon_boy"
+                android:layout_toEndOf="@+id/icon_boy" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/registro_back_selector"
+                android:onClick="goBack"
+                android:clickable="true"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/register_panel3"
+                android:layout_alignStart="@+id/register_panel3"
+                android:layout_marginLeft="10dp"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/registro_forward_green_selector"
+                android:onClick="goNext"
+                android:clickable="true"
+                android:layout_centerVertical="true"
+                android:layout_alignRight="@+id/register_panel3"
+                android:layout_alignEnd="@+id/register_panel3"
+                android:layout_marginRight="10dp"
+                />
+
+        </RelativeLayout>
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/register_page4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="center"-->
+            <!-->-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/register_panel"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:id="@+id/register_panel4"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_centerHorizontal="true" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/student_age_title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/BlueColor"-->
+                <!--android:textSize="32dp"-->
+                <!--android:text="@string/Age"-->
+                <!--android:layout_alignTop="@+id/register_panel4"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_centerHorizontal="true" />-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@drawable/registro_back_selector"-->
+                <!--android:onClick="goBack"-->
+                <!--android:clickable="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignLeft="@+id/register_panel4"-->
+                <!--android:layout_alignStart="@+id/register_panel4"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@drawable/registro_forward_green_selector"-->
+                <!--android:onClick="goNext"-->
+                <!--android:clickable="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignRight="@+id/register_panel4"-->
+                <!--android:layout_alignEnd="@+id/register_panel4"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--/>-->
+
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/register_page5"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="center"-->
+            <!-->-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/register_panel"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:id="@+id/register_panel5"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_centerHorizontal="true" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/student_confirm_title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/BlueColor"-->
+                <!--android:textSize="32dp"-->
+                <!--android:text="@string/Age"-->
+                <!--android:layout_alignTop="@+id/register_panel5"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_centerHorizontal="true" />-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@drawable/registro_back_selector"-->
+                <!--android:onClick="goBack"-->
+                <!--android:clickable="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignLeft="@+id/register_panel5"-->
+                <!--android:layout_alignStart="@+id/register_panel5"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@drawable/registro_confirm_selector"-->
+                <!--android:onClick="goNext"-->
+                <!--android:clickable="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignRight="@+id/register_panel5"-->
+                <!--android:layout_alignEnd="@+id/register_panel5"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--/>-->
+
+        <!--</RelativeLayout>-->
+
+    </LinearLayout>
+
+</com.mobile.android.smartick.UI.RegisterScrollView>
 
