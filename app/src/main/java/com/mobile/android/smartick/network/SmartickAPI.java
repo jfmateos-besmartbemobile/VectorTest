@@ -18,6 +18,14 @@ import retrofit.http.Streaming;
 
 public interface SmartickAPI {
 
+    public final String LOGIN_VALID = "login_valid";
+    public final String LOGIN_NO_ACTIVE_SUB = "no_active_subscription";
+    public final String LOGIN_INVALID = "login_invalid";
+    public final String REGISTER_OK = "OK";
+    public final String REGISTER_KO = "KO";
+    public final int MIN_USERNAME_LENGTH = 3;
+    public final int MIN_PASSWORD_LENGTH = 4;
+
     //ASYNC
 
     @GET("/getAvatarImageForUser.html")
@@ -33,7 +41,7 @@ public interface SmartickAPI {
                               @Query("osVersion") String osVersion,
                               Callback<LoginStatusResponse> callback);
 
-    @GET("(registerAlumnoMobile.html")
+    @GET("/registerAlumnoMobile.html")
     public void registerAlumnoMobile(
             @Query("username") String username,
             @Query("password") String password,
@@ -42,6 +50,7 @@ public interface SmartickAPI {
             @Query("diaNacimiento") String diaNacimiento,
             @Query("mesNacimiento") String mesNacimiento,
             @Query("anioNacimiento") String anioNacimiento,
+            @Query("genero") String genero,
             @Query("tutorUsername") String tutorUsername,
             @Query("installationId") String installationID,
             @Query("device") String device,
@@ -49,8 +58,8 @@ public interface SmartickAPI {
             @Query("osVersion") String osVersion,
             Callback<RegisterAlumnoResponse> callback);
 
-    @GET("(registerTutorMobile.html")
-    public void registerAlumnoMobile(
+    @GET("/registerTutorMobile.html")
+    public void registerTutorMobile(
             @Query("tutorMail") String tutorMail,
             @Query("password") String password,
             @Query("nombre") String nombre,
@@ -62,14 +71,14 @@ public interface SmartickAPI {
             @Query("osVersion") String osVersion,
             Callback<RegisterTutorResponse> callback);
 
-    @GET("getFreemiumSessionStatus.html")
+    @GET("/getFreemiumSessionStatus.html")
     public void getFreemiumSessionStatus(
             @Query("installationId") String installationId,
             @Query("lastSessionDate") String lastSessionDate,
             @Query("sessionFinished") Boolean sessionFinished,
             Callback<GetFreemiumSessionStatusResponse> callback);
 
-    @GET("clearFreemiumSession")
+    @GET("/clearFreemiumSession")
     public void clearFreemoumSessionStatus(
             @Query("installationId") String installationId,
             @Query("deleted") Boolean deleted,
@@ -89,7 +98,7 @@ public interface SmartickAPI {
                                               @Query("version") String version,
                                               @Query("osVersion") String osVersion);
 
-    @GET("(registerAlumnoMobile.html")
+    @GET("/registerAlumnoMobile.html")
     public RegisterAlumnoResponse registerAlumnoMobile(
             @Query("username") String username,
             @Query("password") String password,
@@ -98,13 +107,14 @@ public interface SmartickAPI {
             @Query("diaNacimiento") String diaNacimiento,
             @Query("mesNacimiento") String mesNacimiento,
             @Query("anioNacimiento") String anioNacimiento,
+            @Query("genero") String genero,
             @Query("tutorUsername") String tutorUsername,
             @Query("installationId") String installationID,
             @Query("device") String device,
             @Query("version") String version,
             @Query("osVersion") String osVersion);
 
-    @GET("(registerTutorMobile.html")
+    @GET("/registerTutorMobile.html")
     public RegisterTutorResponse registerAlumnoMobile(
             @Query("tutorMail") String tutorMail,
             @Query("password") String password,
@@ -117,13 +127,13 @@ public interface SmartickAPI {
             @Query("osVersion") String osVersion);
 
 
-    @GET("getFreemiumSessionStatus.html")
+    @GET("/getFreemiumSessionStatus.html")
     public GetFreemiumSessionStatusResponse getFreemiumSessionStatus(
             @Query("installationId") String installationId,
             @Query("lastSessionDate") String lastSessionDate,
             @Query("sessionFinished") Boolean sessionFinished);
 
-    @GET("clearFreemiumSession")
+    @GET("/clearFreemiumSession")
     public ClearFreemiumSessionResponse clearFreemoumSessionStatus(
             @Query("installationId") String installationId,
             @Query("deleted") Boolean deleted);

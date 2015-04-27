@@ -92,6 +92,7 @@
                 android:paddingLeft="20dp"
                 android:textSize="20dp"
                 android:textColor="@color/GrayColor"
+                android:inputType="textPassword"
                 android:layout_alignTop="@+id/student_password_icon"
                 android:layout_toRightOf="@+id/student_username_icon"
                 android:layout_toEndOf="@+id/student_username_icon" />
@@ -251,6 +252,7 @@
                 android:background="@drawable/sex_selector_background"
                 android:layout_marginRight="141dp"
                 android:layout_marginEnd="141dp"
+                android:onClick="selectSex"
                 android:layout_alignTop="@+id/icon_girl"
                 android:layout_alignRight="@+id/student_sex_title"
                 android:layout_alignEnd="@+id/student_sex_title" />
@@ -262,6 +264,7 @@
                 android:src="@drawable/girl_avatar"
                 android:background="@drawable/sex_selector_background"
                 android:layout_centerVertical="true"
+                android:onClick="selectSex"
                 android:layout_alignLeft="@+id/student_sex_title"
                 android:layout_alignStart="@+id/student_sex_title"
                 android:layout_marginLeft="128dp"
@@ -571,6 +574,7 @@
                 android:paddingLeft="20dp"
                 android:textSize="20dp"
                 android:textColor="@color/GrayColor"
+                android:inputType="textPassword"
                 android:layout_alignTop="@+id/tutor_password_icon"
                 android:layout_toRightOf="@+id/tutor_mail_icon"
                 android:layout_toEndOf="@+id/tutor_mail_icon" />
@@ -741,6 +745,7 @@
             android:hint="@string/Phone"
             android:paddingLeft="20dp"
             android:textSize="20dp"
+            android:inputType="phone"
             android:textColor="@color/GrayColor"
             android:layout_alignTop="@+id/tutor_phone_icon"
             android:layout_toLeftOf="@+id/button"
@@ -814,7 +819,7 @@
             android:layout_alignRight="@+id/tutor_confirm_title"
             android:layout_alignEnd="@+id/tutor_confirm_title"
             android:layout_marginRight="148dp"
-            android:layout_marginEnd="148dp" />
+            android:layout_marginEnd="148dp"/>
 
         <TextView
             android:id="@+id/confirm_tutor_mail"
@@ -858,7 +863,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/registro_confirm_selector"
-            android:onClick="goNext"
+            android:onClick="finishRegister"
             android:clickable="true"
             android:layout_centerVertical="true"
             android:layout_alignRight="@+id/register_panel9"

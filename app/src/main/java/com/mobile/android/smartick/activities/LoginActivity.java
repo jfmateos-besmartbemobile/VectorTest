@@ -19,6 +19,7 @@ import java.util.List;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.LoginStatusResponse;
+import com.mobile.android.smartick.network.SmartickAPI;
 import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
@@ -45,12 +46,6 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     private UserType userType;
     private String avatarURL;
     private String resultURL;
-
-    private final String LOGIN_VALID = "login_valid";
-    private final String LOGIN_INVALID = "login_invalid";
-    private final String LOGIN_NO_ACTIVE_SUB = "no_active_subscription";
-    private final int MIN_USERNAME_LENGTH = 3;
-    private final int MIN_PASSWORD_LENGTH = 4;
 
     private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -208,12 +203,12 @@ public class LoginActivity extends ListActivity implements TextWatcher{
                     @Override
                     public void success(LoginStatusResponse loginStatusResponse, Response response) {
                         Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
-                        if (loginStatusResponse.getStatus().equals(LOGIN_VALID)){
+                        if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)){
                             irMain();
                         }else {
-                            if (loginStatusResponse.getStatus().equals(LOGIN_INVALID))
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
                                 showAlertDialog(getString(R.string.username_not_valid_or_already_exists), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
-                            if (loginStatusResponse.getStatus().equals(LOGIN_NO_ACTIVE_SUB))
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
                                 showAlertDialog(getString(R.string.User_does_not_have_an_active_subscription), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
                         }
                     }
@@ -263,12 +258,12 @@ public class LoginActivity extends ListActivity implements TextWatcher{
             @Override
             public void success(LoginStatusResponse loginStatusResponse, Response response) {
                 Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
-                if (loginStatusResponse.getStatus().equals(LOGIN_VALID)){
+                if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)){
                     addUser(username, password, type);
                 }else{
-                    if (loginStatusResponse.getStatus().equals(LOGIN_INVALID))
+                    if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
                         showAlertDialog(getString(R.string.username_not_valid_or_already_exists), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
-                    if (loginStatusResponse.getStatus().equals(LOGIN_NO_ACTIVE_SUB))
+                    if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
                         showAlertDialog(getString(R.string.User_does_not_have_an_active_subscription), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
                     resetLoginAlumnoPanel();
                     resetLoginTutorPanel();
@@ -375,14 +370,14 @@ public class LoginActivity extends ListActivity implements TextWatcher{
 
     //Login validation
     private boolean validateStudentLogin(String username, String password){
-        if (username!= null && username.length() > MIN_USERNAME_LENGTH && password!=null && password.length() > MIN_PASSWORD_LENGTH){
+        if (username!= null && username.length() > SmartickAPI.MIN_USERNAME_LENGTH && password!=null && password.length() > SmartickAPI.MIN_PASSWORD_LENGTH){
             return true;
         }
         return false;
     }
 
     private boolean validateTutorLogin(String username, String password){
-        if (username!= null && username.length() > MIN_USERNAME_LENGTH && isValidEmail(username) && password!=null && password.length() > MIN_PASSWORD_LENGTH){
+        if (username!= null && username.length() > SmartickAPI.MIN_USERNAME_LENGTH && isValidEmail(username) && password!=null && password.length() > SmartickAPI.MIN_PASSWORD_LENGTH){
             return true;
         }
         return false;

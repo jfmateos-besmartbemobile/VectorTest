@@ -15,6 +15,7 @@ public class Constants {
     public static final String URL_LOGOUT = URL_CONTEXT + "/smartick_logout";
 
     public static final String LOGIN_LOG_TAG ="login_log_tag";
+    public static final String REGISTER_LOG_TAG ="register_log_tag";
     public static final String WEBVIEW_LOG_TAG = "webView_log_tag";
     public static final String INTRO_LOG_TAG = "intro_log_tag";
     public static final String AUDIO_LOG_TAG = "audio_log_tag";
