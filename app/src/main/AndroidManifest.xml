@@ -43,7 +43,7 @@
         <activity
             android:name=".activities.RegistroActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_registro" >
         </activity>
     </application>

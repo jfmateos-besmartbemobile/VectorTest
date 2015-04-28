@@ -33,6 +33,7 @@ import com.mobile.android.smartick.UI.RegisterScrollView;
 import com.mobile.android.smartick.UI.RegisterScrollViewListener;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.LoginStatusResponse;
+import com.mobile.android.smartick.network.NetworkStatus;
 import com.mobile.android.smartick.network.RegisterAlumnoResponse;
 import com.mobile.android.smartick.network.RegisterTutorResponse;
 import com.mobile.android.smartick.network.SmartickAPI;
@@ -131,6 +132,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //local User DB
     private UsersDBHandler localDB = new UsersDBHandler(this);
+
+    //Loading dialog
+    private SweetAlertDialog pDialog;
 
 
     @Override
@@ -523,6 +527,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //Check login status
     private void checkLoginStatus(final String username,final UserType type){
+
+        if (!NetworkStatus.isConnected(this.getApplicationContext())){
+            showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),SweetAlertDialog.WARNING_TYPE,null,null,null,null,null);
+            return;
+        }
+
         SmartickRestClient.get().getLoginStatus(username,
                 " ",
                 sysInfo.getInstallationId(),
@@ -559,6 +569,20 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //Register request
     public void registerTutor(){
+
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.BlueColor));
+        pDialog.getProgressHelper().setRimColor(getResources().getColor(R.color.LightBlueColor));
+        pDialog.setTitleText(getString(R.string.Loading));
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        if (!NetworkStatus.isConnected(this.getApplicationContext())){
+            pDialog.dismiss();
+            showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),SweetAlertDialog.WARNING_TYPE,null,null,null,null,null);
+            return;
+        }
+
         SmartickRestClient.get().registerTutorMobile(tutorMail,
                 tutorPassword,
                 tutorName,
@@ -576,12 +600,14 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                             negotiateStoreUsers(registerTutorResponse.getTutorMail(),registerTutorResponse.getPassword(),UserType.TUTOR);
                             registerStudent();
                         } else {
+                            pDialog.dismiss();
                             showAlertDialog(getString(R.string.Something_went_wrong_try_again_later), SweetAlertDialog.ERROR_TYPE, getString(R.string.OK), null, null, null, null);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pDialog.dismiss();
                         showAlertDialog(getString(R.string.Something_went_wrong_try_again_later), SweetAlertDialog.ERROR_TYPE, getString(R.string.OK), null, null, null, null);
                     }
                 });
@@ -605,6 +631,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                 new Callback<RegisterAlumnoResponse>() {
                     @Override
                     public void success(RegisterAlumnoResponse registerAlumnoResponse, Response response) {
+
+                        pDialog.dismiss();
+
                         if (registerAlumnoResponse != null && registerAlumnoResponse.getStatus().equals(SmartickAPI.REGISTER_OK)){
                             negotiateStoreUsers(registerAlumnoResponse.getUsername(),registerAlumnoResponse.getPassword(),UserType.ALUMNO);
                             goToLogin();
@@ -614,6 +643,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                     }
                     @Override
                     public void failure(RetrofitError error) {
+                        pDialog.dismiss();
                         showAlertDialog(getString(R.string.Something_went_wrong_try_again_later),SweetAlertDialog.ERROR_TYPE,getString(R.string.OK),null,null,null,null);
                     }
                 });
