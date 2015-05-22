@@ -3,6 +3,7 @@
     <string name="app_name">Smartick</string>
     <string name="title_activity_login">login</string>
     <string name="title_activity_intro">intro</string>
+    <string name="title_activity_freemium">freemium</string>
     <string name="title_activity_registro">registro</string>
     <string name="Student">Student</string>
     <string name="Students">Students</string>

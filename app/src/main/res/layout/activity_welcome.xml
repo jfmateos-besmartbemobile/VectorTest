@@ -25,6 +25,8 @@
                 android:layout_gravity="center"
                 android:background="@drawable/blue_confirm_selector"
                 android:text="@string/Guest"
+                android:onClick="freemiumButtonPressed"
+                android:clickable="true"
                 style="@style/button_text_blue"/>
 
             <RelativeLayout
