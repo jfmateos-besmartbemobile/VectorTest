@@ -10,6 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/purple_button_back_selector"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:clickable="true"
         android:onClick="irWelcome"
     />

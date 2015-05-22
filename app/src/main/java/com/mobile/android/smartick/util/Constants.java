@@ -14,6 +14,7 @@ public class Constants {
     public static final String LOGIN_MOBILE_SERVICE = URL_CONTEXT + "/loginMobile.html?user={username}&password={password}";
     public static final String URL_LOGOUT = URL_CONTEXT + "/smartick_logout";
 
+    public static final String WELCOME_LOG_TAG ="welcome_log_tag";
     public static final String LOGIN_LOG_TAG ="login_log_tag";
     public static final String REGISTER_LOG_TAG ="register_log_tag";
     public static final String WEBVIEW_LOG_TAG = "webView_log_tag";

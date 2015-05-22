@@ -74,14 +74,11 @@ public interface SmartickAPI {
     @GET("/getFreemiumSessionStatus.html")
     public void getFreemiumSessionStatus(
             @Query("installationId") String installationId,
-            @Query("lastSessionDate") String lastSessionDate,
-            @Query("sessionFinished") Boolean sessionFinished,
             Callback<GetFreemiumSessionStatusResponse> callback);
 
     @GET("/clearFreemiumSession")
     public void clearFreemoumSessionStatus(
             @Query("installationId") String installationId,
-            @Query("deleted") Boolean deleted,
             Callback<ClearFreemiumSessionResponse> callback);
 
     //SYNC
@@ -129,13 +126,10 @@ public interface SmartickAPI {
 
     @GET("/getFreemiumSessionStatus.html")
     public GetFreemiumSessionStatusResponse getFreemiumSessionStatus(
-            @Query("installationId") String installationId,
-            @Query("lastSessionDate") String lastSessionDate,
-            @Query("sessionFinished") Boolean sessionFinished);
+            @Query("installationId") String installationId);
 
     @GET("/clearFreemiumSession")
     public ClearFreemiumSessionResponse clearFreemoumSessionStatus(
-            @Query("installationId") String installationId,
-            @Query("deleted") Boolean deleted);
+            @Query("installationId") String installationId);
 
 }
