@@ -5,25 +5,127 @@
     android:background="@drawable/avatar_selection_bg">
 
     <Button
-        android:id="@+id/login_button_back"
+        android:id="@+id/freemium_button_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/purple_button_back_selector"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:clickable="true"
-        android:onClick="irWelcome"
+        android:onClick="backButtonPressed"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!--<Button-->
+        <!--android:id="@+id/freemium_button_skip"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:background="@drawable/orange_confirm_selector"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:textColor="@color/WhiteColor"-->
+        <!--android:textSize="35dp"-->
+        <!--android:text="@string/Skip"-->
+        <!--android:clickable="true"-->
+        <!--android:onClick="skipButtonPressed"-->
+        <!--/>-->
+
+    <RelativeLayout
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
-        android:text="Elige tu avatar"
-        android:textSize="40dp"
-        android:textColor="@color/white"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:fontFamily="fonts/Boogaloo-Regular.otf"/>
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/text_choose_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Choose_your_avatar"
+            android:textAlignment="center"
+            android:textSize="35dp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:fontFamily="fonts/Boogaloo-Regular.otf"/>
+
+        <TextView
+            android:id="@+id/text_is_avatar_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/Use_this_avatar_int"
+            android:textSize="35dp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:fontFamily="fonts/Boogaloo-Regular.otf"/>
+
+        <TextView
+            android:id="@+id/text_how_old"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/How_old_are_you_int"
+            android:textSize="35dp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:fontFamily="fonts/Boogaloo-Regular.otf"/>
+
+        <SeekBar
+            android:id="@+id/avatarAgeSeekBar"
+            android:layout_width="500dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/text_how_old"
+            android:thumb="@drawable/age_slider_knob"
+            android:progressDrawable="@drawable/freemium_age_seek_bar"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/confirmAgeButton"
+            android:layout_width="230dp"
+            android:layout_height="100dp"
+            android:text="@string/OK"
+            android:layout_below="@+id/avatarAgeSeekBar"
+            android:fontFamily="fonts/Boogaloo-Regular.otf"
+            android:textSize="30dp"
+            android:textColor="@color/WhiteColor"
+            android:background="@drawable/orange_confirm_selector"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:onClick="okAvatarAgePressed"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            />
+
+
+        <Button
+            android:id="@+id/avatar_select_button_cancel"
+            android:layout_below="@id/text_is_avatar_ok"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/round_red_cancel_selector"
+            android:clickable="true"
+            android:onClick="cancelAvatarPressed"
+            />
+
+        <Button
+            android:layout_below="@id/text_is_avatar_ok"
+            android:layout_marginTop="50dp"
+            android:id="@+id/avatar_select_button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_green_confirm_selector"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:onClick="okAvatarPressed"
+            />
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,6 +136,7 @@
             android:layout_width="146dp"
             android:layout_height="179dp"
             android:src="@drawable/avatar3"
+            android:tag="3"
             android:id="@+id/avatar3"
             android:layout_marginRight="64dp"
             android:layout_marginEnd="64dp"
@@ -46,6 +149,7 @@
             android:layout_width="151dp"
             android:layout_height="199dp"
             android:src="@drawable/avatar9"
+            android:tag="9"
             android:id="@+id/avatar9"
             android:layout_marginLeft="99dp"
             android:layout_marginEnd="64dp"
@@ -59,6 +163,7 @@
             android:layout_width="140dp"
             android:layout_height="184dp"
             android:src="@drawable/avatar7"
+            android:tag="7"
             android:id="@+id/avatar7"
             android:layout_marginRight="64dp"
             android:layout_marginEnd="64dp"
@@ -70,6 +175,7 @@
             android:layout_width="141dp"
             android:layout_height="174dp"
             android:src="@drawable/avatar8"
+            android:tag="8"
             android:id="@+id/avatar8"
             android:layout_alignTop="@+id/avatar3"
             android:layout_toLeftOf="@+id/avatar3"
@@ -79,6 +185,7 @@
             android:layout_width="155dp"
             android:layout_height="184dp"
             android:src="@drawable/avatar6"
+            android:tag="6"
             android:id="@+id/avatar6"
             android:layout_alignTop="@+id/avatar2"
             android:layout_toLeftOf="@+id/avatar2"
@@ -88,6 +195,7 @@
             android:layout_width="138dp"
             android:layout_height="214dp"
             android:src="@drawable/avatar2"
+            android:tag="2"
             android:id="@+id/avatar2"
             android:layout_alignBottom="@+id/avatar5"
             android:layout_toLeftOf="@+id/avatar5"
@@ -97,6 +205,7 @@
             android:layout_width="150dp"
             android:layout_height="188dp"
             android:src="@drawable/avatar5"
+            android:tag="5"
             android:id="@+id/avatar5"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -108,6 +217,7 @@
             android:layout_width="156dp"
             android:layout_height="184dp"
             android:src="@drawable/avatar1"
+            android:tag="1"
             android:id="@+id/avatar1"
             android:layout_alignTop="@+id/avatar5"
             android:layout_toRightOf="@+id/avatar5"
@@ -117,11 +227,19 @@
             android:layout_width="151dp"
             android:layout_height="181dp"
             android:src="@drawable/avatar4"
+            android:tag="4"
             android:id="@+id/avatar4"
             android:layout_alignTop="@+id/avatar2"
             android:layout_toRightOf="@+id/avatar9"
             android:layout_toEndOf="@+id/avatar9" />
 
         </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/avatarSelectedPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/avatar1_big"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

@@ -35,6 +35,11 @@
             android:label="@string/title_activity_intro" >
         </activity>
         <activity
+            android:name=".activities.FreemiumMainActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_freemium" >
+        </activity>
+        <activity
             android:name=".activities.FreemiumActivity"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_freemium" >

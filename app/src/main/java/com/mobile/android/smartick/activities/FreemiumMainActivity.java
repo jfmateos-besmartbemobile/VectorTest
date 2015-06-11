@@ -1,0 +1,697 @@
+package com.mobile.android.smartick.activities;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.net.http.SslError;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.ValueCallback;
+import android.webkit.WebResourceResponse;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.mobile.android.smartick.R;
+import com.mobile.android.smartick.network.GetFreemiumSessionStatusResponse;
+import com.mobile.android.smartick.network.LoginStatusResponse;
+import com.mobile.android.smartick.network.NetworkStatus;
+import com.mobile.android.smartick.network.SmartickAPI;
+import com.mobile.android.smartick.network.SmartickRestClient;
+import com.mobile.android.smartick.pojos.FreemiumProfile;
+import com.mobile.android.smartick.pojos.SystemInfo;
+import com.mobile.android.smartick.pojos.UserType;
+import com.mobile.android.smartick.util.AudioPlayer;
+import com.mobile.android.smartick.util.Constants;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.ProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultRedirectHandler;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
+import org.xwalk.core.JavascriptInterface;
+import org.xwalk.core.XWalkJavascriptResult;
+import org.xwalk.core.XWalkPreferences;
+import org.xwalk.core.XWalkResourceClient;
+import org.xwalk.core.XWalkUIClient;
+import org.xwalk.core.XWalkView;
+import org.xwalk.core.internal.XWalkCookieManager;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+/**
+ * Created by sbarrio on 03/06/15.
+ */
+public class FreemiumMainActivity extends Activity {
+
+    private static final String HABITACION = "habitacion";
+    private static final String CLUB_SOCIAL = "clubSocial";
+    private static final String COLEGIO_MSG = "colegio";
+    private static final String TIENDA_MSG =  "tienda";
+    private static final String CASTILLO_MSG = "castillo";
+    private static final String AVATAR_MSG = "avatar";
+
+    private XWalkView webView;
+    private XWalkCookieManager cookieManager = null;
+    private AudioPlayer audioPlayer;
+    private String audioCallback = null;
+    private Context ctx;
+    private SweetAlertDialog pDialog;
+    private ImageLoader imageLoader;
+
+    private String url;
+    private String urlResult;
+    private int selectedAvatar;
+    private int selectedAge;
+    private RelativeLayout tutorNameHolder;
+    private SystemInfo sysInfo;
+    private FreemiumProfile freemiumProfile;
+
+    //Modal dialogs
+    private AlertDialog benefitAlertDialog;
+    private AlertDialog registerAlertDialog;
+
+    private boolean registerModalShowing = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        // Network availability check
+        if (!NetworkStatus.isConnected(this)) {
+            toWelcome();
+            return;
+        }
+
+        ctx = this.getApplicationContext();
+
+        //retreives parameters from intent
+        Bundle b = getIntent().getExtras();
+        url = b.getString("url");
+
+        //retreives username and password from bundle
+        selectedAvatar = b.getInt("selectedAvatar");
+        selectedAge = b.getInt("selectedAge");
+
+        //initializaes systemInfo
+        sysInfo = new SystemInfo(ctx);
+
+        //inits freemium profile and updates it
+        freemiumProfile = new FreemiumProfile(ctx);
+        freemiumProfile.storeFreemiumAge(selectedAge);
+        freemiumProfile.storeFreemiumAvatar(selectedAvatar);
+
+        setContentView(R.layout.activity_main);
+
+        webView=(XWalkView)findViewById(R.id.webview);
+
+        //sets cookie manager
+        cookieManager = new XWalkCookieManager();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setAcceptFileSchemeCookies(true);
+
+        //sets clients
+        webView.setUIClient(new UIClient(webView));
+        webView.setResourceClient(new ResourceClient(webView));
+
+        //webView settings
+        setWebClientOptions();
+
+        //Inits Audio Player
+        audioPlayer = new AudioPlayer();
+        audioPlayer.init(ctx);
+
+        //sets player callbacks
+        MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                audioPlayer.finishedPlayback();
+                executeAudioCallback();
+            }
+        };
+        audioPlayer.setPlayerCallbacks(audioPlayer.player,onCompletionListener);
+
+        //sets up imageLoader
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+        imageLoader = imageLoader.getInstance();
+
+        //Enables remote debugging
+        XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+
+        //Button listeners
+        Button backButton = (Button) findViewById(R.id.back_button_main);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backButtonPressed();
+            }
+        });
+
+        Button logoutButton = (Button) findViewById(R.id.logout_button_main);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutButtonPressed();
+            }
+        });
+
+        //logout button is not visible by default
+        logoutButton.setVisibility(View.INVISIBLE);
+
+        //performs login
+        new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN_FREEMIUM);
+
+        //sets progress bar
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.BlueColor));
+        pDialog.getProgressHelper().setRimColor(getResources().getColor(R.color.LightBlueColor));
+        pDialog.setTitleText(getString(R.string.Loading));
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        //if user is tutor, sets tutor name holder on top
+        tutorNameHolder = (RelativeLayout) findViewById(R.id.tutor_name_holder);
+        tutorNameHolder.setVisibility(View.GONE);
+    }
+
+
+    //Buttons
+    private void backButtonPressed(){
+
+        //check freemium session status
+        SmartickRestClient.get().getFreemiumSessionStatus(sysInfo.getInstallationId(),
+                new Callback<GetFreemiumSessionStatusResponse>() {
+                    @Override
+                    public void success(GetFreemiumSessionStatusResponse freemiumSessionStatusResponse, Response response){
+                        Log.d(Constants.FREEMIUM_LOG_TAG, "getFreemiumSessionSatus RESPONSE: last Freemium session on - : " + freemiumSessionStatusResponse.getLastSessionDate());
+                        //session not finished -> Alert Modal prior to session reset
+                        if (!freemiumSessionStatusResponse.getSessionFinished()){
+                            showAlertSessionResetModal();
+                        }else{
+                            //session finished, we let the user go back
+                            String urlWebView = webView.getUrl();
+                            if (urlWebView.contains("fin")){
+                                doLogout();
+                            }else{
+                                webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
+                            }
+                        }
+                    }
+                    @Override
+                public void failure(RetrofitError error) {
+                        Log.d(Constants.FREEMIUM_LOG_TAG, "getFreemiumSessionSatus ERROR: " + error);
+                        finish();
+                    }
+                });
+    }
+
+    private void logoutButtonPressed(){
+        doLogout();
+    }
+
+    private void showLogoutButton(){
+        Button logoutButton = (Button) findViewById(R.id.logout_button_main);
+        logoutButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLogoutButton(){
+        Button logoutButton = (Button) findViewById(R.id.logout_button_main);
+        logoutButton.setVisibility(View.INVISIBLE);
+    }
+
+    //Web location
+    private boolean isOnStudentWeb(){
+        return webView.getUrl().contains("/alumno");
+    }
+
+    private boolean isOnTutorWeb(){
+        return webView.getUrl().contains("/tutor");
+    }
+
+    private void toWelcome(){
+        finish();
+    }
+
+    private void toRegister(){
+        finish();
+        startActivity(new Intent(this, RegistroActivity.class));
+    }
+
+    //WebView setttings and control
+    private void setWebClientOptions() {
+        webView.addJavascriptInterface(new JsAudioInterface(), "SmartickAudioInterface");
+        webView.addJavascriptInterface(new JsFreemiumInterface(), "SmartickFreemiumInterface");
+        webView.clearCache(true);
+    }
+
+    //Javascript Interfaces
+    public class JsAudioInterface {
+        public JsAudioInterface() {
+        }
+
+        @JavascriptInterface
+        public synchronized void playUrl(String path) {
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Play audio file: " + path);
+            audioPlayer.playURL(Constants.URL_CONTEXT + path);
+        }
+
+        @JavascriptInterface
+        public synchronized void stop(){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Stop Audio");
+            audioPlayer.stop();
+        }
+
+        @JavascriptInterface
+        public synchronized void bind(String callback){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - bind audio callback to " + callback);
+            audioCallback = callback;
+        }
+
+
+        @JavascriptInterface
+        public synchronized void unbind(){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - unbind audio callback");
+            audioCallback = null;
+        }
+    }
+
+    public class JsFreemiumInterface {
+        public JsFreemiumInterface() {
+        }
+
+        @JavascriptInterface
+        public synchronized void showRegisterMessage(String type) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "SmartickFreemiumInterface - show register message for: " + type);
+            showRegisterModalForType(type);
+        }
+
+        @JavascriptInterface
+        public synchronized void showRegisterMessageGame(String name) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "SmartickFreemiumInterface - show register message game for: " + name);
+            showRegisterModal(getString(R.string.Smartick_Games),getString(R.string.vw_games),"registerGames",R.layout.freemium_register_games_modal);
+        }
+    }
+
+    private void executeAudioCallback(){
+        if (audioCallback != null){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - execute callback");
+            webView.evaluateJavascript(audioCallback + "()",null);
+        }
+    }
+
+
+    class ResourceClient extends XWalkResourceClient {
+
+        public ResourceClient(XWalkView xwalkView) {
+            super(xwalkView);
+        }
+
+        public void onLoadStarted(XWalkView view, String url) {
+            super.onLoadStarted(view, url);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Started:" + url);
+        }
+
+        public void onLoadFinished(XWalkView view, String url) {
+            super.onLoadFinished(view, url);
+
+            if (pDialog.isShowing()){
+                pDialog.dismiss();
+            }
+
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Finished:" + url);
+
+            //disables touch highlighting
+            webView.evaluateJavascript("document.documentElement.style.webkitUserSelect='none';" +
+                    "document.documentElement.style.webkitTouchCallout='none';" +
+                    "document.documentElement.style.webkitTapHighlightColor='rgba(0,0,0,0)';",null);
+
+            String urlWebView = webView.getUrl();
+            if (urlWebView.contains("presentacionProblema") || urlWebView.contains("fin")){
+                hideLogoutButton();
+            }else{
+                showLogoutButton();
+            }
+
+            //benefits modal appears when user gets to mundoVirtual
+            if (urlWebView.contains("mundoVirtualFreemium.html")){
+                showBenefitsModal();
+            }
+        }
+
+        public void onProgressChanged(XWalkView view, int progressInPercent) {
+            super.onProgressChanged(view, progressInPercent);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Loading Progress:" + progressInPercent);
+        }
+
+        public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
+            super.shouldOverrideUrlLoading(view,url);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading: " + url);
+            return false;
+        }
+
+        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Intercept load request");
+
+            return super.shouldInterceptLoadRequest(view, url);
+        }
+
+        public void onReceivedLoadError(XWalkView view, int errorCode, String description,
+                                        String failingUrl) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Load Failed - Error: " + errorCode + " - " + description);
+            if (errorCode == ERROR_CONNECT
+                    || errorCode == ERROR_HOST_LOOKUP
+                    || errorCode == ERROR_TIMEOUT
+                    || errorCode == ERROR_REDIRECT_LOOP
+                    || errorCode == ERROR_TOO_MANY_REQUESTS){
+                toWelcome();
+            }else{
+                super.onReceivedLoadError(view, errorCode, description, failingUrl);
+            }
+        }
+
+        public void onReceivedSslError(XWalkView view, ValueCallback<Boolean> callback, SslError error) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Received SSL Error: " + error.toString());
+            super.onReceivedSslError(view,callback,error);
+        }
+    }
+
+    class UIClient extends XWalkUIClient {
+
+        public UIClient(XWalkView xwalkView) {
+            super(xwalkView);
+        }
+
+        public void onJavascriptCloseWindow(XWalkView view) {
+            super.onJavascriptCloseWindow(view);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Window closed.");
+        }
+
+        public boolean onJavascriptModalDialog(XWalkView view, JavascriptMessageType type,
+                                               String url,
+                                               String message, String defaultValue, XWalkJavascriptResult result) {
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Show JS dialog.");
+            return super.onJavascriptModalDialog(view, type, url, message, defaultValue, result);
+        }
+
+        public void onFullscreenToggled(XWalkView view, boolean enterFullscreen) {
+            super.onFullscreenToggled(view, enterFullscreen);
+            if (enterFullscreen) {
+                Log.d(Constants.WEBVIEW_LOG_TAG, "Entered fullscreen.");
+            } else {
+                Log.d(Constants.WEBVIEW_LOG_TAG, "Exited fullscreen.");
+            }
+        }
+
+        public void openFileChooser(XWalkView view, ValueCallback<Uri> uploadFile,
+                                    String acceptType, String capture) {
+            super.openFileChooser(view, uploadFile, acceptType, capture);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Opened file chooser.");
+        }
+
+        public void onScaleChanged(XWalkView view, float oldScale, float newScale) {
+            super.onScaleChanged(view, oldScale, newScale);
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Scale changed.");
+        }
+    }
+
+
+    // login request
+    private class AsyncLogin extends AsyncTask<String, Integer, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            return doHttpPost(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String urlRedirect) {
+            redirectLogin(urlRedirect);
+        }
+    }
+
+    /**
+     * Si el login es correcto se pasa al webview
+     */
+    private void redirectLogin(String urlRedirect){
+        if(urlRedirect != null && !urlRedirect.contains("acceso")) {
+            Log.d(Constants.WEBVIEW_LOG_TAG,"Login valid");
+            webView.load(urlRedirect,null);
+        } else {
+            Log.d(Constants.WEBVIEW_LOG_TAG,"Login failed");
+            toWelcome();
+        }
+    }
+
+    private String doHttpPost(String url){
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        MyRedirectHandler handler = new MyRedirectHandler();
+        httpClient.setRedirectHandler(handler);
+
+        //device info on post body
+        HttpPost post = new HttpPost(url);
+        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+        nvps.add(new BasicNameValuePair("device", sysInfo.getDevice()));
+        nvps.add(new BasicNameValuePair("version", sysInfo.getVersion()));
+        nvps.add(new BasicNameValuePair("osVersion", sysInfo.getOsVersion()));
+
+        // id de dispositivo para la visualizacion adaptada a tablets
+        post.addHeader("android-app", sysInfo.getInstallationId());
+        post.addHeader("freemium-installid", sysInfo.getInstallationId());
+        post.addHeader("freemium-age",String.valueOf(selectedAge));
+        post.addHeader("freemium-avatar",String.valueOf(selectedAvatar));
+        post.addHeader("loc",sysInfo.getLocale());
+
+        //User agent para app Android
+        post.addHeader("User-Agent","Smartick_Android/" + sysInfo.getVersion() + " (Android: " + sysInfo.getOsVersion() + " " + sysInfo.getDevice() +")");
+        HttpResponse response = null;
+        try {
+            post.setEntity(new UrlEncodedFormEntity(nvps));
+            response = httpClient.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Throwable t) {
+            System.out.println(t.getMessage());
+        }
+
+        URI last = handler.lastRedirectedUri;
+        if (last!= null){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"LAST_REDIRECT: " + last.toString());
+            return last.toString();
+        }
+        return null;
+    }
+
+    /*Captura las redirecciones que se producen. Nos quedamos con la primera porque en las siguientes llamadas el urlrewrite del servidor borra la jsessionid*/
+    public class MyRedirectHandler extends DefaultRedirectHandler {
+        public URI lastRedirectedUri;
+
+        @Override
+        public boolean isRedirectRequested(HttpResponse response, HttpContext context) {
+            return super.isRedirectRequested(response, context);
+        }
+
+        @Override
+        public URI getLocationURI(HttpResponse response, HttpContext context) throws ProtocolException {
+            lastRedirectedUri = super.getLocationURI(response, context);
+            if(urlResult == null){
+                urlResult = lastRedirectedUri.toString();
+
+                //retreives cookies from response
+                Header[] headers = response.getAllHeaders();
+                for (Header h: headers){
+                    if (h.getName().equalsIgnoreCase("set-cookie"))
+                    {
+                        cookieManager.setCookie(urlResult,h.getValue());
+                    }
+                }
+            }
+            return lastRedirectedUri;
+        }
+    }
+
+    private void doLogout(){
+        Log.d(Constants.WEBVIEW_LOG_TAG, "doLogout");
+        audioPlayer.stop();
+        webView.load(Constants.URL_LOGOUT, null);
+        finish();
+    }
+
+
+    private void showAlertSessionResetModal(){
+        SweetAlertDialog alertDialog = new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE);
+        alertDialog.setTitleText(getString(R.string.Notice));
+        alertDialog.setContentText(getString(R.string.lose_progress));
+        alertDialog.setConfirmText(getString(R.string.Exit));
+        alertDialog.setCancelText(getString(R.string.Continue));
+
+        alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                doLogout();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void showRegisterModalForType(String type){
+        if (registerModalShowing){
+            return;
+        }
+        registerModalShowing = true;
+        switch(type){
+            case HABITACION:
+                //inflate modal de habitacion
+                showRegisterModal(getString(R.string.Personal_room), getString(R.string.vw_room), "registerHabitacion", R.layout.freemium_register_room_modal);
+                break;
+            case COLEGIO_MSG:
+                showRegisterModal(getString(R.string.School),getString(R.string.vw_school),"registerColegio",R.layout.freemium_register_modal);
+                break;
+            case CLUB_SOCIAL:
+                showRegisterModal(getString(R.string.Social_Club),getString(R.string.vw_social),"registerClubSocial",R.layout.freemium_register_modal);
+                break;
+            case TIENDA_MSG:
+                showRegisterModal(getString(R.string.Shop),getString(R.string.vw_shop),"registerTienda",R.layout.freemium_register_modal);
+                break;
+            case CASTILLO_MSG:
+                showRegisterModal(getString(R.string.Mathgicians),getString(R.string.vw_mathgicians),"registerCastillos",R.layout.freemium_register_modal);
+                break;
+            case AVATAR_MSG:
+                showRegisterModal(getString(R.string.Your_Avatar),getString(R.string.vw_avatar),"registerAvatar",R.layout.freemium_register_modal);
+                break;
+            default: break;
+        }
+    }
+
+    private void hideRegisterMessage(){
+        registerModalShowing = false;
+    }
+
+    public void goBackRegisterPressed(View view){
+        FreemiumMainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.evaluateJavascript("entrarEnHabitacion());", null);
+                return;
+            }
+        });
+        hideRegisterModal();
+    }
+
+    public void laterGameButtonPressed(View view){
+        hideRegisterModal();
+    }
+
+    public void registerButtonPressed(View view){
+        //go to register
+        toRegister();
+    }
+
+    public void enterRoomButtonPressed(View view){
+        FreemiumMainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.evaluateJavascript("volverACentro();", null);
+                return;
+            }
+        });
+        hideRegisterMessage();
+    }
+
+    public void laterButtonPressed(View view){
+        hideBenefitsModal();
+    }
+
+    //Benefits modal
+    private void showBenefitsModal(){
+        Context context = FreemiumMainActivity.this;
+        LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View benefitView = li.inflate(R.layout.freemium_benefit_modal,null);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setView(benefitView);
+
+        benefitAlertDialog = alertBuilder.create();
+        benefitAlertDialog.show();
+        benefitAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 650);
+    }
+
+    private void hideBenefitsModal(){
+        benefitAlertDialog.dismiss();
+    }
+
+    private void showRegisterModal(final String title,final String text, final String image, final int layout){
+
+        FreemiumMainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Context context = FreemiumMainActivity.this;
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View registerView = li.inflate(layout, null);
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                alertBuilder.setView(registerView);
+
+                //sets modal content
+                TextView titleRegister = (TextView) registerView.findViewById(R.id.titleRegister);
+                titleRegister.setText(title);
+
+                TextView textRegister = (TextView) registerView.findViewById(R.id.textRegisterModal);
+                textRegister.setText(text);
+
+                ImageView imageRegisterModal = (ImageView) registerView.findViewById(R.id.imageViewRegister);
+                getImageRegister(image, imageRegisterModal);
+
+                registerAlertDialog = alertBuilder.create();
+
+                //shows dialog
+                registerAlertDialog.show();
+                registerAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 650);
+            }
+        });
+    }
+
+    private void hideRegisterModal(){
+        registerAlertDialog.dismiss();
+        registerModalShowing = false;
+    }
+
+    private void getImageRegister(String imageName, final ImageView targetImageView) {
+        final String imageUri = Constants.URL_FREEMIUM_IMAGE + sysInfo.getLocale() + "/" + imageName + ".png";
+        Log.d(Constants.WEBVIEW_LOG_TAG, "requesting image: " + imageUri);
+        FreemiumMainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                imageLoader.displayImage(imageUri, targetImageView);
+            }
+        });
+    }
+}

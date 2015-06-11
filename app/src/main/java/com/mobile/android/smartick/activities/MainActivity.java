@@ -266,7 +266,7 @@ public class MainActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (tutorNameHolder.getVisibility() != View.GONE){
+                    if (userType.equals(UserType.TUTOR) && tutorNameHolder.getVisibility() != View.GONE){
                         tutorNameHolder.setVisibility(View.GONE);
                     }
                 }
@@ -279,7 +279,7 @@ public class MainActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (tutorNameHolder.getVisibility() != View.VISIBLE){
+                    if (userType.equals(UserType.TUTOR) && tutorNameHolder.getVisibility() != View.VISIBLE){
                         tutorNameHolder.setVisibility(View.VISIBLE);
                     }
                 }

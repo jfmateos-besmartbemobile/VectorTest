@@ -1,10 +1,12 @@
 package com.mobile.android.smartick.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +17,7 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.EFStrokeTextView;
 import com.mobile.android.smartick.network.GetFreemiumSessionStatusResponse;
 import com.mobile.android.smartick.network.SmartickRestClient;
+import com.mobile.android.smartick.pojos.FreemiumProfile;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.util.Constants;
 
@@ -27,6 +30,7 @@ import retrofit.client.Response;
 public class WelcomeActivity extends ActionBarActivity {
 
     private SystemInfo sysInfo;
+    private FreemiumProfile freemiumProfile;
     private Boolean disableButtons = false;
 
     @Override
@@ -36,6 +40,9 @@ public class WelcomeActivity extends ActionBarActivity {
 
         // Inicializamos systemInfo
         sysInfo = new SystemInfo(this.getApplicationContext());
+
+        //Obtenemos datos del perfil freemium
+        freemiumProfile = new FreemiumProfile(this.getApplicationContext());
 
         // Cambiamos la fuente de los botones de registro e invitado
         Typeface tfBoogaloo = Typeface.createFromAsset(getAssets(), "fonts/Boogaloo-Regular.otf");
@@ -96,11 +103,26 @@ public class WelcomeActivity extends ActionBarActivity {
         }
     }
 
+    public void goToFreemiumSession(){
+        Intent intent = new Intent(this, FreemiumMainActivity.class);
+        intent.putExtra("selectedAvatar", freemiumProfile.getAvatar());
+        intent.putExtra("selectedAge", freemiumProfile.getAge());
+        startActivity(intent);
+    }
+
     public void showFreemiumSessionAlert(){
         SweetAlertDialog alertDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
 
         alertDialog.setCancelText("Cancelar");
         alertDialog.setConfirmText("Ir a Mundo Virtual");
+        alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                //we go straight to FreemiumMainActivity
+                sweetAlertDialog.dismiss();
+                goToFreemiumSession();
+            }
+        });
 
         alertDialog.setContentText(getString(R.string.already_completed_freemium_session));
 

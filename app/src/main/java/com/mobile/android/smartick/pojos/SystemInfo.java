@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.mobile.android.smartick.util.Constants;
 
+import java.util.Locale;
+
 /**
  * Created by sbarrio on 19/02/15.
  */
@@ -17,6 +19,7 @@ public class SystemInfo {
     private String device;
     private String osVersion;
     private String version;
+    private String locale;
     private Context context;
 
     public SystemInfo(Context context){
@@ -25,6 +28,7 @@ public class SystemInfo {
         this.osVersion = obtainOsVersion();
         this.version = obtainVersion();
         this.device = obtainDevice();
+        this.locale = obtainLocale();
     }
 
     private String obtainInstallationId(){
@@ -65,6 +69,10 @@ public class SystemInfo {
         return versionName + "b" + versionCode;
     }
 
+    private String obtainLocale(){
+        return Locale.getDefault().toString();
+    }
+
     public String getInstallationId() {
         return installationId;
     }
@@ -95,5 +103,13 @@ public class SystemInfo {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 }

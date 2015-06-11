@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/register_modal_background"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/titleRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="title"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/WhiteColor"/>
+
+
+
+
+    <Button
+        android:id="@+id/registerModalButton"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:background="@drawable/orange_confirm_selector"
+        android:text="@string/Register"
+        android:textSize="25dp"
+        android:layout_marginLeft="15dp"
+        android:onClick="registerButtonPressed"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/WhiteColor"
+        />
+
+    <Button
+        android:id="@+id/enterRoomRegisterButton"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:background="@drawable/orange_confirm_selector"
+        android:text="@string/Go_inside"
+        android:textSize="25dp"
+        android:clickable="true"
+        android:onClick="enterRoomButtonPressed"
+        android:textColor="@color/WhiteColor"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:id="@+id/goBackRegisterButton"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:background="@drawable/blue_confirm_selector"
+        android:text="@string/Go_back"
+        android:textSize="25dp"
+        android:clickable="true"
+        android:onClick="laterGameButtonPressed"
+        android:textColor="@color/WhiteColor"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewRegister"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/goBackRegisterButton"
+        />
+
+    <TextView
+        android:id="@+id/textRegisterModal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/BlueColor"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/imageViewRegister"
+        android:text="content register" />
+
+
+</RelativeLayout>

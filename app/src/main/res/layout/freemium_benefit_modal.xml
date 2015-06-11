@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/register_modal_background"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/titleBenefits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Register_for_free"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/WhiteColor"/>
+
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+
+        <ImageView
+            android:id="@+id/benefitTick1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/green_tick"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/benefit1"
+            android:layout_alignRight="@+id/benefitTick1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/BlueColor"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="@string/Get_access_to_our_Pedagogical_team" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line2"
+        android:layout_width="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/benefitTick2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/green_tick"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/benefit2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/BlueColor"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="@string/Save_your_progress_and_results" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/line3"
+        android:layout_width="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line2"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/benefitTick3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/green_tick"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/benefit3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/BlueColor"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="@string/Get_full_access_to_the_Virtual_World" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line4"
+        android:layout_width="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line3"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/benefitTick4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/green_tick"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/benefit4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/BlueColor"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="@string/Get_daily_progress_notifications" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line5"
+        android:layout_width="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line4"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/benefitTick5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/green_tick"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/benefit5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/BlueColor"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="@string/Try_it_15_days_for_FREE" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/registerBenefitButton"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:background="@drawable/orange_confirm_selector"
+        android:text="@string/Register"
+        android:textSize="25dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="registerButtonPressed"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/WhiteColor"
+        />
+
+    <Button
+        android:id="@+id/laterBenefitButton"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:background="@drawable/blue_confirm_selector"
+        android:text="@string/Later"
+        android:textSize="25dp"
+        android:onClick="laterButtonPressed"
+        android:clickable="true"
+        android:textColor="@color/WhiteColor"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+</RelativeLayout>

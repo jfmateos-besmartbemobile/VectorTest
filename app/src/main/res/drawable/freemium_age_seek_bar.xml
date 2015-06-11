@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/background"
+        android:drawable="@drawable/age_slider_min" />
+
+    <item
+        android:id="@+id/SecondaryProgress"
+        android:drawable="@drawable/age_slider_max" />
+
+    <item
+        android:id="@+id/progress"
+        android:drawable="@drawable/age_slider_max" />
+
+</layer-list>
