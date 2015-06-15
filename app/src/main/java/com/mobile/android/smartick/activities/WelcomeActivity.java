@@ -1,13 +1,19 @@
 package com.mobile.android.smartick.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +21,7 @@ import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.EFStrokeTextView;
+import com.mobile.android.smartick.network.ClearFreemiumSessionResponse;
 import com.mobile.android.smartick.network.GetFreemiumSessionStatusResponse;
 import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.FreemiumProfile;
@@ -27,15 +34,17 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class WelcomeActivity extends ActionBarActivity {
+public class WelcomeActivity extends Activity {
 
     private SystemInfo sysInfo;
     private FreemiumProfile freemiumProfile;
     private Boolean disableButtons = false;
+    private AlertDialog freemiumAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
 
         // Inicializamos systemInfo
@@ -52,6 +61,8 @@ public class WelcomeActivity extends ActionBarActivity {
         botonRegistro.setTypeface(tfBoogaloo);
         TextView textIntro = (TextView)findViewById(R.id.main_intro_text);
         textIntro.setTypeface(tfBoogaloo);
+        Button botonLogin = (Button)findViewById(R.id.main_button_login);
+        botonLogin.setTypeface(tfBoogaloo);
     }
 
     public void irLogin(View view) {
@@ -111,23 +122,79 @@ public class WelcomeActivity extends ActionBarActivity {
     }
 
     public void showFreemiumSessionAlert(){
-        SweetAlertDialog alertDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
 
-        alertDialog.setCancelText("Cancelar");
-        alertDialog.setConfirmText("Ir a Mundo Virtual");
-        alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+        WelcomeActivity.this.runOnUiThread(new Runnable() {
             @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                //we go straight to FreemiumMainActivity
-                sweetAlertDialog.dismiss();
+            public void run() {
+                Context context = WelcomeActivity.this;
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View freemiumWarningView = li.inflate(R.layout.freemium_warning_dialog, null);
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                alertBuilder.setView(freemiumWarningView);
+
+                //sets modal content
+                TextView titleWarning = (TextView) freemiumWarningView.findViewById(R.id.titleWarning);
+                titleWarning.setText(getString(R.string.Warning));
+
+                TextView textWarning = (TextView) freemiumWarningView.findViewById(R.id.textFreemiumWarning);
+                textWarning.setText(getString(R.string.already_completed_freemium_session));
+
+                freemiumAlertDialog = alertBuilder.create();
+                freemiumAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                freemiumAlertDialog.setCanceledOnTouchOutside(false);
+
+                //shows dialog
+                freemiumAlertDialog.show();
+            }
+        });
+    }
+
+    public void freemiumWarningVWButtonPressed(View view){
+        WelcomeActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                freemiumAlertDialog.dismiss();
                 goToFreemiumSession();
             }
         });
+    }
 
-        alertDialog.setContentText(getString(R.string.already_completed_freemium_session));
+    public void freemiumWarningRestartPressed(View view){
+        WelcomeActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableButtons = true;
+                SmartickRestClient.get().clearFreemoumSessionStatus(sysInfo.getInstallationId(),
+                        new Callback<ClearFreemiumSessionResponse>() {
+                            @Override
+                            public void success(ClearFreemiumSessionResponse clearFreemiumSessionResponse, Response response) {
+                                Log.d(Constants.WELCOME_LOG_TAG, "clearFreemiumSession RESPONSE: Freemium session deleted - : " + clearFreemiumSessionResponse.getDeleted());
+                                disableButtons = false;
+                                freemiumAlertDialog.dismiss();
 
-        alertDialog.setTitleText(getString(R.string.Warning));
-        alertDialog.show();
+                                if (clearFreemiumSessionResponse.getDeleted()) {
+                                    irFreemium();
+                                }
+                            }
 
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.d(Constants.WELCOME_LOG_TAG, "clearFreemiumSession ERROR: " + error);
+                                freemiumAlertDialog.dismiss();
+                                disableButtons = false;
+                            }
+                        });
+            }
+        });
+    }
+
+    public void freemiumWarningCancelPressed(View view){
+        WelcomeActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                freemiumAlertDialog.dismiss();
+            }
+        });
     }
 }

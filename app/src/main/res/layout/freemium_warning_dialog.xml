@@ -6,77 +6,71 @@
     android:background="@drawable/register_modal_background"
     android:padding="30dp">
 
+
     <TextView
-        android:id="@+id/titleRegister"
+        android:id="@+id/titleWarning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:text="title"
+        android:text="@string/Warning"
         android:textAlignment="center"
         android:gravity="center"
         android:textColor="@color/WhiteColor"/>
 
     <TextView
-        android:id="@+id/textRegisterModal"
+        android:id="@+id/textFreemiumWarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/BlueColor"
         android:textSize="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/titleRegister"
         android:layout_marginTop="50dp"
-        android:text="content register" />
+        android:layout_below="@id/titleWarning"
+        android:text="content register"/>
 
-    <ImageView
-        android:id="@+id/imageViewRegister"
-        android:layout_width="500dp"
-        android:layout_height="300dp"
+
+    <Button
+        android:id="@+id/freemiumWarningVWButton"
+        android:layout_below="@id/textFreemiumWarning"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_confirm_selector"
+        android:text="@string/Access_Virtual_World"
+        android:textSize="25dp"
+        android:clickable="true"
+        android:onClick="freemiumWarningVWButtonPressed"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/textRegisterModal"
+        android:textColor="@color/WhiteColor"
+        android:layout_marginTop="20dp"
         />
 
     <Button
-        android:id="@+id/registerModalButton"
-        android:layout_width="150dp"
-        android:layout_height="90dp"
+        android:id="@+id/freemiumWarningRestartButton"
+        android:layout_below="@id/freemiumWarningVWButton"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/orange_confirm_selector"
-        android:text="@string/Register"
-        android:textSize="25dp"
-        android:onClick="registerButtonPressed"
-        android:clickable="true"
-        android:layout_below="@id/imageViewRegister"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/WhiteColor"
-        android:layout_marginTop="10dp"
-        />
-
-    <Button
-        android:id="@+id/enterRoomRegisterButton"
-        android:layout_width="150dp"
-        android:layout_height="90dp"
-        android:background="@drawable/orange_confirm_selector"
-        android:text="@string/Go_inside"
+        android:text="@string/Restart_session"
         android:textSize="25dp"
         android:clickable="true"
-        android:onClick="enterRoomButtonPressed"
+        android:onClick="freemiumWarningRestartPressed"
         android:textColor="@color/WhiteColor"
-        android:layout_below="@id/imageViewRegister"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         />
 
     <Button
-        android:id="@+id/goBackRegisterButton"
-        android:layout_width="150dp"
-        android:layout_height="90dp"
+        android:id="@+id/freemiumWarningCancelButton"
+        android:layout_below="@id/freemiumWarningRestartButton"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/blue_confirm_selector"
-        android:text="@string/Go_back"
+        android:text="@string/Cancel"
         android:textSize="25dp"
+        android:onClick="freemiumWarningCancelPressed"
         android:clickable="true"
-        android:onClick="goBackRegisterPressed"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/WhiteColor"
-        android:layout_below="@id/imageViewRegister"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         />
 

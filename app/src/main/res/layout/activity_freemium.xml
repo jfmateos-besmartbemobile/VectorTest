@@ -73,8 +73,8 @@
 
         <SeekBar
             android:id="@+id/avatarAgeSeekBar"
-            android:layout_width="500dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/text_how_old"
             android:thumb="@drawable/age_slider_knob"
@@ -85,7 +85,7 @@
             android:id="@+id/confirmAgeButton"
             android:layout_width="230dp"
             android:layout_height="100dp"
-            android:text="@string/OK"
+            android:text="@string/Start"
             android:layout_below="@+id/avatarAgeSeekBar"
             android:fontFamily="fonts/Boogaloo-Regular.otf"
             android:textSize="30dp"

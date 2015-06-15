@@ -1,5 +1,6 @@
 package com.mobile.android.smartick.activities;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,13 +34,16 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LoginActivity extends ListActivity implements TextWatcher{
+public class LoginActivity extends Activity implements TextWatcher{
 
     enum TipoLogin {ALUMNO, TUTOR};
 
     private TipoLogin tipoLogin = TipoLogin.ALUMNO;
 
     private SystemInfo sysInfo;
+
+    private ListView listViewStudents;
+    private ListView listViewTutors;
 
     private String username;
     private String password;
@@ -77,10 +81,18 @@ public class LoginActivity extends ListActivity implements TextWatcher{
         EditText tutorPasswordEditText = (EditText) findViewById(R.id.login_password2);
         tutorPasswordEditText.addTextChangedListener(this);
 
-        // TODO: temporal para pruebas!!
-//        localDB.deleteAll();
+        //loads users into their respective listView
+        //STUDENTS
+        listViewStudents = (ListView) findViewById(R.id.list_alumnos);
+        UsersListAdapter adapterStudents = new UsersListAdapter(this, R.layout.users_list, localDB.getUsersByType(UserType.ALUMNO));
+        listViewStudents.setAdapter(adapterStudents);
+        prepareListView(listViewStudents);
 
-        prepareListView(localDB.getAllUsers());
+        //TUTORS
+        listViewTutors = (ListView) findViewById(R.id.list_tutores);
+        UsersListAdapter adapterTutors = new UsersListAdapter(this,R.layout.users_list,localDB.getUsersByType(UserType.TUTOR));
+        listViewTutors.setAdapter(adapterStudents);
+        prepareListView(listViewTutors);
     }
 
 
@@ -104,7 +116,7 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     public void mostrarLoginAlumno(View view) {
 
         View layoutLogin = findViewById(R.id.login_layout);
-        layoutLogin.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_bg));
+        layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
 
         View panelLoginTutor = findViewById(R.id.login_panel_tutores);
         panelLoginTutor.setVisibility(LinearLayout.GONE);
@@ -121,7 +133,7 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     public void mostrarLoginTutor(View view) {
 
         View layoutLogin = findViewById(R.id.login_layout);
-        layoutLogin.setBackgroundDrawable(getResources().getDrawable(R.drawable.tutor_login_bg));
+        layoutLogin.setBackground(getResources().getDrawable(R.drawable.tutor_login_bg));
 
         View panelLoginTutor = findViewById(R.id.login_panel_tutores);
         panelLoginTutor.setVisibility(LinearLayout.VISIBLE);
@@ -137,16 +149,17 @@ public class LoginActivity extends ListActivity implements TextWatcher{
     /**
      * Prepara la listView de usuarios
      */
-    private void prepareListView(List<User> usersList){
-        setListAdapter(new UsersListAdapter(this, R.layout.users_list, usersList));
-        ListView lv = getListView();
-        lv.setTextFilterEnabled(true);
+    private void prepareListView(ListView listView){
+
+        final UsersListAdapter adapter = (UsersListAdapter) listView.getAdapter();
+
+        listView.setTextFilterEnabled(true);
 
         //al tocar en un usuario de la lista se envia el formulario con sus datos de acceso recordados
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Obtenemos el usuario seleccionado y cargamos sus datos
-                User user = (User) getListAdapter().getItem(position);
+                User user = (User) adapter.getItem(position);
                 UserType userType = UserType.valueOf(user.getPerfil());
                 doLogin(user.getUsername(), user.getPassword(), userType);
             }
@@ -227,8 +240,15 @@ public class LoginActivity extends ListActivity implements TextWatcher{
         if ((username != null) && (password != null)){
             if (negotiateStoreUsers(username,password,type)){
                 Log.d(Constants.LOGIN_LOG_TAG,"new " + type.toString() + " added");
+
                 //refresh listview?
-                prepareListView(localDB.getAllUsers());
+                if (type.equals(UserType.ALUMNO)){
+                    prepareListView(listViewStudents);
+                }
+                if (type.equals(UserType.TUTOR)){
+                    prepareListView(listViewTutors);
+                }
+
             }else{
                 showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
                 resetLoginAlumnoPanel();

@@ -4,14 +4,18 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -316,7 +320,10 @@ public class FreemiumMainActivity extends Activity {
         @JavascriptInterface
         public synchronized void showRegisterMessageGame(String name) {
             Log.d(Constants.WEBVIEW_LOG_TAG, "SmartickFreemiumInterface - show register message game for: " + name);
-            showRegisterModal(getString(R.string.Smartick_Games),getString(R.string.vw_games),"registerGames",R.layout.freemium_register_games_modal);
+            if (!registerModalShowing){
+                registerModalShowing = true;
+                showRegisterModal(getString(R.string.Smartick_Games),getString(R.string.vw_games),"registerGames",R.layout.freemium_register_games_modal);
+            }
         }
     }
 
@@ -591,23 +598,24 @@ public class FreemiumMainActivity extends Activity {
         }
     }
 
-    private void hideRegisterMessage(){
-        registerModalShowing = false;
-    }
-
     public void goBackRegisterPressed(View view){
+        hideRegisterModal();
         FreemiumMainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                webView.evaluateJavascript("entrarEnHabitacion());", null);
-                return;
+                webView.evaluateJavascript("volverACentro();", null);
             }
         });
-        hideRegisterModal();
     }
 
     public void laterGameButtonPressed(View view){
         hideRegisterModal();
+        FreemiumMainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.evaluateJavascript("volverACentro();", null);
+            }
+        });
     }
 
     public void registerButtonPressed(View view){
@@ -616,14 +624,13 @@ public class FreemiumMainActivity extends Activity {
     }
 
     public void enterRoomButtonPressed(View view){
+        hideRegisterModal();
         FreemiumMainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                webView.evaluateJavascript("volverACentro();", null);
-                return;
+                webView.evaluateJavascript("entrarEnHabitacion();", null);
             }
         });
-        hideRegisterMessage();
     }
 
     public void laterButtonPressed(View view){
@@ -641,7 +648,7 @@ public class FreemiumMainActivity extends Activity {
 
         benefitAlertDialog = alertBuilder.create();
         benefitAlertDialog.show();
-        benefitAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 650);
+
     }
 
     private void hideBenefitsModal(){
@@ -671,10 +678,10 @@ public class FreemiumMainActivity extends Activity {
                 getImageRegister(image, imageRegisterModal);
 
                 registerAlertDialog = alertBuilder.create();
+                registerAlertDialog.setCanceledOnTouchOutside(false);
 
                 //shows dialog
                 registerAlertDialog.show();
-                registerAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 650);
             }
         });
     }

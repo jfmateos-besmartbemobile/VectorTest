@@ -16,13 +16,13 @@
         android:gravity="center"
         android:textColor="@color/WhiteColor"/>
 
-
     <LinearLayout
         android:id="@+id/line1"
         android:layout_width="500dp"
+        android:layout_below="@id/titleBenefits"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="50dp">
 
         <ImageView
             android:id="@+id/benefitTick1"
@@ -164,7 +164,8 @@
         android:layout_marginLeft="30dp"
         android:onClick="registerButtonPressed"
         android:clickable="true"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/line5"
+        android:layout_marginTop="25dp"
         android:textColor="@color/WhiteColor"
         />
 
@@ -179,7 +180,8 @@
         android:clickable="true"
         android:textColor="@color/WhiteColor"
         android:layout_marginRight="30dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/line5"
+        android:layout_marginTop="25dp"
         android:layout_alignParentRight="true"
         />
 

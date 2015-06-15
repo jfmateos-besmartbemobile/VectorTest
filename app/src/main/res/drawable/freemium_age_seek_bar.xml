@@ -4,14 +4,13 @@
 
     <item
         android:id="@+id/background"
-        android:drawable="@drawable/age_slider_min" />
+        android:drawable="@drawable/age_slider_background9" />
 
     <item
-        android:id="@+id/SecondaryProgress"
-        android:drawable="@drawable/age_slider_max" />
-
-    <item
-        android:id="@+id/progress"
-        android:drawable="@drawable/age_slider_max" />
+        android:id="@android:id/progress">
+        <scale
+            android:drawable="@drawable/age_slider_progress9"
+            android:scaleWidth="100%"/>
+    </item>
 
 </layer-list>

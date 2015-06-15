@@ -83,6 +83,7 @@
                 android:background="@drawable/green_login_button"
                 android:onClick="irLogin"
                 android:text="@string/I_already_use_Smartick"
+                android:textSize="25dp"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="32dp"
                 style="@style/button_text_green"/>

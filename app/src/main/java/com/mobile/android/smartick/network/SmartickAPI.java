@@ -78,7 +78,7 @@ public interface SmartickAPI {
             @Query("installationId") String installationId,
             Callback<GetFreemiumSessionStatusResponse> callback);
 
-    @GET("/clearFreemiumSession")
+    @GET("/clearFreemiumSession.html")
     public void clearFreemoumSessionStatus(
             @Query("installationId") String installationId,
             Callback<ClearFreemiumSessionResponse> callback);
@@ -132,7 +132,7 @@ public interface SmartickAPI {
     public GetFreemiumSessionStatusResponse getFreemiumSessionStatus(
             @Query("installationId") String installationId);
 
-    @GET("/clearFreemiumSession")
+    @GET("/clearFreemiumSession.html")
     public ClearFreemiumSessionResponse clearFreemoumSessionStatus(
             @Query("installationId") String installationId);
 

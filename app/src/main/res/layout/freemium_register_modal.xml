@@ -16,8 +16,25 @@
         android:gravity="center"
         android:textColor="@color/WhiteColor"/>
 
+    <TextView
+        android:id="@+id/textRegisterModal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/BlueColor"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titleRegister"
+        android:layout_marginTop="50dp"
+        android:text="content register" />
 
-
+    <ImageView
+        android:id="@+id/imageViewRegister"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textRegisterModal"
+        android:layout_marginBottom="5dp"
+        />
 
     <Button
         android:id="@+id/registerModalButton"
@@ -26,11 +43,12 @@
         android:background="@drawable/orange_confirm_selector"
         android:text="@string/Register"
         android:textSize="25dp"
-        android:layout_marginLeft="30dp"
         android:onClick="registerButtonPressed"
         android:clickable="true"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/imageViewRegister"
+        android:layout_marginTop="10dp"
         android:textColor="@color/WhiteColor"
+        android:layout_alignParentLeft="true"
         />
 
     <Button
@@ -43,28 +61,10 @@
         android:clickable="true"
         android:onClick="goBackRegisterPressed"
         android:textColor="@color/WhiteColor"
-        android:layout_marginRight="30dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/imageViewRegister"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         />
-
-    <ImageView
-        android:id="@+id/imageViewRegister"
-        android:layout_width="500dp"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/goBackRegisterButton"
-        />
-
-    <TextView
-        android:id="@+id/textRegisterModal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textColor="@color/BlueColor"
-        android:textSize="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/imageViewRegister"
-        android:text="content register" />
 
 
 </RelativeLayout>

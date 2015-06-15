@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.mobile.android.smartick.pojos.User;
+import com.mobile.android.smartick.pojos.UserType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,6 +156,35 @@ public class UsersDBHandler extends SQLiteOpenHelper {
 	    // return user list
 	    return userList;
 	}
+
+	//getting users by type
+	public List<User> getUsersByType(UserType type) {
+		List<User> userList = new ArrayList<User>();
+
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_USERS + " WHERE " + KEY_PERFIL + "= '" + type.toString() + "'";
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				User user = new User();
+				user.setId(Integer.parseInt(cursor.getString(0)));
+				user.setUsername(cursor.getString(1));
+				user.setPassword(cursor.getString(2));
+				user.setPerfil(cursor.getString(3));
+
+				userList.add(user);
+			} while (cursor.moveToNext());
+		}
+
+		db.close();
+		// return user list
+		return userList;
+	}
+
     
     //Updates a User entry
 	public int updateUser(User user) {
