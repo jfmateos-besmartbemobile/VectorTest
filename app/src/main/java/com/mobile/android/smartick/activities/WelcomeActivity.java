@@ -104,6 +104,12 @@ public class WelcomeActivity extends Activity {
             public void failure(RetrofitError error) {
                 Log.d(Constants.WELCOME_LOG_TAG, "getFreemiumSessionSatus ERROR: " + error);
                 disableButtons = false;
+
+                // network error
+                showAlertDialog(getString(R.string.Notice),
+                        SweetAlertDialog.ERROR_TYPE,
+                        getString(R.string.You_must_be_connected_to_the_internet),
+                        null, null, getString(R.string.OK), null);
             }
         });
     }
@@ -183,6 +189,12 @@ public class WelcomeActivity extends Activity {
                                 Log.d(Constants.WELCOME_LOG_TAG, "clearFreemiumSession ERROR: " + error);
                                 freemiumAlertDialog.dismiss();
                                 disableButtons = false;
+
+                                // error conexion
+                                showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),
+                                        SweetAlertDialog.ERROR_TYPE,
+                                        null,
+                                        null,null,getString(R.string.OK),null);
                             }
                         });
             }
@@ -196,5 +208,27 @@ public class WelcomeActivity extends Activity {
                 freemiumAlertDialog.dismiss();
             }
         });
+    }
+
+    private void showAlertDialog(String titleText,int type,String contentText,String cancelButtonText, SweetAlertDialog.OnSweetClickListener cancelListener, String confirmButtonText,SweetAlertDialog.OnSweetClickListener confirmListener){
+        SweetAlertDialog alertDialog = new SweetAlertDialog(this, type);
+        if (cancelButtonText != null){
+            alertDialog.setCancelText(cancelButtonText);
+        }
+        if (cancelListener != null){
+            alertDialog.setCancelClickListener(cancelListener);
+        }
+        if (confirmButtonText != null){
+            alertDialog.setConfirmText(confirmButtonText);
+        }
+        if (contentText != null){
+            alertDialog.setContentText(contentText);
+        }
+        if (confirmListener != null){
+            alertDialog.setConfirmClickListener(confirmListener);
+        }
+
+        alertDialog.setTitleText(titleText);
+        alertDialog.show();
     }
 }

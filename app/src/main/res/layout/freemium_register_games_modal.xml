@@ -29,7 +29,6 @@
 
 
     <ImageView
-        android:src="@drawable/login_bg"
         android:id="@+id/imageViewRegister"
         android:layout_width="500dp"
         android:layout_height="300dp"
@@ -38,6 +37,13 @@
         android:layout_marginTop="10dp"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:layout_below="@id/imageViewRegister">
+
     <Button
         android:id="@+id/registerModalButton"
         android:layout_width="200dp"
@@ -45,12 +51,12 @@
         android:background="@drawable/orange_confirm_selector"
         android:text="@string/Register"
         android:textSize="25dp"
+        android:layout_marginLeft="30dp"
         android:onClick="registerButtonPressed"
         android:clickable="true"
-        android:layout_below="@+id/imageViewRegister"
-        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
         android:textColor="@color/WhiteColor"
-        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
         />
 
     <Button
@@ -64,10 +70,10 @@
         android:onClick="laterGameButtonPressed"
         android:textColor="@color/WhiteColor"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/imageViewRegister"
-        android:layout_alignParentRight="true"
+        android:layout_weight="1"
         />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

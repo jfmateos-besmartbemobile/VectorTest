@@ -529,7 +529,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     private void checkLoginStatus(final String username,final UserType type){
 
         if (!NetworkStatus.isConnected(this.getApplicationContext())){
-            showAlertDialog(null,SweetAlertDialog.WARNING_TYPE,getString(R.string.You_must_be_connected_to_the_internet),null,null,null,null);
+            showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getString(R.string.You_must_be_connected_to_the_internet),null,null,null,null);
             return;
         }
 
@@ -609,7 +609,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                     @Override
                     public void failure(RetrofitError error) {
                         pDialog.dismiss();
-                        showAlertDialog(null, SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), getString(R.string.OK), null, null, null);
+                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), getString(R.string.OK), null, null, null);
                     }
                 });
     }

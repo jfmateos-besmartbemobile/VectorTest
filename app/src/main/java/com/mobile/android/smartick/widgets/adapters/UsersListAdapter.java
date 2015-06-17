@@ -1,5 +1,6 @@
 package com.mobile.android.smartick.widgets.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,116 +18,129 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.network.GetAvatarImageForUserResponse;
 import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.User;
+import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.Constants;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class UsersListAdapter extends ArrayAdapter<User> {
 	private static final String URL_DEFAULT_AVATAR = "/images/avatares/login-default/s_azul_t.png";
-	private Context context;
-	private ImageView avatar;
-	//private TextView userName;
-    private Button botonLogin;
+
     private TextView botonLoginText;
-	//private Button delete;
-	//private UsersDBHandler db;
 	private List<User> users = new ArrayList<User>();
+	private LayoutInflater mInflater;
+    private HashMap<String,String> userAvatarMap = new HashMap<>();
+	private ImageLoader imageLoader;
+    private DisplayImageOptions imageLoaderDisplayoptions;
 
 	public UsersListAdapter(Context context, int textViewResourceId,
                             List<User> objects) {
 		super(context, textViewResourceId, objects);
-		this.context = context;
+		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.users = objects;
+
+		//sets up imageLoader
+		imageLoader = ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+        imageLoaderDisplayoptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true).cacheOnDisk(true).build();
 	}
 
+	@Override
 	public int getCount() {
-		return this.users.size();
+		return users.size();
 	}
 
+	@Override
+	public User getItem(int position) {
+		return users.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View row = convertView;
-		if (row == null) {
-			LayoutInflater inflater = (LayoutInflater) this.getContext()
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.users_list, parent, false);
-		}
-
 		User user = getItem(position);
 
-        botonLogin = (Button) row.findViewById(R.id.userslist_botonlogin);
-        botonLoginText = (TextView) row.findViewById(R.id.userslist_botonloginText);
+        if (user.getPerfil().equals(UserType.ALUMNO.toString())){
+            convertView = mInflater.inflate(R.layout.student_login_cell, parent, false);
+        }
+
+        if (user.getPerfil().equals(UserType.TUTOR.toString())){
+            convertView = mInflater.inflate(R.layout.tutor_login_cell, parent, false);
+        }
+
+        botonLoginText = (TextView) convertView.findViewById(R.id.userslist_botonloginText);
         botonLoginText.setText(user.getUsername());
 
-        ImageView avatar = (ImageView) row.findViewById(R.id.userslist_avatar);
-        Log.d(Constants.USER_LIST_TAG,"retreiving avatar for user: " + user.getUsername());
-        new RetrieveAvatar(avatar,user.getUsername()).execute();
+		//gets student avatar
+		if (user.getPerfil().equals(UserType.ALUMNO.toString())){
+			ImageView avatar = (ImageView) convertView.findViewById(R.id.userslist_avatar);
 
-		return row;
+            //try to get avatarUrl from cache
+            String avatarUrl = getAvatarUrlForUser(user.getUsername());
+			new RetrieveAvatar(avatar,avatarUrl,user.getUsername()).execute();
+		}
+
+		return convertView;
 	}
 
-	private class RetrieveAvatar extends AsyncTask<String, Bitmap, Bitmap> {
+    private String getAvatarUrlForUser(String username){
+        return userAvatarMap.get(username);
+    }
+
+    private void putAvatarUrlForUser(String avatarUrl, String username){
+        userAvatarMap.put(username,avatarUrl);
+    }
+
+	private class RetrieveAvatar extends AsyncTask<String, Bitmap, String> {
 
 		ImageView avatar;
+        String avatarUrl;
         String username;
 
-		public RetrieveAvatar(ImageView avatar,String username){
+		public RetrieveAvatar(ImageView avatar,String avatarUrl,String username){
 			this.avatar = avatar;
+            this.avatarUrl = avatarUrl;
             this.username = username;
 		}
 
-	    protected Bitmap doInBackground(String... params) {
-			try {
-                Log.d(Constants.USER_LIST_TAG,"doInBackground");
-                if (this.username != null && this.username.length() > 0){
-                    GetAvatarImageForUserResponse response = SmartickRestClient.get().getAvatarImageForUser(this.username);
-                    if (response!= null){
-                        String urlAvatar = Constants.URL_CONTEXT + response.getUrlAvatar();
-                        URL url = new URL(urlAvatar);
-                        Log.d(Constants.USER_LIST_TAG,"setting avatar to" + urlAvatar);
-                        return BitmapFactory.decodeStream((InputStream) url.getContent());
+	    protected String doInBackground(String... params) {
+            if (avatarUrl!= null){
+                //user avatar ulr already known
+                Log.d(Constants.USER_LIST_TAG,"avatar url already known for user " + this.username);
+                return avatarUrl;
+            }else{
+                //user avatar url unknown
+                Log.d(Constants.USER_LIST_TAG,"retreiving avatar URL for user " + this.username);
+                try {
+                    if (this.username != null && this.username.length() > 0){
+                        GetAvatarImageForUserResponse response = SmartickRestClient.get().getAvatarImageForUser(this.username);
+                        if (response!= null){
+                            return Constants.URL_CONTEXT + response.getUrlAvatar();
+                        }
                     }
-                    return null;
+                } catch (Exception e) {
+                    Log.d(Constants.USER_LIST_TAG, "Error decoding image");
                 }
-			}catch (IOException e) {
-				try {
-                    Log.d(Constants.USER_LIST_TAG,"Default avatar set");
-					return BitmapFactory.decodeStream((InputStream) new URL(Constants.URL_CONTEXT + URL_DEFAULT_AVATAR).getContent());
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-			} catch (Exception e) {
-                Log.d(Constants.USER_LIST_TAG, "Error decoding image");
-                return null;
             }
-
-			return null;
+			return Constants.URL_CONTEXT + URL_DEFAULT_AVATAR;
 	    }
 
 	    @Override
-	    protected void onPostExecute(Bitmap result) {
-            Log.d(Constants.USER_LIST_TAG,"results -> " + result);
-            this.avatar.setImageBitmap(result);
+	    protected void onPostExecute(String result) {
+            Log.d(Constants.USER_LIST_TAG, "results -> " + result);
+            imageLoader.displayImage(result, this.avatar, imageLoaderDisplayoptions);
+
+            //stores in cache
+            putAvatarUrlForUser(result,this.username);
 	    }
 	 }
 }

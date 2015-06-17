@@ -154,35 +154,42 @@
             android:text="@string/Try_it_15_days_for_FREE" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/registerBenefitButton"
-        android:layout_width="200dp"
-        android:layout_height="90dp"
-        android:background="@drawable/orange_confirm_selector"
-        android:text="@string/Register"
-        android:textSize="25dp"
-        android:layout_marginLeft="30dp"
-        android:onClick="registerButtonPressed"
-        android:clickable="true"
-        android:layout_below="@+id/line5"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:textColor="@color/WhiteColor"
-        />
+        android:gravity="center"
+        android:layout_below="@id/line5">
 
-    <Button
-        android:id="@+id/laterBenefitButton"
-        android:layout_width="200dp"
-        android:layout_height="90dp"
-        android:background="@drawable/blue_confirm_selector"
-        android:text="@string/Later"
-        android:textSize="25dp"
-        android:onClick="laterButtonPressed"
-        android:clickable="true"
-        android:textColor="@color/WhiteColor"
-        android:layout_marginRight="30dp"
-        android:layout_below="@+id/line5"
-        android:layout_marginTop="25dp"
-        android:layout_alignParentRight="true"
-        />
+        <Button
+            android:id="@+id/registerBenefitButton"
+            android:layout_width="200dp"
+            android:layout_height="90dp"
+            android:background="@drawable/orange_confirm_selector"
+            android:text="@string/Register"
+            android:textSize="25dp"
+            android:layout_marginLeft="30dp"
+            android:onClick="registerButtonPressed"
+            android:clickable="true"
+            android:textColor="@color/WhiteColor"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            />
+
+        <Button
+            android:id="@+id/laterBenefitButton"
+            android:layout_width="200dp"
+            android:layout_height="90dp"
+            android:background="@drawable/blue_confirm_selector"
+            android:text="@string/Later"
+            android:textSize="25dp"
+            android:onClick="laterButtonPressed"
+            android:clickable="true"
+            android:textColor="@color/WhiteColor"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>

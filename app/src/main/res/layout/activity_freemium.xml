@@ -99,7 +99,6 @@
             android:layout_marginBottom="20dp"
             />
 
-
         <Button
             android:id="@+id/avatar_select_button_cancel"
             android:layout_below="@id/text_is_avatar_ok"
@@ -235,11 +234,11 @@
 
         </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/avatarSelectedPreview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/avatar1_big"
-        android:layout_centerHorizontal="true"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/avatarSelectedPreview"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/avatar1_big"-->
+        <!--android:layout_centerHorizontal="true"/>-->
 
 </RelativeLayout>

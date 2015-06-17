@@ -39,6 +39,7 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.AudioPlayer;
 import com.mobile.android.smartick.util.Constants;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -163,9 +164,17 @@ public class FreemiumMainActivity extends Activity {
         audioPlayer.setPlayerCallbacks(audioPlayer.player,onCompletionListener);
 
         //sets up imageLoader
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
         ImageLoader.getInstance().init(config);
         imageLoader = imageLoader.getInstance();
+
 
         //Enables remote debugging
         XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
@@ -546,6 +555,10 @@ public class FreemiumMainActivity extends Activity {
 
     private void doLogout(){
         Log.d(Constants.WEBVIEW_LOG_TAG, "doLogout");
+
+        if (pDialog != null && pDialog.isShowing()){
+            pDialog.dismiss();
+        }
         audioPlayer.stop();
         webView.load(Constants.URL_LOGOUT, null);
         finish();

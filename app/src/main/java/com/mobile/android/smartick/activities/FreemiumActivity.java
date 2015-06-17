@@ -58,8 +58,9 @@ public class FreemiumActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_freemium);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(R.layout.activity_freemium);
 
         //loads references to view elements
         loadAvatarImages();

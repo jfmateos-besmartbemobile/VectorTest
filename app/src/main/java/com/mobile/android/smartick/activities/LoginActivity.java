@@ -1,7 +1,6 @@
 package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,8 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.util.List;
-
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.LoginStatusResponse;
@@ -28,6 +25,9 @@ import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.network.NetworkStatus;
 import com.mobile.android.smartick.widgets.adapters.UsersListAdapter;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
@@ -84,14 +84,14 @@ public class LoginActivity extends Activity implements TextWatcher{
         //loads users into their respective listView
         //STUDENTS
         listViewStudents = (ListView) findViewById(R.id.list_alumnos);
-        UsersListAdapter adapterStudents = new UsersListAdapter(this, R.layout.users_list, localDB.getUsersByType(UserType.ALUMNO));
+        UsersListAdapter adapterStudents = new UsersListAdapter(this, R.layout.student_login_cell, localDB.getUsersByType(UserType.ALUMNO));
         listViewStudents.setAdapter(adapterStudents);
         prepareListView(listViewStudents);
 
         //TUTORS
         listViewTutors = (ListView) findViewById(R.id.list_tutores);
-        UsersListAdapter adapterTutors = new UsersListAdapter(this,R.layout.users_list,localDB.getUsersByType(UserType.TUTOR));
-        listViewTutors.setAdapter(adapterStudents);
+        UsersListAdapter adapterTutors = new UsersListAdapter(this,R.layout.tutor_login_cell,localDB.getUsersByType(UserType.TUTOR));
+        listViewTutors.setAdapter(adapterTutors);
         prepareListView(listViewTutors);
     }
 
@@ -194,11 +194,11 @@ public class LoginActivity extends Activity implements TextWatcher{
         if (NetworkStatus.isConnected(this)) {
             checkLoginStatusForLogin(username,password,userType);
         } else {
-            // error conexion
-            showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),
+            // network error
+            showAlertDialog(getString(R.string.Notice),
                     SweetAlertDialog.ERROR_TYPE,
-                    null,
-                    null,null,getString(R.string.OK),null);
+                    getString(R.string.You_must_be_connected_to_the_internet),
+                    null, null, getString(R.string.OK), null);
         }
     }
 
@@ -220,15 +220,19 @@ public class LoginActivity extends Activity implements TextWatcher{
                             irMain();
                         }else {
                             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
-                                showAlertDialog(getString(R.string.username_not_valid_or_already_exists), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
+                                showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
                             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
-                                showAlertDialog(getString(R.string.User_does_not_have_an_active_subscription), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
+                                showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         // something went wrong
+                        showAlertDialog(getString(R.string.Notice),
+                                SweetAlertDialog.ERROR_TYPE,
+                                getString(R.string.You_must_be_connected_to_the_internet),
+                                null, null, getString(R.string.OK), null);
                     }
                 });
     }
@@ -250,7 +254,7 @@ public class LoginActivity extends Activity implements TextWatcher{
                 }
 
             }else{
-                showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
+                showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getString(R.string.username_not_valid_or_already_exists),null,null,getString(R.string.OK),null);
                 resetLoginAlumnoPanel();
                 resetLoginTutorPanel();
             }
@@ -262,7 +266,7 @@ public class LoginActivity extends Activity implements TextWatcher{
         if (validateStudentLogin(username, password)){
             checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
         }else{
-            showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
+            showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getString(R.string.username_not_valid_or_already_exists),null,null,getString(R.string.OK),null);
             resetLoginAlumnoPanel();
         }
     }
@@ -282,9 +286,9 @@ public class LoginActivity extends Activity implements TextWatcher{
                     addUser(username, password, type);
                 }else{
                     if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
-                        showAlertDialog(getString(R.string.username_not_valid_or_already_exists), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
+                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
                     if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
-                        showAlertDialog(getString(R.string.User_does_not_have_an_active_subscription), SweetAlertDialog.WARNING_TYPE, null, null, null, getString(R.string.OK), null);
+                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
                     resetLoginAlumnoPanel();
                     resetLoginTutorPanel();
                 }
@@ -292,7 +296,11 @@ public class LoginActivity extends Activity implements TextWatcher{
 
             @Override
             public void failure(RetrofitError error) {
-                // something went wrong
+                // network error
+                showAlertDialog(getString(R.string.Notice),
+                        SweetAlertDialog.ERROR_TYPE,
+                        getString(R.string.You_must_be_connected_to_the_internet),
+                        null, null, getString(R.string.OK), null);
             }
         });
     }
@@ -325,7 +333,7 @@ public class LoginActivity extends Activity implements TextWatcher{
         if (validateTutorLogin(username, password)){
             checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
         }else{
-            showAlertDialog(getString(R.string.username_not_valid_or_already_exists),SweetAlertDialog.WARNING_TYPE,null,null,null,getString(R.string.OK),null);
+            showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getString(R.string.username_not_valid_or_already_exists),null,null,getString(R.string.OK),null);
             resetLoginTutorPanel();
         }
     }
