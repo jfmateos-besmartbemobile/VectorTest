@@ -47,13 +47,13 @@ public class WelcomeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
 
-        // Inicializamos systemInfo
+        //systemInfo init
         sysInfo = new SystemInfo(this.getApplicationContext());
 
-        //Obtenemos datos del perfil freemium
+        //Get freemium profile info
         freemiumProfile = new FreemiumProfile(this.getApplicationContext());
 
-        // Cambiamos la fuente de los botones de registro e invitado
+        // Adapt every textView to custom font
         Typeface tfBoogaloo = Typeface.createFromAsset(getAssets(), "fonts/Boogaloo-Regular.otf");
         Button botonInvitado = (Button)findViewById(R.id.main_button_invitado);
         botonInvitado.setTypeface(tfBoogaloo);
@@ -140,11 +140,18 @@ public class WelcomeActivity extends Activity {
                 alertBuilder.setView(freemiumWarningView);
 
                 //sets modal content
+                Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
                 TextView titleWarning = (TextView) freemiumWarningView.findViewById(R.id.titleWarning);
+                titleWarning.setTypeface(tfDidact);
                 titleWarning.setText(getString(R.string.Warning));
 
                 TextView textWarning = (TextView) freemiumWarningView.findViewById(R.id.textFreemiumWarning);
+                textWarning.setTypeface(tfDidact);
                 textWarning.setText(getString(R.string.already_completed_freemium_session));
+
+                ((Button)freemiumWarningView.findViewById(R.id.freemiumWarningVWButton)).setTypeface(tfDidact);
+                ((Button)freemiumWarningView.findViewById(R.id.freemiumWarningRestartButton)).setTypeface(tfDidact);
+                ((Button)freemiumWarningView.findViewById(R.id.freemiumWarningCancelButton)).setTypeface(tfDidact);
 
                 freemiumAlertDialog = alertBuilder.create();
                 freemiumAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

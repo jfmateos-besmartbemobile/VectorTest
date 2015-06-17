@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,6 +79,8 @@ public class UsersListAdapter extends ArrayAdapter<User> {
         }
 
         botonLoginText = (TextView) convertView.findViewById(R.id.userslist_botonloginText);
+        Typeface tfDidact = Typeface.createFromAsset(getContext().getAssets(), "fonts/DidactGothic.ttf");
+        botonLoginText.setTypeface(tfDidact);
         botonLoginText.setText(user.getUsername());
 
 		//gets student avatar

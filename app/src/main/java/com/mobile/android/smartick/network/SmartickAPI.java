@@ -21,6 +21,7 @@ public interface SmartickAPI {
     public final String LOGIN_VALID = "login_valid";
     public final String LOGIN_NO_ACTIVE_SUB = "no_active_subscription";
     public final String LOGIN_INVALID = "login_invalid";
+    public final String PASSWORD_INVALID = "password_invalid";
     public final String REGISTER_OK = "OK";
     public final String REGISTER_KO = "KO";
     public final int MIN_USERNAME_LENGTH = 3;

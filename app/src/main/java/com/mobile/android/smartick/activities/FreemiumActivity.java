@@ -3,6 +3,7 @@ package com.mobile.android.smartick.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -99,6 +100,14 @@ public class FreemiumActivity extends Activity {
         buttonOkAvatar.setVisibility(View.GONE);
         buttonConfirmAge.setVisibility(View.GONE);
         avatarAgeSeekBar.setVisibility(View.GONE);
+
+        //sets up TextFonts
+        Typeface tfBoogaloo = Typeface.createFromAsset(getAssets(), "fonts/Boogaloo-Regular.otf");
+        ((TextView) findViewById(R.id.text_choose_avatar)).setTypeface(tfBoogaloo);
+        ((TextView) findViewById(R.id.text_is_avatar_ok)).setTypeface(tfBoogaloo);
+        ((TextView) findViewById(R.id.text_how_old)).setTypeface(tfBoogaloo);
+        ((Button) findViewById(R.id.confirmAgeButton)).setTypeface(tfBoogaloo);
+        ((Button) findViewById(R.id.confirmAgeButton)).setTypeface(tfBoogaloo);
     }
 
     private void loadAvatarImages(){

@@ -2,6 +2,7 @@ package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
@@ -28,6 +30,8 @@ import com.mobile.android.smartick.widgets.adapters.UsersListAdapter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
@@ -48,8 +52,10 @@ public class LoginActivity extends Activity implements TextWatcher{
     private String username;
     private String password;
     private UserType userType;
-    private String avatarURL;
     private String resultURL;
+
+    private String usernameToDelete = null;
+    private SweetAlertDialog pDialogDelete;
 
     private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -81,17 +87,22 @@ public class LoginActivity extends Activity implements TextWatcher{
         EditText tutorPasswordEditText = (EditText) findViewById(R.id.login_password2);
         tutorPasswordEditText.addTextChangedListener(this);
 
+        //TextView font setup
+        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+        ((TextView) findViewById(R.id.login_label_cabecera_tutores)).setTypeface(tfDidact);
+        ((Button) findViewById(R.id.login_tutor_button)).setTypeface(tfDidact);
+        ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
+        ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
+
         //loads users into their respective listView
         //STUDENTS
         listViewStudents = (ListView) findViewById(R.id.list_alumnos);
-        UsersListAdapter adapterStudents = new UsersListAdapter(this, R.layout.student_login_cell, localDB.getUsersByType(UserType.ALUMNO));
-        listViewStudents.setAdapter(adapterStudents);
+        refreshListViewContent(listViewStudents, localDB.getUsersByType(UserType.ALUMNO), R.layout.student_login_cell);
         prepareListView(listViewStudents);
 
         //TUTORS
         listViewTutors = (ListView) findViewById(R.id.list_tutores);
-        UsersListAdapter adapterTutors = new UsersListAdapter(this,R.layout.tutor_login_cell,localDB.getUsersByType(UserType.TUTOR));
-        listViewTutors.setAdapter(adapterTutors);
+        refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
         prepareListView(listViewTutors);
     }
 
@@ -108,7 +119,7 @@ public class LoginActivity extends Activity implements TextWatcher{
         intent.putExtra("url", resultURL);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
-        intent.putExtra("userType",userType.toString());
+        intent.putExtra("userType", userType.toString());
         startActivity(intent);
     }
 
@@ -155,27 +166,54 @@ public class LoginActivity extends Activity implements TextWatcher{
 
         listView.setTextFilterEnabled(true);
 
-        //al tocar en un usuario de la lista se envia el formulario con sus datos de acceso recordados
+        //login on touch
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Obtenemos el usuario seleccionado y cargamos sus datos
+                //retreive user
                 User user = (User) adapter.getItem(position);
                 UserType userType = UserType.valueOf(user.getPerfil());
                 doLogin(user.getUsername(), user.getPassword(), userType);
+            }
+        });
+
+        //on long click user is asked for user deletion
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                User user = (User) adapter.getItem(position);
+                usernameToDelete = user.getUsername();
+                showUserDeleteDialog(user.getUsername());
+                return false;
             }
         });
     }
 
     /** Muestra panel de login */
     public void entrarComoOtroAlumno(View view) {
-
-        findViewById(R.id.panel_login_alumno).setVisibility(View.VISIBLE);
+        setAddAlumnoPanelVisible(true);
     }
 
     /** Muestra panel de login */
     public void entrarComoOtroTutor(View view) {
+        setAddTutorPanelVisible(true);
+    }
 
-        findViewById(R.id.panel_login_tutor).setVisibility(View.VISIBLE);
+    public void setAddAlumnoPanelVisible(boolean visible){
+        View view = findViewById(R.id.panel_login_alumno);
+        if (visible){
+            view.setVisibility(View.VISIBLE);
+        }else{
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    public void setAddTutorPanelVisible (boolean visible){
+        View view = findViewById(R.id.panel_login_tutor);
+        if (visible){
+            view.setVisibility(View.VISIBLE);
+        }else{
+            view.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -216,13 +254,15 @@ public class LoginActivity extends Activity implements TextWatcher{
                     @Override
                     public void success(LoginStatusResponse loginStatusResponse, Response response) {
                         Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
-                        if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)){
+                        if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)) {
                             irMain();
-                        }else {
+                        } else {
                             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
                                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
                             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
                                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.PASSWORD_INVALID))
+                                showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.Incorrect_password), null, null, getString(R.string.OK), null);
                         }
                     }
 
@@ -247,11 +287,19 @@ public class LoginActivity extends Activity implements TextWatcher{
 
                 //refresh listview?
                 if (type.equals(UserType.ALUMNO)){
+                    refreshListViewContent(listViewStudents, localDB.getUsersByType(UserType.ALUMNO), R.layout.student_login_cell);
                     prepareListView(listViewStudents);
                 }
                 if (type.equals(UserType.TUTOR)){
+                    refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
                     prepareListView(listViewTutors);
                 }
+
+                setAddAlumnoPanelVisible(false);
+                setAddTutorPanelVisible(false);
+                resetLoginAlumnoPanel();
+                resetLoginTutorPanel();
+
 
             }else{
                 showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getString(R.string.username_not_valid_or_already_exists),null,null,getString(R.string.OK),null);
@@ -273,36 +321,38 @@ public class LoginActivity extends Activity implements TextWatcher{
 
     private void checkLoginStatusAddNewUser(final String username, final String password,final UserType type){
         SmartickRestClient.get().getLoginStatus(username,
-                                                password,
-                                                sysInfo.getInstallationId(),
-                                                sysInfo.getDevice(),
-                                                sysInfo.getVersion(),
-                                                sysInfo.getOsVersion(),
-                                                new Callback<LoginStatusResponse>() {
-            @Override
-            public void success(LoginStatusResponse loginStatusResponse, Response response) {
-                Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
-                if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)){
-                    addUser(username, password, type);
-                }else{
-                    if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
-                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-                    if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
-                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
-                    resetLoginAlumnoPanel();
-                    resetLoginTutorPanel();
-                }
-            }
+                password,
+                sysInfo.getInstallationId(),
+                sysInfo.getDevice(),
+                sysInfo.getVersion(),
+                sysInfo.getOsVersion(),
+                new Callback<LoginStatusResponse>() {
+                    @Override
+                    public void success(LoginStatusResponse loginStatusResponse, Response response) {
+                        Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
+                        if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)) {
+                            addUser(username, password, type);
+                        } else {
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
+                                showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
+                                showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.PASSWORD_INVALID))
+                                showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.Incorrect_password), null, null, getString(R.string.OK), null);
+                            resetLoginAlumnoPanel();
+                            resetLoginTutorPanel();
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                // network error
-                showAlertDialog(getString(R.string.Notice),
-                        SweetAlertDialog.ERROR_TYPE,
-                        getString(R.string.You_must_be_connected_to_the_internet),
-                        null, null, getString(R.string.OK), null);
-            }
-        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        // network error
+                        showAlertDialog(getString(R.string.Notice),
+                                SweetAlertDialog.ERROR_TYPE,
+                                getString(R.string.You_must_be_connected_to_the_internet),
+                                null, null, getString(R.string.OK), null);
+                    }
+                });
     }
 
     private void resetLoginAlumnoPanel(){
@@ -316,6 +366,12 @@ public class LoginActivity extends Activity implements TextWatcher{
         }else{
             findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
         }
+    }
+
+    //Refreshes listView
+    private void refreshListViewContent(ListView listView, List<User> userList,int layout){
+        UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
+        listView.setAdapter(usersListAdapter);
     }
 
     /**
@@ -374,7 +430,7 @@ public class LoginActivity extends Activity implements TextWatcher{
     /**
      * Dialogo de error
      */
-    private void showAlertDialog(String titleText,int type,String contentText,String cancelButtonText, SweetAlertDialog.OnSweetClickListener cancelListener, String confirmButtonText,SweetAlertDialog.OnSweetClickListener confirmListener){
+    private SweetAlertDialog showAlertDialog(String titleText,int type,String contentText,String cancelButtonText, SweetAlertDialog.OnSweetClickListener cancelListener, String confirmButtonText,SweetAlertDialog.OnSweetClickListener confirmListener){
         SweetAlertDialog alertDialog = new SweetAlertDialog(this, type);
         if (cancelButtonText != null){
             alertDialog.setCancelText(cancelButtonText);
@@ -394,6 +450,56 @@ public class LoginActivity extends Activity implements TextWatcher{
 
         alertDialog.setTitleText(titleText);
         alertDialog.show();
+
+        return alertDialog;
+    }
+
+    //Delete Dialog
+    private void showUserDeleteDialog(String username){
+        String messageContent = String.format(getString(R.string.someon_data_will_be_deleted_from_this_device), username);
+        pDialogDelete = showAlertDialog(getString(R.string.Warning), SweetAlertDialog.WARNING_TYPE, messageContent, getString(R.string.Cancel), new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                cancelDeleteUser();
+            }
+        }, getString(R.string.OK), new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                deleteUser();
+            }
+        });
+    }
+
+    private void deleteUser(){
+        if (usernameToDelete != null){
+            User user = localDB.getUser(usernameToDelete);
+            if (user != null){
+                UserType type = UserType.valueOf(user.getPerfil());
+                localDB.deleteUser(user);
+
+                //refreshes listview
+                if (type.equals(UserType.ALUMNO)){
+                    refreshListViewContent(listViewStudents, localDB.getUsersByType(UserType.ALUMNO), R.layout.student_login_cell);
+                    prepareListView(listViewStudents);
+                }
+                if (type.equals(UserType.TUTOR)){
+                    refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
+                    prepareListView(listViewTutors);
+                }
+            }
+            usernameToDelete = null;
+        }
+
+        if (pDialogDelete != null && pDialogDelete.isShowing()){
+            pDialogDelete.dismiss();
+        }
+    }
+
+    private  void cancelDeleteUser(){
+        usernameToDelete = null;
+        if (pDialogDelete != null && pDialogDelete.isShowing()){
+            pDialogDelete.dismiss();
+        }
     }
 
     //Login validation

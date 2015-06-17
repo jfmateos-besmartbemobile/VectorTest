@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -89,6 +90,7 @@ public class FreemiumMainActivity extends Activity {
     private String audioCallback = null;
     private Context ctx;
     private SweetAlertDialog pDialog;
+    private SweetAlertDialog pAlertResetDialog;
     private ImageLoader imageLoader;
 
     private String url;
@@ -227,7 +229,7 @@ public class FreemiumMainActivity extends Activity {
                         Log.d(Constants.FREEMIUM_LOG_TAG, "getFreemiumSessionSatus RESPONSE: last Freemium session on - : " + freemiumSessionStatusResponse.getLastSessionDate());
                         //session not finished -> Alert Modal prior to session reset
                         if (!freemiumSessionStatusResponse.getSessionFinished()){
-                            showAlertSessionResetModal();
+                            pAlertResetDialog = showAlertSessionResetModal();
                         }else{
                             //session finished, we let the user go back
                             String urlWebView = webView.getUrl();
@@ -565,7 +567,7 @@ public class FreemiumMainActivity extends Activity {
     }
 
 
-    private void showAlertSessionResetModal(){
+    private SweetAlertDialog showAlertSessionResetModal(){
         SweetAlertDialog alertDialog = new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE);
         alertDialog.setTitleText(getString(R.string.Notice));
         alertDialog.setContentText(getString(R.string.lose_progress));
@@ -575,11 +577,16 @@ public class FreemiumMainActivity extends Activity {
         alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                if (pAlertResetDialog!= null && pAlertResetDialog.isShowing()){
+                    pAlertResetDialog.dismiss();
+                }
                 doLogout();
             }
         });
 
         alertDialog.show();
+
+        return alertDialog;
     }
 
     private void showRegisterModalForType(String type){
@@ -656,6 +663,16 @@ public class FreemiumMainActivity extends Activity {
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View benefitView = li.inflate(R.layout.freemium_benefit_modal,null);
 
+        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+        ((TextView) benefitView.findViewById(R.id.titleBenefits)).setTypeface(tfDidact);
+        ((TextView) benefitView.findViewById(R.id.benefit1)).setTypeface(tfDidact);
+        ((TextView) benefitView.findViewById(R.id.benefit2)).setTypeface(tfDidact);
+        ((TextView) benefitView.findViewById(R.id.benefit3)).setTypeface(tfDidact);
+        ((TextView) benefitView.findViewById(R.id.benefit4)).setTypeface(tfDidact);
+        ((TextView) benefitView.findViewById(R.id.benefit5)).setTypeface(tfDidact);
+        ((Button) benefitView.findViewById(R.id.registerBenefitButton)).setTypeface(tfDidact);
+        ((Button) benefitView.findViewById(R.id.laterBenefitButton)).setTypeface(tfDidact);
+
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
         alertBuilder.setView(benefitView);
 
@@ -681,14 +698,37 @@ public class FreemiumMainActivity extends Activity {
                 alertBuilder.setView(registerView);
 
                 //sets modal content
+                Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
                 TextView titleRegister = (TextView) registerView.findViewById(R.id.titleRegister);
+                titleRegister.setTypeface(tfDidact);
                 titleRegister.setText(title);
 
                 TextView textRegister = (TextView) registerView.findViewById(R.id.textRegisterModal);
+                textRegister.setTypeface(tfDidact);
                 textRegister.setText(text);
 
                 ImageView imageRegisterModal = (ImageView) registerView.findViewById(R.id.imageViewRegister);
                 getImageRegister(image, imageRegisterModal);
+
+                Button b = (Button) registerView.findViewById(R.id.registerModalButton);
+                if (b != null){
+                    b.setTypeface(tfDidact);
+                }
+
+                b = (Button) registerView.findViewById(R.id.goBackRegisterButton);
+                if (b != null){
+                    b.setTypeface(tfDidact);
+                }
+
+                b = (Button) registerView.findViewById(R.id.enterRoomRegisterButton);
+                if (b != null){
+                    b.setTypeface(tfDidact);
+                }
+
+                b = (Button) registerView.findViewById(R.id.laterGameRegisterButton);
+                if (b != null){
+                    b.setTypeface(tfDidact);
+                }
 
                 registerAlertDialog = alertBuilder.create();
                 registerAlertDialog.setCanceledOnTouchOutside(false);
