@@ -23,8 +23,8 @@
 
         <RelativeLayout
             android:id="@+id/register_page1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             >
 
@@ -133,13 +133,13 @@
         >
 
             <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/register_panel"
-            android:layout_gravity="center"
-            android:id="@+id/register_panel2"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+                android:layout_width="880dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/register_panel"
+                android:layout_gravity="center"
+                android:id="@+id/register_panel2"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
             <TextView
             android:id="@+id/student_info_title"
@@ -225,7 +225,7 @@
             >
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="880dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/register_panel"
                 android:layout_gravity="center"
@@ -333,7 +333,7 @@
             >
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="880dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/register_panel"
                 android:layout_gravity="center"
@@ -399,7 +399,7 @@
             >
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="880dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/register_panel"
                 android:layout_gravity="center"
@@ -516,7 +516,7 @@
             >
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="880dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/register_panel"
                 android:layout_gravity="center"
@@ -620,7 +620,7 @@
             >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="880dp"
             android:layout_height="wrap_content"
             android:src="@drawable/register_panel"
             android:layout_gravity="center"
@@ -712,7 +712,7 @@
             >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="880dp"
             android:layout_height="wrap_content"
             android:src="@drawable/register_panel"
             android:layout_gravity="center"
@@ -795,7 +795,7 @@
         >
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="880dp"
             android:layout_height="wrap_content"
             android:src="@drawable/register_panel"
             android:layout_gravity="center"

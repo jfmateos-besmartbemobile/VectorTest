@@ -73,8 +73,9 @@
 
         <SeekBar
             android:id="@+id/avatarAgeSeekBar"
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
+            android:minHeight="100dip"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/text_how_old"
             android:thumb="@drawable/age_slider_knob"

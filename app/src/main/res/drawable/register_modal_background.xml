@@ -11,7 +11,7 @@
         </shape>
     </item>
 
-    <item android:top="100dp">
+    <item android:top="80dp">
         <shape android:shape="rectangle" >
             <solid android:color="@color/WhiteColor" />
             <stroke

@@ -90,6 +90,7 @@ public class FreemiumActivity extends Activity {
         Point size = new Point();
         display.getSize(size);
         windowHeight = size.y;
+        Log.d(Constants.FREEMIUM_LOG_TAG,"win Height : " + windowHeight);
 
         //hides preview and confirm dialog
         selectedAvatarPreview.setY(windowHeight);
@@ -197,9 +198,9 @@ public class FreemiumActivity extends Activity {
 
         final int deltaY;
         if (visible){
-            deltaY = -windowHeight/2;
+            deltaY = -windowHeight;
         }else{
-            deltaY = windowHeight/2;
+            deltaY = windowHeight;
         }
 
         //moves every avatar back up

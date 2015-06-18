@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/register_modal_background"
-    android:padding="30dp">
-
+    android:gravity="center_horizontal"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_gravity="center_horizontal"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/titleWarning"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
         android:text="@string/Warning"
         android:textAlignment="center"
         android:gravity="center"
+        android:layout_weight=".15"
         android:textColor="@color/WhiteColor"/>
 
     <TextView
@@ -22,18 +26,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/BlueColor"
+        android:minWidth="400dp"
         android:textSize="20dp"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:layout_below="@id/titleWarning"
+        android:layout_weight=".25"
         android:text="content register"/>
 
 
     <Button
         android:id="@+id/freemiumWarningVWButton"
         android:layout_below="@id/textFreemiumWarning"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:minWidth="350dp"
         android:background="@drawable/green_confirm_selector"
         android:text="@string/Access_Virtual_World"
         android:textSize="25dp"
@@ -41,14 +49,16 @@
         android:onClick="freemiumWarningVWButtonPressed"
         android:layout_centerHorizontal="true"
         android:textColor="@color/WhiteColor"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight=".2"
         />
 
     <Button
         android:id="@+id/freemiumWarningRestartButton"
         android:layout_below="@id/freemiumWarningVWButton"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:minWidth="350dp"
         android:background="@drawable/orange_confirm_selector"
         android:text="@string/Restart_session"
         android:textSize="25dp"
@@ -56,14 +66,16 @@
         android:onClick="freemiumWarningRestartPressed"
         android:textColor="@color/WhiteColor"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight=".2"
         />
 
     <Button
         android:id="@+id/freemiumWarningCancelButton"
         android:layout_below="@id/freemiumWarningRestartButton"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:minWidth="350dp"
         android:background="@drawable/blue_confirm_selector"
         android:text="@string/Cancel"
         android:textSize="25dp"
@@ -71,7 +83,9 @@
         android:clickable="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/WhiteColor"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight=".2"
         />
 
-</RelativeLayout>
+</LinearLayout>
