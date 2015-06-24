@@ -15,21 +15,6 @@
         android:onClick="backButtonPressed"
         />
 
-    <!--<Button-->
-        <!--android:id="@+id/freemium_button_skip"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:background="@drawable/orange_confirm_selector"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:textColor="@color/WhiteColor"-->
-        <!--android:textSize="35dp"-->
-        <!--android:text="@string/Skip"-->
-        <!--android:clickable="true"-->
-        <!--android:onClick="skipButtonPressed"-->
-        <!--/>-->
-
     <RelativeLayout
         android:layout_width="500dp"
         android:layout_height="wrap_content"
@@ -41,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Choose_your_avatar"
             android:textAlignment="center"
-            android:textSize="35dp"
+            android:textSize="45dp"
             android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
@@ -53,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="@string/Use_this_avatar_int"
-            android:textSize="35dp"
+            android:textSize="45dp"
             android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
@@ -65,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="@string/How_old_are_you_int"
-            android:textSize="35dp"
+            android:textSize="45dp"
             android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
@@ -79,6 +64,7 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/text_how_old"
             android:thumb="@drawable/age_slider_knob"
+            android:background="@drawable/freemium_age_seek_bar"
             android:progressDrawable="@drawable/freemium_age_seek_bar"
             android:layout_centerHorizontal="true"/>
 
@@ -89,7 +75,7 @@
             android:text="@string/Start"
             android:layout_below="@+id/avatarAgeSeekBar"
             android:fontFamily="fonts/Boogaloo-Regular.otf"
-            android:textSize="30dp"
+            android:textSize="35dp"
             android:textColor="@color/WhiteColor"
             android:background="@drawable/orange_confirm_selector"
             android:layout_marginTop="10dp"
@@ -138,12 +124,9 @@
             android:src="@drawable/avatar3"
             android:tag="3"
             android:id="@+id/avatar3"
-            android:layout_marginRight="64dp"
-            android:layout_marginEnd="64dp"
-            android:layout_alignTop="@+id/avatar9"
-            android:layout_alignRight="@+id/avatar5"
-            android:layout_alignEnd="@+id/avatar5" />
-
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/avatar7"
+            android:layout_toStartOf="@+id/avatar7"/>
 
         <ImageView
             android:layout_width="151dp"
@@ -151,13 +134,10 @@
             android:src="@drawable/avatar9"
             android:tag="9"
             android:id="@+id/avatar9"
-            android:layout_marginLeft="99dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginRight="64dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/avatar5"
-            android:layout_alignStart="@+id/avatar5"
-            android:layout_marginTop="44dp"/>
+            android:layout_toEndOf="@+id/avatar8"
+            android:layout_toRightOf="@+id/avatar8"
+            android:layout_marginLeft="-30dp"
+            />
 
         <ImageView
             android:layout_width="140dp"
@@ -165,11 +145,11 @@
             android:src="@drawable/avatar7"
             android:tag="7"
             android:id="@+id/avatar7"
-            android:layout_marginRight="64dp"
-            android:layout_marginEnd="64dp"
-            android:layout_alignBottom="@+id/avatar9"
-            android:layout_alignRight="@+id/avatar4"
-            android:layout_alignEnd="@+id/avatar4" />
+            android:layout_toLeftOf="@+id/avatar4"
+            android:layout_toStartOf="@+id/avatar4"
+            android:layout_marginRight="-40dp"
+            android:layout_marginTop="10dp"
+            />
 
         <ImageView
             android:layout_width="141dp"
@@ -177,9 +157,11 @@
             android:src="@drawable/avatar8"
             android:tag="8"
             android:id="@+id/avatar8"
-            android:layout_alignTop="@+id/avatar3"
-            android:layout_toLeftOf="@+id/avatar3"
-            android:layout_toStartOf="@+id/avatar3" />
+            android:layout_alignEnd="@+id/avatar2"
+            android:layout_alignRight="@+id/avatar2"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="80dp"
+            />
 
         <ImageView
             android:layout_width="155dp"
@@ -189,6 +171,7 @@
             android:id="@+id/avatar6"
             android:layout_alignTop="@+id/avatar2"
             android:layout_toLeftOf="@+id/avatar2"
+            android:layout_marginRight="40dp"
             android:layout_toStartOf="@+id/avatar2" />
 
         <ImageView
@@ -199,6 +182,7 @@
             android:id="@+id/avatar2"
             android:layout_alignBottom="@+id/avatar5"
             android:layout_toLeftOf="@+id/avatar5"
+            android:layout_marginRight="40dp"
             android:layout_toStartOf="@+id/avatar5" />
 
         <ImageView
@@ -221,6 +205,7 @@
             android:id="@+id/avatar1"
             android:layout_alignTop="@+id/avatar5"
             android:layout_toRightOf="@+id/avatar5"
+            android:layout_marginLeft="40dp"
             android:layout_toEndOf="@+id/avatar5" />
 
         <ImageView
@@ -230,9 +215,9 @@
             android:tag="4"
             android:id="@+id/avatar4"
             android:layout_alignTop="@+id/avatar2"
-            android:layout_toRightOf="@+id/avatar9"
-            android:layout_toEndOf="@+id/avatar9" />
-
+            android:layout_toRightOf="@+id/avatar1"
+            android:layout_marginLeft="40dp"
+            android:layout_toEndOf="@+id/avatar1" />
         </RelativeLayout>
 
     <ImageView

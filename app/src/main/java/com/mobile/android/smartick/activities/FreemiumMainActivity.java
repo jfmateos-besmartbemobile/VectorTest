@@ -91,6 +91,7 @@ public class FreemiumMainActivity extends Activity {
     private Context ctx;
     private SweetAlertDialog pDialog;
     private SweetAlertDialog pAlertResetDialog;
+    private SweetAlertDialog pAlertLogoutDialog;
     private ImageLoader imageLoader;
 
     private String url;
@@ -249,7 +250,7 @@ public class FreemiumMainActivity extends Activity {
     }
 
     private void logoutButtonPressed(){
-        doLogout();
+        showAlertLogout();
     }
 
     private void showLogoutButton(){
@@ -577,8 +578,30 @@ public class FreemiumMainActivity extends Activity {
         alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                if (pAlertResetDialog!= null && pAlertResetDialog.isShowing()){
+                if (pAlertResetDialog != null && pAlertResetDialog.isShowing()) {
                     pAlertResetDialog.dismiss();
+                }
+                doLogout();
+            }
+        });
+
+        alertDialog.show();
+
+        return alertDialog;
+    }
+
+    private SweetAlertDialog showAlertLogout(){
+        SweetAlertDialog alertDialog = new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
+        alertDialog.setTitleText(getString(R.string.Warning));
+        alertDialog.setContentText(getString(R.string.leave_vw_int));
+        alertDialog.setConfirmText(getString(R.string.Yes));
+        alertDialog.setCancelText(getString(R.string.No));
+
+        alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                if (pAlertLogoutDialog!= null && pAlertLogoutDialog.isShowing()){
+                    pAlertLogoutDialog.dismiss();
                 }
                 doLogout();
             }

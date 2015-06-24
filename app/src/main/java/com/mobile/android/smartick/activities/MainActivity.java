@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
     private String audioCallback = null;
     private Context ctx;
     private SweetAlertDialog pDialog;
+    private SweetAlertDialog pAlertLogoutDialog;
 
 	private String url;
     private String urlResult;
@@ -187,7 +188,7 @@ public class MainActivity extends Activity {
     }
 
     private void logoutButtonPressed(){
-        doLogout();
+        showAlertLogout();
     }
 
     private void showLogoutButton(){
@@ -477,8 +478,14 @@ public class MainActivity extends Activity {
 
     private void doLogout(){
         Log.d(Constants.WEBVIEW_LOG_TAG, "doLogout");
+
+        if (pDialog != null && pDialog.isShowing()){
+            pDialog.dismiss();
+        }
+
         audioPlayer.stop();
-        webView.load(Constants.URL_LOGOUT,null);
+        webView.load(Constants.URL_LOGOUT, null);
+        finish();
     }
 
     private File downloadPDFFromUrl(String url){
@@ -492,7 +499,7 @@ public class MainActivity extends Activity {
         String c = cookieManager.getCookie(Constants.URL_CONTEXT);
 
         File fileDL = new File(folder, "diploma.pdf");
-        FileDownloader.download(url,fileDL,c);
+        FileDownloader.download(url, fileDL, c);
 
         File file = new File(folder, "diploma.pdf");
         return file;
@@ -512,6 +519,29 @@ public class MainActivity extends Activity {
         }else{
             Log.d(Constants.WEBVIEW_LOG_TAG,"ShowPDF - File does not exist!");
         }
+    }
+
+    //Alert dialog
+    private SweetAlertDialog showAlertLogout(){
+        SweetAlertDialog alertDialog = new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
+        alertDialog.setTitleText(getString(R.string.Warning));
+        alertDialog.setContentText(getString(R.string.leave_vw_int));
+        alertDialog.setConfirmText(getString(R.string.Yes));
+        alertDialog.setCancelText(getString(R.string.No));
+
+        alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                if (pAlertLogoutDialog!= null && pAlertLogoutDialog.isShowing()){
+                    pAlertLogoutDialog.dismiss();
+                }
+                doLogout();
+            }
+        });
+
+        alertDialog.show();
+
+        return alertDialog;
     }
 
     // download file async task

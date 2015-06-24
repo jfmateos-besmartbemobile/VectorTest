@@ -178,7 +178,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         studentAliasEditText.requestFocus();
 
         //DEBUG
-        setUpDebugData();
+//        setUpDebugData();
     }
 
 
