@@ -51,9 +51,6 @@
         </RelativeLayout>
 
 
-
-
-
     <Button
         android:id="@+id/logout_button_main"
         android:layout_width="wrap_content"
@@ -64,6 +61,5 @@
         android:background="@drawable/purple_button_logout_selector"
         android:clickable="true"
         />
-
 
 </RelativeLayout>

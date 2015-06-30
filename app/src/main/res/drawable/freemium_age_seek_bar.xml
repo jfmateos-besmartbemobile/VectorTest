@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/background"
-        android:drawable="@drawable/age_slider_background9" />
+        android:drawable="@drawable/age_slider_background9"/>
 
     <item
         android:id="@android:id/progress">

@@ -35,7 +35,7 @@ public class Constants {
     public static final String AUDIO_CACHE_LAST_REFRESH_DATE = "audio_cache_last_refresh_date";
 
     public static final int DEFAULT_FREEMIUM_AVATAR = 1;
-    public static final int DEFAULT_FREEMIUM_AGE = 4;
+    public static final int DEFAULT_FREEMIUM_AGE = 9;
     public static final int MIN_FREEMIUM_AGE = 4;
     public static final int MAX_FREEMIUM_AGE = 14;
 

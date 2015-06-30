@@ -34,6 +34,8 @@
                 android:src="@drawable/register_panel"
                 android:layout_gravity="center"
                 android:id="@+id/register_panel1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
 
@@ -126,11 +128,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-        android:id="@+id/register_page2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        >
+            android:id="@+id/register_page2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            >
 
             <ImageView
                 android:layout_width="880dp"

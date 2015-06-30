@@ -3,11 +3,13 @@ package com.mobile.android.smartick.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -18,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
+import com.mobile.android.smartick.UI.CustomSeekBar;
 import com.mobile.android.smartick.util.Constants;
 
 import java.util.ArrayList;
@@ -44,7 +47,9 @@ public class FreemiumActivity extends Activity {
     private Button buttonOkAvatar;
     private Button buttonCancelAvatar;
     private Button buttonConfirmAge;
-    private SeekBar avatarAgeSeekBar;
+    private CustomSeekBar avatarAgeSeekBar;
+    private TextView avatarAgeTextView;
+    private int oldLocation = 0;
     private ImageView selectedAvatarPreview;
     private List<ImageView> avatarImageViews;
     private int windowHeight = 0;
@@ -68,14 +73,16 @@ public class FreemiumActivity extends Activity {
         setAvatarListeners();
         loadTextViews();
         loadButtons();
-        avatarAgeSeekBar = (SeekBar) findViewById(R.id.avatarAgeSeekBar);
+        avatarAgeSeekBar = (CustomSeekBar) findViewById(R.id.avatarAgeSeekBar);
+        avatarAgeSeekBar.setOverlayText(String.valueOf(Constants.DEFAULT_FREEMIUM_AGE));
 
         //configures seekbar values
-        avatarAgeSeekBar.setProgress(Constants.DEFAULT_FREEMIUM_AGE);
         avatarAgeSeekBar.setMax(Constants.MAX_FREEMIUM_AGE - Constants.MIN_FREEMIUM_AGE);
+        avatarAgeSeekBar.setProgress(5);
         avatarAgeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 selectedAge = Constants.MIN_FREEMIUM_AGE + progress;
+                avatarAgeSeekBar.setOverlayText(String.valueOf(selectedAge));
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -85,12 +92,14 @@ public class FreemiumActivity extends Activity {
             }
         });
 
+        avatarAgeSeekBar.setProgress(5);
+
         //sets up window height
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         windowHeight = size.y;
-        Log.d(Constants.FREEMIUM_LOG_TAG,"win Height : " + windowHeight);
+//        Log.d(Constants.FREEMIUM_LOG_TAG, "win Height : " + windowHeight);
 
         //hides preview and confirm dialog
         selectedAvatarPreview.setY(windowHeight);
@@ -101,6 +110,7 @@ public class FreemiumActivity extends Activity {
         buttonOkAvatar.setVisibility(View.GONE);
         buttonConfirmAge.setVisibility(View.GONE);
         avatarAgeSeekBar.setVisibility(View.GONE);
+//        avatarAgeTextView.setVisibility(View.GONE);
 
         //sets up TextFonts
         Typeface tfBoogaloo = Typeface.createFromAsset(getAssets(), "fonts/Boogaloo-Regular.otf");
@@ -162,7 +172,7 @@ public class FreemiumActivity extends Activity {
     }
 
     private void avatarSelected(View v){
-        Log.d(Constants.FREEMIUM_LOG_TAG,"Avatar selected " + v.getTag());
+//        Log.d(Constants.FREEMIUM_LOG_TAG,"Avatar selected " + v.getTag());
         int bigAvatarId;
         switch(Integer.parseInt((String)v.getTag())){
             case 1: bigAvatarId = R.drawable.avatar1_big;
@@ -296,6 +306,7 @@ public class FreemiumActivity extends Activity {
             textHowOld.setVisibility(View.GONE);
             buttonConfirmAge.setVisibility(View.GONE);
             avatarAgeSeekBar.setVisibility(View.GONE);
+//            avatarAgeTextView.setVisibility(View.GONE);
         }else{
             irWelcome();
         }
