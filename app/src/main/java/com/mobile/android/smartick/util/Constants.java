@@ -26,6 +26,7 @@ public class Constants {
     public static final String USER_LIST_TAG ="user_list_tag";
     public static final String FILE_DL_TAG = "file_dl_tag";
     public static final String SYSINFO_LOG_TAG = "sysinfo_log_tag";
+    public static final String YTPLAYER_LOG_TAG = "ytplayer_log_tag";
 
     public static final String DEVICE_INFO_FILE = "device_info_file";
     public static final String SMARTICK_PREFS = "smartick_prefs";

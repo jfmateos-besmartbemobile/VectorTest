@@ -10,16 +10,24 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceResponse;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.mobile.android.smartick.R;
+import com.mobile.android.smartick.YouTubeAPI.DeveloperKey;
 import com.mobile.android.smartick.network.FileDownloader;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.UserType;
@@ -54,7 +62,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	private XWalkView webView;
     private XWalkCookieManager cookieManager = null;
@@ -71,6 +79,12 @@ public class MainActivity extends Activity {
     private UserType userType;
     private RelativeLayout tutorNameHolder;
     private SystemInfo sysInfo;
+
+    //youtube player
+    private YouTubePlayer ytPlayer;
+    private View youTubePlayerHolder;
+    private String youTubeVideoTitle = "";
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +137,10 @@ public class MainActivity extends Activity {
                     executeAudioCallback();
                 }
             };
-            audioPlayer.setPlayerCallbacks(audioPlayer.player,onCompletionListener);
+            audioPlayer.setPlayerCallbacks(audioPlayer.player, onCompletionListener);
+
+            //youtube init
+            initializaNativeYoutubePlayer();
 
             //Enables remote debugging
             XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
@@ -171,7 +188,6 @@ public class MainActivity extends Activity {
 		}
 	}
 
-
 //Buttons
     private void backButtonPressed(){
         String urlWebView = webView.getUrl();
@@ -184,6 +200,11 @@ public class MainActivity extends Activity {
            doLogout();
         }else{
             webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
+        }
+
+        //hides youtubePlayer on page change
+        if (youTubePlayerHolder.getVisibility() == View.VISIBLE){
+            hideYTPlayerHolder();
         }
     }
 
@@ -223,6 +244,7 @@ public class MainActivity extends Activity {
 	private void setWebClientOptions() {
         webView.addJavascriptInterface(new JsInterface(), "SmartickAudioInterface");
         webView.addJavascriptInterface(new JsScrollInterface(), "SmartickJsScrollInterface");
+        webView.addJavascriptInterface(new JsYouTubeInterface(), "SmartickYouTubeInterface");
         webView.clearCache(true);
 	}
 
@@ -282,6 +304,55 @@ public class MainActivity extends Activity {
                 public void run() {
                     if (userType.equals(UserType.TUTOR) && tutorNameHolder.getVisibility() != View.VISIBLE){
                         tutorNameHolder.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+    }
+
+    public class JsYouTubeInterface {
+        public JsYouTubeInterface(){
+        }
+
+        @JavascriptInterface
+        public synchronized void setVideoTitle(String title){
+            youTubeVideoTitle = title;
+        }
+
+        @JavascriptInterface
+        public synchronized boolean isPlayerReady(){
+            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - isPlayerReady ");
+            if (ytPlayer != null){
+                return true;
+            }
+            return false;
+        }
+
+        @JavascriptInterface
+        public synchronized void playVideo(final String videoId){
+            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - Play Video " + videoId);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ytPlayer != null){
+                        showYTPlayerHolder();
+                        ytPlayer.cueVideo(videoId);
+                        ytPlayer.play();
+                    }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public synchronized void closeVideo(){
+            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - Close video");
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ytPlayer != null) {
+                        hideYTPlayerHolder();
                     }
                 }
             });
@@ -489,7 +560,7 @@ public class MainActivity extends Activity {
     }
 
     private File downloadPDFFromUrl(String url){
-        Log.d(Constants.WEBVIEW_LOG_TAG,"Downloading pdf from: " + url);
+        Log.d(Constants.WEBVIEW_LOG_TAG, "Downloading pdf from: " + url);
 
         File folder = new File(ctx.getExternalCacheDir(), "/smk_pdf/");
         if (!folder.exists()){
@@ -517,7 +588,7 @@ public class MainActivity extends Activity {
             intent.setDataAndType(uri, "application/pdf");
             startActivity(intent);
         }else{
-            Log.d(Constants.WEBVIEW_LOG_TAG,"ShowPDF - File does not exist!");
+            Log.d(Constants.WEBVIEW_LOG_TAG, "ShowPDF - File does not exist!");
         }
     }
 
@@ -532,7 +603,7 @@ public class MainActivity extends Activity {
         alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                if (pAlertLogoutDialog!= null && pAlertLogoutDialog.isShowing()){
+                if (pAlertLogoutDialog != null && pAlertLogoutDialog.isShowing()) {
                     pAlertLogoutDialog.dismiss();
                 }
                 doLogout();
@@ -577,14 +648,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    //Switching activities
-    private void toExit(){
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     /*Captura las redirecciones que se producen. Nos quedamos con la primera porque en las siguientes llamadas el urlrewrite del servidor borra la jsessionid*/
     public class MyRedirectHandler extends DefaultRedirectHandler {
         public URI lastRedirectedUri;
@@ -612,4 +675,113 @@ public class MainActivity extends Activity {
             return lastRedirectedUri;
         }
     }
+
+    //Native Youtbe Plauer
+    private void initializaNativeYoutubePlayer(){
+        youTubePlayerHolder = findViewById(R.id.youtube_player_holder);
+        youTubePlayerHolder.setVisibility(View.GONE);
+        YouTubePlayerFragment youTubePlayerFragment =
+                (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+        youTubePlayerFragment.initialize(DeveloperKey.DEVELOPER_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                ytPlayer = null;
+                if (!b) {
+                    ytPlayer = youTubePlayer;
+
+                    YouTubePlayer.PlayerStyle style = YouTubePlayer.PlayerStyle.DEFAULT;
+                    ytPlayer.setPlayerStyle(style);
+
+                    //sets up event listeners
+                    ytPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onLoading() {
+                            ytPlayerLoading();
+                        }
+
+                        @Override
+                        public void onLoaded(String s) {
+                            ytPlayerLoaded(s);
+                        }
+
+                        @Override
+                        public void onAdStarted() {
+                            ytAdStarted();
+                        }
+
+                        @Override
+                        public void onVideoStarted() {
+                            ytVideoStarted();
+                        }
+
+                        @Override
+                        public void onVideoEnded() {
+                            ytVideoEnded();
+                        }
+
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason errorReason) {
+                            ytVideoError(errorReason);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                ytPlayer = null;
+            }
+        });
+    }
+
+    private void ytPlayerLoading(){
+        Log.d(Constants.YTPLAYER_LOG_TAG, "onLoading");
+    }
+
+    private void ytPlayerLoaded(String s){
+        Log.d(Constants.YTPLAYER_LOG_TAG, "onLoaded " + s);
+    }
+
+    private void ytAdStarted(){
+        Log.d(Constants.YTPLAYER_LOG_TAG,"onAdStarted");
+    }
+
+    private void ytVideoStarted(){
+        Log.d(Constants.YTPLAYER_LOG_TAG, "onVideoStarted");
+    }
+
+    private void ytVideoEnded(){
+        Log.d(Constants.YTPLAYER_LOG_TAG,"onVideoEnded");
+        webView.evaluateJavascript("onFinishYoutube();", null);
+    }
+
+    private void ytVideoError(YouTubePlayer.ErrorReason errorReason){
+        Log.d(Constants.YTPLAYER_LOG_TAG, "onError " + errorReason);
+    }
+
+    private void  showYTPlayerHolder(){
+        Log.d(Constants.YTPLAYER_LOG_TAG,"show YT player");
+        youTubePlayerHolder.setVisibility(View.VISIBLE);
+        TextView title = (TextView) findViewById(R.id.yt_video_title);
+        title.setText(youTubeVideoTitle);
+    }
+
+    private void hideYTPlayerHolder(){
+        Log.d(Constants.YTPLAYER_LOG_TAG,"hide YT player");
+        if (ytPlayer != null){
+            ytPlayer.pause();
+            youTubeVideoTitle = "";
+            youTubePlayerHolder.setVisibility(View.GONE);
+        }
+    }
+
+    public void closeYTPlayerHolder(View view){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hideYTPlayerHolder();
+            }
+        });
+    }
+
 }
