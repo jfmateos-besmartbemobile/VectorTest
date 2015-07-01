@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UsersListAdapter extends ArrayAdapter<User> {
-	private static final String URL_DEFAULT_AVATAR = "/images/avatares/login-default/s_azul_t.png";
 
     private TextView botonLoginText;
 	private List<User> users = new ArrayList<User>();
@@ -134,16 +134,20 @@ public class UsersListAdapter extends ArrayAdapter<User> {
                     Log.d(Constants.USER_LIST_TAG, "Error decoding image");
                 }
             }
-			return Constants.URL_CONTEXT + URL_DEFAULT_AVATAR;
+			return null;
 	    }
 
 	    @Override
 	    protected void onPostExecute(String result) {
             Log.d(Constants.USER_LIST_TAG, "results -> " + result);
-            imageLoader.displayImage(result, this.avatar, imageLoaderDisplayoptions);
+            this.avatar.setImageResource(R.drawable.s_default);
 
-            //stores in cache
-            putAvatarUrlForUser(result,this.username);
+            if (result != null) {
+                imageLoader.displayImage(result, this.avatar, imageLoaderDisplayoptions);
+
+                //stores in cache
+                putAvatarUrlForUser(result, this.username);
+            }
 	    }
 	 }
 }
