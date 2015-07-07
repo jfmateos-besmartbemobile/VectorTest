@@ -44,7 +44,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="30dp"
-                android:textSize="50dp"
+                android:textSize="55dp"
                 />
 
             <TextView
@@ -59,16 +59,16 @@
                 android:textSize="40dp"
                 />
 
-            <TextView
+            <com.romainpiel.shimmer.ShimmerTextView
                 android:id="@+id/page1SlideText"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/page1SubTitleText"
-                android:layout_centerHorizontal="true"
-                android:textSize="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
                 android:text="@string/Slide_to_discover_it"
-                android:textColor="@color/WhiteColor"/>
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/page1SubTitleText"
+                android:layout_marginTop="60dp"
+                android:textColor="@color/BlueColorDarker"
+                android:textSize="30dp"/>
 
         </RelativeLayout>
 
@@ -89,7 +89,7 @@
                 android:textColor="@color/WhiteColor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:textSize="50dp"
+                android:textSize="55dp"
                 />
 
             <TextView
@@ -122,7 +122,7 @@
                 android:textColor="@color/WhiteColor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:textSize="50dp"
+                android:textSize="55dp"
                 />
 
             <TextView
@@ -156,7 +156,7 @@
                 android:textColor="@color/WhiteColor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:textSize="50dp"
+                android:textSize="55dp"
                 />
 
             <TextView
@@ -202,7 +202,7 @@
                     android:textColor="@color/WhiteColor"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
-                    android:textSize="50dp"
+                    android:textSize="55dp"
                     />
 
                 <TextView

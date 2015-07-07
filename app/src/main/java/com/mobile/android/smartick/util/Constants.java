@@ -8,8 +8,11 @@ public class Constants {
 
 
 
-//    public static final String URL_CONTEXT = "http://www.smartick.es";
-    public static final String URL_CONTEXT = "http://10.0.0.12";
+//    public static final String URL_CONTEXT = "http://www.smartick.es"; //PROD ENVIRONMENT
+//    public static final String URL_CONTEXT = "http://10.0.0.4";  //DEV PRE ENVIROMENT
+    public static final String URL_CONTEXT = "http://10.0.0.12";  //DEV LOCAL ENVIROMENT
+
+
     public static final String URL_SMARTICK_LOGIN = URL_CONTEXT + "/smartick_login";
     public static final String URL_SMARTICK_LOGIN_FREEMIUM = URL_CONTEXT + "/loginMobileFreemium.html";
     public static final String LOGIN_MOBILE_SERVICE = URL_CONTEXT + "/loginMobile.html?user={username}&password={password}";

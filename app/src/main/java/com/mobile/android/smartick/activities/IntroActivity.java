@@ -24,6 +24,8 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.IntroScrollView;
 import com.mobile.android.smartick.UI.IntroScrollViewListener;
 import com.mobile.android.smartick.util.Constants;
+import com.romainpiel.shimmer.Shimmer;
+import com.romainpiel.shimmer.ShimmerTextView;
 
 import org.w3c.dom.Text;
 
@@ -56,7 +58,7 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
     //TextViews
     private TextView page1Title;
     private TextView page1SubTitle;
-    private TextView page1SlideText;
+    private ShimmerTextView page1SlideText;
     private TextView page2Title;
     private TextView page2SubTitle;
     private TextView page3Title;
@@ -111,6 +113,14 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
         mountainTop.setY(-mountainTop.getHeight());
 
         prepareTextFonts();
+
+        //Sliding text animation
+        Shimmer s = new Shimmer();
+        s.setDirection(Shimmer.ANIMATION_DIRECTION_RTL);
+        s.setDuration(1000);
+        s.start(page1SlideText);
+
+        //loads first pages
         loadImagesForPage(0);
         loadImagesForPage(1);
     }
@@ -123,7 +133,7 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
         page1Title.setTypeface(tfDidact);
         page1SubTitle = (TextView) findViewById(R.id.page1SubTitleText);
         page1SubTitle.setTypeface(tfDidact);
-        page1SlideText = (TextView) findViewById(R.id.page1SlideText);
+        page1SlideText = (ShimmerTextView) findViewById(R.id.page1SlideText);
         page1SlideText.setTypeface(tfDidact);
 
         page2Title = (TextView) findViewById(R.id.page2TitleText);
