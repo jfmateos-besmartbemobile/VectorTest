@@ -20,6 +20,7 @@ public class SystemInfo {
     private String osVersion;
     private String version;
     private String locale;
+    private boolean firstTimeRunning;
     private Context context;
 
     public SystemInfo(Context context){
@@ -29,6 +30,7 @@ public class SystemInfo {
         this.version = obtainVersion();
         this.device = obtainDevice();
         this.locale = obtainLocale();
+        this.firstTimeRunning = obtainFirstTimeRunning();
     }
 
     private String obtainInstallationId(){
@@ -73,6 +75,20 @@ public class SystemInfo {
         return Locale.getDefault().toString();
     }
 
+    private boolean obtainFirstTimeRunning(){
+        if (context == null){
+            return true;
+        }
+        SharedPreferences prefs = context.getSharedPreferences(Constants.SMARTICK_PREFS, Context.MODE_PRIVATE);
+        firstTimeRunning = prefs.getBoolean(Constants.FIRST_TIME_PREF_NAME, true);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Constants.FIRST_TIME_PREF_NAME, false);
+        editor.commit();
+
+        return firstTimeRunning;
+    }
+
     public String getInstallationId() {
         return installationId;
     }
@@ -111,5 +127,13 @@ public class SystemInfo {
 
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public boolean isFirstTimeRunning() {
+        return firstTimeRunning;
+    }
+
+    public void setFirstTimeRunning(boolean firstTimeRunning) {
+        this.firstTimeRunning = firstTimeRunning;
     }
 }

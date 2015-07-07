@@ -31,6 +31,7 @@ public class Constants {
     public static final String DEVICE_INFO_FILE = "device_info_file";
     public static final String SMARTICK_PREFS = "smartick_prefs";
     public static final String INSTALLATION_PREF_NAME = "install_id_pref";
+    public static final String FIRST_TIME_PREF_NAME = "first_time_pref";
     public static final String FREEMIUM_AVATAR_PREF_NAME = "freemium_avatar_pref";
     public static final String FREEMIUM_AGE_PREF_NAME = "freemium_age_pref";
     public static final String AUDIO_CACHE_LAST_REFRESH_DATE = "audio_cache_last_refresh_date";

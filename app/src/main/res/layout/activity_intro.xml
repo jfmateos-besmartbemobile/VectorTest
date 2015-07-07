@@ -20,94 +20,90 @@
         android:fillViewport="true"
         >
 
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/page1"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@drawable/intro_page1_bg"-->
-            <!-->-->
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/intro_page1_logo"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_marginTop="50dp"/>-->
-            <!--<View-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="260dp"-->
-                <!--android:background="@drawable/intro_page1_sea"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true" />-->
-            <!--<View-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="220dp"-->
-                <!--android:background="@drawable/intro_page1_bubbles"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"/>-->
-            <!--<View-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:background="@drawable/intro_page1_sea_floor"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"/>-->
-            <!--<View-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="220dp"-->
-                <!--android:background="@drawable/intro_page1_sea_floor_elements"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"/>-->
-        <!--</RelativeLayout>-->
+        <RelativeLayout
+            android:id="@+id/page1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/intro_page1_bg"
+            >
 
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/page2"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:fillViewport="true"-->
-            <!--android:background="@drawable/intro_page2_bg"-->
-            <!-->-->
+            <ImageView
+                android:id="@+id/logoSmartick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                />
 
-            <!--<View-->
-                <!--android:layout_width="160dp"-->
-                <!--android:layout_height="158dp"-->
-                <!--android:background="@drawable/intro_page2_ship"-->
-                <!--android:layout_above="@+id/page2_sea"-->
-                <!--android:layout_marginBottom="-30dp"-->
-                <!--android:layout_centerHorizontal="true"/>-->
-            <!--<View-->
-                <!--android:id="@+id/page2_sea"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="260dp"-->
-                <!--android:background="@drawable/intro_page2_sea"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"/>-->
-            <!--<View-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="200dp"-->
-                <!--android:background="@drawable/intro_page2_sea_floor"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"/>-->
-            <!--<View-->
-                <!--android:layout_width="95dp"-->
-                <!--android:layout_height="55dp"-->
-                <!--android:background="@drawable/intro_page2_fishes"-->
-                <!--android:layout_marginBottom="100dp"-->
-                <!--android:layout_marginLeft="250dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:id="@+id/view3" />-->
-            <!--<View-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="108dp"-->
-                <!--android:background="@drawable/intro_page2_jelly_fish"-->
-                <!--android:layout_marginBottom="100dp"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_alignParentBottom="true"/>-->
-        <!--</RelativeLayout>-->
+            <TextView
+                android:id="@+id/page1TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Dominate_math"
+                android:textColor="@color/BlueColorDarker"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="30dp"
+                android:textSize="50dp"
+                />
+
+            <TextView
+                android:id="@+id/page1SubTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/With_a_revolutionary_method"
+                android:textColor="@color/BlueColorDarker"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/page1TitleText"
+                android:layout_marginTop="10dp"
+                android:textSize="40dp"
+                />
+
+            <TextView
+                android:id="@+id/page1SlideText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/page1SubTitleText"
+                android:layout_centerHorizontal="true"
+                android:textSize="30dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/Slide_to_discover_it"
+                android:textColor="@color/WhiteColor"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/page2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@drawable/intro_page2_bg"
+            >
+
+            <TextView
+                android:id="@+id/page2TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Learn_to_think"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/WhiteColor"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:textSize="50dp"
+                />
+
+            <TextView
+                android:id="@+id/page2SubTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Mental_calculation_reasoning_and_reading_comprehension"
+                android:textColor="@color/WhiteColor"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/page2TitleText"
+                android:layout_marginTop="10dp"
+                android:textSize="40dp"
+                />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/page3"
@@ -117,32 +113,30 @@
             android:background="@drawable/intro_page3_bg"
             >
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="260dp"
-                android:background="@drawable/intro_page3_sea"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-            <View
-                android:id="@+id/page3_fg"
-                android:layout_width="fill_parent"
+            <TextView
+                android:id="@+id/page3TitleText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/intro_page3_fg"
-                android:layout_alignParentBottom="true"
+                android:text="@string/fifteen_minutes_per_day"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/WhiteColor"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:textSize="50dp"
                 />
-            <View
-                android:layout_width="100dp"
-                android:layout_height="152dp"
-                android:background="@drawable/intro_page3_kid"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="100dp"
-                android:layout_alignParentBottom="true"
+
+            <TextView
+                android:id="@+id/page3SubTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Anywhere_and_anytime"
+                android:textColor="@color/WhiteColor"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/page3TitleText"
+                android:layout_marginTop="10dp"
+                android:textSize="40dp"
                 />
-            <View
-                android:layout_width="75dp"
-                android:layout_height="72dp"
-                android:background="@drawable/intro_page3_crab"/>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -153,13 +147,30 @@
             android:background="@drawable/intro_page4_bg"
             >
 
-            <View
+            <TextView
+                android:id="@+id/page4TitleText"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/intro_page4_fg"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_height="wrap_content"
+                android:text="@string/At_your_own_pace"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/WhiteColor"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:textSize="50dp"
+                />
+
+            <TextView
+                android:id="@+id/page4SubTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Smartick_adapts_to_you_not_otherwise"
+                android:textColor="@color/WhiteColor"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/page4TitleText"
+                android:layout_marginTop="10dp"
+                android:textSize="40dp"
+                />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -167,24 +178,54 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:background="@drawable/intro_page5_bg"
             >
 
-            <View
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/intro_page6_bg_sky"
-                android:layout_above="@+id/page5_fg"
-             />
+                android:layout_height="fill_parent"
+                android:id="@+id/page5lower"
+                >
 
-            <View
-                android:id="@+id/page5_fg"
-                android:layout_width="fill_parent"
+                <ImageView
+                    android:id="@+id/page5_bg"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    />
+
+                <TextView
+                    android:id="@+id/page5TitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Improve"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/WhiteColor"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:textSize="50dp"
+                    />
+
+                <TextView
+                    android:id="@+id/page5SubTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Unlock_your_full_potential"
+                    android:textColor="@color/WhiteColor"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/page5TitleText"
+                    android:layout_marginTop="10dp"
+                    android:textSize="40dp"
+                    />
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/page5_sky"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/intro_page5_fg"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:scaleType="fitXY"
+                />
         </RelativeLayout>
 
         <RelativeLayout
@@ -192,14 +233,66 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:background="@drawable/intro_page6_bg_mountain_base"
             >
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/intro_page7_bg"
+            <ImageView
+                android:id="@+id/mountain_base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mountain_top"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <ImageView
+                    android:id="@+id/page7_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/intro_page7_bg"
+                    />
+
+                <TextView
+                    android:id="@+id/startTodayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Start_today"
+                    android:textSize="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/WhiteColor"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/kid_jumping"
+                    android:layout_below="@+id/startTodayText"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <Button
+                    android:id="@+id/buttonStart"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:text="@string/Start"
+                    android:textColor="@color/WhiteColor"
+                    android:textSize="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="80dp"
+                    android:clickable="true"
+                    android:onClick="startButtonPressed"
+                    android:background="@drawable/green_confirm_selector"
+                    />
+
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

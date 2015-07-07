@@ -29,6 +29,7 @@
                 style="@style/button_text_blue"/>
 
             <RelativeLayout
+                android:id="@+id/intro_button"
                 android:layout_width="120dp"
                 android:layout_height="118dp"
                 android:onClick="irIntro"

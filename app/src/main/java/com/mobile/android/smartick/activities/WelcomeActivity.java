@@ -1,7 +1,9 @@
 package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +42,9 @@ public class WelcomeActivity extends Activity {
     private FreemiumProfile freemiumProfile;
     private Boolean disableButtons = false;
     private AlertDialog freemiumAlertDialog;
+    private View buttonIntro;
+
+    private static final int MIN_INTRO_RAM = 40;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,22 @@ public class WelcomeActivity extends Activity {
 
         //systemInfo init
         sysInfo = new SystemInfo(this.getApplicationContext());
+
+        //defaults to intro if its the first time running
+        //Checks RAM available
+        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        int memoryClass = am.getMemoryClass();
+        Log.d(Constants.WELCOME_LOG_TAG,"Memory available: " + memoryClass + " MB");
+        if (sysInfo.isFirstTimeRunning()){
+            if (memoryClass > MIN_INTRO_RAM){
+                //enough ram to run intro
+                goToIntro();
+            }else{
+                //bot enough ram, disable intro button
+                buttonIntro = findViewById(R.id.intro_button);
+                buttonIntro.setVisibility(View.GONE);
+            }
+        }
 
         //Get freemium profile info
         freemiumProfile = new FreemiumProfile(this.getApplicationContext());
@@ -149,9 +170,9 @@ public class WelcomeActivity extends Activity {
                 textWarning.setTypeface(tfDidact);
                 textWarning.setText(getString(R.string.already_completed_freemium_session));
 
-                ((Button)freemiumWarningView.findViewById(R.id.freemiumWarningVWButton)).setTypeface(tfDidact);
-                ((Button)freemiumWarningView.findViewById(R.id.freemiumWarningRestartButton)).setTypeface(tfDidact);
-                ((Button)freemiumWarningView.findViewById(R.id.freemiumWarningCancelButton)).setTypeface(tfDidact);
+                ((Button) freemiumWarningView.findViewById(R.id.freemiumWarningVWButton)).setTypeface(tfDidact);
+                ((Button) freemiumWarningView.findViewById(R.id.freemiumWarningRestartButton)).setTypeface(tfDidact);
+                ((Button) freemiumWarningView.findViewById(R.id.freemiumWarningCancelButton)).setTypeface(tfDidact);
 
                 freemiumAlertDialog = alertBuilder.create();
                 freemiumAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -201,7 +222,7 @@ public class WelcomeActivity extends Activity {
                                 showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),
                                         SweetAlertDialog.ERROR_TYPE,
                                         null,
-                                        null,null,getString(R.string.OK),null);
+                                        null, null, getString(R.string.OK), null);
                             }
                         });
             }
@@ -237,5 +258,10 @@ public class WelcomeActivity extends Activity {
 
         alertDialog.setTitleText(titleText);
         alertDialog.show();
+    }
+
+    private void goToIntro(){
+        Intent intent = new Intent(this, IntroActivity.class);
+        startActivity(intent);
     }
 }

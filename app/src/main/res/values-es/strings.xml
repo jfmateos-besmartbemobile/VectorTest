@@ -50,7 +50,7 @@
     <string name="Start">Comenzar</string>
     <string name="Start_ex">¡Empezar!</string>
     <string name="Discover_it">Descúbrelo</string>
-    <string name="Slide_to_discover_it">Desliza para descubrirlo</string>
+    <string name="Slide_to_discover_it">&lt;&lt; Desliza para descubrirlo</string>
     <string name="Username_already_in_use">El alias ya está en uso</string>
     <string name="Username_is_not_valid">El alias no es válido</string>
     <string name="Notice">Aviso</string>

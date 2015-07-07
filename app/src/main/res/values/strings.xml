@@ -49,7 +49,7 @@
     <string name="Start">Start</string>
     <string name="Start_ex">Start!</string>
     <string name="Discover_it">Discover it >></string>
-    <string name="Slide_to_discover_it">Slide to discover it</string>
+    <string name="Slide_to_discover_it">&lt;&lt; Slide to discover it</string>
     <string name="Username_already_in_use">Username already in use</string>
     <string name="Username_is_not_valid">Username is not valid</string>
     <string name="Notice">Notice</string>
