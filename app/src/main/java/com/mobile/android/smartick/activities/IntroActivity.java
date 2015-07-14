@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -24,6 +25,7 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.IntroScrollView;
 import com.mobile.android.smartick.UI.IntroScrollViewListener;
 import com.mobile.android.smartick.util.Constants;
+import com.mobile.android.smartick.util.ScreenUtils;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
 
@@ -72,6 +74,16 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
 //ImageViews
     //page 1
     private ImageView page1LogoSmartick;
+    private View page1;
+
+    //page 2
+    private View page2;
+
+    //page 3
+    private View page3;
+
+    //page 4
+    private View page4;
 
     //page 5
     private ImageView page5bg;
@@ -90,9 +102,6 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        ActivityManager.RunningAppProcessInfo info = new ActivityManager.RunningAppProcessInfo();
-        ActivityManager.getMyMemoryState(info);
-
         //gets window width and adapts width of every page
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -105,7 +114,6 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
         scrollView1 = (IntroScrollView) findViewById(R.id.intro_horizontalScroll);
         scrollView1.setIntroScrollViewListener(this);
         setTouchListeners(scrollView1);
-
 
         linkIntroElements();
 
@@ -166,6 +174,16 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
     private void linkIntroElements(){
         //page 1
         page1LogoSmartick = (ImageView) findViewById(R.id.logoSmartick);
+        page1 = findViewById(R.id.page1);
+
+        //page 2
+        page2 = findViewById(R.id.page2);
+
+        //page 3
+        page3 = findViewById(R.id.page3);
+
+        //page 4
+        page4 = findViewById(R.id.page4);
 
         //page 5
         page5bg = (ImageView) findViewById(R.id.page5_bg);
@@ -185,6 +203,8 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
                 if (page0Loaded){
                     return;
                 }
+                page1.setBackgroundResource(R.drawable.intro_page1_bg);
+                page1.invalidate();
                 page1LogoSmartick.setImageResource(R.drawable.logo);
                 page1LogoSmartick.invalidate();
                 page0Loaded = true;
@@ -193,18 +213,24 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
                 if (page1Loaded){
                     return;
                 }
+                page2.setBackgroundResource(R.drawable.intro_page2_bg);
+                page2.invalidate();
                 page1Loaded = true;
                 break;
             case 2:
                 if (page2Loaded){
                     return;
                 }
+                page3.setBackgroundResource(R.drawable.intro_page3_bg);
+                page3.invalidate();
                 page2Loaded = true;
                 break;
             case 3:
                 if (page3Loaded){
                     return;
                 }
+                page4.setBackgroundResource(R.drawable.intro_page4_bg);
+                page4.invalidate();
                 page3Loaded = true;
                 break;
             case 4:
@@ -240,25 +266,28 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
                     return;
                 }
                 page1LogoSmartick.setImageDrawable(null);
+                page1.setBackground(null);
                 page0Loaded = false;
                 break;
             case 1:
                 if (!page1Loaded){
                     return;
                 }
-
+                page2.setBackground(null);
                 page1Loaded = false;
                 break;
             case 2:
                 if (!page2Loaded){
                     return;
                 }
+                page3.setBackground(null);
                 page2Loaded = false;
                 break;
             case 3:
                 if (!page3Loaded){
                     return;
                 }
+                page4.setBackground(null);
                 page3Loaded = false;
                 break;
             case 4:
@@ -334,7 +363,6 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
             }
 
             if (currentPage == 4){
-                Log.d(Constants.INTRO_LOG_TAG, "moving");
                 mountainTop.setY((mountainTop.getHeight() * percent) - mountainTop.getHeight());
                 mountainBase.setY(mountainBase.getHeight() * percent);
                 page5lower.setY(page5lower.getHeight() * percent);

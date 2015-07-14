@@ -143,7 +143,7 @@ public class MainActivity extends FragmentActivity {
             initializaNativeYoutubePlayer();
 
             //Enables remote debugging
-            XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+            XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, false);
 
             //Button listeners
             Button backButton = (Button) findViewById(R.id.back_button_main);

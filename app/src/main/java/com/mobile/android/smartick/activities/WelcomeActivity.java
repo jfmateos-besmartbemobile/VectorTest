@@ -23,12 +23,16 @@ import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.EFStrokeTextView;
+import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.ClearFreemiumSessionResponse;
 import com.mobile.android.smartick.network.GetFreemiumSessionStatusResponse;
 import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.FreemiumProfile;
 import com.mobile.android.smartick.pojos.SystemInfo;
+import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.Constants;
+
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
@@ -46,6 +50,8 @@ public class WelcomeActivity extends Activity {
 
     private static final int MIN_INTRO_RAM = 40;
 
+    private UsersDBHandler localDB = new UsersDBHandler(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,16 +65,30 @@ public class WelcomeActivity extends Activity {
         //Checks RAM available
         ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         int memoryClass = am.getMemoryClass();
+        float scrDensity = getResources().getDisplayMetrics().density;
+        Log.d(Constants.WELCOME_LOG_TAG,"Screen density is: " +  scrDensity);
         Log.d(Constants.WELCOME_LOG_TAG,"Memory available: " + memoryClass + " MB");
         if (sysInfo.isFirstTimeRunning()){
-            if (memoryClass > MIN_INTRO_RAM){
+            if (memoryClass > MIN_INTRO_RAM * scrDensity){
                 //enough ram to run intro
                 goToIntro();
             }else{
-                //bot enough ram, disable intro button
+                //not enough ram, disable intro button
                 buttonIntro = findViewById(R.id.intro_button);
                 buttonIntro.setVisibility(View.GONE);
             }
+        }else{
+            //if there are already stored users we default to loginActivity
+            List<User> users = localDB.getAllUsers();
+            if(!users.isEmpty()){
+                goToLogin();
+            }
+        }
+
+        //not enough ram, disable intro button
+        if (memoryClass < MIN_INTRO_RAM * scrDensity){
+            buttonIntro = findViewById(R.id.intro_button);
+            buttonIntro.setVisibility(View.GONE);
         }
 
         //Get freemium profile info
@@ -263,5 +283,9 @@ public class WelcomeActivity extends Activity {
     private void goToIntro(){
         Intent intent = new Intent(this, IntroActivity.class);
         startActivity(intent);
+    }
+
+    private void goToLogin(){
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
