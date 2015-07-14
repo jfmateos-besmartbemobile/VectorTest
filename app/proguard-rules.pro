@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-dontwarn org.springframework.http.**
+-dontwarn retrofit.**
+-dontwarn com.fasterxml.**
+
+-keep class retrofit.** { *; }
+-keep class org.** { *; }
+-keep class fasterxml.** { *; }

@@ -7,6 +7,7 @@
     android:background="@drawable/student_panel_holder"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
+    android:weightSum="1"
     android:layout_gravity="center_horizontal">
 
     <TextView
@@ -17,79 +18,77 @@
         android:textSize="30dp"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="50dp"
-        android:gravity="center_horizontal"/>
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center_horizontal" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_weight=".6"
+        android:weightSum="1"
         android:gravity="center_vertical">
 
-    <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:src="@drawable/student_info_icon"
-        android:layout_marginLeft="40dp" />
+        <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:src="@drawable/student_info_icon"
+            android:layout_weight=".2"
+            android:layout_marginLeft="40dp" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight=".8"
+            android:weightSum="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/login_alias"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/rounded_corner"
+                android:hint="@string/Alias"
+                android:inputType="text"
+                android:layout_margin="20dp" />
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/rounded_corner"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                android:layout_margin="20dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/login_alias"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/rounded_corner"
-            android:hint="@string/Alias"
-            android:inputType="text"
-            android:layout_margin="20dp" />
-        <EditText
-            android:id="@+id/login_password"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/rounded_corner"
-            android:hint="@string/Password"
-            android:inputType="textPassword"
-            android:layout_margin="20dp" />
-
-    </LinearLayout>
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_weight=".2"
-        android:layout_gravity="bottom">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight=".1" />
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal">
         <Button
             android:layout_width="0dp"
-            android:layout_weight=".35"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:onClick="cancelar"
             android:textSize="30dp"
             android:background="@drawable/blue_confirm_selector"
             android:text="@string/Cancel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="15dp"
             android:textColor="@color/white"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight=".1" />
+
         <Button
             android:layout_width="0dp"
-            android:layout_weight=".35"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:onClick="checkLoginAlumno"
             android:background="@drawable/orange_confirm_selector"
             android:text="@string/Add"
             android:textSize="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
             android:textColor="@color/white"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight=".1" />
     </LinearLayout>
 </LinearLayout>

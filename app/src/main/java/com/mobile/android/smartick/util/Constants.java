@@ -6,17 +6,14 @@ package com.mobile.android.smartick.util;
 public class Constants {
 
 
-
-
-//    public static final String URL_CONTEXT = "http://www.smartick.es"; //PROD ENVIRONMENT
+    public static final String URL_CONTEXT = "http://www.smartick.es"; //PROD ENVIRONMENT
 //    public static final String URL_CONTEXT = "http://10.0.0.4";  //DEV PRE ENVIROMENT
-    public static final String URL_CONTEXT = "http://10.0.0.12";  //DEV LOCAL ENVIROMENT
+//    public static final String URL_CONTEXT = "http://10.0.0.11";  //DEV LOCAL ENVIROMENT
+//    public static final String URL_CONTEXT = "http://10.0.0.12";  //DEV LOCAL ENVIROMEN
 //    public static final String URL_CONTEXT = "http://10.0.0.237";  //DEV LOCAL ENVIROMENT
-
 
     public static final String URL_SMARTICK_LOGIN = URL_CONTEXT + "/smartick_login";
     public static final String URL_SMARTICK_LOGIN_FREEMIUM = URL_CONTEXT + "/loginMobileFreemium.html";
-    public static final String LOGIN_MOBILE_SERVICE = URL_CONTEXT + "/loginMobile.html?user={username}&password={password}";
     public static final String URL_LOGOUT = URL_CONTEXT + "/smartick_logout";
     public static final String URL_FREEMIUM_IMAGE = URL_CONTEXT + "/images/freemium/";
 
@@ -32,7 +29,6 @@ public class Constants {
     public static final String SYSINFO_LOG_TAG = "sysinfo_log_tag";
     public static final String YTPLAYER_LOG_TAG = "ytplayer_log_tag";
 
-    public static final String DEVICE_INFO_FILE = "device_info_file";
     public static final String SMARTICK_PREFS = "smartick_prefs";
     public static final String INSTALLATION_PREF_NAME = "install_id_pref";
     public static final String FIRST_TIME_PREF_NAME = "first_time_pref";
