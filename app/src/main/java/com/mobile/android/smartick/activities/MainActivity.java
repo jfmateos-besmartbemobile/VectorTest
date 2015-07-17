@@ -84,6 +84,8 @@ public class MainActivity extends FragmentActivity {
     private YouTubePlayer ytPlayer;
     private View youTubePlayerHolder;
     private String youTubeVideoTitle = "";
+    private String onFinishYoutubeCallback = "";
+    private String onCloseDialogCallback = "";
 
 
 	@Override
@@ -316,7 +318,48 @@ public class MainActivity extends FragmentActivity {
 
         @JavascriptInterface
         public synchronized void setVideoTitle(String title){
+            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - setVideoTitle - " + title);
             youTubeVideoTitle = title;
+        }
+
+        @JavascriptInterface
+        public synchronized void enableControls(){
+            Log.d(Constants.YTPLAYER_LOG_TAG, "SmartickYouTubeInterface - enableControls - ");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ytPlayer != null) {
+                        YouTubePlayer.PlayerStyle style = YouTubePlayer.PlayerStyle.DEFAULT;
+                        ytPlayer.setPlayerStyle(style);
+                    }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public synchronized void disableControls(){
+            Log.d(Constants.YTPLAYER_LOG_TAG, "SmartickYouTubeInterface - enableControls - ");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ytPlayer != null) {
+                        YouTubePlayer.PlayerStyle style = YouTubePlayer.PlayerStyle.MINIMAL;
+                        ytPlayer.setPlayerStyle(style);
+                    }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public synchronized void setOnFinishYouTube(String callback){
+            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - setOnFinishYoutubeCallback - " + callback);
+            onFinishYoutubeCallback = callback;
+        }
+
+        @JavascriptInterface
+        public synchronized void setOnCloseDialog(String callback){
+            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - setOnCloseDialogCallback - " + callback);
+            onCloseDialogCallback = callback;
         }
 
         @JavascriptInterface
@@ -354,6 +397,12 @@ public class MainActivity extends FragmentActivity {
                     if (ytPlayer != null) {
                         hideYTPlayerHolder();
                     }
+                    if (onCloseDialogCallback != null){
+                        webView.evaluateJavascript(onCloseDialogCallback + "();",null);
+                    }
+
+                    onFinishYoutubeCallback = null;
+                    onCloseDialogCallback = null;
                 }
             });
         }
@@ -751,8 +800,10 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void ytVideoEnded(){
-        Log.d(Constants.YTPLAYER_LOG_TAG,"onVideoEnded");
-        webView.evaluateJavascript("onFinishYoutube();", null);
+        Log.d(Constants.YTPLAYER_LOG_TAG, "onVideoEnded");
+        if (onFinishYoutubeCallback != null){
+            webView.evaluateJavascript(onFinishYoutubeCallback + "();", null);
+        }
     }
 
     private void ytVideoError(YouTubePlayer.ErrorReason errorReason){
@@ -767,7 +818,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void hideYTPlayerHolder(){
-        Log.d(Constants.YTPLAYER_LOG_TAG,"hide YT player");
+        Log.d(Constants.YTPLAYER_LOG_TAG, "hide YT player");
         if (ytPlayer != null){
             ytPlayer.pause();
             youTubeVideoTitle = "";
@@ -780,6 +831,17 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void run() {
                 hideYTPlayerHolder();
+            }
+        });
+    }
+
+    public void toggleYTPlayerFullscreen(View view){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (ytPlayer != null){
+                    ytPlayer.setFullscreen(true);
+                }
             }
         });
     }

@@ -65,13 +65,17 @@
 
     <RelativeLayout
         android:id="@+id/youtube_player_holder"
-        android:layout_width="700dp"
-        android:layout_height="540dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/yt_holder_bg"
         android:padding="5dp"
         android:visibility="gone"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="10dp"
         >
 
         <TextView
@@ -95,8 +99,21 @@
             android:layout_below="@id/yt_video_title"
             android:background="@color/BlueishGreyColor"/>
 
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/buttonCloseYT"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:onClick="toggleYTPlayerFullscreen"
+            android:textSize="15dp"
+            android:textColor="@color/BlueColor"
+            android:background="@drawable/yt_fullscreen_button_bg"
+            />
 
         <Button
+            android:id="@+id/buttonCloseYT"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -115,10 +132,12 @@
             android:layout_below="@id/separator_title_yt"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_width="640dp"
-            android:layout_height="480dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_margin="10dp"
+            android:layout_marginBottom="5dp"
             />
+
     </RelativeLayout>
 
 
