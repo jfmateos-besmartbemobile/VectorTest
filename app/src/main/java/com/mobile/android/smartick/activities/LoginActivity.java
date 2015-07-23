@@ -1,6 +1,7 @@
 package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -332,6 +334,7 @@ public class LoginActivity extends Activity implements TextWatcher{
                         Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
                         if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)) {
                             addUser(username, password, type);
+                            hideSoftKeyboard();
                         } else {
                             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
                                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
@@ -381,6 +384,7 @@ public class LoginActivity extends Activity implements TextWatcher{
     public void cancelar(View view) {
         setLoginAlumnoPanelVisible(false);
         setLoginTutorPanelVisible(false);
+        hideSoftKeyboard();
     }
 
     public void checkLoginTutor(View view){
@@ -539,5 +543,18 @@ public class LoginActivity extends Activity implements TextWatcher{
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    //Soft keyboard
+    private void hideSoftKeyboard(){
+        EditText e1 = ((EditText) findViewById(R.id.login_alias));
+        EditText e2 = ((EditText) findViewById(R.id.login_password));
+        EditText e3 = ((EditText) findViewById(R.id.login_alias2));
+        EditText e4 = ((EditText) findViewById(R.id.login_password2));
+        InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(e1.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(e2.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(e3.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(e4.getWindowToken(), 0);
     }
 }
