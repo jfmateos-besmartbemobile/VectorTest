@@ -38,7 +38,7 @@ public class AudioPlayer {
         context = ctx;
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        createOrInitAudioCache(ctx.getCacheDir());
+        createOrInitAudioCache(ctx.getExternalCacheDir());
     }
 
     //play from file
@@ -52,7 +52,22 @@ public class AudioPlayer {
             player.setDataSource(context, path);
             player.prepare();
             player.start();
-        } catch (IOException e) {
+
+
+        }catch (IllegalStateException e) {
+            Log.d(Constants.AUDIO_LOG_TAG, "IllegalStateException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            Log.d(Constants.AUDIO_LOG_TAG, "IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch (IllegalArgumentException e) {
+            Log.d(Constants.AUDIO_LOG_TAG, "IllegalArgumentException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch (SecurityException e) {
+            Log.d(Constants.AUDIO_LOG_TAG, "SecurityException: " + e.getMessage());
             e.printStackTrace();
         }
     }
