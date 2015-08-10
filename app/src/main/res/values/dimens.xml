@@ -1,5 +1,18 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <!--Intro -->
+    <dimen name="intro_welcome_text_size">35dp</dimen>
+
+    <!--Welcome-->
+
+    <!--Freemium-->
+
+    <!--Login-->
+
+    <!--Register-->
+
+    <!--General-->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

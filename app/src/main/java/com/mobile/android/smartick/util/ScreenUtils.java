@@ -1,14 +1,20 @@
 package com.mobile.android.smartick.util;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
 public class ScreenUtils {
+
+    float dpTopx(float dp,Context ctx){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,ctx.getResources().getDisplayMetrics());
+    }
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {

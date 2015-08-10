@@ -5,5 +5,6 @@
         android:drawable="@drawable/age_slider_knob_pressed" />
     <item android:state_selected="true"
         android:drawable="@drawable/age_slider_knob_pressed" />
-    <item android:drawable="@drawable/age_slider_knob" />
+    <item android:drawable="@drawable/age_slider_knob"
+        />
 </selector>

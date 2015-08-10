@@ -28,7 +28,7 @@
         <RelativeLayout
             android:layout_width="500dp"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
+            android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             >
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Choose_your_avatar"
                 android:textAlignment="center"
-                android:textSize="45dp"
+                android:textSize="@dimen/freemium_title_text_size"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="70dp"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:text="@string/Use_this_avatar_int"
-                android:textSize="45dp"
+                android:textSize="@dimen/freemium_title_text_size"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:text="@string/How_old_are_you_int"
-                android:textSize="45dp"
+                android:textSize="@dimen/freemium_title_text_size"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
@@ -85,17 +85,19 @@
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_how_old"
+                android:minHeight="@dimen/freemium_age_bar_min_height"
+                android:maxHeight="@dimen/freemium_age_bar_max_height"
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
                 style="@style/CustomSeekBar"/>
 
             <Button
                 android:id="@+id/confirmAgeButton"
-                android:layout_width="230dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/freemium_button_width"
+                android:layout_height="@dimen/freemium_button_height"
                 android:text="@string/Start"
                 android:layout_below="@+id/avatarAgeSeekBar"
-                android:textSize="35dp"
+                android:textSize="@dimen/freemium_button_text_size"
                 android:textColor="@color/WhiteColor"
                 android:background="@drawable/orange_confirm_selector"
                 android:layout_marginTop="10dp"
@@ -116,7 +118,7 @@
 
                 <Button
                     android:id="@+id/avatar_select_button_cancel"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -128,7 +130,7 @@
 
                 <Button
                     android:id="@+id/avatar_select_button_ok"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_green_confirm_selector"
@@ -144,7 +146,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="1.2"
+            android:layout_weight="1"
             android:gravity="center"
             >
 

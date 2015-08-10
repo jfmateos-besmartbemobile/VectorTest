@@ -45,7 +45,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="30dp"
-                android:textSize="55dp"
+                android:textSize="@dimen/intro_welcome_text_size"
                 />
 
             <TextView
@@ -57,7 +57,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/page1TitleText"
                 android:layout_marginTop="10dp"
-                android:textSize="40dp"
+                android:textSize="@dimen/intro_welcome_text_size_smaller"
                 />
 
             <com.romainpiel.shimmer.ShimmerTextView
@@ -89,7 +89,7 @@
                 android:textColor="@color/WhiteColor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:textSize="55dp"
+                android:textSize="@dimen/intro_welcome_text_size"
                 />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/page2TitleText"
                 android:layout_marginTop="10dp"
-                android:textSize="40dp"
+                android:textSize="@dimen/intro_welcome_text_size_smaller"
                 />
         </RelativeLayout>
 
@@ -121,7 +121,7 @@
                 android:textColor="@color/WhiteColor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:textSize="55dp"
+                android:textSize="@dimen/intro_welcome_text_size"
                 />
 
             <TextView
@@ -133,7 +133,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/page3TitleText"
                 android:layout_marginTop="10dp"
-                android:textSize="40dp"
+                android:textSize="@dimen/intro_welcome_text_size_smaller"
                 />
 
         </RelativeLayout>
@@ -154,7 +154,7 @@
                 android:textColor="@color/WhiteColor"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:textSize="55dp"
+                android:textSize="@dimen/intro_welcome_text_size"
                 />
 
             <TextView
@@ -166,7 +166,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/page4TitleText"
                 android:layout_marginTop="10dp"
-                android:textSize="40dp"
+                android:textSize="@dimen/intro_welcome_text_size_smaller"
                 />
 
         </RelativeLayout>
@@ -200,7 +200,7 @@
                     android:textColor="@color/WhiteColor"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
-                    android:textSize="55dp"
+                    android:textSize="@dimen/intro_welcome_text_size"
                     />
 
                 <TextView
@@ -212,7 +212,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/page5TitleText"
                     android:layout_marginTop="10dp"
-                    android:textSize="40dp"
+                    android:textSize="@dimen/intro_welcome_text_size_smaller"
                     />
 
 

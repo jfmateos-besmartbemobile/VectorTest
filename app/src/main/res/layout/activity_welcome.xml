@@ -19,11 +19,12 @@
 
             <Button
                 android:id="@+id/main_button_invitado"
-                android:layout_width="350dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/welcome_button_width"
+                android:layout_height="@dimen/welcome_button_height"
                 android:layout_gravity="center"
                 android:background="@drawable/blue_confirm_selector"
                 android:text="@string/Guest"
+                android:textSize="@dimen/welcome_button_text_size"
                 android:onClick="freemiumButtonPressed"
                 android:clickable="true"
                 style="@style/button_text_blue"/>
@@ -66,24 +67,25 @@
                       android:layout_width="fill_parent">
             <Button
                 android:id="@+id/main_button_registro"
-                android:layout_width="350dp"
-                android:layout_height="100sp"
+                android:layout_width="@dimen/welcome_button_width"
+                android:layout_height="@dimen/welcome_button_height"
                 android:layout_gravity="center"
                 android:background="@drawable/orange_confirm_selector"
                 android:onClick="irRegistro"
+                android:textSize="@dimen/welcome_button_text_size"
                 android:text="@string/Register"
                 style="@style/button_text_orange"/>
 
             <Button
                 android:id="@+id/main_button_login"
-                android:layout_width="350dp"
-                android:layout_height="80sp"
+                android:layout_width="@dimen/welcome_button_width"
+                android:layout_height="@dimen/welcome_button_height"
                 android:layout_gravity="center"
-                android:layout_marginTop="20sp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/green_login_button"
                 android:onClick="irLogin"
                 android:text="@string/I_already_use_Smartick"
-                android:textSize="25dp"
+                android:textSize="@dimen/welcome_button_text_size_smaller"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="32dp"
                 style="@style/button_text_green"/>

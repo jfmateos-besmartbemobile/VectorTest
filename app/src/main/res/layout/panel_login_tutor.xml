@@ -16,11 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_weight=".2"
         android:text="@string/Add_tutor"
-        android:textSize="30dp"
+        android:textSize="@dimen/login_panel_title_text_size"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="@dimen/login_panel_title_padding_top"
+        android:paddingBottom="@dimen/login_panel_title_padding_bottom"
         android:gravity="center_horizontal"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -20,7 +20,7 @@
         android:layout_alignParentRight="true"
         android:fillViewport="true"
         >
-
+3
         <RelativeLayout
             android:id="@+id/register_page1"
             android:layout_width="wrap_content"

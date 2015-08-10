@@ -23,7 +23,7 @@ public class CustomSeekBar extends SeekBar {
 
     private static final int textMargin = 6;
     private static final int leftPlusRightTextMargins = textMargin + textMargin;
-    private static final int maxFontSize = 45;
+    private static final int maxFontSize = 55;
     private static final int minFontSize = 30;
 
     protected String overlayText;
