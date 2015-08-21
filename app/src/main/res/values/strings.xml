@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+    <resources>
+
+    <string name="facebook_app_id">1611460479083904</string>
+    <string name="app_id_string">com.mobile.android.smartick</string>
     <string name="app_name">Smartick</string>
     <string name="title_activity_login">login</string>
     <string name="title_activity_intro">intro</string>

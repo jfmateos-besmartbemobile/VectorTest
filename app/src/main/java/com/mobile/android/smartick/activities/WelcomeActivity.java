@@ -7,9 +7,14 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.EFStrokeTextView;
 import com.mobile.android.smartick.data.UsersDBHandler;
@@ -32,6 +39,8 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.util.Constants;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -57,6 +66,9 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
+
+        //Inits Facebook SDK
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         //systemInfo init
         sysInfo = new SystemInfo(this.getApplicationContext());
@@ -94,6 +106,7 @@ public class WelcomeActivity extends Activity {
         //Get freemium profile info
         freemiumProfile = new FreemiumProfile(this.getApplicationContext());
 
+
         // Adapt every textView to custom font
         Typeface tfBoogaloo = Typeface.createFromAsset(getAssets(), "fonts/Boogaloo-Regular.otf");
         Button botonInvitado = (Button)findViewById(R.id.main_button_invitado);
@@ -104,6 +117,33 @@ public class WelcomeActivity extends Activity {
         textIntro.setTypeface(tfBoogaloo);
         Button botonLogin = (Button)findViewById(R.id.main_button_login);
         botonLogin.setTypeface(tfBoogaloo);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Facebook logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this, getString(R.string.app_id_string));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Facebook logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this, getString(R.string.app_id_string));
+    }
+
+    private boolean isFacebookAppInstalled(){
+        try{
+            ApplicationInfo info = getPackageManager().
+                    getApplicationInfo("com.facebook.katana", 0 );
+            return true;
+        } catch( PackageManager.NameNotFoundException e ){
+            return false;
+        }
     }
 
     public void irLogin(View view) {
