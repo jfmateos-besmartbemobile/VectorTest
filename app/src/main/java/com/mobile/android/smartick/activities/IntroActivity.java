@@ -19,8 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.IntroScrollView;
 import com.mobile.android.smartick.UI.IntroScrollViewListener;

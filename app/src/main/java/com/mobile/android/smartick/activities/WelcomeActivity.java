@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -28,6 +33,8 @@ import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.EFStrokeTextView;
 import com.mobile.android.smartick.data.UsersDBHandler;
@@ -37,6 +44,7 @@ import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.FreemiumProfile;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
+import com.mobile.android.smartick.services.SmartickRegistrationIntentService;
 import com.mobile.android.smartick.util.Constants;
 
 import java.security.MessageDigest;
@@ -57,6 +65,10 @@ public class WelcomeActivity extends Activity {
     private AlertDialog freemiumAlertDialog;
     private View buttonIntro;
 
+    //GCM
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
     private static final int MIN_INTRO_RAM = 40;
 
     private UsersDBHandler localDB = new UsersDBHandler(this);
@@ -64,11 +76,28 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_welcome);
 
         //Inits Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        //Register for GCM
+        if (checkPlayServices()){
+            SharedPreferences sharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            boolean sentToken = sharedPreferences
+                    .getBoolean(Constants.SENT_GCM_TOKEN_PREF_NAME, false);
+            if (sentToken) {
+                Log.d(Constants.WELCOME_LOG_TAG,"already registered for GCM!");
+            } else {
+                // Start IntentService to register this application with GCM.
+                Intent intent = new Intent(this, SmartickRegistrationIntentService.class);
+                startService(intent);
+            }
+        }
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_welcome);
+
 
         //systemInfo init
         sysInfo = new SystemInfo(this.getApplicationContext());
@@ -130,10 +159,12 @@ public class WelcomeActivity extends Activity {
 
     @Override
     protected void onPause() {
-        super.onPause();
 
         // Facebook logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this, getString(R.string.app_id_string));
+
+        super.onPause();
+
     }
 
     private boolean isFacebookAppInstalled(){
@@ -327,5 +358,21 @@ public class WelcomeActivity extends Activity {
 
     private void goToLogin(){
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(Constants.WELCOME_LOG_TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 }

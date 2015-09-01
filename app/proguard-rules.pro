@@ -16,11 +16,61 @@
 #   public *;
 #}
 
+#General options
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes JavascriptInterface
+-keepattributes **
 
--dontwarn org.springframework.http.**
+-dontwarn com.squareup.okhttp.*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+
+-dontwarn rx.**
 -dontwarn retrofit.**
--dontwarn com.fasterxml.**
-
 -keep class retrofit.** { *; }
--keep class org.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+
+-dontwarn org.springframework.**
+-dontwarn org.codehaus.jackson.**
+-dontwarn com.fasterxml.**
+-dontwarn com.google.**
+-keep class org.springframework.** {*; }
+-keep class org.codehaus.jackson.** {*; }
+-keep class com.fasterxml.** {*; }
 -keep class fasterxml.** { *; }
+
+-keep class org.xwalk.core.** {*;}
+-keep class org.chromium.** {*;}
+-keep class cn.pedant.** {*;}
+-keep class org.apache.** {*;}
+-keep class java.io.** {*;}
+
+-keep public class com.mobile.android.smartick.activities.MainActivity$JsInterface.** {*;}
+-keep public class com.mobile.android.smartick.activities.MainActivity$JsScrollInterface.** {*;}
+-keep public class com.mobile.android.smartick.activities.MainActivity$JsYouTubeInterface.** {*;}
+-keep public class com.mobile.android.smartick.activities.MainActivity$MyRedirectHandler.** {*;}
+
+-keepclassmembers class * {
+    @com.mobile.android.smartick.activities.MainActivity.JsInterface <methods>;
+    @com.mobile.android.smartick.activities.MainActivity.JsScrollInterface <methods>;
+    @com.mobile.android.smartick.activities.MainActivity.JsYouTubeInterface <methods>;
+    @com.mobile.android.smartick.activities.MainActivity.MyRedirectHandler <methods>;
+}
+
+#Optimization
+-optimizationpasses 3
+-allowaccessmodification
+-assumenosideeffects class android.util.Log {
+public static *** d(...);
+public static *** w(...);
+public static *** v(...);
+public static *** i(...);
+}
+
+#Obfuscation
+-adaptresourcefilenames **.png
+-repackageclasses ''
+-useuniqueclassmembernames

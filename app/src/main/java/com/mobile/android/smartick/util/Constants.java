@@ -34,7 +34,10 @@ public class Constants {
     public static final String FIRST_TIME_PREF_NAME = "first_time_pref";
     public static final String FREEMIUM_AVATAR_PREF_NAME = "freemium_avatar_pref";
     public static final String FREEMIUM_AGE_PREF_NAME = "freemium_age_pref";
+    public static final String SENT_GCM_TOKEN_PREF_NAME = "sent_gcm_token";
     public static final String AUDIO_CACHE_LAST_REFRESH_DATE = "audio_cache_last_refresh_date";
+
+    public static final String GCM_REGISTRATION_COMPLETE = "registrationComplete";
 
     public static final int DEFAULT_FREEMIUM_AVATAR = 1;
     public static final int DEFAULT_FREEMIUM_AGE = 9;

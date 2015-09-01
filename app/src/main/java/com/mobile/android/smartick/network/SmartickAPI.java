@@ -24,6 +24,8 @@ public interface SmartickAPI {
     public final String PASSWORD_INVALID = "password_invalid";
     public final String REGISTER_OK = "OK";
     public final String REGISTER_KO = "KO";
+    public final String REGISTER_GCM_OK = "OK";
+    public final String REGISTER_GCM_KO = "KO";
     public final int MIN_USERNAME_LENGTH = 3;
     public final int MIN_PASSWORD_LENGTH = 4;
 
@@ -84,6 +86,12 @@ public interface SmartickAPI {
             @Query("installationId") String installationId,
             Callback<ClearFreemiumSessionResponse> callback);
 
+    @GET("/registerAndroidGCMToken.html")
+    public void registerAndroidGCMToken(
+            @Query("installationId") String installationId,
+            @Query("gcmToken") String gcmToken,
+            Callback<RegisterAndroidGCMTokenResponse> callback);
+
     //SYNC
 
     @GET("/getAvatarImageForUser.html")
@@ -136,5 +144,10 @@ public interface SmartickAPI {
     @GET("/clearFreemiumSession.html")
     public ClearFreemiumSessionResponse clearFreemoumSessionStatus(
             @Query("installationId") String installationId);
+
+    @GET("/registerAndroidGCMToken.html")
+    public RegisterAndroidGCMTokenResponse registerAndroidGCMToken(
+            @Query("installationId") String installationId,
+            @Query("gcmToken") String gcmToken);
 
 }
