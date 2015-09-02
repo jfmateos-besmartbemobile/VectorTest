@@ -154,14 +154,14 @@ public class WelcomeActivity extends Activity {
         super.onResume();
 
         // Facebook logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this, getString(R.string.app_id_string));
+        AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
 
         // Facebook logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this, getString(R.string.app_id_string));
+        AppEventsLogger.deactivateApp(this);
 
         super.onPause();
 
