@@ -26,6 +26,9 @@ public interface SmartickAPI {
     public final String REGISTER_KO = "KO";
     public final String REGISTER_GCM_OK = "OK";
     public final String REGISTER_GCM_KO = "KO";
+    public final String USER_ACTIVE = "ACTIVE";
+    public final String USER_INACTIVE = "INACTIVE";
+    public final String UNKNOWN_USER = "UNKNOWN_USER";
     public final int MIN_USERNAME_LENGTH = 3;
     public final int MIN_PASSWORD_LENGTH = 4;
 
@@ -43,6 +46,11 @@ public interface SmartickAPI {
                               @Query("version") String version,
                               @Query("osVersion") String osVersion,
                               Callback<LoginStatusResponse> callback);
+
+    @GET("/checkUserMobileActive.html")
+    public void checkUserMobileActive(@Query("user") String user,
+                                      @Query("installationId") String installationId,
+                                      Callback<CheckUserMobileActiveResponse> callback);
 
     @GET("/registerAlumnoMobile.html")
     public void registerAlumnoMobile(
@@ -105,6 +113,10 @@ public interface SmartickAPI {
                                               @Query("device") String device,
                                               @Query("version") String version,
                                               @Query("osVersion") String osVersion);
+
+    @GET("/checkUserMobileActive.html")
+    public CheckUserMobileActiveResponse checkUserMobileActive(@Query("user") String user,
+                                      @Query("installationId") String installationId);
 
     @GET("/registerAlumnoMobile.html")
     public RegisterAlumnoResponse registerAlumnoMobile(

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
+import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
 import com.mobile.android.smartick.network.LoginStatusResponse;
 import com.mobile.android.smartick.network.SmartickAPI;
 import com.mobile.android.smartick.network.SmartickRestClient;
@@ -106,6 +107,9 @@ public class LoginActivity extends Activity implements TextWatcher{
         listViewTutors = (ListView) findViewById(R.id.list_tutores);
         refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
         prepareListView(listViewTutors);
+
+        //checks for inactive students
+        checkStudentsActive();
     }
 
 
@@ -279,8 +283,47 @@ public class LoginActivity extends Activity implements TextWatcher{
                 });
     }
 
-    //Add new users
+    public void checkStudentsActive(){
+        //are there any inactive students for this installation id?
+        List<User> students = localDB.getUsersByType(UserType.ALUMNO);
+        String installationId = sysInfo.getInstallationId();
+        for (User u : students){
+            SmartickRestClient.get().checkUserMobileActive(
+                    u.getUsername(),
+                    installationId,
+                    new Callback<CheckUserMobileActiveResponse>() {
+                        @Override
+                        public void success(CheckUserMobileActiveResponse checkUserMobileActiveResponse, Response response) {
+                            if (checkUserMobileActiveResponse.getResponse().equals(SmartickAPI.USER_INACTIVE)){
+                                //delete user from this installation
+                                String user = checkUserMobileActiveResponse.getUser();
+                                User userToDelete = localDB.getUser(user);
+                                localDB.deleteUser(userToDelete);
 
+                                //refresh student list
+                                LoginActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshListViewContent(listViewStudents, localDB.getUsersByType(UserType.ALUMNO), R.layout.student_login_cell);
+                                        prepareListView(listViewStudents);
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            // something went wrong
+                            showAlertDialog(getString(R.string.Notice),
+                                    SweetAlertDialog.ERROR_TYPE,
+                                    getString(R.string.You_must_be_connected_to_the_internet),
+                                    null, null, getString(R.string.OK), null);
+                        }
+                    });
+        }
+    }
+
+    //Add new users
     public void addUser(String username, String password,UserType type){
         Log.d(Constants.LOGIN_LOG_TAG,"adding" + type.toString() +": " + username + " " + password);
         if ((username != null) && (password != null)){
