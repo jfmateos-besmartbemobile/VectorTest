@@ -11,7 +11,7 @@
     <dimen name="welcome_button_width">350dp</dimen>
     <dimen name="welcome_button_height">100dp</dimen>
     <dimen name="welcome_button_text_size">45dp</dimen>
-    <dimen name="welcome_button_text_size_smaller">25dp</dimen>
+    <dimen name="welcome_button_text_size_smaller">22dp</dimen>
 
     <!--Freemium-->
     <dimen name="freemium_title_text_size">45dp</dimen>
