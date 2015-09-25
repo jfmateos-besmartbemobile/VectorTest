@@ -197,6 +197,7 @@ public class WelcomeActivity extends Activity {
 
     public void freemiumButtonPressed(View view){
         disableButtons = true;
+
         //Check for today's freemium session status
         SmartickRestClient.get().getFreemiumSessionStatus(sysInfo.getInstallationId(),
         new Callback<GetFreemiumSessionStatusResponse>() {

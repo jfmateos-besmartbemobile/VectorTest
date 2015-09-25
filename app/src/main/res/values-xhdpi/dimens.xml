@@ -14,8 +14,19 @@
     <dimen name="welcome_button_text_size_smaller">18dp</dimen>
 
     <!--Freemium-->
+    <dimen name="freemium_title_text_size">35dp</dimen>
+    <dimen name="freemium_button_text_size">25dp</dimen>
+    <dimen name="freemium_age_bar_min_height">45dp</dimen>
+    <dimen name="freemium_age_bar_max_height">45dp</dimen>
+    <dimen name="freemium_button_height">50dp</dimen>
+    <dimen name="freemium_button_width">180dp</dimen>
+    <dimen name="freemium_thumb_padding">20dp</dimen>
 
     <!--Login-->
+    <dimen name="login_panel_alumnos_width">600dp</dimen>
+    <dimen name="login_panel_alumnos_height">620dp</dimen>
+    <dimen name="login_panel_tutores_width">600dp</dimen>
+    <dimen name="login_panel_tutores_height">620dp</dimen>
 
     <!--Register-->
 

@@ -19,8 +19,8 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/login_panel_tutores"
-        android:layout_width="600dp"
-        android:layout_height="620dp"
+        android:layout_width="@dimen/login_panel_tutores_width"
+        android:layout_height="@dimen/login_panel_tutores_height"
         android:orientation="vertical"
         android:background="@drawable/tutor_panel_holder"
         android:gravity="center_horizontal"
@@ -73,8 +73,8 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/login_panel_alumnos"
-        android:layout_width="600dp"
-        android:layout_height="620dp"
+        android:layout_width="@dimen/login_panel_alumnos_width"
+        android:layout_height="@dimen/login_panel_alumnos_height"
         android:orientation="vertical"
         android:background="@drawable/student_panel_holder"
         android:gravity="center_horizontal"

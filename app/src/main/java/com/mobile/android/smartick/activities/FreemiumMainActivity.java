@@ -296,7 +296,15 @@ public class FreemiumMainActivity extends Activity {
         @JavascriptInterface
         public synchronized void playUrl(String path) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Play audio file: " + path);
-            audioPlayer.playURL(Constants.URL_CONTEXT + path);
+
+            //if url is missing http we add our URL_CONTEXT
+            if (path != null && path.startsWith("http")){
+                audioPlayer.playURL(path);
+            }else if (path.startsWith("//")){
+                audioPlayer.playURL("http:" + path);
+            }else{
+                audioPlayer.playURL(Constants.URL_CONTEXT + path);
+            }
         }
 
         @JavascriptInterface

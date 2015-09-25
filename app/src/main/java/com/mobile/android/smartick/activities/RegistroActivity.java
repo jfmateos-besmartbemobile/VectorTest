@@ -602,20 +602,21 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                             registerStudent();
                         } else {
                             pDialog.dismiss();
-                            showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.OK), getString(R.string.Something_went_wrong_try_again_later), null, null, null);
+                            showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), null, null, null, null);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         pDialog.dismiss();
-                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), getString(R.string.OK), null, null, null);
+                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), null, null, null, null);
                     }
                 });
     }
 
     public void registerStudent(){
         Log.d(Constants.REGISTER_LOG_TAG, "Register student");
+
         SmartickRestClient.get().registerAlumnoMobile(studentUsername,
                 studentPassword,
                 studentName,
@@ -640,13 +641,13 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                             negotiateStoreUsers(registerAlumnoResponse.getUsername(),registerAlumnoResponse.getPassword(),UserType.ALUMNO);
                             goToLogin();
                         }else{
-                            showAlertDialog(null,SweetAlertDialog.ERROR_TYPE,getString(R.string.Something_went_wrong_try_again_later),getString(R.string.OK),null,null,null);
+                            showAlertDialog(getString(R.string.Notice),SweetAlertDialog.ERROR_TYPE,getString(R.string.Something_went_wrong_try_again_later),null,null,null,null);
                         }
                     }
                     @Override
                     public void failure(RetrofitError error) {
                         pDialog.dismiss();
-                        showAlertDialog(null,SweetAlertDialog.ERROR_TYPE,getString(R.string.Something_went_wrong_try_again_later),getString(R.string.OK),null,null,null);
+                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), null, null, null, null);
                     }
                 });
     }

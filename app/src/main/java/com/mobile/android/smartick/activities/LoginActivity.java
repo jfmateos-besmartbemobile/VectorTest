@@ -551,14 +551,14 @@ public class LoginActivity extends Activity implements TextWatcher{
 
     //Login validation
     private boolean validateStudentLogin(String username, String password){
-        if (username!= null && username.length() > SmartickAPI.MIN_USERNAME_LENGTH && password!=null && password.length() > SmartickAPI.MIN_PASSWORD_LENGTH){
+        if (username!= null && username.length() >= SmartickAPI.MIN_USERNAME_LENGTH && password!=null && password.length() >= SmartickAPI.MIN_PASSWORD_LENGTH){
             return true;
         }
         return false;
     }
 
     private boolean validateTutorLogin(String username, String password){
-        if (username!= null && username.length() > SmartickAPI.MIN_USERNAME_LENGTH && isValidEmail(username) && password!=null && password.length() > SmartickAPI.MIN_PASSWORD_LENGTH){
+        if (username!= null && username.length() >= SmartickAPI.MIN_USERNAME_LENGTH && isValidEmail(username) && password!=null && password.length() >= SmartickAPI.MIN_PASSWORD_LENGTH){
             return true;
         }
         return false;

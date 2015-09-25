@@ -5,6 +5,7 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
@@ -34,132 +35,146 @@ public interface SmartickAPI {
 
     //ASYNC
 
-    @GET("/getAvatarImageForUser.html")
-    public void getAvatarImageForUser(@Query("username") String user,
+    @FormUrlEncoded
+    @POST("/getAvatarImageForUser.html")
+    public void getAvatarImageForUser(@Field("username") String user,
                                       Callback<GetAvatarImageForUserResponse> callback);
 
-    @GET("/loginMobile.html")
-    public void getLoginStatus(@Query("user") String user,
-                              @Query("password")String password,
-                              @Query("installationId") String installationID,
-                              @Query("device") String device,
-                              @Query("version") String version,
-                              @Query("osVersion") String osVersion,
+    @FormUrlEncoded
+    @POST("/loginMobile.html")
+    public void getLoginStatus(@Field("user") String user,
+                              @Field("password")String password,
+                              @Field("installationId") String installationID,
+                              @Field("device") String device,
+                              @Field("version") String version,
+                              @Field("osVersion") String osVersion,
                               Callback<LoginStatusResponse> callback);
 
-    @GET("/checkUserMobileActive.html")
-    public void checkUserMobileActive(@Query("user") String user,
-                                      @Query("installationId") String installationId,
+    @FormUrlEncoded
+    @POST("/checkUserMobileActive.html")
+    public void checkUserMobileActive(@Field("user") String user,
+                                      @Field("installationId") String installationId,
                                       Callback<CheckUserMobileActiveResponse> callback);
 
-    @GET("/registerAlumnoMobile.html")
+    @FormUrlEncoded
+    @POST("/registerAlumnoMobile.html")
     public void registerAlumnoMobile(
-            @Query("username") String username,
-            @Query("password") String password,
-            @Query("nombre") String nombre,
-            @Query("apellidos") String apellidos,
-            @Query("diaNacimiento") String diaNacimiento,
-            @Query("mesNacimiento") String mesNacimiento,
-            @Query("anioNacimiento") String anioNacimiento,
-            @Query("genero") String genero,
-            @Query("tutorUsername") String tutorUsername,
-            @Query("alumnoLocale") String alumnoLocale,
-            @Query("installationId") String installationID,
-            @Query("device") String device,
-            @Query("version") String version,
-            @Query("osVersion") String osVersion,
+            @Field("username") String username,
+            @Field("password") String password,
+            @Field("nombre") String nombre,
+            @Field("apellidos") String apellidos,
+            @Field("diaNacimiento") String diaNacimiento,
+            @Field("mesNacimiento") String mesNacimiento,
+            @Field("anioNacimiento") String anioNacimiento,
+            @Field("genero") String genero,
+            @Field("tutorUsername") String tutorUsername,
+            @Field("alumnoLocale") String alumnoLocale,
+            @Field("installationId") String installationID,
+            @Field("device") String device,
+            @Field("version") String version,
+            @Field("osVersion") String osVersion,
             Callback<RegisterAlumnoResponse> callback);
 
-    @GET("/registerTutorMobile.html")
+    @FormUrlEncoded
+    @POST("/registerTutorMobile.html")
     public void registerTutorMobile(
-            @Query("tutorMail") String tutorMail,
-            @Query("password") String password,
-            @Query("nombre") String nombre,
-            @Query("apellidos") String apellidos,
-            @Query("telefono") String telefono,
-            @Query("tutorLocale") String tutorLocale,
-            @Query("installationId") String installationID,
-            @Query("device") String device,
-            @Query("version") String version,
-            @Query("osVersion") String osVersion,
+            @Field("tutorMail") String tutorMail,
+            @Field("password") String password,
+            @Field("nombre") String nombre,
+            @Field("apellidos") String apellidos,
+            @Field("telefono") String telefono,
+            @Field("tutorLocale") String tutorLocale,
+            @Field("installationId") String installationID,
+            @Field("device") String device,
+            @Field("version") String version,
+            @Field("osVersion") String osVersion,
             Callback<RegisterTutorResponse> callback);
 
-    @GET("/getFreemiumSessionStatus.html")
+    @FormUrlEncoded
+    @POST("/getFreemiumSessionStatus.html")
     public void getFreemiumSessionStatus(
-            @Query("installationId") String installationId,
+            @Field("installationId") String installationId,
             Callback<GetFreemiumSessionStatusResponse> callback);
 
-    @GET("/clearFreemiumSession.html")
+    @FormUrlEncoded
+    @POST("/clearFreemiumSession.html")
     public void clearFreemoumSessionStatus(
-            @Query("installationId") String installationId,
+            @Field("installationId") String installationId,
             Callback<ClearFreemiumSessionResponse> callback);
 
-    @GET("/registerAndroidGCMToken.html")
+    @FormUrlEncoded
+    @POST("/registerAndroidGCMToken.html")
     public void registerAndroidGCMToken(
-            @Query("installationId") String installationId,
-            @Query("gcmToken") String gcmToken,
+            @Field("installationId") String installationId,
+            @Field("gcmToken") String gcmToken,
             Callback<RegisterAndroidGCMTokenResponse> callback);
 
     //SYNC
 
-    @GET("/getAvatarImageForUser.html")
-    public GetAvatarImageForUserResponse getAvatarImageForUser(@Query("username") String user);
+    @FormUrlEncoded
+    @POST("/getAvatarImageForUser.html")
+    public GetAvatarImageForUserResponse getAvatarImageForUser(@Field("username") String user);
 
+    @FormUrlEncoded
+    @POST("/loginMobile.html")
+    public LoginStatusResponse getLoginStatus(@Field("user") String user,
+                                              @Field("password")String password,
+                                              @Field("installationID") String installationID,
+                                              @Field("device") String device,
+                                              @Field("version") String version,
+                                              @Field("osVersion") String osVersion);
 
-    @GET("/loginMobile.html")
-    public LoginStatusResponse getLoginStatus(@Query("user") String user,
-                                              @Query("password")String password,
-                                              @Query("installationID") String installationID,
-                                              @Query("device") String device,
-                                              @Query("version") String version,
-                                              @Query("osVersion") String osVersion);
+    @FormUrlEncoded
+    @POST("/checkUserMobileActive.html")
+    public CheckUserMobileActiveResponse checkUserMobileActive(@Field("user") String user,
+                                      @Field("installationId") String installationId);
 
-    @GET("/checkUserMobileActive.html")
-    public CheckUserMobileActiveResponse checkUserMobileActive(@Query("user") String user,
-                                      @Query("installationId") String installationId);
-
-    @GET("/registerAlumnoMobile.html")
+    @FormUrlEncoded
+    @POST("/registerAlumnoMobile.html")
     public RegisterAlumnoResponse registerAlumnoMobile(
-            @Query("username") String username,
-            @Query("password") String password,
-            @Query("nombre") String nombre,
-            @Query("apellidos") String apellidos,
-            @Query("diaNacimiento") String diaNacimiento,
-            @Query("mesNacimiento") String mesNacimiento,
-            @Query("anioNacimiento") String anioNacimiento,
-            @Query("genero") String genero,
-            @Query("tutorUsername") String tutorUsername,
-            @Query("alumnoLocale") String alumnoLocale,
-            @Query("installationId") String installationID,
-            @Query("device") String device,
-            @Query("version") String version,
-            @Query("osVersion") String osVersion);
+            @Field("username") String username,
+            @Field("password") String password,
+            @Field("nombre") String nombre,
+            @Field("apellidos") String apellidos,
+            @Field("diaNacimiento") String diaNacimiento,
+            @Field("mesNacimiento") String mesNacimiento,
+            @Field("anioNacimiento") String anioNacimiento,
+            @Field("genero") String genero,
+            @Field("tutorUsername") String tutorUsername,
+            @Field("alumnoLocale") String alumnoLocale,
+            @Field("installationId") String installationID,
+            @Field("device") String device,
+            @Field("version") String version,
+            @Field("osVersion") String osVersion);
 
-    @GET("/registerTutorMobile.html")
-    public RegisterTutorResponse registerAlumnoMobile(
-            @Query("tutorMail") String tutorMail,
-            @Query("password") String password,
-            @Query("nombre") String nombre,
-            @Query("apellidos") String apellidos,
-            @Query("telefono") String telefono,
-            @Query("tutorLocale") String tutorLocale,
-            @Query("installationId") String installationID,
-            @Query("device") String device,
-            @Query("version") String version,
-            @Query("osVersion") String osVersion);
+    @FormUrlEncoded
+    @POST("/registerTutorMobile.html")
+    public RegisterTutorResponse registerTutorMobile(
+            @Field("tutorMail") String tutorMail,
+            @Field("password") String password,
+            @Field("nombre") String nombre,
+            @Field("apellidos") String apellidos,
+            @Field("telefono") String telefono,
+            @Field("tutorLocale") String tutorLocale,
+            @Field("installationId") String installationID,
+            @Field("device") String device,
+            @Field("version") String version,
+            @Field("osVersion") String osVersion);
 
 
-    @GET("/getFreemiumSessionStatus.html")
+    @FormUrlEncoded
+    @POST("/getFreemiumSessionStatus.html")
     public GetFreemiumSessionStatusResponse getFreemiumSessionStatus(
-            @Query("installationId") String installationId);
+            @Field("installationId") String installationId);
 
-    @GET("/clearFreemiumSession.html")
+    @FormUrlEncoded
+    @POST("/clearFreemiumSession.html")
     public ClearFreemiumSessionResponse clearFreemoumSessionStatus(
-            @Query("installationId") String installationId);
+            @Field("installationId") String installationId);
 
-    @GET("/registerAndroidGCMToken.html")
+    @FormUrlEncoded
+    @POST("/registerAndroidGCMToken.html")
     public RegisterAndroidGCMTokenResponse registerAndroidGCMToken(
-            @Query("installationId") String installationId,
-            @Query("gcmToken") String gcmToken);
-
+            @Field("installationId") String installationId,
+            @Field("gcmToken") String gcmToken);
 }

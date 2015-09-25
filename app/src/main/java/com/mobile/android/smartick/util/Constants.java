@@ -6,7 +6,7 @@ package com.mobile.android.smartick.util;
 public class Constants {
 
 
-    public static final String URL_CONTEXT = "http://www.smartick.es"; //PROD ENVIRONMENT
+    public static final String URL_CONTEXT = "https://www.smartick.es"; //PROD ENVIRONMENT
 //    public static final String URL_CONTEXT = "http://10.0.0.4";  //DEV PRE ENVIROMENT
 //    public static final String URL_CONTEXT = "http://10.0.0.11";  //DEV LOCAL ENVIROMENT
 //    public static final String URL_CONTEXT = "http://10.0.0.12";  //DEV LOCAL ENVIROMENT
