@@ -577,6 +577,7 @@ public class MainActivity extends FragmentActivity {
         httpClient.setRedirectHandler(handler);
 
         HttpPost post = new HttpPost(url);
+
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
         nvps.add(new BasicNameValuePair("j_username", username));
         nvps.add(new BasicNameValuePair("j_password", password));
@@ -588,7 +589,7 @@ public class MainActivity extends FragmentActivity {
         post.addHeader("User-Agent","Smartick_Android/" + sysInfo.getVersion() + " (Android: " + sysInfo.getOsVersion() + " " + sysInfo.getDevice() +")");
         HttpResponse response = null;
         try {
-            post.setEntity(new UrlEncodedFormEntity(nvps));
+            post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
             response = httpClient.execute(post);
         } catch (IOException e) {
             e.printStackTrace();
