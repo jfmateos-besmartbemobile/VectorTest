@@ -14,10 +14,10 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
-        android:name="com.mobile.android.smartick.permission.C2D_MESSAGE"
+        android:name="${packageName}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.mobile.android.smartick.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${packageName}.permission.C2D_MESSAGE" />
 
     <supports-screens
         android:largeScreens="true"
@@ -91,8 +91,7 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.example.gcm" />
+                <category android:name="${packageName}"/>
             </intent-filter>
         </receiver>
 

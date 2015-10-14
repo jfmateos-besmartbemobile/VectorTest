@@ -11,6 +11,7 @@ public class Constants {
 //    public static final String URL_CONTEXT = "http://10.0.0.11";  //DEV LOCAL ENVIROMENT
 //    public static final String URL_CONTEXT = "http://10.0.0.12";  //DEV LOCAL ENVIROMENT
 //    public static final String URL_CONTEXT = "http://10.0.0.237";  //DEV LOCAL ENVIROMENT
+//    public static final String URL_CONTEXT = "http://10.0.0.150";  //DEV LOCAL ENVIROMENT
 
     public static final String URL_SMARTICK_LOGIN = URL_CONTEXT + "/smartick_login";
     public static final String URL_SMARTICK_LOGIN_FREEMIUM = URL_CONTEXT + "/loginMobileFreemium.html";

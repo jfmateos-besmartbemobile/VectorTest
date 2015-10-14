@@ -47,7 +47,7 @@
                 android:layout_height="60dp"
                 android:layout_weight="0.5"
                 android:background="@drawable/rounded_corner"
-                android:hint="@string/Alias"
+                android:hint="@string/email"
                 android:inputType="text"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="20dp"
