@@ -9,8 +9,8 @@ android {
         applicationId "com.mobile.android.smartick"
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 21   // Actualizar +1 cada vez que se sube a Google Play
-        versionName "1.0.1"
+        versionCode 22   // Actualizar +1 cada vez que se sube a Google Play
+        versionName "1.0.2"
     }
 
     buildTypes {

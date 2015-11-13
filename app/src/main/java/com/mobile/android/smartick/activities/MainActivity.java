@@ -100,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 
             ctx = this.getApplicationContext();
 
-            //retreives parameters from intent
+            //retrieves parameters from intent
 			Bundle b = getIntent().getExtras();
 			url = b.getString("url");
 
@@ -587,6 +587,13 @@ public class MainActivity extends FragmentActivity {
 
         //User agent para app Android
         post.addHeader("User-Agent","Smartick_Android/" + sysInfo.getVersion() + " (Android: " + sysInfo.getOsVersion() + " " + sysInfo.getDevice() +")");
+
+        //Cookie almacenada?
+        String c = cookieManager.getCookie(url);
+        if (c != null){
+            post.addHeader("Cookie", c);
+        }
+
         HttpResponse response = null;
         try {
             post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
