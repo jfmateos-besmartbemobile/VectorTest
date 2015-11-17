@@ -340,7 +340,7 @@ public class FreemiumActivity extends Activity {
 
     public void okAvatarAgePressed(View view){
         //reads freemium age from seekbar and starts freemium session
-        selectedAge = avatarAgeSeekBar.getProgress();
+        selectedAge = Constants.MIN_FREEMIUM_AGE + avatarAgeSeekBar.getProgress();
         startFreemiumSession();
     }
 
