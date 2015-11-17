@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mobile.android.smartick.R;
@@ -81,6 +82,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     private int studentBirthMonth;
     private int studentBirthYear;
     private String studentSex = "FEMALE";
+    private boolean studentCanRead = true;
 
     private String tutorMail;
     private String tutorPassword;
@@ -97,6 +99,8 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     private TextView titleStudentInfo;
     private EditText studentNameEditText;
     private EditText studentLastNameEditText;
+    private TextView studentCanReadLabelText;
+    private Switch studentCanReadSwitch;
     private TextView titleStudentSex;
     private ImageView iconBoy;
     private ImageView iconGirl;
@@ -151,6 +155,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         //Changes font of text
         setUpTextFontForView("fonts/DidactGothic.ttf");
 
+        //sets up canRead switch
+        studentCanReadSwitch.setChecked(studentCanRead);
+
         //sets uo datePicker initial and maximum dates
         Calendar cal=Calendar.getInstance();
         int year=cal.get(Calendar.YEAR);
@@ -191,7 +198,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         finish();
     }
 
-    public void goToLogin(){
+    public void goToLogin() {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
@@ -334,7 +341,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         }
 
         int scrollTo = currentPage * pageWidth;
-        scrollView1.customSmoothScroll(scrollTo,RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
+        scrollView1.customSmoothScroll(scrollTo, RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
     }
 
     public void updateStudentConfirmData(){
@@ -342,6 +349,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         studentPassword = studentPasswordEditText.getText().toString();
         studentName = studentNameEditText.getText().toString();
         studentLastName = studentLastNameEditText.getText().toString();
+        studentCanRead = studentCanReadSwitch.isChecked();
         studentBirthDay = studentAgeDatePicker.getDayOfMonth();
         studentBirthMonth = studentAgeDatePicker.getMonth();
         studentBirthYear = studentAgeDatePicker.getYear();
@@ -394,6 +402,8 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         titleStudentInfo = (TextView) findViewById(R.id.student_info_title);
         studentNameEditText = (EditText) findViewById(R.id.student_name_edittext);
         studentLastNameEditText = (EditText) findViewById(R.id.student_lastname_edittext);
+        studentCanReadLabelText = (TextView) findViewById(R.id.student_canread_label);
+        studentCanReadSwitch = (Switch) findViewById(R.id.student_canread_switch);
         titleStudentSex = (TextView) findViewById(R.id.student_sex_title);
         iconBoy = (ImageView) findViewById(R.id.icon_boy);
         iconGirl = (ImageView) findViewById(R.id.icon_girl);
@@ -429,6 +439,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         titleStudentInfo.setTypeface(dGothic);
         studentNameEditText.setTypeface(dGothic);
         studentLastNameEditText.setTypeface(dGothic);
+        studentCanReadLabelText.setTypeface(dGothic);
         titleStudentSex.setTypeface(dGothic);
         titleStudentAge.setTypeface(dGothic);
         titleStudentConfirm.setTypeface(dGothic);
@@ -625,6 +636,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                 String.valueOf(studentBirthMonth),
                 String.valueOf(studentBirthYear),
                 studentSex,
+                String.valueOf(studentCanRead),
                 tutorMail,
                 sysInfo.getLocale(),
                 sysInfo.getInstallationId(),

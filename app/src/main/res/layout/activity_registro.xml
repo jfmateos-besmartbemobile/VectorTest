@@ -20,7 +20,7 @@
         android:layout_alignParentRight="true"
         android:fillViewport="true"
         >
-3
+
         <RelativeLayout
             android:id="@+id/register_page1"
             android:layout_width="wrap_content"
@@ -144,78 +144,97 @@
                 android:layout_centerHorizontal="true" />
 
             <TextView
-            android:id="@+id/student_info_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/BlueColor"
-            android:textSize="32dp"
-            android:text="@string/Students_Data"
-            android:layout_alignTop="@+id/register_panel2"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true" />
+                android:id="@+id/student_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="32dp"
+                android:text="@string/Students_Data"
+                android:layout_alignTop="@+id/register_panel2"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true" />
 
             <ImageView
-            android:id="@+id/student_info_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/student_info_icon"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/student_info_title"
-            android:layout_toStartOf="@+id/student_info_title"
-            android:layout_marginRight="54dp"
-            android:layout_marginEnd="54dp" />
+                android:id="@+id/student_info_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/student_info_icon"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/student_info_title"
+                android:layout_toStartOf="@+id/student_info_title"
+                android:layout_marginRight="54dp"
+                android:layout_marginEnd="54dp" />
 
             <EditText
-            android:id="@+id/student_name_edittext"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:background="@drawable/rounded_edittext_register"
-            android:hint="@string/Name"
-            android:paddingLeft="20dp"
-            android:textSize="20dp"
-            android:textColor="@color/GrayColor"
-            android:layout_alignTop="@+id/student_info_icon"
-            android:layout_toRightOf="@+id/student_info_icon"
-            android:layout_toEndOf="@+id/student_info_icon" />
+                android:id="@+id/student_name_edittext"
+                android:layout_width="300dp"
+                android:layout_height="70dp"
+                android:background="@drawable/rounded_edittext_register"
+                android:hint="@string/Name"
+                android:paddingLeft="20dp"
+                android:textSize="20dp"
+                android:textColor="@color/GrayColor"
+                android:layout_alignTop="@+id/student_info_icon"
+                android:layout_toRightOf="@+id/student_info_icon"/>
 
             <EditText
-            android:id="@+id/student_lastname_edittext"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:background="@drawable/rounded_edittext_register"
-            android:hint="@string/Last_name"
-            android:paddingLeft="20dp"
-            android:textSize="20dp"
-            android:textColor="@color/GrayColor"
-            android:layout_alignBottom="@+id/student_info_icon"
-            android:layout_toRightOf="@+id/student_info_icon"
-            android:layout_toEndOf="@+id/student_info_icon" />
+                android:id="@+id/student_lastname_edittext"
+                android:layout_width="300dp"
+                android:layout_height="70dp"
+                android:background="@drawable/rounded_edittext_register"
+                android:hint="@string/Last_name"
+                android:paddingLeft="20dp"
+                android:textSize="20dp"
+                android:textColor="@color/GrayColor"
+                android:layout_alignBottom="@+id/student_info_icon"
+                android:layout_toRightOf="@+id/student_info_icon" />
+
+            <TextView
+                android:id="@+id/student_canread_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="31dp"
+                android:text="@string/CanRead"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/student_lastname_edittext"
+                android:layout_toRightOf="@+id/student_info_icon"
+                android:layout_toEndOf="@+id/student_info_icon"
+                />
+            <Switch
+                android:id="@+id/student_canread_switch"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/student_lastname_edittext"
+                android:layout_toRightOf="@+id/student_canread_label"
+                android:textOff="@string/No"
+                android:textOn="@string/Yes"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/registro_back_selector"
+                android:onClick="goBack"
+                android:clickable="true"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/register_panel2"
+                android:layout_alignStart="@+id/register_panel2"
+                android:layout_marginLeft="10dp"
+                />
 
             <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/registro_back_selector"
-            android:onClick="goBack"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/register_panel2"
-            android:layout_alignStart="@+id/register_panel2"
-            android:layout_marginLeft="10dp"
-            />
-
-            <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/registro_forward_green_selector"
-            android:onClick="goNext"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:layout_alignRight="@+id/register_panel2"
-            android:layout_alignEnd="@+id/register_panel2"
-            android:layout_marginRight="10dp"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/registro_forward_green_selector"
+                android:onClick="goNext"
+                android:clickable="true"
+                android:layout_centerVertical="true"
+                android:layout_alignRight="@+id/register_panel2"
+                android:layout_alignEnd="@+id/register_panel2"
+                android:layout_marginRight="10dp"
+                />
 
         </RelativeLayout>
 

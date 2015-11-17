@@ -133,5 +133,6 @@
     <string name="Later">Más tarde</string>
     <string name="email">email</string>
     <string name="Something_went_wrong_try_again_later">Ha ocurrido un error, inténtalo de nuevo más tarde</string>
+    <string name="CanRead">¿Sabe leer?</string>
 
 </resources>
