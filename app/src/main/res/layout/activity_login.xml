@@ -17,6 +17,22 @@
         android:onClick="irWelcome"
     />
 
+    <Button
+        android:id="@+id/login_button_dev_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_btn_bg_color"
+        android:visibility="gone"
+        android:clickable="true"
+        android:text="dev"
+        android:textColor="@color/white"
+        android:onClick="mostrarDevMenu"
+        android:textSize="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/login_panel_tutores"
         android:layout_width="@dimen/login_panel_tutores_width"

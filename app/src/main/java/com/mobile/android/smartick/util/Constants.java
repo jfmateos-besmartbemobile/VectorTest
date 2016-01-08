@@ -5,18 +5,16 @@ package com.mobile.android.smartick.util;
  */
 public class Constants {
 
+    public static final boolean DEBUG_MODE = false;
 
-    public static final String URL_CONTEXT = "https://www.smartick.es"; //PROD ENVIRONMENT
-//    public static final String URL_CONTEXT = "http://10.0.0.4";  //DEV PRE ENVIROMENT
-//    public static final String URL_CONTEXT = "http://10.0.0.11";  //DEV LOCAL ENVIROMENT
-//    public static final String URL_CONTEXT = "http://10.0.0.12";  //DEV LOCAL ENVIROMENT
-//    public static final String URL_CONTEXT = "http://10.0.0.237";  //DEV LOCAL ENVIROMENT
-//    public static final String URL_CONTEXT = "http://10.0.0.150";  //DEV LOCAL ENVIROMENT
+    public static final String URL_CONTEXT_PROD = "https://www.smartick.es"; //PROD ENVIRONMENT
+    public static final String URL_CONTEXT_PRE = "http://dev.smartick.es:88";  //DEV PRE ENVIROMENT
+    public static final String URL_CONTEXT_DEV = "http://192.168.1.12";  //DEV LOCAL ENVIROMENT
 
-    public static final String URL_SMARTICK_LOGIN = URL_CONTEXT + "/smartick_login";
-    public static final String URL_SMARTICK_LOGIN_FREEMIUM = URL_CONTEXT + "/loginMobileFreemium.html";
-    public static final String URL_LOGOUT = URL_CONTEXT + "/smartick_logout";
-    public static final String URL_FREEMIUM_IMAGE = URL_CONTEXT + "/images/freemium/";
+    public static final String URL_SMARTICK_LOGIN = "/smartick_login";
+    public static final String URL_SMARTICK_LOGIN_FREEMIUM = "/loginMobileFreemium.html";
+    public static final String URL_LOGOUT = "/smartick_logout";
+    public static final String URL_FREEMIUM_IMAGE = "/images/freemium/";
 
     public static final String WELCOME_LOG_TAG ="welcome_log_tag";
     public static final String FREEMIUM_LOG_TAG ="freemium_log_tag";
@@ -45,4 +43,63 @@ public class Constants {
     public static final int MIN_FREEMIUM_AGE = 4;
     public static final int MAX_FREEMIUM_AGE = 14;
 
+    private static Constants instance;
+    public String url_context = URL_CONTEXT_PROD;
+    public String url_smartick_login = URL_CONTEXT_PROD + URL_SMARTICK_LOGIN;
+    public String url_smartick_login_freemium = URL_CONTEXT_PROD + URL_SMARTICK_LOGIN_FREEMIUM;
+    public String url_logout = URL_CONTEXT_PROD + URL_LOGOUT;
+    public String url_freemium_image = URL_CONTEXT_PROD + URL_FREEMIUM_IMAGE;
+
+
+    public static Constants instance() {
+        if (instance == null) {
+            instance = new Constants();
+            return instance;
+        }
+        return instance;
+    }
+
+    public String getUrl_context() {
+        return url_context;
+    }
+
+    public void setUrl_context(String url_context) {
+        this.url_context = url_context;
+        this.url_freemium_image = url_context + URL_FREEMIUM_IMAGE;
+        this.url_logout = url_context + URL_LOGOUT;
+        this.url_smartick_login = url_context + URL_SMARTICK_LOGIN;
+        this.url_smartick_login_freemium = url_context + URL_SMARTICK_LOGIN_FREEMIUM;
+    }
+
+    public String getUrl_smartick_login() {
+        return url_smartick_login;
+    }
+
+    public void setUrl_smartick_login(String url_smartick_login) {
+        this.url_smartick_login = url_smartick_login;
+    }
+
+    public String getUrl_smartick_login_freemium() {
+        return url_smartick_login_freemium;
+    }
+
+    public void setUrl_smartick_login_freemium(String url_smartick_login_freemium) {
+        this.url_smartick_login_freemium = url_smartick_login_freemium;
+    }
+
+    public String getUrl_logout() {
+        return url_logout;
+    }
+
+    public void setUrl_logout(String url_logout) {
+        this.url_logout = url_logout;
+    }
+
+    public String getUrl_freemium_image() {
+        return url_freemium_image;
+    }
+
+    public void setUrl_freemium_image(String url_freemium_image) {
+        this.url_freemium_image = url_freemium_image;
+    }
 }

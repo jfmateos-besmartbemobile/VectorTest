@@ -203,7 +203,7 @@ public class FreemiumMainActivity extends Activity {
         logoutButton.setVisibility(View.INVISIBLE);
 
         //performs login
-        new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN_FREEMIUM);
+        new AsyncLogin().execute(Constants.instance().getUrl_smartick_login_freemium());
 
         //sets progress bar
         pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -303,7 +303,7 @@ public class FreemiumMainActivity extends Activity {
             }else if (path.startsWith("//")){
                 audioPlayer.playURL("http:" + path);
             }else{
-                audioPlayer.playURL(Constants.URL_CONTEXT + path);
+                audioPlayer.playURL(Constants.instance().getUrl_context() + path);
             }
         }
 
@@ -571,7 +571,7 @@ public class FreemiumMainActivity extends Activity {
             pDialog.dismiss();
         }
         audioPlayer.stop();
-        webView.load(Constants.URL_LOGOUT, null);
+        webView.load(Constants.instance().getUrl_logout(), null);
         finish();
     }
 
@@ -776,7 +776,7 @@ public class FreemiumMainActivity extends Activity {
     }
 
     private void getImageRegister(String imageName, final ImageView targetImageView) {
-        final String imageUri = Constants.URL_FREEMIUM_IMAGE + sysInfo.getLocale() + "/" + imageName + ".png";
+        final String imageUri = Constants.instance().getUrl_freemium_image() + sysInfo.getLocale() + "/" + imageName + ".png";
         Log.d(Constants.WEBVIEW_LOG_TAG, "requesting image: " + imageUri);
         FreemiumMainActivity.this.runOnUiThread(new Runnable() {
             @Override

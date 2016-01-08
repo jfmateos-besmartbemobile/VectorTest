@@ -168,7 +168,7 @@ public class MainActivity extends FragmentActivity {
             logoutButton.setVisibility(View.INVISIBLE);
 
             //performs login
-            new AsyncLogin().execute(Constants.URL_SMARTICK_LOGIN,username,password,sysInfo.getInstallationId());
+            new AsyncLogin().execute(Constants.instance().getUrl_smartick_login(),username,password,sysInfo.getInstallationId());
 
             //sets progress bar
             pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -265,7 +265,7 @@ public class MainActivity extends FragmentActivity {
             }else if (path.startsWith("//")){
                 audioPlayer.playURL("http:" + path);
             }else{
-                audioPlayer.playURL(Constants.URL_CONTEXT + path);
+                audioPlayer.playURL(Constants.instance().getUrl_context() + path);
             }
         }
 
@@ -620,7 +620,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         audioPlayer.stop();
-        webView.load(Constants.URL_LOGOUT, null);
+        webView.load(Constants.instance().getUrl_logout(), null);
         finish();
     }
 
@@ -632,7 +632,7 @@ public class MainActivity extends FragmentActivity {
             folder.mkdirs();
         }
 
-        String c = cookieManager.getCookie(Constants.URL_CONTEXT);
+        String c = cookieManager.getCookie(Constants.instance().getUrl_context());
 
         File fileDL = new File(folder, "diploma.pdf");
         FileDownloader.download(url, fileDL, c);

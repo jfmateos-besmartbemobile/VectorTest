@@ -127,7 +127,7 @@ public class UsersListAdapter extends ArrayAdapter<User> {
                     if (this.username != null && this.username.length() > 0){
                         GetAvatarImageForUserResponse response = SmartickRestClient.get().getAvatarImageForUser(this.username);
                         if (response!= null){
-                            return Constants.URL_CONTEXT + response.getUrlAvatar();
+                            return Constants.instance().getUrl_context() + response.getUrlAvatar();
                         }
                     }
                 } catch (Exception e) {

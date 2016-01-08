@@ -12,7 +12,7 @@ import retrofit.client.OkClient;
 public class SmartickRestClient {
 
     private static SmartickAPI REST_CLIENT;
-    private static String ROOT = Constants.URL_CONTEXT;
+    private static String ROOT = Constants.instance().getUrl_context();
 
     static {
         setupRestClient();
@@ -26,7 +26,7 @@ public class SmartickRestClient {
 
     private static void setupRestClient() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(Constants.URL_CONTEXT)
+                .setEndpoint(Constants.instance().getUrl_context())
                 .setClient(new OkClient(new OkHttpClient()))
                 .build();
 

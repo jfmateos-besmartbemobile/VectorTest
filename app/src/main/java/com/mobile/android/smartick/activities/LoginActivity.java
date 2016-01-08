@@ -1,6 +1,7 @@
 package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -9,7 +10,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -60,6 +63,8 @@ public class LoginActivity extends Activity implements TextWatcher{
     private String usernameToDelete = null;
     private SweetAlertDialog pDialogDelete;
 
+    private AlertDialog endpointSelectAlertDialog;
+
     private UsersDBHandler localDB = new UsersDBHandler(this);
 
     @Override
@@ -76,6 +81,11 @@ public class LoginActivity extends Activity implements TextWatcher{
         // Inicialmente ocultamos el panel de login
         findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
         findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
+
+        //Dev menu?
+        if (Constants.DEBUG_MODE){
+            findViewById(R.id.login_button_dev_menu).setVisibility(View.VISIBLE);
+        }
 
         //login form validation
         EditText studentUsernameEditText = (EditText) findViewById(R.id.login_alias);
@@ -600,4 +610,75 @@ public class LoginActivity extends Activity implements TextWatcher{
         imm.hideSoftInputFromWindow(e3.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(e4.getWindowToken(), 0);
     }
+
+    //DEBUG MENU
+
+    /** Volver a la pantalla de inicio */
+    public void mostrarDevMenu(View view) {
+        showModalDebug();
+    }
+
+    public void showModalDebug(){
+
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Context context = LoginActivity.this;
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View freemiumWarningView = li.inflate(R.layout.debug_endpoint_select_dialog, null);
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                alertBuilder.setView(freemiumWarningView);
+
+                //sets modal content
+                Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+                TextView titleWarning = (TextView) freemiumWarningView.findViewById(R.id.titleEndpoint);
+                titleWarning.setTypeface(tfDidact);
+
+                ((Button) freemiumWarningView.findViewById(R.id.debugEndpointPRODButton)).setTypeface(tfDidact);
+                ((Button) freemiumWarningView.findViewById(R.id.debugEndpointPREButton)).setTypeface(tfDidact);
+                ((Button) freemiumWarningView.findViewById(R.id.debugEndpointDEVButton)).setTypeface(tfDidact);
+
+
+                endpointSelectAlertDialog = alertBuilder.create();
+                endpointSelectAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                endpointSelectAlertDialog.setCanceledOnTouchOutside(false);
+
+                //shows dialog
+                endpointSelectAlertDialog.show();
+            }
+        });
+    }
+
+    public void setEndpointPRODPressed(View view){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                endpointSelectAlertDialog.dismiss();
+                Constants.instance().setUrl_context(Constants.URL_CONTEXT_PROD);
+            }
+        });
+    }
+
+    public void setEndpointPREPressed(View view){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                endpointSelectAlertDialog.dismiss();
+                Constants.instance().setUrl_context(Constants.URL_CONTEXT_PRE);
+            }
+        });
+    }
+
+    public void setEndpointDEVPressed(View view){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                endpointSelectAlertDialog.dismiss();
+                Constants.instance().setUrl_context(Constants.URL_CONTEXT_DEV);
+                Log.d(Constants.LOGIN_LOG_TAG,Constants.instance().getUrl_context());
+            }
+        });
+    }
+
 }
