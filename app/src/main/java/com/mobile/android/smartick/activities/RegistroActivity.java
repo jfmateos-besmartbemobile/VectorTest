@@ -19,6 +19,8 @@ import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -82,7 +84,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     private int studentBirthMonth;
     private int studentBirthYear;
     private String studentSex = "FEMALE";
-    private boolean studentCanRead = true;
+    private boolean studentCanRead = false;
 
     private String tutorMail;
     private String tutorPassword;
@@ -112,6 +114,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     private TextView confirmStudentUsernameTextView;
     private TextView confirmStudentNameTextView;
     private TextView confirmStudentBirthDate;
+    private TextView confirmStudentCanRead;
     private TextView titleTutorCred;
     private ImageView tutorMailIcon;
     private ImageView tutorPasswordIcon;
@@ -157,6 +160,20 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
         //sets up canRead switch
         studentCanReadSwitch.setChecked(studentCanRead);
+        studentCanReadSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                studentCanReadSwitch.setChecked(isChecked);
+                studentCanRead = isChecked;
+                if (isChecked){
+                    confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.Yes));
+                }else{
+                    confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.No));
+                }
+
+            }
+        });
+        confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.No));
 
         //sets uo datePicker initial and maximum dates
         Calendar cal=Calendar.getInstance();
@@ -165,6 +182,21 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         int day=cal.get(Calendar.DAY_OF_MONTH);
         studentAgeDatePicker.updateDate(year - 5, month, day);
         studentAgeDatePicker.setMaxDate(new Date().getTime());
+        studentAgeDatePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                int curenntYear = Calendar.getInstance().get(Calendar.YEAR);
+                if (curenntYear - year >= Constants.CAN_READ_MIN_AGE){
+                    studentCanReadSwitch.setChecked(true);
+                    studentCanRead = true;
+                    confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.Yes));
+                }else{
+                    studentCanReadSwitch.setChecked(false);
+                    studentCanRead = false;
+                    confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.No));
+                }
+            }
+        });
 
         //sets up text watchers
         setUpTextWatchers();
@@ -415,6 +447,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         confirmStudentUsernameTextView = (TextView) findViewById(R.id.confirm_student_username);
         confirmStudentNameTextView = (TextView) findViewById(R.id.confirm_student_name);
         confirmStudentBirthDate = (TextView) findViewById(R.id.confirm_student_birthdate);
+        confirmStudentCanRead = (TextView) findViewById(R.id.confirm_student_can_read);
         titleTutorCred = (TextView) findViewById(R.id.tutor_credentials_title);
         tutorMailIcon = (ImageView) findViewById(R.id.tutor_mail_icon);
         tutorPasswordIcon = (ImageView) findViewById(R.id.tutor_password_icon);

@@ -42,6 +42,7 @@ public class Constants {
     public static final int DEFAULT_FREEMIUM_AGE = 9;
     public static final int MIN_FREEMIUM_AGE = 4;
     public static final int MAX_FREEMIUM_AGE = 14;
+    public static final int CAN_READ_MIN_AGE = 7;
 
     private static Constants instance;
     public String url_context = URL_CONTEXT_PROD;

@@ -189,27 +189,6 @@
                 android:layout_alignBottom="@+id/student_info_icon"
                 android:layout_toRightOf="@+id/student_info_icon" />
 
-            <TextView
-                android:id="@+id/student_canread_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/BlueColor"
-                android:textSize="31dp"
-                android:text="@string/CanRead"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/student_lastname_edittext"
-                android:layout_toRightOf="@+id/student_info_icon"
-                android:layout_toEndOf="@+id/student_info_icon"
-                />
-            <Switch
-                android:id="@+id/student_canread_switch"
-                android:layout_width="100dp"
-                android:layout_height="60dp"
-                android:layout_below="@id/student_lastname_edittext"
-                android:layout_toRightOf="@+id/student_canread_label"
-                android:textOff="@string/No"
-                android:textOn="@string/Yes"
-                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -367,10 +346,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/BlueColor"
-                android:textSize="32dp"
+                android:textSize="28dp"
                 android:text="@string/Age"
                 android:layout_alignTop="@+id/register_panel4"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true" />
 
             <DatePicker
@@ -378,11 +357,31 @@
                 android:layout_below="@+id/student_age_title"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/calendar_background_register"
                 android:calendarViewShown="false"/>
+
+            <TextView
+                android:id="@+id/student_canread_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BlueColor"
+                android:textSize="31dp"
+                android:text="@string/CanRead"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/student_age_datepicker"
+                android:layout_centerHorizontal="true"
+                />
+            <Switch
+                android:id="@+id/student_canread_switch"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/student_age_datepicker"
+                android:layout_toRightOf="@+id/student_canread_label"
+                android:textOff="@string/No"
+                android:textOn="@string/Yes"
+                />
 
             <Button
                 android:layout_width="wrap_content"
@@ -458,6 +457,7 @@
                 android:layout_height="200dp"
                 android:src="@drawable/boy_avatar"
                 android:layout_gravity="center"
+                android:text="test"
                 android:background="@drawable/confirm_sex_holder"
                 android:layout_centerVertical="true"
                 android:layout_alignRight="@+id/student_confirm_title"
@@ -494,12 +494,24 @@
                 android:layout_width="260dp"
                 android:gravity="left"
                 android:layout_height="wrap_content"
-                android:text="test"
                 android:textSize="20dp"
+                android:text="test"
                 android:textColor="@color/BlueColor"
                 android:layout_below="@+id/student_confirm_title"
                 android:layout_marginLeft="620dp"
                 android:layout_marginTop="150dp" />
+
+            <TextView
+                android:id="@+id/confirm_student_can_read"
+                android:layout_width="260dp"
+                android:gravity="left"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="test"
+                android:textColor="@color/BlueColor"
+                android:layout_below="@+id/student_confirm_title"
+                android:layout_marginLeft="620dp"
+                android:layout_marginTop="200dp" />
 
             <Button
                 android:layout_width="wrap_content"
