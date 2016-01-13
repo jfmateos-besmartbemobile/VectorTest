@@ -22,6 +22,20 @@
         android:clickable="true"
         />
 
+    <Button
+        android:id="@+id/go_to_vw_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="18dp"
+        android:text="Mundo Virtual"
+        android:background="@color/blue_btn_bg_color"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:onClick="goToVirtualWorldPressed"
+        android:clickable="true"
+        />
+
     <RelativeLayout
         android:id="@+id/tutor_name_holder"
         android:layout_width="fill_parent"

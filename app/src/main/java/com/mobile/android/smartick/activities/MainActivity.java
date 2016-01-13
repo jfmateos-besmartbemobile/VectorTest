@@ -167,6 +167,18 @@ public class MainActivity extends FragmentActivity {
             //logout button is not visible by default
             logoutButton.setVisibility(View.INVISIBLE);
 
+            //Go to virtual world button (DEBUG)
+            if (Constants.DEBUG_MODE){
+                Button goToVirtualWorldButton = (Button) findViewById(R.id.go_to_vw_button);
+                goToVirtualWorldButton.setVisibility(View.VISIBLE);
+                goToVirtualWorldButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToVirtualWorldButtonPressed();
+                    }
+                });
+            }
+
             //performs login
             new AsyncLogin().execute(Constants.instance().getUrl_smartick_login(),username,password,sysInfo.getInstallationId());
 
@@ -222,6 +234,10 @@ public class MainActivity extends FragmentActivity {
     private void hideLogoutButton(){
         Button logoutButton = (Button) findViewById(R.id.logout_button_main);
         logoutButton.setVisibility(View.INVISIBLE);
+    }
+
+    private void goToVirtualWorldButtonPressed(){
+        webView.evaluateJavascript("location.href='/alumno/mundoVirtual.html'",null);
     }
 
 //Web location
