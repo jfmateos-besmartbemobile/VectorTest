@@ -110,6 +110,15 @@ public interface SmartickAPI {
             @Field("gcmToken") String gcmToken,
             Callback<RegisterAndroidGCMTokenResponse> callback);
 
+    @FormUrlEncoded
+    @POST("/registerAppActivation.html")
+    public void registerAppActivation(
+            @Field("app") String app,
+            @Field("appVersion") String appVersion,
+            @Field("device") String device,
+            @Field("installationId") String installationId,
+            Callback<RegisterAppActivationResponse> callback);
+
     //SYNC
 
     @FormUrlEncoded
@@ -179,4 +188,12 @@ public interface SmartickAPI {
     public RegisterAndroidGCMTokenResponse registerAndroidGCMToken(
             @Field("installationId") String installationId,
             @Field("gcmToken") String gcmToken);
+
+    @FormUrlEncoded
+    @POST("/registerAppActivation.html")
+    public void registerAppActivation(
+            @Field("app") String app,
+            @Field("appVersion") String appVersion,
+            @Field("device") String device,
+            @Field("installationId") String installationId);
 }

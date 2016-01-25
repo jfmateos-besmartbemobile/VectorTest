@@ -40,6 +40,7 @@ import com.mobile.android.smartick.UI.EFStrokeTextView;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.ClearFreemiumSessionResponse;
 import com.mobile.android.smartick.network.GetFreemiumSessionStatusResponse;
+import com.mobile.android.smartick.network.RegisterAppActivationResponse;
 import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.pojos.FreemiumProfile;
 import com.mobile.android.smartick.pojos.SystemInfo;
@@ -118,6 +119,10 @@ public class WelcomeActivity extends Activity {
                 buttonIntro = findViewById(R.id.intro_button);
                 buttonIntro.setVisibility(View.GONE);
             }
+
+            //Register app activation with server
+            registerAppActivation();
+
         }else{
             //if there are already stored users we default to loginActivity
             List<User> users = localDB.getAllUsers();
@@ -375,5 +380,19 @@ public class WelcomeActivity extends Activity {
             return false;
         }
         return true;
+    }
+
+    private void registerAppActivation(){
+        SmartickRestClient.get().registerAppActivation("Android",sysInfo.getVersion(),sysInfo.getDevice(),sysInfo.getInstallationId(),
+                new Callback<RegisterAppActivationResponse>() {
+                    @Override
+                    public void success(RegisterAppActivationResponse registerAppActivationResponse, Response response){
+                        Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation RESPONSE: " + registerAppActivationResponse.getReponse());
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation ERROR: " + error);
+                    }
+                });
     }
 }
