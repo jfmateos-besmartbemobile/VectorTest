@@ -784,6 +784,7 @@
             android:hint="@string/Phone"
             android:paddingLeft="20dp"
             android:textSize="20dp"
+            android:maxLength="20"
             android:inputType="phone"
             android:textColor="@color/GrayColor"
             android:layout_alignTop="@+id/tutor_phone_icon"

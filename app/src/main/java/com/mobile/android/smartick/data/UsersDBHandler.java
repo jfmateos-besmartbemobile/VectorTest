@@ -54,7 +54,7 @@ public class UsersDBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
- 
+
         // Create tables again
         onCreate(db);
     }
@@ -194,7 +194,7 @@ public class UsersDBHandler extends SQLiteOpenHelper {
 	    values.put(KEY_USERNAME, user.getUsername());
 	    values.put(KEY_PASSWORD, user.getPassword());
         values.put(KEY_PERFIL, user.getPerfil());
-	 
+
 	    // updating row
 	    return db.update(TABLE_USERS, values, KEY_ID + " = ?",
 	            new String[] { String.valueOf(user.getId()) });

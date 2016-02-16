@@ -119,6 +119,13 @@ public interface SmartickAPI {
             @Field("installationId") String installationId,
             Callback<RegisterAppActivationResponse> callback);
 
+    @FormUrlEncoded
+    @POST("/validateSocialDataMobile.html")
+    public void validateSocial(
+            @Field("token") String token,
+            @Field("type") String type,
+            Callback<ValidateSocialResponse> callback);
+
     //SYNC
 
     @FormUrlEncoded
@@ -196,4 +203,10 @@ public interface SmartickAPI {
             @Field("appVersion") String appVersion,
             @Field("device") String device,
             @Field("installationId") String installationId);
+
+    @FormUrlEncoded
+    @POST("/validateSocialDataMobile.html")
+    public void validateSocial(
+            @Field("token") String token,
+            @Field("type") String type);
 }

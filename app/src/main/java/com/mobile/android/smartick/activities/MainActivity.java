@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -77,6 +78,11 @@ public class MainActivity extends FragmentActivity {
 	private String username;
     private String password;
     private UserType userType;
+
+    //Social
+    private String token;
+    private String socialType;
+
     private RelativeLayout tutorNameHolder;
     private SystemInfo sysInfo;
 
@@ -108,6 +114,10 @@ public class MainActivity extends FragmentActivity {
 			username = b.getString("username");
             password = b.getString("password");
             userType = UserType.valueOf(b.getString("userType"));
+
+            //retreives social login info (if any)
+            socialType = b.getString("socialType");
+            token = b.getString("token");
 
             //initializaes systemInfo
             sysInfo = new SystemInfo(ctx);
@@ -179,8 +189,13 @@ public class MainActivity extends FragmentActivity {
                 });
             }
 
-            //performs login
-            new AsyncLogin().execute(Constants.instance().getUrl_smartick_login(),username,password,sysInfo.getInstallationId());
+            if (socialType != null && token != null){
+                //performs social login
+                new AsyncSocialLogin().execute(Constants.instance().getUrl_smartick_social_login(),username,token,socialType,sysInfo.getInstallationId());
+            }else{
+                //performs normal user login
+                new AsyncLogin().execute(Constants.instance().getUrl_smartick_login(),username,password,sysInfo.getInstallationId());
+            }
 
             //sets progress bar
             pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -376,13 +391,13 @@ public class MainActivity extends FragmentActivity {
 
         @JavascriptInterface
         public synchronized void setOnFinishYouTube(String callback){
-            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - setOnFinishYoutubeCallback - " + callback);
+            Log.d(Constants.YTPLAYER_LOG_TAG, "SmartickYouTubeInterface - setOnFinishYoutubeCallback - " + callback);
             onFinishYoutubeCallback = callback;
         }
 
         @JavascriptInterface
         public synchronized void setOnCloseDialog(String callback){
-            Log.d(Constants.YTPLAYER_LOG_TAG,"SmartickYouTubeInterface - setOnCloseDialogCallback - " + callback);
+            Log.d(Constants.YTPLAYER_LOG_TAG, "SmartickYouTubeInterface - setOnCloseDialogCallback - " + callback);
             onCloseDialogCallback = callback;
         }
 
@@ -402,7 +417,7 @@ public class MainActivity extends FragmentActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (ytPlayer != null){
+                    if (ytPlayer != null) {
                         showYTPlayerHolder();
                         ytPlayer.cueVideo(videoId);
                         ytPlayer.play();
@@ -421,8 +436,8 @@ public class MainActivity extends FragmentActivity {
                     if (ytPlayer != null) {
                         hideYTPlayerHolder();
                     }
-                    if (onCloseDialogCallback != null){
-                        webView.evaluateJavascript(onCloseDialogCallback + "();",null);
+                    if (onCloseDialogCallback != null) {
+                        webView.evaluateJavascript(onCloseDialogCallback + "();", null);
                     }
 
                     onFinishYoutubeCallback = null;
@@ -480,7 +495,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             //sets javascript scroll listeners
-            webView.evaluateJavascript("var $win = $(window);$win.scroll(function () {if ($win.scrollTop() == 0){ SmartickJsScrollInterface.reachedTop();}else{SmartickJsScrollInterface.scrolled();}});",null);
+            webView.evaluateJavascript("var $win = $(window);$win.scroll(function () {if ($win.scrollTop() == 0){ SmartickJsScrollInterface.reachedTop();}else{SmartickJsScrollInterface.scrolled();}});", null);
         }
 
         public void onProgressChanged(XWalkView view, int progressInPercent) {
@@ -489,7 +504,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
-            super.shouldOverrideUrlLoading(view,url);
+            super.shouldOverrideUrlLoading(view, url);
             Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading: " + url);
             if (url.contains("bajarDiploma")
                     || url.contains("diploma.html?idDiploma")
@@ -529,7 +544,7 @@ public class MainActivity extends FragmentActivity {
 
         public void onReceivedSslError(XWalkView view, ValueCallback<java.lang.Boolean> callback, SslError error) {
             Log.d(Constants.WEBVIEW_LOG_TAG, "Received SSL Error: " + error.toString());
-            super.onReceivedSslError(view,callback,error);
+            super.onReceivedSslError(view, callback, error);
         }
     }
 
@@ -577,7 +592,7 @@ public class MainActivity extends FragmentActivity {
     private class AsyncLogin extends AsyncTask<String, Integer, String> {
         @Override
         protected String doInBackground(String... params) {
-            return doHttpPost(params[0],params[1],params[2],params[3]);
+            return doHttpPost(params[0], params[1], params[2], params[3]);
         }
 
         @Override
@@ -628,11 +643,72 @@ public class MainActivity extends FragmentActivity {
         return null;
     }
 
+
+    // Social login request
+    private class AsyncSocialLogin extends AsyncTask<String, Integer, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            return doSocialHttpPost(params[0], params[1], params[2], params[3],params[4]);
+        }
+
+        @Override
+        protected void onPostExecute(String urlRedirect) {
+            redirectLogin(urlRedirect);
+        }
+    }
+
+    private String doSocialHttpPost(String url,String username, String token, String socialType, String installationId){
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        MyRedirectHandler handler = new MyRedirectHandler();
+        httpClient.setRedirectHandler(handler);
+
+        HttpPost post = new HttpPost(url);
+
+        List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+        nvps.add(new BasicNameValuePair("type", socialType));
+        nvps.add(new BasicNameValuePair("token", token));
+
+        // id de dispositivo para la visualizacion adaptada a tablets
+        post.addHeader("android-app", installationId);
+
+        //User agent para app Android
+        post.addHeader("User-Agent","Smartick_Android/" + sysInfo.getVersion() + " (Android: " + sysInfo.getOsVersion() + " " + sysInfo.getDevice() +")");
+
+        //Cookie almacenada?
+        String c = cookieManager.getCookie(url);
+        if (c != null){
+            post.addHeader("Cookie", c);
+        }
+
+        HttpResponse response = null;
+        try {
+            post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+            response = httpClient.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Throwable t) {
+            System.out.println(t.getMessage());
+        }
+
+        URI last = handler.lastRedirectedUri;
+        if (last!= null){
+            Log.d(Constants.WEBVIEW_LOG_TAG,"LAST_REDIRECT: " + last.toString());
+            return last.toString();
+        }
+        return null;
+    }
+
     private void doLogout(){
         Log.d(Constants.WEBVIEW_LOG_TAG, "doLogout");
 
         if (pDialog != null && pDialog.isShowing()){
             pDialog.dismiss();
+        }
+
+        //Logs out facebook user
+        if (socialType.equals("Facebook") && token != null){
+            LoginManager.getInstance().logOut();
         }
 
         audioPlayer.stop();

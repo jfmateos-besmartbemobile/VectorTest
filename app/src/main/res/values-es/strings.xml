@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="facebook_app_id">1611460479083904</string>
+    <string name="facebook_app_id">1640378969545902</string>
     <string name="app_id_string">com.mobile.android.smartick</string>
     <string name="app_name">Smartick</string>
     <string name="title_activity_login">login</string>
@@ -134,4 +134,5 @@
     <string name="email">email</string>
     <string name="Something_went_wrong_try_again_later">Ha ocurrido un error, inténtalo de nuevo más tarde</string>
     <string name="CanRead">¿Sabe leer?</string>
+    <string name="Facebook_need_email">Necesitas una cuenta de email asociada a tu cuenta de Facebook para poder usarla con Smartick</string>
 </resources>

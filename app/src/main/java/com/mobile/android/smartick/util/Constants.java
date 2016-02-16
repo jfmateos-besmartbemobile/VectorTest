@@ -5,13 +5,14 @@ package com.mobile.android.smartick.util;
  */
 public class Constants {
 
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG_MODE = true;
 
     public static final String URL_CONTEXT_PROD = "https://www.smartick.es"; //PROD ENVIRONMENT
     public static final String URL_CONTEXT_PRE = "http://dev.smartick.es:88";  //DEV PRE ENVIROMENT
     public static final String URL_CONTEXT_DEV = "http://192.168.1.12";  //DEV LOCAL ENVIROMENT
 
     public static final String URL_SMARTICK_LOGIN = "/smartick_login";
+    public static final String URL_SMARTICK_SOCIAL_LOGIN = "/acceso!validateSocial.html";
     public static final String URL_SMARTICK_LOGIN_FREEMIUM = "/loginMobileFreemium.html";
     public static final String URL_LOGOUT = "/smartick_logout";
     public static final String URL_FREEMIUM_IMAGE = "/images/freemium/";
@@ -47,6 +48,7 @@ public class Constants {
     private static Constants instance;
     public String url_context = URL_CONTEXT_PROD;
     public String url_smartick_login = URL_CONTEXT_PROD + URL_SMARTICK_LOGIN;
+    public String url_smartick_social_login = URL_CONTEXT_PROD + URL_SMARTICK_SOCIAL_LOGIN;
     public String url_smartick_login_freemium = URL_CONTEXT_PROD + URL_SMARTICK_LOGIN_FREEMIUM;
     public String url_logout = URL_CONTEXT_PROD + URL_LOGOUT;
     public String url_freemium_image = URL_CONTEXT_PROD + URL_FREEMIUM_IMAGE;
@@ -69,6 +71,7 @@ public class Constants {
         this.url_freemium_image = url_context + URL_FREEMIUM_IMAGE;
         this.url_logout = url_context + URL_LOGOUT;
         this.url_smartick_login = url_context + URL_SMARTICK_LOGIN;
+        this.url_smartick_social_login = url_context + URL_SMARTICK_SOCIAL_LOGIN;
         this.url_smartick_login_freemium = url_context + URL_SMARTICK_LOGIN_FREEMIUM;
     }
 
@@ -78,6 +81,14 @@ public class Constants {
 
     public void setUrl_smartick_login(String url_smartick_login) {
         this.url_smartick_login = url_smartick_login;
+    }
+
+    public String getUrl_smartick_social_login() {
+        return url_smartick_social_login;
+    }
+
+    public void setUrl_smartick_social_login(String url_smartick_social_login) {
+        this.url_smartick_social_login = url_smartick_social_login;
     }
 
     public String getUrl_smartick_login_freemium() {

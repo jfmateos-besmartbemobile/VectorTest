@@ -32,4 +32,8 @@ public class SmartickRestClient {
 
         REST_CLIENT = restAdapter.create(SmartickAPI.class);
     }
+
+    public static void reset(){
+        setupRestClient();
+    }
 }

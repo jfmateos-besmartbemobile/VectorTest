@@ -1,7 +1,7 @@
 package com.mobile.android.smartick.network;
 
 /**
- * Created by imac on 25/1/16.
+ * Created by sbarrio on 25/1/16.
  */
 public class RegisterAppActivationResponse {
     private String installationId;

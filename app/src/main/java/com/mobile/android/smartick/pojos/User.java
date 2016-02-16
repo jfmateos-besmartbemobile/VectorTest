@@ -9,7 +9,7 @@ public class User {
 	private String username;
 	private String password;
     private String perfil;
-	
+
 	public User(){
 	}
 
@@ -19,13 +19,13 @@ public class User {
 		this.password = userPassword;
         this.perfil = perfil;
 	}
-	
+
 	public User(String userName, String userPassword, String perfil) {
 		this.username = userName;
 		this.password = userPassword;
         this.perfil = perfil;
 	}
-	
+
 	public int getId(){
 		return id;
 	}
