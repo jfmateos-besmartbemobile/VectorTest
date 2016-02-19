@@ -134,5 +134,5 @@
     <string name="email">email</string>
     <string name="Something_went_wrong_try_again_later">Ha ocurrido un error, inténtalo de nuevo más tarde</string>
     <string name="CanRead">¿Sabe leer?</string>
-    <string name="Facebook_need_email">Necesitas una cuenta de email asociada a tu cuenta de Facebook para poder usarla con Smartick</string>
+    <string name="Social_need_email">Necesitas una cuenta de email asociada a tu cuenta social para poder usarla con Smartick</string>
 </resources>

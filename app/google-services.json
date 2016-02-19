@@ -1,1 +1,63 @@
-{"project_info":{"project_id":"smartick-6538c","project_number":"986604026453","name":"Smartick"},"client":[{"client_info":{"client_id":"android:com.mobile.android.smartick","client_type":1,"android_client_info":{"package_name":"com.mobile.android.smartick"}},"oauth_client":[],"api_key":[],"services":{"analytics_service":{"status":1},"cloud_messaging_service":{"status":2,"apns_config":[]},"appinvite_service":{"status":1,"other_platform_oauth_client":[]},"google_signin_service":{"status":1},"ads_service":{"status":1}}}],"ARTIFACT_VERSION":"1"}
+{
+  "project_info": {
+    "project_id": "smartick-6538c",
+    "project_number": "986604026453",
+    "name": "Smartick"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986604026453:android:b06ad5c2d99a2eff",
+        "client_id": "android:com.mobile.android.smartick",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.mobile.android.smartick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986604026453-a5d55c6gdan9l872iqnot2rtnilcnfmp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobile.android.smartick",
+            "certificate_hash": "FEDF8DC00B9889D2E8744D27983BFD187186E021"
+          }
+        },
+        {
+          "client_id": "986604026453-a5d55c6gdan9l872iqnot2rtnilcnfmp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobile.android.smartick",
+            "certificate_hash": "C4B8C0A4DCD1A4D9FB130BCEEACF30AD451C90C2"
+          }
+        },
+        {
+          "client_id": "986604026453-rh7t39rpf62ospjqhu1417svdffikau1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

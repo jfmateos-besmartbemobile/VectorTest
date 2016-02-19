@@ -5,7 +5,7 @@ package com.mobile.android.smartick.util;
  */
 public class Constants {
 
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG_MODE = true;
 
     public static final String URL_CONTEXT_PROD = "https://www.smartick.es"; //PROD ENVIRONMENT
     public static final String URL_CONTEXT_PRE = "http://dev.smartick.es:88";  //DEV PRE ENVIROMENT
@@ -38,6 +38,7 @@ public class Constants {
     public static final String AUDIO_CACHE_LAST_REFRESH_DATE = "audio_cache_last_refresh_date";
 
     public static final String GCM_REGISTRATION_COMPLETE = "registrationComplete";
+
 
     public static final int DEFAULT_FREEMIUM_AVATAR = 1;
     public static final int DEFAULT_FREEMIUM_AGE = 9;

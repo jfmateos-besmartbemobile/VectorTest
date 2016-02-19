@@ -707,7 +707,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         //Logs out facebook user
-        if (socialType.equals("Facebook") && token != null){
+        if (socialType != null && token != null && socialType.equals("Facebook")){
             LoginManager.getInstance().logOut();
         }
 

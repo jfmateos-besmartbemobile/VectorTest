@@ -37,9 +37,14 @@ import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
@@ -100,12 +105,23 @@ public class LoginActivity extends Activity implements TextWatcher {
     private AccessTokenTracker accessTokenTracker;
     private AccessToken accessToken;
 
+    //Google Sign in
+    private GoogleApiClient mGoogleApiClient;
+    private int RC_SIGN_IN = 600613; //GOOGLE
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //prepares facebook login button
+        //Inits Facebook SDK
+        if (!FacebookSdk.isInitialized()){
+            FacebookSdk.sdkInitialize(getApplicationContext());
+        }
+
         callbackManager = CallbackManager.Factory.create();
+
+
 
         accessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -171,6 +187,26 @@ public class LoginActivity extends Activity implements TextWatcher {
         }
 
         //Google login
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id))
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        Button signInButton = (Button) findViewById(R.id.google_sign_in);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleSignIn();
+            }
+        });
 
         // Inicializamos systemInfo
         sysInfo = new SystemInfo(this.getApplicationContext());
@@ -226,6 +262,12 @@ public class LoginActivity extends Activity implements TextWatcher {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
     }
 
     /**
@@ -404,7 +446,44 @@ public class LoginActivity extends Activity implements TextWatcher {
                     //No email -> Error
                     showAlertDialog(getString(R.string.Notice),
                             SweetAlertDialog.ERROR_TYPE,
-                            getString(R.string.Facebook_need_email),
+                            getString(R.string.Social_need_email),
+                            null, null, getString(R.string.OK), null);
+
+                    LoginManager.getInstance().logOut();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(Constants.LOGIN_LOG_TAG, "failure");
+
+                showAlertDialog(getString(R.string.Notice),
+                        SweetAlertDialog.ERROR_TYPE,
+                        getString(R.string.Something_went_wrong_try_again_later),
+                        null, null, getString(R.string.OK), null);
+
+                LoginManager.getInstance().logOut();
+            }
+        });
+    }
+
+    private void doLoginGoogle(String idToken) {
+
+        final String token = idToken;
+
+        Log.d(Constants.LOGIN_LOG_TAG, "Do login google for token" + token);
+        SmartickRestClient.get().validateSocial(token, "Google", new Callback<ValidateSocialResponse>() {
+            @Override
+            public void success(ValidateSocialResponse validateSocialResponse, Response response) {
+                Log.d(Constants.LOGIN_LOG_TAG, "success");
+                String email = validateSocialResponse.getEmail();
+                if (email != null) {
+                    irMainSocial(email, token, "Google");
+                } else {
+                    //No email -> Error
+                    showAlertDialog(getString(R.string.Notice),
+                            SweetAlertDialog.ERROR_TYPE,
+                            getString(R.string.Social_need_email),
                             null, null, getString(R.string.OK), null);
 
                     LoginManager.getInstance().logOut();
@@ -861,6 +940,36 @@ public class LoginActivity extends Activity implements TextWatcher {
     public void facebookLoginButtonPressed(){
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
     }
+
+    //Google sign in button pressed
+    public void googleSignIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(Constants.LOGIN_LOG_TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            String idToken = acct.getIdToken();
+            Log.d(Constants.LOGIN_LOG_TAG, "handleSignInResult: sign in with idToken= " + acct.getIdToken());
+            if (idToken != null){
+                doLoginGoogle(idToken);
+            }else{
+                showAlertDialog(getString(R.string.Notice),
+                        SweetAlertDialog.ERROR_TYPE,
+                        getString(R.string.Something_went_wrong_try_again_later),
+                        null, null, getString(R.string.OK), null);
+            }
+
+        } else {
+            // Signed out, show unauthenticated UI.
+            Log.d(Constants.LOGIN_LOG_TAG, "handleSignInResult: sign out");
+        }
+    }
+
 
     @Override
     public void onDestroy() {
