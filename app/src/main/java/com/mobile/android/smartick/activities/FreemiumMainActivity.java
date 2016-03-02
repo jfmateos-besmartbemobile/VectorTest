@@ -180,7 +180,7 @@ public class FreemiumMainActivity extends Activity {
 
 
         //Enables remote debugging
-        XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+        XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, Constants.DEBUG_MODE);
 
         //Button listeners
         Button backButton = (Button) findViewById(R.id.back_button_main);
@@ -601,7 +601,7 @@ public class FreemiumMainActivity extends Activity {
     private SweetAlertDialog showAlertLogout(){
         SweetAlertDialog alertDialog = new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
         alertDialog.setTitleText(getString(R.string.Warning));
-        alertDialog.setContentText(getString(R.string.leave_vw_int));
+        alertDialog.setContentText(getString(R.string.Go_back_to_login_int));
         alertDialog.setConfirmText(getString(R.string.Yes));
         alertDialog.setCancelText(getString(R.string.No));
 

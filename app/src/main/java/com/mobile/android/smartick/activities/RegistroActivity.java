@@ -62,7 +62,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     private RegisterScrollView scrollView1 = null;
 
-    private final int PASSWORD_MIN_LENGTH= 4;
     private final String MALE = "MASCULINO";
     private final String FEMALE = "FEMENINO";
 
@@ -74,6 +73,10 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     //username existenece check
     private boolean studentUsernameValid = false;
     private boolean tutorMailValid = false;
+
+    //validation
+    private boolean validationStudentPending = false;
+    private boolean validationTutorPending = false;
 
     //register data
     private String studentUsername;
@@ -240,20 +243,28 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         //disables any edit text that is hodling the keyboard focus
         clearEditTextFocus();
 
+        boolean passwordStudentValid = isValidPassword(studentPasswordEditText.getText().toString());
+        boolean passwordTutorValid = isValidPassword(tutorPasswordEditText.getText().toString());
+
         //depending on which page we are on we validate its content and decide wether or not we allow the user to keep going
         switch (currentPage) {
             case 0:
-                if (studentUsernameValid && isValidPassword(studentPasswordEditText.getText().toString())){
+                //user and password ok
+                if (studentUsernameValid && passwordStudentValid){
                     updateStudentConfirmData();
                     scrollToNextPage();
                     studentNameEditText.requestFocus();
-                }else{
-                    if (!studentUsernameValid){
-                        showAlertDialog(getString(R.string.Invalid_username),SweetAlertDialog.WARNING_TYPE,null,null,null,null,null);
-                    }else{
-                        showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Fill_in_the_fields_to_contiune).toString(),null,null,null,null);
-                    }
+                    break;
                 }
+
+                //user needs validation but password is ok
+                if (!studentUsernameValid && passwordStudentValid){
+                    validateStudentUsername(studentAliasEditText.getText().toString());
+                    break;
+                }
+
+                //default
+                showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Fill_in_the_fields_to_contiune).toString(),null,null,null,null);
                 break;
             case 1:
                 if (isValidName(studentNameEditText.getText().toString()) && isValidName(studentLastNameEditText.getText().toString())){
@@ -276,18 +287,25 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                 tutorMailEditText.requestFocus();
                 break;
             case 5:
-                if (tutorMailValid && isValidPassword(tutorPasswordEditText.getText().toString())){
+                //user and password ok
+                if (tutorMailValid && passwordTutorValid){
                     updateTutorConfirmData();
                     scrollToNextPage();
                     tutorNameEditText.requestFocus();
-                }else{
-                    if (!tutorMailValid){
-                        showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Invalid_mail_address).toString(),null,null,null,null);
-                    }else{
-                        showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Fill_in_the_fields_to_contiune).toString(),null,null,null,null);
-                    }
+                    break;
                 }
+
+                //user needs validation but password is ok
+                if (!tutorMailValid && passwordTutorValid){
+                    validateTutorMail(tutorMailEditText.getText().toString());
+                    break;
+                }
+
+                //default
+                showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Fill_in_the_fields_to_contiune).toString(),null,null,null,null);
                 break;
+
+
             case 6:
                 if (isValidName(tutorNameEditText.getText().toString()) && isValidName(tutorLastNameEditText.getText().toString())){
                     updateTutorConfirmData();
@@ -352,7 +370,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         goNext(null);
     }
 
-    public void finishRegister(View view){
+    public void finishRegister(View view) {
         Log.d(Constants.REGISTER_LOG_TAG, "Finished -> Register tutor");
         registerTutor();
     }
@@ -363,7 +381,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
             currentPage = numPages;
         }
         int scrollTo = currentPage * pageWidth;
-        scrollView1.customSmoothScroll(scrollTo,RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
+        scrollView1.customSmoothScroll(scrollTo, RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
     }
 
     public void scrollToPreviousPage(){
@@ -493,9 +511,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d(Constants.REGISTER_LOG_TAG,"student alias changed to: " + s);
-                if (s!= null && s.length() > 0){
-                    checkLoginStatus(s.toString(),UserType.ALUMNO);
-                }
+                studentUsernameValid = false;
             }
 
             @Override
@@ -513,9 +529,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d(Constants.REGISTER_LOG_TAG,"tutor mail changed to: " + s);
-                if (s!= null && s.length() > 0 && isValidEmail(s.toString())) {
-                    checkLoginStatus(s.toString(), UserType.TUTOR);
-                }
+                tutorMailValid = false;
             }
 
             @Override
@@ -530,6 +544,42 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         tutorMailEditText.addTextChangedListener(mailTextWatcher);
     }
 
+    public boolean validateStudentUsername(String username){
+
+        if (username.length() >= Constants.USERNAME_MIN_LENGTH){
+            if (!studentUsernameValid){
+                if (!validationTutorPending && !validationStudentPending){
+                    validationStudentPending = true;
+                    checkLoginStatus(username,UserType.ALUMNO);
+                }
+            }else{
+                return true;
+            }
+        }else{
+            showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Invalid_username).toString(),null,null,null,null);
+        }
+
+        return false;
+    }
+
+    public boolean validateTutorMail(String mail){
+
+        if (mail.length() > Constants.USERNAME_MIN_LENGTH && isValidEmail(mail)){
+            if (!tutorMailValid){
+                if (!validationStudentPending && !validationTutorPending){
+                    validationTutorPending = true;
+                    checkLoginStatus(mail,UserType.TUTOR);
+                }
+            }else{
+                return true;
+            }
+        }else{
+            showAlertDialog(getString(R.string.Notice),SweetAlertDialog.WARNING_TYPE,getText(R.string.Invalid_mail_address).toString(),null,null,null,null);
+        }
+
+        return false;
+    }
+
     public boolean isValidName(String name){
         if (name.length() > 0){
             return true;
@@ -538,7 +588,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
 
     public boolean isValidPassword(String password){
-        if (password.length() >= PASSWORD_MIN_LENGTH){
+        if (password.length() >= Constants.PASSWORD_MIN_LENGTH){
             return true;
         }
         return false;
@@ -590,16 +640,24 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                         if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID)){
                             if (type.equals(UserType.ALUMNO)){
                                 studentUsernameValid = true;
+                                validationStudentPending = false;
+                                goNext(null);
                             }
                             if (type.equals(UserType.TUTOR)){
                                tutorMailValid = true;
+                                validationTutorPending = false;
+                                goNext(null);
                             }
                         }else {
                             if (type.equals(UserType.ALUMNO)){
                                 studentUsernameValid = false;
+                                validationStudentPending = false;
+                                showAlertDialog(getString(R.string.Invalid_username),SweetAlertDialog.WARNING_TYPE,null,null,null,null,null);
                             }
                             if (type.equals(UserType.TUTOR)){
                                 tutorMailValid = false;
+                                validationTutorPending = false;
+                                showAlertDialog(getString(R.string.Invalid_username),SweetAlertDialog.WARNING_TYPE,null,null,null,null,null);
                             }
                         }
                     }
@@ -607,6 +665,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                     @Override
                     public void failure(RetrofitError error) {
                         // something went wrong
+                        validationTutorPending = false;
+                        validationStudentPending = false;
+                        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.ERROR_TYPE, getString(R.string.Something_went_wrong_try_again_later), null, null, null, null);
                     }
                 });
     }

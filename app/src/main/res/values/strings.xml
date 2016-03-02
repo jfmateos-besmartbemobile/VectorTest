@@ -137,4 +137,5 @@
     <string name="Something_went_wrong_try_again_later">Something went wrong, try again later</string>
     <string name="CanRead">Can she/he read?</string>
     <string name="Social_need_email">You need a valid email linked to your social account in order to use it with Smartick</string>
+    <string name="Demo">Demo</string>
 </resources>

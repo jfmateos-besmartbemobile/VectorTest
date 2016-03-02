@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/welcome_button_height"
                 android:layout_gravity="center"
                 android:background="@drawable/blue_confirm_selector"
-                android:text="@string/Guest"
+                android:text="@string/Demo"
                 android:textSize="@dimen/welcome_button_text_size"
                 android:onClick="freemiumButtonPressed"
                 android:clickable="true"
