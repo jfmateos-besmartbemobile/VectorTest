@@ -8,8 +8,8 @@ public class Constants {
     public static final boolean DEBUG_MODE = false;
 
     public static final String URL_CONTEXT_PROD = "https://www.smartick.es"; //PROD ENVIRONMENT
-    public static final String URL_CONTEXT_PRE = "http://dev.smartick.es:88";  //DEV PRE ENVIROMENT
-    public static final String URL_CONTEXT_DEV = "http://192.168.1.12";  //DEV LOCAL ENVIROMENT
+    public static final String URL_CONTEXT_PRE = "https://dev.smartick.es:88";  //DEV PRE ENVIROMENT
+    public static final String URL_CONTEXT_DEV = "https://192.168.1.12";  //DEV LOCAL ENVIROMENT
 
     public static final String URL_SMARTICK_LOGIN = "/smartick_login";
     public static final String URL_SMARTICK_SOCIAL_LOGIN = "/acceso!validateSocial.html";
