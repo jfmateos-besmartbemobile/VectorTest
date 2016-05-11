@@ -50,9 +50,8 @@ public class AudioPlayer {
         try {
             player.reset();
             player.setDataSource(context, path);
-            player.prepare();
-            player.start();
-
+            player.prepareAsync();
+//            player.start();
 
         }catch (IllegalStateException e) {
             Log.d(Constants.AUDIO_LOG_TAG, "IllegalStateException: " + e.getMessage());
@@ -94,8 +93,9 @@ public class AudioPlayer {
             //file does not exist, store and play from url
             storeAudioFileOnAudioCache(null,url);
             player.setDataSource(url);
-            player.prepare(); // might take long! (for buffering, etc)
-            player.start();
+//            player.prepare(); // might take long! (for buffering, etc)
+            player.prepareAsync();
+//            player.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,6 +131,11 @@ public class AudioPlayer {
         player.setOnErrorListener(new MediaPlayer.OnErrorListener(){
             public boolean onError(MediaPlayer mp,int what, int extra){
                 return playerReceivedError(what,extra);
+            }
+        });
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener(){
+            public void onPrepared(MediaPlayer mp){
+                mp.start();
             }
         });
     }
@@ -204,6 +209,7 @@ public class AudioPlayer {
         if (audioCache != null){
             File[] fileList = audioCache.listFiles();
             String fileName = getFileNameFromUrl(url);
+
             if (fileList != null){
                 for (File f: fileList){
                     if (f.getName().equals(fileName)){

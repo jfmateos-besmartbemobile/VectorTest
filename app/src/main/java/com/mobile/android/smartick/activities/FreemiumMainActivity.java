@@ -301,7 +301,7 @@ public class FreemiumMainActivity extends Activity {
             if (path != null && path.startsWith("http")){
                 audioPlayer.playURL(path);
             }else if (path.startsWith("//")){
-                audioPlayer.playURL("http:" + path);
+                audioPlayer.playURL("https:" + path);
             }else{
                 audioPlayer.playURL(Constants.instance().getUrl_context() + path);
             }

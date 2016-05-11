@@ -49,6 +49,7 @@ import org.apache.http.protocol.HttpContext;
 
 import org.xwalk.core.JavascriptInterface;
 import org.xwalk.core.XWalkJavascriptResult;
+import org.xwalk.core.XWalkNavigationHistory;
 import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
@@ -220,13 +221,13 @@ public class MainActivity extends FragmentActivity {
 //Buttons
     private void backButtonPressed(){
         String urlWebView = webView.getUrl();
-        if (urlWebView.contains("presentacionProblema")
-                || urlWebView.contains("alumno/tutorialSesion")
+        if ( urlWebView.contains("alumno/tutorialSesion")
                 || urlWebView.contains("alumno/home")
-                || urlWebView.contains("initial-feedback")
                 || urlWebView.contains("alumno/fin")
                 || urlWebView.contains("tutor/")){
             showAlertLogout();
+        }else if (urlWebView.contains("presentacionProblema") || urlWebView.contains("initial-feedback")) {
+            webView.getNavigationHistory().navigate(XWalkNavigationHistory.Direction.BACKWARD, 1);
         }else{
             webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
         }
@@ -294,7 +295,7 @@ public class MainActivity extends FragmentActivity {
             if (path != null && path.startsWith("http")){
                 audioPlayer.playURL(path);
             }else if (path.startsWith("//")){
-                audioPlayer.playURL("http:" + path);
+                audioPlayer.playURL("https:" + path);
             }else{
                 audioPlayer.playURL(Constants.instance().getUrl_context() + path);
             }

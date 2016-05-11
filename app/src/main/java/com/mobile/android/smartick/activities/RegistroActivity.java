@@ -259,7 +259,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
                 //user needs validation but password is ok
                 if (!studentUsernameValid && passwordStudentValid){
-                    validateStudentUsername(studentAliasEditText.getText().toString());
+                    validateStudentUsername(studentAliasEditText.getText().toString().trim());
                     break;
                 }
 
@@ -297,7 +297,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
                 //user needs validation but password is ok
                 if (!tutorMailValid && passwordTutorValid){
-                    validateTutorMail(tutorMailEditText.getText().toString());
+                    validateTutorMail(tutorMailEditText.getText().toString().trim());
                     break;
                 }
 
@@ -395,7 +395,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
 
     public void updateStudentConfirmData(){
-        studentUsername = studentAliasEditText.getText().toString();
+        studentUsername = studentAliasEditText.getText().toString().trim();
         studentPassword = studentPasswordEditText.getText().toString();
         studentName = studentNameEditText.getText().toString();
         studentLastName = studentLastNameEditText.getText().toString();
@@ -420,7 +420,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
 
     public void updateTutorConfirmData(){
-        tutorMail = tutorMailEditText.getText().toString();
+        tutorMail = tutorMailEditText.getText().toString().trim();
         tutorPassword = tutorPasswordEditText.getText().toString();
         tutorName = tutorNameEditText.getText().toString();
         tutorLastName = tutorLastNameEditText.getText().toString();
@@ -545,6 +545,8 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
 
     public boolean validateStudentUsername(String username){
+
+
 
         if (username.length() >= Constants.USERNAME_MIN_LENGTH){
             if (!studentUsernameValid){
