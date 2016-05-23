@@ -35,6 +35,7 @@ import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.AudioPlayer;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.network.NetworkStatus;
+import com.mobile.android.smartick.util.LocaleHelper;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -98,6 +99,10 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Network availability check
