@@ -23,6 +23,7 @@ import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.IntroScrollView;
 import com.mobile.android.smartick.UI.IntroScrollViewListener;
 import com.mobile.android.smartick.util.Constants;
+import com.mobile.android.smartick.util.LocaleHelper;
 import com.mobile.android.smartick.util.ScreenUtils;
 import com.romainpiel.shimmer.Shimmer;
 import com.romainpiel.shimmer.ShimmerTextView;
@@ -98,6 +99,10 @@ public class IntroActivity extends Activity implements IntroScrollViewListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
+
         setContentView(R.layout.activity_intro);
 
         //gets window width and adapts width of every page

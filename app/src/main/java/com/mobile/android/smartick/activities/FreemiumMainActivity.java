@@ -40,6 +40,7 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.AudioPlayer;
 import com.mobile.android.smartick.util.Constants;
+import com.mobile.android.smartick.util.LocaleHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -111,6 +112,10 @@ public class FreemiumMainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Network availability check

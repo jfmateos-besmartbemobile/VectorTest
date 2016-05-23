@@ -141,6 +141,20 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/change_language_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=""
+        android:onClick="showLanguageSelector"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="190dp"
+        android:background="@color/red"
+        android:gravity="center_horizontal"
+        />
+
+    <Button
         android:id="@+id/fb_login_button"
         android:layout_width="60dp"
         android:layout_height="60dp"

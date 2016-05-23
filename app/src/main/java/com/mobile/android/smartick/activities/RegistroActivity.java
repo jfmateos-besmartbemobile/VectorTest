@@ -45,6 +45,7 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.Constants;
+import com.mobile.android.smartick.util.LocaleHelper;
 
 import org.w3c.dom.Text;
 
@@ -150,6 +151,10 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
+
         setContentView(R.layout.activity_registro);
 
         // Inicializamos systemInfo

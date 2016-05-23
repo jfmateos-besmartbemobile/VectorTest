@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.CustomSeekBar;
 import com.mobile.android.smartick.util.Constants;
+import com.mobile.android.smartick.util.LocaleHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,10 @@ public class FreemiumActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_freemium);

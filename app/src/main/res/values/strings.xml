@@ -138,4 +138,18 @@
     <string name="CanRead">Can she/he read?</string>
     <string name="Social_need_email">You need a valid email linked to your social account in order to use it with Smartick</string>
     <string name="Demo">Demo</string>
+    <string name="set_language">Set language</string>
+    <string name="lang_en">English</string>
+    <string name="lang_es">Spanish</string>
+    <string name="lang_es_AR">Spanish (Argentina)</string>
+    <string name="lang_es_BO">Spanish (Bolivia)</string>
+    <string name="lang_es_CL">Spanish (Chile)</string>
+    <string name="lang_es_CO">Spanish (Colombia)</string>
+    <string name="lang_es_EC">Spanish (Ecuador)</string>
+    <string name="lang_es_MX">Spanish (México)</string>
+    <string name="lang_es_PE">Spanish (Perú)</string>
+    <string name="lang_es_UY">Spanish (Uruguay)</string>
+    <string name="lang_es_PY">Spanish (Paraguay)</string>
+    <string name="lang_es_VE">Spanish (Venezuela)</string>
+
 </resources>

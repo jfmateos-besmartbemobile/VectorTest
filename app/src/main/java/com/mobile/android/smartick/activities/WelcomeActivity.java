@@ -47,6 +47,7 @@ import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.services.SmartickRegistrationIntentService;
 import com.mobile.android.smartick.util.Constants;
+import com.mobile.android.smartick.util.LocaleHelper;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -77,6 +78,9 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
 
         //Inits Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -122,7 +126,6 @@ public class WelcomeActivity extends Activity {
 
             //Register app activation with server
             registerAppActivation();
-
         }else{
             //if there are already stored users we default to loginActivity
             List<User> users = localDB.getAllUsers();

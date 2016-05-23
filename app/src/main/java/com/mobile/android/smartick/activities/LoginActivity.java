@@ -2,6 +2,7 @@ package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -46,6 +47,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.mobile.android.smartick.R;
+import com.mobile.android.smartick.UI.LanguageSelectorDialog;
+import com.mobile.android.smartick.UI.LanguageSelectorInterface;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
 import com.mobile.android.smartick.network.LoginStatusResponse;
@@ -57,6 +60,7 @@ import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.network.NetworkStatus;
+import com.mobile.android.smartick.util.LocaleHelper;
 import com.mobile.android.smartick.widgets.adapters.UsersListAdapter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -69,6 +73,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -76,7 +81,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LoginActivity extends Activity implements TextWatcher {
+public class LoginActivity extends Activity implements TextWatcher,LanguageSelectorInterface {
 
 
     enum TipoLogin {ALUMNO, TUTOR};
@@ -109,9 +114,15 @@ public class LoginActivity extends Activity implements TextWatcher {
     private GoogleApiClient mGoogleApiClient;
     private int RC_SIGN_IN = 600613; //GOOGLE
 
+    //Language selector
+    LanguageSelectorDialog selectorDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set up selected language
+        LocaleHelper.onCreate(this);
 
         //prepares facebook login button
         //Inits Facebook SDK
@@ -970,6 +981,18 @@ public class LoginActivity extends Activity implements TextWatcher {
         }
     }
 
+    //Language selector
+    public void showLanguageSelector(View view) {
+        selectorDialog = new LanguageSelectorDialog();
+        FragmentManager fm = getFragmentManager();
+        selectorDialog.show(fm, "Language selector");
+    }
+
+    @Override
+    public void languageChanged() {
+        selectorDialog.dismiss();
+        this.recreate();
+    }
 
     @Override
     public void onDestroy() {
