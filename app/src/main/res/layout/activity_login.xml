@@ -18,6 +18,19 @@
     />
 
     <Button
+        android:id="@+id/change_language_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=""
+        android:onClick="showLanguageSelector"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/login_button_back"
+        android:background="@drawable/language"
+        android:gravity="center_horizontal"
+        />
+
+    <Button
         android:id="@+id/login_button_dev_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -139,20 +152,6 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/list_alumnos"/>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/change_language_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text=""
-        android:onClick="showLanguageSelector"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="190dp"
-        android:background="@color/red"
-        android:gravity="center_horizontal"
-        />
 
     <Button
         android:id="@+id/fb_login_button"

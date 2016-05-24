@@ -19,6 +19,66 @@ android:orientation="vertical">
         android:text="@string/lang_es" />
 
     <Button
+        android:id="@+id/lang_es_AR_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_AR" />
+
+    <Button
+        android:id="@+id/lang_es_BO_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_BO" />
+
+    <Button
+        android:id="@+id/lang_es_CL_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_CL" />
+
+    <Button
+        android:id="@+id/lang_es_CO_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_CO" />
+
+    <Button
+        android:id="@+id/lang_es_EC_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_EC" />
+
+    <Button
+        android:id="@+id/lang_es_MX_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_MX" />
+
+    <Button
+        android:id="@+id/lang_es_PE_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_PE" />
+
+    <Button
+        android:id="@+id/lang_es_PY_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_PY" />
+
+    <Button
+        android:id="@+id/lang_es_UY_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_UY" />
+
+    <Button
+        android:id="@+id/lang_es_VE_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lang_es_VE" />
+
+    <Button
         android:id="@+id/lang_cancel_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
