@@ -73,6 +73,7 @@ public class AudioPlayer {
 
     //play from url
     public void playURL(String url){
+
         if (player == null){
             Log.d(Constants.AUDIO_LOG_TAG, "Player is null. Call init() before using it! ");
             return;

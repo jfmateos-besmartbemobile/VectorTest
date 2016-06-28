@@ -57,11 +57,28 @@ import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.internal.XWalkCookieManager;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -648,6 +665,101 @@ public class MainActivity extends FragmentActivity {
         }
         return null;
     }
+
+
+//    private String doHttpPostUrlConnection(String url,String username, String password, String installationId){
+//
+//        URL urlConn = null;
+//        String response = "";
+//        try {
+//
+//            urlConn = new URL(url);
+//            HttpURLConnection urlConnection = (HttpsURLConnection) urlConn.openConnection();
+//            urlConnection.setReadTimeout(60000);
+//            urlConnection.setConnectTimeout(60000);
+//            urlConnection.setRequestMethod("POST");
+//            urlConnection.setDoInput(true);
+//            urlConnection.setDoOutput(true);
+//            urlConnection.setInstanceFollowRedirects(true);
+//
+//            String param="j_username=" + URLEncoder.encode(username,"UTF-8") +
+//                         "&j_password="+URLEncoder.encode(password,"UTF-8");
+//
+//            urlConnection.setRequestProperty("android-app", sysInfo.getInstallationId());
+//            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//            urlConnection.setRequestProperty("User-Agent","Smartick_Android/" + sysInfo.getVersion() + " (Android: " + sysInfo.getOsVersion() + " " + sysInfo.getDevice() +")");
+//            urlConnection.setRequestProperty("j_username",username);
+//            urlConnection.setRequestProperty("j_password",password);
+//
+//            //Cookie almacenada?
+//            String c = cookieManager.getCookie(url);
+//            if (c != null){
+//                urlConnection.setRequestProperty("Cookie", c);
+//            }
+//
+//
+//            urlConnection.connect();
+//
+//            OutputStream os = urlConnection.getOutputStream();
+//            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+//
+//            writer.write(param);
+//
+//            writer.flush();
+//            writer.close();
+//            os.close();
+//            int responseCode=urlConnection.getResponseCode();
+//
+//            if (responseCode == HttpsURLConnection.HTTP_OK) {
+//                String line;
+//                BufferedReader br=new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+//                while ((line=br.readLine()) != null) {
+//                    response+=line;
+//                }
+//            }
+//            else {
+//                response="";
+//            }
+//
+//
+//
+//
+//            // get redirect url from "location" header field
+//            String newUrl = urlConnection.getHeaderField("Location");
+//            Map<String, List<String>> headers = urlConnection.getHeaderFields();
+//
+//            // get the cookie if need, for login
+//            String cookies = urlConnection.getHeaderField("Set-Cookie");
+//
+//
+//
+//
+//            return newUrl;
+//
+//            lastRedirectedUri = super.getLocationURI(response, context);
+//            if(urlResult == null){
+//                urlResult = lastRedirectedUri.toString();
+//
+//                //retreives cookies from response
+//                Header [] headers = response.getAllHeaders();
+//                for (Header h: headers){
+//                    if (h.getName().equalsIgnoreCase("set-cookie"))
+//                    {
+//                        cookieManager.setCookie(urlResult,h.getValue());
+//                    }
+//                }
+//            }
+//            return lastRedirectedUri;
+//
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
 
     // Social login request
