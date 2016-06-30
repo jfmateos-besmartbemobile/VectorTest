@@ -406,7 +406,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         studentLastName = studentLastNameEditText.getText().toString();
         studentCanRead = studentCanReadSwitch.isChecked();
         studentBirthDay = studentAgeDatePicker.getDayOfMonth();
-        studentBirthMonth = studentAgeDatePicker.getMonth();
+        studentBirthMonth = studentAgeDatePicker.getMonth() + 1;
         studentBirthYear = studentAgeDatePicker.getYear();
 
         //Confirm tab update
