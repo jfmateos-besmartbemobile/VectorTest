@@ -151,5 +151,10 @@
     <string name="lang_es_UY">Español (Uruguay)</string>
     <string name="lang_es_PY">Español (Paraguay)</string>
     <string name="lang_es_VE">Español (Venezuela)</string>
+    <string name="ForgotPassword">Forgot your password?</string>
+    <string name="RememberPassword">Remember password</string>
+    <string name="RememberSuccess">Password sent succesfully to your email address.</string>
+    <string name="RememberFailUser">Incorrect user. Please provide a valid username.</string>
+    <string name="RememberFailTutor">Incorrect email. Please provide a valid one.</string>
 
 </resources>

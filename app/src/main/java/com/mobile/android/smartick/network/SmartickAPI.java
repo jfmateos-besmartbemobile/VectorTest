@@ -30,6 +30,13 @@ public interface SmartickAPI {
     public final String USER_ACTIVE = "ACTIVE";
     public final String USER_INACTIVE = "INACTIVE";
     public final String UNKNOWN_USER = "UNKNOWN_USER";
+    public final String UNKNOWN_TUTOR_OR_STUDENT = "UNKNOWN_TUTOR_OR_STUDENT";
+    public final String TUTOR_MISSING = "TUTOR_MISSING";
+    public final String ERROR_SENDING_MAIL = "ERROR_SENDING_MAIL";
+    public final String TUTOR_UNRELATED = "TUTOR_UNRELATED";
+    public final String MAIL_SENT_OK = "MAIL_SENT_OK";
+    public final String UNKNOWN_TUTOR = "UNKNOWN_TUTOR";
+
     public final int MIN_USERNAME_LENGTH = 3;
     public final int MIN_PASSWORD_LENGTH = 4;
 
@@ -126,6 +133,13 @@ public interface SmartickAPI {
             @Field("type") String type,
             Callback<ValidateSocialResponse> callback);
 
+    @FormUrlEncoded
+    @POST("/rememberPasswordMobile.html")
+    public void rememberPassword(
+            @Field("studentUsername") String studentUser,
+            @Field("tutorUsername") String tutorUser,
+            Callback<RememberPasswordMobileResponse> callback);
+
     //SYNC
 
     @FormUrlEncoded
@@ -209,4 +223,10 @@ public interface SmartickAPI {
     public void validateSocial(
             @Field("token") String token,
             @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST("/rememberPasswordMobile.html")
+    public void rememberPassword(
+            @Field("studentUsername") String studentUser,
+            @Field("tutorUsername") String tutorUser);
 }

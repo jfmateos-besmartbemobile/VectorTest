@@ -52,6 +52,7 @@ import com.mobile.android.smartick.UI.LanguageSelectorInterface;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
 import com.mobile.android.smartick.network.LoginStatusResponse;
+import com.mobile.android.smartick.network.RememberPasswordMobileResponse;
 import com.mobile.android.smartick.network.SmartickAPI;
 import com.mobile.android.smartick.network.SmartickRestClient;
 import com.mobile.android.smartick.network.ValidateSocialResponse;
@@ -65,6 +66,7 @@ import com.mobile.android.smartick.widgets.adapters.UsersListAdapter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.squareup.okhttp.Call;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,6 +104,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
     private SweetAlertDialog pDialogDelete;
 
     private AlertDialog endpointSelectAlertDialog;
+    private AlertDialog rememberPasswordAlertDialog;
+
+    private EditText rememberPasswordStudentUsername;
+    private EditText rememberPasswordTutorMail;
 
     private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -992,6 +998,113 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
     public void languageChanged() {
         selectorDialog.dismiss();
         this.recreate();
+    }
+
+
+
+    //Remember password
+    public void mostrarRecordarPasswordAlumno(View view){
+        mostrarRecordarPasswordModal(true);
+    }
+
+    public void mostrarRecordarPasswordTutor(View view){
+        mostrarRecordarPasswordModal(false);
+    }
+
+    public void mostrarRecordarPasswordModal(final boolean withStudent){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Context context = LoginActivity.this;
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View rememberPasswordView = li.inflate(R.layout.remember_password_modal, null);
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                alertBuilder.setView(rememberPasswordView);
+
+                //sets modal content
+                Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+                TextView titleWarning = (TextView) rememberPasswordView.findViewById(R.id.titleRemember);
+                titleWarning.setTypeface(tfDidact);
+
+
+                rememberPasswordStudentUsername = ((EditText) rememberPasswordView.findViewById(R.id.editTextRemenberStudentUsername));
+                rememberPasswordTutorMail = ((EditText) rememberPasswordView.findViewById(R.id.editTextRemenberTutorMail));
+
+                if (withStudent){
+                    rememberPasswordStudentUsername.setVisibility(View.VISIBLE);
+                }
+
+                rememberPasswordAlertDialog = alertBuilder.create();
+                rememberPasswordAlertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                rememberPasswordAlertDialog.setCanceledOnTouchOutside(true);
+
+                //shows dialog
+                rememberPasswordAlertDialog.show();
+            }
+        });
+    }
+
+    public void doRememberPassword(View view){
+        if (rememberPasswordStudentUsername == null || rememberPasswordTutorMail == null){
+            return;
+        }
+
+        String studentUsername = rememberPasswordStudentUsername.getText().toString();
+        String tutorMail = rememberPasswordTutorMail.getText().toString();
+
+        SmartickRestClient.get().rememberPassword(studentUsername, tutorMail, new Callback<RememberPasswordMobileResponse>() {
+            @Override
+            public void success(RememberPasswordMobileResponse rememberPasswordMobileResponse, Response response) {
+
+                Log.d(Constants.LOGIN_LOG_TAG,rememberPasswordMobileResponse.toString());
+
+                resetAndHidePasswordModal();
+
+                if (rememberPasswordMobileResponse.getResponse().equals(SmartickAPI.MAIL_SENT_OK)){
+                    showAlertDialog(getString(R.string.Notice),
+                            SweetAlertDialog.SUCCESS_TYPE,
+                            getString(R.string.RememberSuccess),
+                            null, null, getString(R.string.OK), null);
+                }else if (rememberPasswordMobileResponse.getResponse().equals(SmartickAPI.UNKNOWN_TUTOR)
+                        || rememberPasswordMobileResponse.getResponse().equals(SmartickAPI.TUTOR_MISSING)
+                        || rememberPasswordMobileResponse.getResponse().equals(SmartickAPI.TUTOR_UNRELATED)
+                        ){
+                    showAlertDialog(getString(R.string.Notice),
+                            SweetAlertDialog.ERROR_TYPE,
+                            getString(R.string.RememberFailTutor),
+                            null, null, getString(R.string.OK), null);
+                }else{
+                    showAlertDialog(getString(R.string.Notice),
+                            SweetAlertDialog.ERROR_TYPE,
+                            getString(R.string.RememberFailUser),
+                            null, null, getString(R.string.OK), null);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                Log.d(Constants.LOGIN_LOG_TAG,error.toString());
+
+                resetAndHidePasswordModal();
+
+                showAlertDialog(getString(R.string.Notice),
+                        SweetAlertDialog.ERROR_TYPE,
+                        getString(R.string.Something_went_wrong_try_again_later),
+                        null, null, getString(R.string.OK), null);
+            }
+        });
+    }
+
+    public void cancelRememberPassword(View view){
+        resetAndHidePasswordModal();
+    }
+
+    public void resetAndHidePasswordModal(){
+        rememberPasswordAlertDialog.dismiss();
+        rememberPasswordStudentUsername = null;
+        rememberPasswordTutorMail = null;
     }
 
     @Override
