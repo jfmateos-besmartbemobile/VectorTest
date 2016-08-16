@@ -88,6 +88,10 @@
                 android:minHeight="@dimen/freemium_age_bar_min_height"
                 android:maxHeight="@dimen/freemium_age_bar_max_height"
                 android:gravity="center"
+                android:textAlignment="center"
+                android:paddingLeft="60dp"
+                android:paddingRight="60dp"
+                android:clipChildren="false"
                 android:layout_gravity="center_vertical"
                 style="@style/CustomSeekBar"/>
 
