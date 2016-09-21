@@ -57,6 +57,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import com.emma.android.eMMa;
 
 
 public class WelcomeActivity extends Activity {
@@ -99,6 +100,9 @@ public class WelcomeActivity extends Activity {
                 startService(intent);
             }
         }
+
+        //Inits eMMa tracking
+        eMMa.starteMMaSession(this.getApplication(),Constants.EMMA_KEY);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
