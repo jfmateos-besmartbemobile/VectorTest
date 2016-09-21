@@ -23,7 +23,7 @@
     <string name="Date_of_birth">Fecha de nacimiento</string>
     <string name="Is_this_correct_int">¿Está bien así?</string>
     <string name="Tutor_info">Datos del tutor</string>
-    <string name="Alias">Alias</string>
+    <string name="Alias">Usuario</string>
     <string name="Mail">Correo</string>
     <string name="Username">Usuario</string>
     <string name="FullName">Nombre completo</string>
@@ -32,7 +32,7 @@
     <string name="Name">Nombre</string>
     <string name="Last_name">Apellidos</string>
     <string name="Phone">Teléfono</string>
-    <string name="Invalid_username">Alias inválido</string>
+    <string name="Invalid_username">Usuario inválido</string>
     <string name="Fill_in_the_fields_to_contiune">Rellena los campos para continuar</string>
     <string name="Invalid_mail_address">Dirección de correo no válida</string>
     <string name="Invalid_phone_number">Teléfono no válido</string>
@@ -53,8 +53,8 @@
     <string name="Start_ex">¡Empezar!</string>
     <string name="Discover_it">Descúbrelo</string>
     <string name="Slide_to_discover_it">&lt;&lt; Desliza para descubrirlo</string>
-    <string name="Username_already_in_use">El alias ya está en uso</string>
-    <string name="Username_is_not_valid">El alias no es válido</string>
+    <string name="Username_already_in_use">El usuario ya está en uso</string>
+    <string name="Username_is_not_valid">El usuario no es válido</string>
     <string name="Notice">Aviso</string>
     <string name="New_student">Nuevo alumno</string>
     <string name="New_tutor">Nuevo tutor</string>

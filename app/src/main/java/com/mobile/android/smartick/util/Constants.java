@@ -39,6 +39,8 @@ public class Constants {
 
     public static final String GCM_REGISTRATION_COMPLETE = "registrationComplete";
 
+    public static final String EMMA_KEY = "smartickD966sSXOK";
+
 
     public static final int DEFAULT_FREEMIUM_AVATAR = 1;
     public static final int DEFAULT_FREEMIUM_AGE = 9;
