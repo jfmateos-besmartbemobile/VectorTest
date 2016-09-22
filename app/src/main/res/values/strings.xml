@@ -26,7 +26,7 @@
     <string name="Is_this_correct_int">Is this correct?</string>
     <string name="Tutor_info">Tutor info</string>
     <string name="Alias">Username</string>
-    <string name="Mail">Mail</string>
+    <string name="Mail">Email</string>
     <string name="Username">Username</string>
     <string name="FullName">FullName</string>
     <string name="Age">Age</string>
@@ -36,7 +36,7 @@
     <string name="Phone">Phone</string>
     <string name="Invalid_username">Invalid username</string>
     <string name="Fill_in_the_fields_to_contiune">Fill in the fields to contiune</string>
-    <string name="Invalid_mail_address">Invalid mail address</string>
+    <string name="Invalid_mail_address">Invalid email address</string>
     <string name="Invalid_phone_number">Invalid phone number</string>
     <string name="Learn">Learn</string>
     <string name="With_a_revolutionary_method">With a revolutionary method</string>
