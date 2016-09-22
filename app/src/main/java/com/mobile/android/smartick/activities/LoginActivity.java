@@ -100,6 +100,9 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
     private UserType userType;
     private String resultURL;
 
+    private boolean loginStudentShowing = false;
+    private boolean loginTutorShowing = false;
+
     private String usernameToDelete = null;
     private SweetAlertDialog pDialogDelete;
 
@@ -325,6 +328,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
      */
     public void mostrarLoginAlumno(View view) {
 
+        if (loginStudentShowing || loginTutorShowing){
+            return;
+        }
+
         View layoutLogin = findViewById(R.id.login_layout);
         layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
 
@@ -343,6 +350,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
      * Muestra el panel de login de tutores
      */
     public void mostrarLoginTutor(View view) {
+
+        if (loginStudentShowing || loginTutorShowing){
+            return;
+        }
 
         View layoutLogin = findViewById(R.id.login_layout);
         layoutLogin.setBackground(getResources().getDrawable(R.drawable.tutor_login_bg));
@@ -395,6 +406,12 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
      * Muestra panel de login
      */
     public void entrarComoOtroAlumno(View view) {
+
+        if (loginStudentShowing || loginTutorShowing){
+            return;
+        }
+
+        loginStudentShowing = true;
         setAddAlumnoPanelVisible(true);
     }
 
@@ -402,6 +419,13 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
      * Muestra panel de login
      */
     public void entrarComoOtroTutor(View view) {
+
+        if (loginStudentShowing || loginTutorShowing){
+            return;
+        }
+
+        loginTutorShowing = true;
+
         setAddTutorPanelVisible(true);
     }
 
@@ -656,14 +680,25 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                             addUser(username, password, type);
                             hideSoftKeyboard();
                         } else {
-                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID))
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID)){
                                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB))
+                                resetLoginAlumnoPanel();
+                                resetLoginTutorPanel();
+                            }
+
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB)){
                                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
-                            if (loginStatusResponse.getStatus().equals(SmartickAPI.PASSWORD_INVALID))
+                                resetLoginAlumnoPanel();
+                                resetLoginTutorPanel();
+                            }
+
+                            if (loginStatusResponse.getStatus().equals(SmartickAPI.PASSWORD_INVALID)){
                                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.Incorrect_password), null, null, getString(R.string.OK), null);
-                            resetLoginAlumnoPanel();
-                            resetLoginTutorPanel();
+
+                                //just resets the password
+                                ((EditText) findViewById(R.id.login_password)).setText("");
+                                ((EditText) findViewById(R.id.login_password2)).setText("");
+                            }
                         }
                     }
 
@@ -685,8 +720,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
 
     private void setLoginAlumnoPanelVisible(boolean visible) {
         if (visible) {
+            loginStudentShowing = true;
             findViewById(R.id.panel_login_alumno).setVisibility(View.VISIBLE);
         } else {
+            loginStudentShowing = false;
             findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
         }
     }
@@ -705,6 +742,8 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
     public void cancelar(View view) {
         setLoginAlumnoPanelVisible(false);
         setLoginTutorPanelVisible(false);
+        loginTutorShowing = false;
+        loginStudentShowing = false;
         hideSoftKeyboard();
     }
 
