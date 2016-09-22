@@ -244,11 +244,17 @@ public class MainActivity extends FragmentActivity {
     private void backButtonPressed(){
         String urlWebView = webView.getUrl();
         if ( urlWebView.contains("alumno/tutorialSesion")
+                || urlWebView.contains("alumno/tutorialSesion")
+                || urlWebView.contains("alumno/tutorialSession")
                 || urlWebView.contains("alumno/home")
+                || urlWebView.contains("student/home")
                 || urlWebView.contains("alumno/fin")
+                || urlWebView.contains("student/end")
                 || urlWebView.contains("tutor/")){
             showAlertLogout();
-        }else if (urlWebView.contains("presentacionProblema") || urlWebView.contains("initial-feedback")) {
+        }else if (urlWebView.contains("presentacionProblema")
+                || urlWebView.contains("exercise")
+                || urlWebView.contains("initial-feedback")) {
             webView.getNavigationHistory().navigate(XWalkNavigationHistory.Direction.BACKWARD, 1);
         }else{
             webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
@@ -275,12 +281,12 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void goToVirtualWorldButtonPressed(){
-        webView.evaluateJavascript("location.href='/alumno/mundoVirtual.html'",null);
+        webView.evaluateJavascript("location.href='/student/virtualWorld.html'",null);
     }
 
 //Web location
     private boolean isOnStudentWeb(){
-        return webView.getUrl().contains("/alumno");
+        return webView.getUrl().contains("/alumno") || webView.getUrl().contains("/student");
     }
 
     private boolean isOnTutorWeb(){
@@ -506,9 +512,13 @@ public class MainActivity extends FragmentActivity {
             if (isOnStudentWeb()){
                 String urlWebView = webView.getUrl();
                 if (urlWebView.contains("presentacionProblema")
+                        || urlWebView.contains("exercise")
                         || urlWebView.contains("alumno/home")
+                        || urlWebView.contains("student/home")
                         || urlWebView.contains("alumno/fin")
+                        || urlWebView.contains("student/end")
                         || urlWebView.contains("tutorialAyudaSesion")
+                        || urlWebView.contains("sessionTutorial")
                         || urlWebView.contains("/initial-feedback")
                         || urlWebView.contains("/final-feedback")){
                     hideLogoutButton();
@@ -537,7 +547,7 @@ public class MainActivity extends FragmentActivity {
                 Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading - Download pdf");
                 return true;
             }
-            if (url.contains("acceso")){
+            if (url.contains("acceso") || url.contains("login")){
                 toLogin();
                 return true;
             }
@@ -914,7 +924,7 @@ public class MainActivity extends FragmentActivity {
      * Si el login es correcto se pasa al webview
      */
     private void redirectLogin(String urlRedirect){
-        if(urlRedirect != null && !urlRedirect.contains("acceso")) {
+        if(urlRedirect != null && !urlRedirect.contains("acceso") && !urlRedirect.contains("login")) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"Login valid");
             webView.load(urlRedirect,null);
         } else {

@@ -270,7 +270,7 @@ public class FreemiumMainActivity extends Activity {
 
     //Web location
     private boolean isOnStudentWeb(){
-        return webView.getUrl().contains("/alumno");
+        return webView.getUrl().contains("/alumno") || webView.getUrl().contains("/student");
     }
 
     private boolean isOnTutorWeb(){
@@ -386,14 +386,18 @@ public class FreemiumMainActivity extends Activity {
                     "document.documentElement.style.webkitTapHighlightColor='rgba(0,0,0,0)';",null);
 
             String urlWebView = webView.getUrl();
-            if (urlWebView.contains("presentacionProblema") || urlWebView.contains("fin")){
+            if (urlWebView.contains("presentacionProblema")
+                    || urlWebView.contains("exercise")
+                    || urlWebView.contains("end")
+                    || urlWebView.contains("fin")){
                 hideLogoutButton();
             }else{
                 showLogoutButton();
             }
 
             //benefits modal appears when user gets to mundoVirtual
-            if (urlWebView.contains("mundoVirtualFreemium.html")){
+            if (urlWebView.contains("mundoVirtualFreemium.html")
+                    || urlWebView.contains("virtualWorldFreemium.html")){
                 showBenefitsModal();
             }
         }
@@ -492,7 +496,7 @@ public class FreemiumMainActivity extends Activity {
      * Si el login es correcto se pasa al webview
      */
     private void redirectLogin(String urlRedirect){
-        if(urlRedirect != null && !urlRedirect.contains("acceso")) {
+        if(urlRedirect != null && !urlRedirect.contains("acceso") && !urlRedirect.contains("login")) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"Login valid");
             webView.load(urlRedirect,null);
         } else {
