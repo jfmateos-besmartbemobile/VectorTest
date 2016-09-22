@@ -165,6 +165,8 @@ public class WelcomeActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        disableButtons = false;
+
         // Facebook logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
     }
@@ -191,18 +193,21 @@ public class WelcomeActivity extends Activity {
 
     public void irLogin(View view) {
         if (!disableButtons){
+            disableButtons = true;
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
 
     public void irRegistro(View view) {
         if (!disableButtons) {
+            disableButtons = true;
             startActivity(new Intent(this, RegistroActivity.class));
         }
     }
 
     public void irIntro(View view) {
         if (!disableButtons) {
+            disableButtons = true;
             startActivity(new Intent(this, IntroActivity.class));
         }
     }
@@ -240,16 +245,20 @@ public class WelcomeActivity extends Activity {
     }
 
     public void irFreemium() {
-        if (!disableButtons) {
+        if (!disableButtons){
+            disableButtons = true;
             startActivity(new Intent(this, FreemiumActivity.class));
         }
     }
 
     public void goToFreemiumSession(){
-        Intent intent = new Intent(this, FreemiumMainActivity.class);
-        intent.putExtra("selectedAvatar", freemiumProfile.getAvatar());
-        intent.putExtra("selectedAge", freemiumProfile.getAge());
-        startActivity(intent);
+        if (!disableButtons){
+            disableButtons = true;
+            Intent intent = new Intent(this, FreemiumMainActivity.class);
+            intent.putExtra("selectedAvatar", freemiumProfile.getAvatar());
+            intent.putExtra("selectedAge", freemiumProfile.getAge());
+            startActivity(intent);
+        }
     }
 
     public void showFreemiumSessionAlert(){
@@ -308,11 +317,12 @@ public class WelcomeActivity extends Activity {
                             @Override
                             public void success(ClearFreemiumSessionResponse clearFreemiumSessionResponse, Response response) {
                                 Log.d(Constants.WELCOME_LOG_TAG, "clearFreemiumSession RESPONSE: Freemium session deleted - : " + clearFreemiumSessionResponse.getDeleted());
-                                disableButtons = false;
                                 freemiumAlertDialog.dismiss();
 
                                 if (clearFreemiumSessionResponse.getDeleted()) {
                                     irFreemium();
+                                }else{
+                                    disableButtons = false;
                                 }
                             }
 
