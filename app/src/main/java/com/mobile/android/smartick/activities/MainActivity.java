@@ -244,8 +244,7 @@ public class MainActivity extends FragmentActivity {
     private void backButtonPressed(){
         String urlWebView = webView.getUrl();
         if ( urlWebView.contains("alumno/tutorialSesion")
-                || urlWebView.contains("alumno/tutorialSesion")
-                || urlWebView.contains("alumno/tutorialSession")
+                || urlWebView.contains("student/tutorialSession")
                 || urlWebView.contains("alumno/home")
                 || urlWebView.contains("student/home")
                 || urlWebView.contains("alumno/fin")
