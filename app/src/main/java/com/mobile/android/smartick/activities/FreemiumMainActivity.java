@@ -56,12 +56,12 @@ import org.apache.http.impl.client.DefaultRedirectHandler;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 import org.xwalk.core.JavascriptInterface;
+import org.xwalk.core.XWalkCookieManager;
 import org.xwalk.core.XWalkJavascriptResult;
 import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
-import org.xwalk.core.internal.XWalkCookieManager;
 
 import java.io.IOException;
 import java.net.URI;
