@@ -868,7 +868,7 @@
             android:text="test"
             android:textSize="20dp"
             android:gravity="left"
-            android:layout_marginLeft="620dp"
+            android:layout_marginLeft="@dimen/confirm_student_margin_left"
             android:textColor="@color/BlueColor"
             android:layout_below="@+id/tutor_confirm_title"
             android:layout_marginTop="50dp" />
@@ -880,7 +880,7 @@
             android:text="test"
             android:textSize="20dp"
             android:gravity="left"
-            android:layout_marginLeft="620dp"
+            android:layout_marginLeft="@dimen/confirm_student_margin_left"
             android:textColor="@color/BlueColor"
             android:layout_below="@+id/tutor_confirm_title"
             android:layout_marginTop="100dp"/>
