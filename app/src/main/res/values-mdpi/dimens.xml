@@ -32,6 +32,7 @@
     <dimen name="login_panel_title_padding_bottom">20dp</dimen>
 
     <!--Register-->
+    <dimen name="confirm_student_margin_left">620dp</dimen>
 
     <!--General-->
 

@@ -28,6 +28,7 @@
     <dimen name="login_panel_title_padding_bottom">10dp</dimen>
 
     <!--Register-->
+    <dimen name="confirm_student_margin_left">620dp</dimen>
 
     <!--General-->
 
