@@ -48,7 +48,9 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustNothing"
+            >
         </activity>
         <activity
             android:name=".activities.IntroActivity"

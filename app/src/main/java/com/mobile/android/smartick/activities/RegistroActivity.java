@@ -13,6 +13,7 @@ import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -228,7 +229,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 //        setUpDebugData();
     }
 
-
     public void goBack(View view) {
         clearEditTextFocus();
         scrollToPreviousPage();
@@ -337,7 +337,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         studentAliasEditText.clearFocus();
         studentPasswordEditText.clearFocus();
         studentNameEditText.clearFocus();
-        studentPasswordEditText.clearFocus();
+        studentLastNameEditText.clearFocus();
         tutorMailEditText.clearFocus();
         tutorPasswordEditText.clearFocus();
         tutorPhoneEditText.clearFocus();

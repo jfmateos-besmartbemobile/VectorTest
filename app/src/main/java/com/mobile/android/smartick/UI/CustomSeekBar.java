@@ -77,7 +77,7 @@ public class CustomSeekBar extends SeekBar {
         canvas.save();
 
         //Here are a few parameters that could be useful in calculating where to put the text
-        int width = this.getWidth() - leftPlusRightTextMargins;
+        int width = this.getThumb().getMinimumWidth() - leftPlusRightTextMargins;
         int height = this.getHeight();
 
         //A somewhat fat finger takes up about seven digits of space
@@ -107,7 +107,7 @@ public class CustomSeekBar extends SeekBar {
         //Finally, just draw the text on top of the SeekBar
         float x = this.getThumb().getBounds().centerX() - textWidth / 2;
         float y = this.getY();
-        canvas.drawText(overlayText, x, y, textPaint);
+        canvas.drawText(overlayText, x + width - 100 ,y, textPaint);
 
         canvas.restore();
     }

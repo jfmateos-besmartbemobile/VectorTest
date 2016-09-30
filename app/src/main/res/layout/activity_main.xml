@@ -122,6 +122,7 @@
             android:clickable="true"
             android:onClick="toggleYTPlayerFullscreen"
             android:textSize="15dp"
+            android:visibility="gone"
             android:textColor="@color/BlueColor"
             android:background="@drawable/yt_fullscreen_button_bg"
             />

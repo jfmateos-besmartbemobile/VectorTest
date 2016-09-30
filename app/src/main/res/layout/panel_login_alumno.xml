@@ -18,8 +18,8 @@
         android:textSize="@dimen/login_panel_title_text_size"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="@dimen/login_panel_title_padding_top"
+        android:paddingBottom="@dimen/login_panel_title_padding_bottom"
         android:gravity="center_horizontal" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

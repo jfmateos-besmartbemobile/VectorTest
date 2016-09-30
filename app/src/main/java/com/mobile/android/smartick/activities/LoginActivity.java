@@ -34,6 +34,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -277,6 +278,18 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         //checks for inactive students
         checkStudentsActive();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loginStudentShowing = false;
+        loginTutorShowing = false;
+
+        // Facebook logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

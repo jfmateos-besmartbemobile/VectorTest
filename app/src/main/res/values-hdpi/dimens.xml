@@ -23,7 +23,7 @@
     <dimen name="freemium_thumb_padding">20dp</dimen>
 
     <!--Login-->
-    <dimen name="login_panel_title_text_size">25dp</dimen>
+    <dimen name="login_panel_title_text_size">30dp</dimen>
     <dimen name="login_panel_title_padding_top">10dp</dimen>
     <dimen name="login_panel_title_padding_bottom">10dp</dimen>
 

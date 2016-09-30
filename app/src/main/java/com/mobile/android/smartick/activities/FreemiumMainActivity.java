@@ -154,6 +154,7 @@ public class FreemiumMainActivity extends Activity {
         //sets clients
         webView.setUIClient(new UIClient(webView));
         webView.setResourceClient(new ResourceClient(webView));
+        webView.setInitialScale(100);
 
         //webView settings
         setWebClientOptions();
@@ -474,7 +475,7 @@ public class FreemiumMainActivity extends Activity {
 
         public void onScaleChanged(XWalkView view, float oldScale, float newScale) {
             super.onScaleChanged(view, oldScale, newScale);
-            Log.d(Constants.WEBVIEW_LOG_TAG, "Scale changed.");
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Scale changed from " + oldScale + " to " + newScale);
         }
     }
 

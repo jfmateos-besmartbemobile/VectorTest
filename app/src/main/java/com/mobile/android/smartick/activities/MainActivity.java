@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -139,6 +140,7 @@ public class MainActivity extends FragmentActivity {
             //sets clients
             webView.setUIClient(new UIClient(webView));
             webView.setResourceClient(new ResourceClient(webView));
+            webView.setInitialScale(100);
 
             //webView settings
             setWebClientOptions();
@@ -157,7 +159,7 @@ public class MainActivity extends FragmentActivity {
             audioPlayer.setPlayerCallbacks(audioPlayer.player, onCompletionListener);
 
             //youtube init
-            initializaNativeYoutubePlayer();
+            initializeNativeYoutubePlayer();
 
             //Enables remote debugging
             XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, Constants.DEBUG_MODE);
@@ -242,7 +244,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         //hides youtubePlayer on page change
-        if (youTubePlayerHolder.getVisibility() == View.VISIBLE){
+        if (youTubePlayerHolder != null && youTubePlayerHolder.getVisibility() == View.VISIBLE){
             hideYTPlayerHolder();
         }
     }
@@ -597,7 +599,7 @@ public class MainActivity extends FragmentActivity {
 
         public void onScaleChanged(XWalkView view, float oldScale, float newScale) {
             super.onScaleChanged(view, oldScale, newScale);
-            Log.d(Constants.WEBVIEW_LOG_TAG, "Scale changed.");
+            Log.d(Constants.WEBVIEW_LOG_TAG, "Scale changed from " + oldScale + " to " + newScale);
         }
     }
 
@@ -942,8 +944,8 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    //Native Youtbe Plauer
-    private void initializaNativeYoutubePlayer(){
+    //Native Youtbe Player
+    private void initializeNativeYoutubePlayer(){
         youTubePlayerHolder = findViewById(R.id.youtube_player_holder);
         youTubePlayerHolder.setVisibility(View.GONE);
         YouTubePlayerFragment youTubePlayerFragment =
@@ -955,7 +957,7 @@ public class MainActivity extends FragmentActivity {
                 if (!b) {
                     ytPlayer = youTubePlayer;
 
-                    YouTubePlayer.PlayerStyle style = YouTubePlayer.PlayerStyle.DEFAULT;
+                    YouTubePlayer.PlayerStyle style = YouTubePlayer.PlayerStyle.MINIMAL;
                     ytPlayer.setPlayerStyle(style);
 
                     //sets up event listeners
@@ -995,6 +997,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Log.d(Constants.YTPLAYER_LOG_TAG, "onInitializationFailure - set ytPlayer = null");
                 ytPlayer = null;
             }
         });
@@ -1032,6 +1035,7 @@ public class MainActivity extends FragmentActivity {
         youTubePlayerHolder.setVisibility(View.VISIBLE);
         TextView title = (TextView) findViewById(R.id.yt_video_title);
         title.setText(youTubeVideoTitle);
+        webView.setVisibility(View.GONE);
     }
 
     private void hideYTPlayerHolder(){
@@ -1040,6 +1044,7 @@ public class MainActivity extends FragmentActivity {
             ytPlayer.pause();
             youTubeVideoTitle = "";
             youTubePlayerHolder.setVisibility(View.GONE);
+            webView.setVisibility(View.VISIBLE);
         }
     }
 
