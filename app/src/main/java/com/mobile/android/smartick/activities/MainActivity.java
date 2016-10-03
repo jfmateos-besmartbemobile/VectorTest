@@ -182,7 +182,7 @@ public class MainActivity extends FragmentActivity {
             });
 
             //logout button is not visible by default
-            logoutButton.setVisibility(View.INVISIBLE);
+            logoutButton.setVisibility(View.GONE);
 
             //Go to virtual world button (DEBUG)
             if (Constants.DEBUG_MODE){
@@ -237,6 +237,7 @@ public class MainActivity extends FragmentActivity {
             showAlertLogout();
         }else if (urlWebView.contains("presentacionProblema")
                 || urlWebView.contains("exercise")
+                || urlWebView.contains("student/interactive-tutorial")
                 || urlWebView.contains("initial-feedback")) {
             webView.getNavigationHistory().navigate(XWalkNavigationHistory.Direction.BACKWARD, 1);
         }else{
@@ -260,7 +261,7 @@ public class MainActivity extends FragmentActivity {
 
     private void hideLogoutButton(){
         Button logoutButton = (Button) findViewById(R.id.logout_button_main);
-        logoutButton.setVisibility(View.INVISIBLE);
+        logoutButton.setVisibility(View.GONE);
     }
 
     private void goToVirtualWorldButtonPressed(){

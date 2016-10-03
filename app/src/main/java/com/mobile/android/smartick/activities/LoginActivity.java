@@ -410,7 +410,7 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                 User user = (User) adapter.getItem(position);
                 usernameToDelete = user.getUsername();
                 showUserDeleteDialog(user.getUsername());
-                return false;
+                return true;
             }
         });
     }
