@@ -624,6 +624,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //scrollView listener methods
     public void onScrollChanged(RegisterScrollView scrollView, int x, int y, int oldx, int oldy) {
+        clearEditTextFocus();
     }
 
     //Check login status
