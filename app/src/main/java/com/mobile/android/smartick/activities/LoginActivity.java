@@ -113,6 +113,9 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
     private EditText rememberPasswordStudentUsername;
     private EditText rememberPasswordTutorMail;
 
+    private Button loginStudentFlipButton;
+    private Button loginTutorFlipButton;
+
     private UsersDBHandler localDB = new UsersDBHandler(this);
 
     //FB login
@@ -264,6 +267,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
         ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
 
+        //Flip Buttons setuo
+        loginStudentFlipButton = (Button) findViewById(R.id.login_student_flip_button);
+        loginTutorFlipButton = (Button) findViewById(R.id.login_tutor_flip_button);
+
         //loads users into their respective listView
         //STUDENTS
         listViewStudents = (ListView) findViewById(R.id.list_alumnos);
@@ -285,6 +292,7 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
 
         loginStudentShowing = false;
         loginTutorShowing = false;
+        enableFlipButtons(true);
 
         // Facebook logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
@@ -425,6 +433,8 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         }
 
         loginStudentShowing = true;
+        enableFlipButtons(false);
+
         setAddAlumnoPanelVisible(true);
     }
 
@@ -438,6 +448,7 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         }
 
         loginTutorShowing = true;
+        enableFlipButtons(false);
 
         setAddTutorPanelVisible(true);
     }
@@ -734,9 +745,11 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
     private void setLoginAlumnoPanelVisible(boolean visible) {
         if (visible) {
             loginStudentShowing = true;
+            enableFlipButtons(false);
             findViewById(R.id.panel_login_alumno).setVisibility(View.VISIBLE);
         } else {
             loginStudentShowing = false;
+            enableFlipButtons(true);
             findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
         }
     }
@@ -757,6 +770,7 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         setLoginTutorPanelVisible(false);
         loginTutorShowing = false;
         loginStudentShowing = false;
+        enableFlipButtons(true);
         hideSoftKeyboard();
     }
 
@@ -1165,5 +1179,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
 
         //Facebook trackers
         accessTokenTracker.stopTracking();
+    }
+
+    public void enableFlipButtons(boolean enabled){
+        loginStudentFlipButton.setEnabled(enabled);
+        loginTutorFlipButton.setEnabled(enabled);
     }
 }
