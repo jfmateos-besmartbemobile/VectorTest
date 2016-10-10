@@ -68,6 +68,10 @@ public class WelcomeActivity extends Activity {
     private AlertDialog freemiumAlertDialog;
     private View buttonIntro;
 
+    private Button freemiumButton;
+    private Button loginButton;
+    private Button registerButton;
+
     //GCM
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -147,6 +151,10 @@ public class WelcomeActivity extends Activity {
         //Get freemium profile info
         freemiumProfile = new FreemiumProfile(this.getApplicationContext());
 
+        //Sets upf button reference variables
+        freemiumButton = (Button) findViewById(R.id.main_button_invitado);
+        loginButton = (Button) findViewById(R.id.main_button_login);
+        registerButton = (Button) findViewById(R.id.main_button_registro);
 
         // Adapt every textView to custom font
         Typeface tfBoogaloo = Typeface.createFromAsset(getAssets(), "fonts/Boogaloo-Regular.otf");
@@ -166,6 +174,7 @@ public class WelcomeActivity extends Activity {
         super.onResume();
 
         disableButtons = false;
+        enableButtons(true);
 
         // Facebook logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
@@ -194,6 +203,7 @@ public class WelcomeActivity extends Activity {
     public void irLogin(View view) {
         if (!disableButtons){
             disableButtons = true;
+            enableButtons(false);
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
@@ -201,6 +211,7 @@ public class WelcomeActivity extends Activity {
     public void irRegistro(View view) {
         if (!disableButtons) {
             disableButtons = true;
+            enableButtons(false);
             startActivity(new Intent(this, RegistroActivity.class));
         }
     }
@@ -208,12 +219,14 @@ public class WelcomeActivity extends Activity {
     public void irIntro(View view) {
         if (!disableButtons) {
             disableButtons = true;
+            enableButtons(false);
             startActivity(new Intent(this, IntroActivity.class));
         }
     }
 
     public void freemiumButtonPressed(View view){
         disableButtons = true;
+        enableButtons(false);
 
         //Check for today's freemium session status
         SmartickRestClient.get().getFreemiumSessionStatus(sysInfo.getInstallationId(),
@@ -222,6 +235,7 @@ public class WelcomeActivity extends Activity {
             public void success(GetFreemiumSessionStatusResponse getFreemiumSessionStatusResponse, Response response) {
                 Log.d(Constants.WELCOME_LOG_TAG, "getFreemiumSessionSatus RESPONSE: last Freemium session on - : " + getFreemiumSessionStatusResponse.getLastSessionDate());
                 disableButtons = false;
+                enableButtons(true);
                 if (getFreemiumSessionStatusResponse.getSessionFinished() != null && getFreemiumSessionStatusResponse.getSessionFinished() == true){
                     //today's session has been completed -> show alert with options to user
                     showFreemiumSessionAlert();
@@ -234,6 +248,7 @@ public class WelcomeActivity extends Activity {
             public void failure(RetrofitError error) {
                 Log.d(Constants.WELCOME_LOG_TAG, "getFreemiumSessionSatus ERROR: " + error);
                 disableButtons = false;
+                enableButtons(true);
 
                 // network error
                 showAlertDialog(getString(R.string.Notice),
@@ -247,6 +262,7 @@ public class WelcomeActivity extends Activity {
     public void irFreemium() {
         if (!disableButtons){
             disableButtons = true;
+            enableButtons(false);
             startActivity(new Intent(this, FreemiumActivity.class));
         }
     }
@@ -254,6 +270,7 @@ public class WelcomeActivity extends Activity {
     public void goToFreemiumSession(){
         if (!disableButtons){
             disableButtons = true;
+            enableButtons(false);
             Intent intent = new Intent(this, FreemiumMainActivity.class);
             intent.putExtra("selectedAvatar", freemiumProfile.getAvatar());
             intent.putExtra("selectedAge", freemiumProfile.getAge());
@@ -312,6 +329,7 @@ public class WelcomeActivity extends Activity {
             @Override
             public void run() {
                 disableButtons = true;
+                enableButtons(false);
                 SmartickRestClient.get().clearFreemoumSessionStatus(sysInfo.getInstallationId(),
                         new Callback<ClearFreemiumSessionResponse>() {
                             @Override
@@ -323,6 +341,7 @@ public class WelcomeActivity extends Activity {
                                     irFreemium();
                                 }else{
                                     disableButtons = false;
+                                    enableButtons(true);
                                 }
                             }
 
@@ -331,6 +350,7 @@ public class WelcomeActivity extends Activity {
                                 Log.d(Constants.WELCOME_LOG_TAG, "clearFreemiumSession ERROR: " + error);
                                 freemiumAlertDialog.dismiss();
                                 disableButtons = false;
+                                enableButtons(true);
 
                                 // error conexion
                                 showAlertDialog(getString(R.string.You_must_be_connected_to_the_internet),
@@ -411,5 +431,11 @@ public class WelcomeActivity extends Activity {
                         Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation ERROR: " + error);
                     }
                 });
+    }
+
+    private void enableButtons(boolean enabled){
+        freemiumButton.setActivated(enabled);
+        registerButton.setActivated(enabled);
+        loginButton.setActivated(enabled);
     }
 }
