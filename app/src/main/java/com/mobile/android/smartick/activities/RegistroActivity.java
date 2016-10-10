@@ -69,6 +69,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //scroll view control
     private int pageWidth = 0;
+    private int pageHeight = 0;
     private int numPages = 8;  //5 alumno 4 tutor
     private int currentPage = 0;
 
@@ -215,6 +216,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         Point size = new Point();
         display.getSize(size);
         pageWidth = size.x;
+        pageHeight = size.y;
 
         ViewGroup rootView = (ViewGroup) findViewById(R.id.register_horizontalScroll_linear);
         adaptScrollViewPageWidth(rootView,pageWidth);
@@ -223,11 +225,60 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         scrollView1.setRegisterScrollViewListener(this);
 
         //initial focus on student alias
+
         studentAliasEditText.requestFocus();
+
+//        studentAliasEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus){
+//                    scrollView1.setY(scrollView1.getY() - pageHeight / 4);
+//                }else{
+//                    resetScrollViewPositiuon();
+//                }
+//            }
+//        });
 
         //DEBUG
 //        setUpDebugData();
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+//        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+//                && keyCode == KeyEvent.KEYCODE_BACK
+//                && event.getRepeatCount() == 0) {
+//            Log.d("CDA", "onKeyDown Called");
+//            onBackPressed();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
+//    private void resetScrollViewPositiuon(){
+//        clearEditTextFocus();
+//        hideSoftKeyboard();
+//        scrollView1.setY(0);
+//    }
+
+    //Soft keyboard
+//    private void hideSoftKeyboard() {
+//        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(studentAliasEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(studentPasswordEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(studentNameEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(studentLastNameEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(tutorMailEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(tutorPasswordEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(tutorNameEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(tutorLastNameEditText.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(tutorPhoneEditText.getWindowToken(), 0);
+//    }
+//
+//    public void onBackPressed() {
+//        resetScrollViewPositiuon();
+//    }
+
 
     public void goBack(View view) {
         clearEditTextFocus();

@@ -29,7 +29,7 @@
     <dimen name="login_panel_tutores_height">620dp</dimen>
 
     <!--Register-->
-    <dimen name="confirm_student_margin_left">520dp</dimen>
+    <dimen name="confirm_student_margin_left">620dp</dimen>
 
     <!--General-->
 

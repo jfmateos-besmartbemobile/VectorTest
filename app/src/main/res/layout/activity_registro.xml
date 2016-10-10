@@ -15,8 +15,8 @@
     <LinearLayout
         android:id="@+id/register_horizontalScroll_linear"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="900dp"
+        android:layout_height="450dp"
         android:layout_alignParentRight="true"
         android:fillViewport="true"
         >
@@ -450,7 +450,8 @@
                 android:layout_alignRight="@+id/student_confirm_title"
                 android:layout_alignEnd="@+id/student_confirm_title"
                 android:layout_marginRight="148dp"
-                android:layout_marginEnd="148dp" />
+                android:layout_marginEnd="148dp"
+                />
 
             <ImageView
                 android:id="@+id/confirm_sex_boy"
@@ -472,10 +473,10 @@
                 android:layout_height="wrap_content"
                 android:text="test"
                 android:textSize="20dp"
-                android:gravity="left"
+                android:layout_gravity="center"
                 android:textColor="@color/BlueColor"
                 android:layout_below="@+id/student_confirm_title"
-                android:layout_marginLeft="@dimen/confirm_student_margin_left"
+                android:layout_toLeftOf="@+id/confirm_button_student"
                 android:layout_marginTop="50dp" />
 
             <TextView
@@ -486,8 +487,10 @@
                 android:text="test"
                 android:textSize="20dp"
                 android:textColor="@color/BlueColor"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/confirm_button_student"
                 android:layout_below="@+id/student_confirm_title"
-                android:layout_marginLeft="@dimen/confirm_student_margin_left"
                 android:layout_marginTop="100dp" />
 
             <TextView
@@ -497,9 +500,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text="test"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/confirm_button_student"
                 android:textColor="@color/BlueColor"
                 android:layout_below="@+id/student_confirm_title"
-                android:layout_marginLeft="@dimen/confirm_student_margin_left"
                 android:layout_marginTop="150dp" />
 
             <TextView
@@ -509,12 +514,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text="test"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/confirm_button_student"
                 android:textColor="@color/BlueColor"
                 android:layout_below="@+id/student_confirm_title"
-                android:layout_marginLeft="@dimen/confirm_student_margin_left"
                 android:layout_marginTop="200dp" />
 
             <Button
+                android:id="@+id/back_button_confirm_student"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -528,6 +536,7 @@
                 />
 
             <Button
+                android:id="@+id/confirm_button_student"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -868,7 +877,7 @@
             android:text="test"
             android:textSize="20dp"
             android:gravity="left"
-            android:layout_marginLeft="@dimen/confirm_student_margin_left"
+            android:layout_toRightOf="@+id/confirm_tutor_icon"
             android:textColor="@color/BlueColor"
             android:layout_below="@+id/tutor_confirm_title"
             android:layout_marginTop="50dp" />
@@ -880,7 +889,7 @@
             android:text="test"
             android:textSize="20dp"
             android:gravity="left"
-            android:layout_marginLeft="@dimen/confirm_student_margin_left"
+            android:layout_toRightOf="@+id/confirm_tutor_icon"
             android:textColor="@color/BlueColor"
             android:layout_below="@+id/tutor_confirm_title"
             android:layout_marginTop="100dp"/>
