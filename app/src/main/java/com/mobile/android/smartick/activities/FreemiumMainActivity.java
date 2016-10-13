@@ -240,7 +240,7 @@ public class FreemiumMainActivity extends Activity {
                         }else{
                             //session finished, we let the user go back
                             String urlWebView = webView.getUrl();
-                            if (urlWebView != null && urlWebView.contains("fin")){
+                            if (urlWebView != null && urlWebView.contains("end")){
                                 doLogout();
                             }else{
                                 webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
