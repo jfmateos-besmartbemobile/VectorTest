@@ -155,6 +155,7 @@ public class FreemiumMainActivity extends Activity {
         webView.setUIClient(new UIClient(webView));
         webView.setResourceClient(new ResourceClient(webView));
         webView.setInitialScale(100);
+        webView.getSettings().setUseWideViewPort(true);
 
         //webView settings
         setWebClientOptions();

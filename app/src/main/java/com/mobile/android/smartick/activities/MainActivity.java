@@ -141,6 +141,7 @@ public class MainActivity extends FragmentActivity {
             webView.setUIClient(new UIClient(webView));
             webView.setResourceClient(new ResourceClient(webView));
             webView.setInitialScale(100);
+            webView.getSettings().setUseWideViewPort(true);
 
             //webView settings
             setWebClientOptions();
@@ -237,6 +238,7 @@ public class MainActivity extends FragmentActivity {
             showAlertLogout();
         }else if (urlWebView.contains("presentacionProblema")
                 || urlWebView.contains("exercise")
+                || urlWebView.contains("student/sessionTutorial")
                 || urlWebView.contains("student/interactive-tutorial")
                 || urlWebView.contains("initial-feedback")) {
             webView.getNavigationHistory().navigate(XWalkNavigationHistory.Direction.BACKWARD, 1);
