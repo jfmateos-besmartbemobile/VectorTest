@@ -124,6 +124,7 @@ public interface SmartickAPI {
             @Field("appVersion") String appVersion,
             @Field("device") String device,
             @Field("installationId") String installationId,
+            @Field("extra") String extra,
             Callback<RegisterAppActivationResponse> callback);
 
     @FormUrlEncoded
@@ -216,6 +217,7 @@ public interface SmartickAPI {
             @Field("app") String app,
             @Field("appVersion") String appVersion,
             @Field("device") String device,
+            @Field("extra") String extra,
             @Field("installationId") String installationId);
 
     @FormUrlEncoded

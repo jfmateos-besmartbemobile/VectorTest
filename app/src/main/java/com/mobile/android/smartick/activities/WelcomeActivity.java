@@ -420,7 +420,7 @@ public class WelcomeActivity extends Activity {
     }
 
     private void registerAppActivation(){
-        SmartickRestClient.get().registerAppActivation("Android",sysInfo.getVersion(),sysInfo.getDevice(),sysInfo.getInstallationId(),
+        SmartickRestClient.get().registerAppActivation("Android",sysInfo.getVersion(),sysInfo.getDevice(),sysInfo.getInstallationId(),sysInfo.getExtra(),
                 new Callback<RegisterAppActivationResponse>() {
                     @Override
                     public void success(RegisterAppActivationResponse registerAppActivationResponse, Response response){

@@ -20,6 +20,7 @@ public class SystemInfo {
     private String osVersion;
     private String version;
     private String locale;
+    private String extra;
     private boolean firstTimeRunning;
     private Context context;
 
@@ -30,6 +31,7 @@ public class SystemInfo {
         this.version = obtainVersion();
         this.device = obtainDevice();
         this.locale = obtainLocale();
+        this.extra = obtainExtra();
         this.firstTimeRunning = obtainFirstTimeRunning();
     }
 
@@ -89,6 +91,10 @@ public class SystemInfo {
         return firstTimeRunning;
     }
 
+    private String obtainExtra(){
+        return null;
+    }
+
     public String getInstallationId() {
         return installationId;
     }
@@ -135,5 +141,13 @@ public class SystemInfo {
 
     public void setFirstTimeRunning(boolean firstTimeRunning) {
         this.firstTimeRunning = firstTimeRunning;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 }
