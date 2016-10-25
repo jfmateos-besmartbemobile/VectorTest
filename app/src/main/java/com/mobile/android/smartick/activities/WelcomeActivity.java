@@ -59,7 +59,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import com.emma.android.eMMa;
 
-
 public class WelcomeActivity extends Activity {
 
     private SystemInfo sysInfo;
