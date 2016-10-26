@@ -3,6 +3,7 @@ package com.mobile.android.smartick.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -11,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.webkit.ValueCallback;
@@ -140,7 +142,23 @@ public class MainActivity extends FragmentActivity {
             //sets clients
             webView.setUIClient(new UIClient(webView));
             webView.setResourceClient(new ResourceClient(webView));
-            webView.setInitialScale(100);
+
+            //Sets window scale configuration
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+
+
+            webView.getSettings().setInitialPageScale(1.0f);
+
+            if (height < 600){
+                webView.setInitialScale(75);
+            }else{
+                webView.setInitialScale(100);
+            }
+
             webView.getSettings().setUseWideViewPort(true);
 
             //webView settings
