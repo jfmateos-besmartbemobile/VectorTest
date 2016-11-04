@@ -153,7 +153,7 @@ public class MainActivity extends FragmentActivity {
 
             webView.getSettings().setInitialPageScale(1.0f);
 
-            if (height < 600){
+            if (height <= 600){
                 webView.setInitialScale(75);
             }else{
                 webView.setInitialScale(100);

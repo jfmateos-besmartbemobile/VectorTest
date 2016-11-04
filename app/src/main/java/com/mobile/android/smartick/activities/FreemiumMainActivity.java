@@ -153,8 +153,22 @@ public class FreemiumMainActivity extends Activity {
 
         //sets clients
         webView.setUIClient(new UIClient(webView));
-        webView.setResourceClient(new ResourceClient(webView));
-        webView.setInitialScale(100);
+
+        //Sets window scale configuration
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        webView.getSettings().setInitialPageScale(1.0f);
+
+        if (height <= 600){
+            webView.setInitialScale(75);
+        }else{
+            webView.setInitialScale(100);
+        }
+
         webView.getSettings().setUseWideViewPort(true);
 
         //webView settings

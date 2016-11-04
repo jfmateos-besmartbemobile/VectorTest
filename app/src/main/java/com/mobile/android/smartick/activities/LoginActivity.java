@@ -402,6 +402,11 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         //login on touch
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (loginStudentShowing || loginTutorShowing){
+                    return;
+                }
+
                 //retreive user
                 User user = (User) adapter.getItem(position);
                 UserType userType = UserType.valueOf(user.getPerfil());
@@ -415,6 +420,11 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (loginStudentShowing || loginTutorShowing){
+                    return false;
+                }
+
                 User user = (User) adapter.getItem(position);
                 usernameToDelete = user.getUsername();
                 showUserDeleteDialog(user.getUsername());
