@@ -252,6 +252,7 @@ public class MainActivity extends FragmentActivity {
                 || urlWebView.contains("student/home")
                 || urlWebView.contains("alumno/fin")
                 || urlWebView.contains("student/end")
+                || urlWebView.contains("student/exercise-tutorial!endTutorial")
                 || urlWebView.contains("tutor/")){
             showAlertLogout();
         }else if (urlWebView.contains("presentacionProblema")
