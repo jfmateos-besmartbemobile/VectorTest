@@ -515,6 +515,7 @@ public class MainActivity extends FragmentActivity {
 
             //shows/hides logout button
             if (isOnStudentWeb()){
+                tutorNameHolder.setVisibility(View.GONE);
                 String urlWebView = webView.getUrl();
                 if (urlWebView.contains("presentacionProblema")
                         || urlWebView.contains("exercise")

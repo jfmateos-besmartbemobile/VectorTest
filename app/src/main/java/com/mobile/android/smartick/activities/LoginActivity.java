@@ -677,7 +677,8 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                 setAddTutorPanelVisible(false);
                 resetLoginAlumnoPanel();
                 resetLoginTutorPanel();
-
+                loginStudentShowing = false;
+                loginTutorShowing = false;
 
             } else {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
