@@ -53,6 +53,7 @@ import com.mobile.android.smartick.UI.LanguageSelectorInterface;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
 import com.mobile.android.smartick.network.LoginStatusResponse;
+import com.mobile.android.smartick.network.RegisterAppEventResponse;
 import com.mobile.android.smartick.network.RememberPasswordMobileResponse;
 import com.mobile.android.smartick.network.SmartickAPI;
 import com.mobile.android.smartick.network.SmartickRestClient;
@@ -888,6 +889,20 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                     refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
                     prepareListView(listViewTutors);
                 }
+
+                //Send event to server
+                SmartickRestClient.get().registerAppEvent("Android",sysInfo.getVersion(),sysInfo.getDevice(),sysInfo.getInstallationId(),"USER_DELETED", usernameToDelete,
+                        new Callback<RegisterAppEventResponse>() {
+                            @Override
+                            public void success(RegisterAppEventResponse registerAppEventResponse, Response response){
+                                Log.d(Constants.LOGIN_LOG_TAG, "registerAppEvent RESPONSE: " + registerAppEventResponse.getResponse());
+                            }
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.d(Constants.LOGIN_LOG_TAG, "registerAppEvent ERROR: " + error);
+                            }
+                        });
+
             }
             usernameToDelete = null;
         }

@@ -8,7 +8,7 @@ public class RegisterAppActivationResponse {
     private String app;
     private String device;
     private String appVersion;
-    private String reponse;
+    private String response;
 
     private RegisterAppActivationResponse(){}
 
@@ -44,11 +44,11 @@ public class RegisterAppActivationResponse {
         this.appVersion = appVersion;
     }
 
-    public String getReponse() {
-        return reponse;
+    public String getResponse() {
+        return response;
     }
 
-    public void setReponse(String reponse) {
-        this.reponse = reponse;
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

@@ -423,7 +423,7 @@ public class WelcomeActivity extends Activity {
                 new Callback<RegisterAppActivationResponse>() {
                     @Override
                     public void success(RegisterAppActivationResponse registerAppActivationResponse, Response response){
-                        Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation RESPONSE: " + registerAppActivationResponse.getReponse());
+                        Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation RESPONSE: " + registerAppActivationResponse.getResponse());
                     }
                     @Override
                     public void failure(RetrofitError error) {

@@ -128,6 +128,17 @@ public interface SmartickAPI {
             Callback<RegisterAppActivationResponse> callback);
 
     @FormUrlEncoded
+    @POST("/registerAppEvent.html")
+    public void registerAppEvent(
+            @Field("app") String app,
+            @Field("appVersion") String appVersion,
+            @Field("device") String device,
+            @Field("installationId") String installationId,
+            @Field("event") String event,
+            @Field("data") String data,
+            Callback<RegisterAppEventResponse> callback);
+
+    @FormUrlEncoded
     @POST("/validateSocialDataMobile.html")
     public void validateSocial(
             @Field("token") String token,
@@ -231,4 +242,15 @@ public interface SmartickAPI {
     public void rememberPassword(
             @Field("studentUsername") String studentUser,
             @Field("tutorUsername") String tutorUser);
+
+    @FormUrlEncoded
+    @POST("/registerAppEvent.html")
+    public void registerAppEvent(
+            @Field("app") String app,
+            @Field("appVersion") String appVersion,
+            @Field("device") String device,
+            @Field("installationId") String installationId,
+            @Field("event") String event,
+            @Field("data") String data);
+
 }
