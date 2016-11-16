@@ -1,0 +1,55 @@
+package com.mobile.android.smartick.network;
+
+/**
+ * Created by sbarrio on 16/11/16.
+ */
+
+public class RegisterAppEventResponse {
+    private String installationId;
+    private String app;
+    private String device;
+    private String appVersion;
+    private String response;
+
+    private RegisterAppEventResponse() {}
+
+    public String getInstallationId() {
+        return installationId;
+    }
+
+    public void setInstallationId(String installationId) {
+        this.installationId = installationId;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+}
