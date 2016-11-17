@@ -259,22 +259,17 @@ public class WelcomeActivity extends Activity {
     }
 
     public void irFreemium() {
-        if (!disableButtons){
-            disableButtons = true;
-            enableButtons(false);
-            startActivity(new Intent(this, FreemiumActivity.class));
-        }
+        enableButtons(false);
+        startActivity(new Intent(this, FreemiumActivity.class));
     }
 
     public void goToFreemiumSession(){
-        if (!disableButtons){
-            disableButtons = true;
-            enableButtons(false);
-            Intent intent = new Intent(this, FreemiumMainActivity.class);
-            intent.putExtra("selectedAvatar", freemiumProfile.getAvatar());
-            intent.putExtra("selectedAge", freemiumProfile.getAge());
-            startActivity(intent);
-        }
+         enableButtons(false);
+        Intent intent = new Intent(this, FreemiumMainActivity.class);
+        intent.putExtra("selectedAvatar", freemiumProfile.getAvatar());
+        intent.putExtra("selectedAge", freemiumProfile.getAge());
+        startActivity(intent);
+
     }
 
     public void showFreemiumSessionAlert(){

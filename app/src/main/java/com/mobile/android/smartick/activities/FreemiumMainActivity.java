@@ -427,6 +427,12 @@ public class FreemiumMainActivity extends Activity {
         public boolean shouldOverrideUrlLoading(XWalkView view, String url) {
             super.shouldOverrideUrlLoading(view,url);
             Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading: " + url);
+
+            if (url.contains("acceso") || url.contains("login") || url.contains("accessDenied")){
+                doLogout();
+                return true;
+            }
+
             return false;
         }
 
