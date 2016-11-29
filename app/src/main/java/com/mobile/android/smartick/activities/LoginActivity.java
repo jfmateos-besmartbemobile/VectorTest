@@ -79,6 +79,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
@@ -938,7 +940,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {
-            return Patterns.EMAIL_ADDRESS.matcher(target).matches();
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(target);
+            return matcher.matches();
         }
     }
 
