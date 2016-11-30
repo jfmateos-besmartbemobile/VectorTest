@@ -48,7 +48,20 @@ public class LocaleHelper {
     }
 
     private static void updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
+
+        String l[] = language.split("-");
+
+        String lang = l[0];
+        String country = null;
+
+        Locale locale = null;
+
+        if (l.length > 1){
+            country = l[1];
+            locale = new Locale(lang,country);
+        }else{
+            locale = new Locale(lang);
+        }
         Locale.setDefault(locale);
 
         Resources resources = context.getResources();

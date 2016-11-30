@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.util.LocaleHelper;
 
+import java.util.Locale;
+
 /**
  * Created by sbarrio on 23/5/16.
  */
@@ -122,7 +124,6 @@ public class LanguageSelectorDialog extends DialogFragment{
                 setLanguage("es-PE");
             }
         });
-
 
 //        Button es_PY_button = (Button) rootView.findViewById(R.id.lang_es_PY_button);
 //        es_PY_button.setOnClickListener(new View.OnClickListener() {
