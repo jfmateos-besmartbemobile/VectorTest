@@ -36,10 +36,12 @@ public class Constants {
     public static final String FREEMIUM_AGE_PREF_NAME = "freemium_age_pref";
     public static final String SENT_GCM_TOKEN_PREF_NAME = "sent_gcm_token";
     public static final String AUDIO_CACHE_LAST_REFRESH_DATE = "audio_cache_last_refresh_date";
+    public static final String EXTRA_KEY = "extra_key";
 
     public static final String GCM_REGISTRATION_COMPLETE = "registrationComplete";
 
     public static final String EMMA_KEY = "smartickD966sSXOK";
+    public static final String EMMA_PIXEL_URL = "https://eat.emmasolutions.net?entw=ce24529fb3fc5cd357e6f4884df8a021";
 
 
     public static final int DEFAULT_FREEMIUM_AVATAR = 1;

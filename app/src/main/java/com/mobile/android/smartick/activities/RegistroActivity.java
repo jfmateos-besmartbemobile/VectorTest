@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
@@ -48,8 +49,14 @@ import com.mobile.android.smartick.pojos.UserType;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.util.LocaleHelper;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -804,6 +811,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
                         if (registerAlumnoResponse != null && registerAlumnoResponse.getStatus().equals(SmartickAPI.REGISTER_OK)){
                             negotiateStoreUsers(registerAlumnoResponse.getUsername(),registerAlumnoResponse.getPassword(),UserType.ALUMNO);
+                            new AsyncTrackConversion().execute();
                             goToLogin();
                         }else{
                             showAlertDialog(getString(R.string.Notice),SweetAlertDialog.ERROR_TYPE,getString(R.string.Something_went_wrong_try_again_later),null,null,null,null);
@@ -837,23 +845,58 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     //Alert Dialog
     private void showAlertDialog(String titleText,int type,String contentText,String cancelButtonText, SweetAlertDialog.OnSweetClickListener cancelListener, String confirmButtonText,SweetAlertDialog.OnSweetClickListener confirmListener){
         SweetAlertDialog alertDialog = new SweetAlertDialog(this, type);
+
         if (cancelButtonText != null){
             alertDialog.setCancelText(cancelButtonText);
         }
+
         if (cancelListener != null){
             alertDialog.setCancelClickListener(cancelListener);
         }
+
         if (confirmButtonText != null){
             alertDialog.setConfirmText(confirmButtonText);
         }
+
         if (contentText != null){
             alertDialog.setContentText(contentText);
         }
+
         if (confirmListener != null){
             alertDialog.setConfirmClickListener(confirmListener);
         }
 
         alertDialog.setTitleText(titleText);
         alertDialog.show();
+    }
+
+    //Conversion tracking
+    private void trackConversion(){
+
+        if (sysInfo != null && sysInfo.getExtra() != null){
+
+            try{
+                HttpGet getPixel = new HttpGet(Constants.EMMA_PIXEL_URL);
+                HttpClient client = new DefaultHttpClient();
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                client.execute(getPixel,responseHandler);
+            }catch(IOException e){
+                Log.d(Constants.REGISTER_LOG_TAG, "eMMa conversion tracking failed - " + e.toString());
+            }
+        }
+    }
+
+    private class AsyncTrackConversion extends AsyncTask<String, Integer, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            Log.d(Constants.REGISTER_LOG_TAG, "eMMa conversion tracking started...");
+            trackConversion();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String urlRedirect) {
+            Log.d(Constants.REGISTER_LOG_TAG, "eMMa conversion tracking finsihed");
+        }
     }
 }

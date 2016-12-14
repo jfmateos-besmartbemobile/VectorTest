@@ -1,12 +1,18 @@
 package com.mobile.android.smartick.pojos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
+import com.emma.android.eMMa;
+import com.emma.android.eMMaUserInfoInterface;
 import com.mobile.android.smartick.util.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -92,7 +98,13 @@ public class SystemInfo {
     }
 
     private String obtainExtra(){
-        return null;
+
+        if (context == null){
+            return null;
+        }
+
+        SharedPreferences prefs = context.getSharedPreferences(Constants.SMARTICK_PREFS, Context.MODE_PRIVATE);
+        return prefs.getString(Constants.EXTRA_KEY,null);
     }
 
     public String getInstallationId() {
@@ -148,6 +160,13 @@ public class SystemInfo {
     }
 
     public void setExtra(String extra) {
+
+        SharedPreferences extraEdit = context.getSharedPreferences(Constants.SMARTICK_PREFS, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = extraEdit.edit();
+        editor.putString(Constants.EXTRA_KEY, extra);
+        editor.commit();
+
         this.extra = extra;
     }
 }

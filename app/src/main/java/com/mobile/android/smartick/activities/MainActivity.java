@@ -260,7 +260,8 @@ public class MainActivity extends FragmentActivity {
                 || urlWebView.contains("student/sessionTutorial")
                 || urlWebView.contains("student/interactive-tutorial")
                 || urlWebView.contains("initial-feedback")) {
-            webView.getNavigationHistory().navigate(XWalkNavigationHistory.Direction.BACKWARD, 1);
+//            webView.getNavigationHistory().navigate(XWalkNavigationHistory.Direction.BACKWARD, 1);
+            webView.load("/home.html",null);
         }else{
             webView.evaluateJavascript("volverButtonPressedAndroidApp();",null);
         }

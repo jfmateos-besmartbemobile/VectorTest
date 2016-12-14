@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.emma.android.eMMaUserInfoInterface;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.ConnectionResult;
@@ -59,7 +60,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import com.emma.android.eMMa;
 
-public class WelcomeActivity extends Activity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class WelcomeActivity extends Activity  implements eMMaUserInfoInterface {
 
     private SystemInfo sysInfo;
     private FreemiumProfile freemiumProfile;
@@ -113,6 +117,9 @@ public class WelcomeActivity extends Activity {
 
         //systemInfo init
         sysInfo = new SystemInfo(this.getApplicationContext());
+
+        eMMa.getUserID(this);
+        eMMa.getUserInfo(this);
 
         //defaults to intro if its the first time running
         //Checks RAM available
@@ -418,11 +425,11 @@ public class WelcomeActivity extends Activity {
                 new Callback<RegisterAppActivationResponse>() {
                     @Override
                     public void success(RegisterAppActivationResponse registerAppActivationResponse, Response response){
-                        Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation RESPONSE: " + registerAppActivationResponse.getResponse());
+                        Log.d(Constants.WELCOME_LOG_TAG, "registerAppActivation RESPONSE: " + registerAppActivationResponse.getResponse());
                     }
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.d(Constants.FREEMIUM_LOG_TAG, "registerAppActivation ERROR: " + error);
+                        Log.d(Constants.WELCOME_LOG_TAG, "registerAppActivation ERROR: " + error);
                     }
                 });
     }
@@ -432,4 +439,32 @@ public class WelcomeActivity extends Activity {
         registerButton.setActivated(enabled);
         loginButton.setActivated(enabled);
     }
+
+
+    //Installation origin tracking
+
+    @Override
+    public void OnGetUserInfo(JSONObject jsonObject) {
+
+        String referrerId = null;
+
+        if (sysInfo != null){
+            try {
+                referrerId = (String) jsonObject.get("emma_referrer_id");
+                if (referrerId != null) {
+                    sysInfo.setExtra(referrerId);
+                } else {
+                    sysInfo.setExtra("test2");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void OnGetUserID(int i) {
+        Log.d(Constants.WELCOME_LOG_TAG,"user id " + i);
+    }
+
 }
