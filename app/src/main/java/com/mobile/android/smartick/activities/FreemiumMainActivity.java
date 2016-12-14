@@ -643,7 +643,18 @@ public class FreemiumMainActivity extends Activity {
                 if (pAlertLogoutDialog!= null && pAlertLogoutDialog.isShowing()){
                     pAlertLogoutDialog.dismiss();
                 }
+                pAlertLogoutDialog = null;
                 doLogout();
+            }
+        });
+
+        alertDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                if (pAlertLogoutDialog != null && pAlertLogoutDialog.isShowing()) {
+                    pAlertLogoutDialog.dismiss();
+                }
+                pAlertLogoutDialog = null;
             }
         });
 
