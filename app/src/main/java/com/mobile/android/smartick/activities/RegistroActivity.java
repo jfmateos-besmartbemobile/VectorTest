@@ -669,7 +669,8 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     public boolean isValidEmail(String mail){
         boolean isValid = false;
 
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        String expression = "^[\\_a-zA-Z0-9-\\.-]+@([\\_a-zA-Z0-9-\\-]+\\.)+[A-Z]{2,4}$";
+
         CharSequence inputStr = mail;
 
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);

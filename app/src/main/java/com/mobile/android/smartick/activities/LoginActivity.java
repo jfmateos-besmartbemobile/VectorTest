@@ -940,7 +940,7 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {
-            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            String expression = "^[\\_a-zA-Z0-9-\\.-]+@([\\_a-zA-Z0-9-\\-]+\\.)+[A-Z]{2,4}$";
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(target);
             return matcher.matches();
