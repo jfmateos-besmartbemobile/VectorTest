@@ -50,6 +50,7 @@ public class AudioPlayer {
         try {
             player.reset();
             player.setDataSource(context, path);
+            Log.d(Constants.AUDIO_LOG_TAG, "kkkkk Playing from cache: " + path);
             player.prepareAsync();
 //            player.start();
 
@@ -91,12 +92,17 @@ public class AudioPlayer {
             }
 
             Log.d(Constants.AUDIO_LOG_TAG, url + " NOT found on cache, storing and playing");
+
             //file does not exist, store and play from url
             storeAudioFileOnAudioCache(null,url);
+
+            Log.d(Constants.AUDIO_LOG_TAG, "Playing from url: " + url);
             player.setDataSource(url);
-//            player.prepare(); // might take long! (for buffering, etc)
             player.prepareAsync();
+
+//            player.prepare(); // might take long! (for buffering, etc)
 //            player.start();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
