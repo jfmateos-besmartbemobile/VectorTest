@@ -107,7 +107,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.pnikosis/materialish-progress/1.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.romainpiel.shimmer/library/1.4.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.emma/eMMaSDK/2.5.3/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.emma/eMMaSDK/2.5.5/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/22.52.561.4/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
@@ -130,6 +130,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="eMMaSDK-2.5.5" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-9.4.0" level="project" />
@@ -140,7 +141,6 @@
     <orderEntry type="library" exported="" name="support-core-ui-25.1.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.1.0" level="project" />
-    <orderEntry type="library" exported="" name="eMMaSDK-2.5.3" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-9.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-25.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-iid-9.4.0" level="project" />

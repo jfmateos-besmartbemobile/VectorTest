@@ -53,7 +53,7 @@ dependencies {
     compile 'com.romainpiel.shimmer:library:1.4.0@aar'
     compile 'com.facebook.android:facebook-android-sdk:4.10.1'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile ('io.emma:eMMaSDK:2.5.+') {
+    compile ('io.emma:eMMaSDK:2.5.5') {
         exclude group: 'com.google.android.gms'
     }
 }

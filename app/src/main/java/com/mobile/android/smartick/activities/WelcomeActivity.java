@@ -118,7 +118,6 @@ public class WelcomeActivity extends Activity  implements eMMaUserInfoInterface 
         //systemInfo init
         sysInfo = new SystemInfo(this.getApplicationContext());
 
-        eMMa.getUserID(this);
         eMMa.getUserInfo(this);
 
         //defaults to intro if its the first time running
@@ -450,14 +449,19 @@ public class WelcomeActivity extends Activity  implements eMMaUserInfoInterface 
 
         if (sysInfo != null){
             try {
-                referrerId = (String) jsonObject.get("emma_referrer_id");
-                if (referrerId != null) {
-                    sysInfo.setExtra(referrerId);
-                } else {
-                    sysInfo.setExtra("test2");
+                if (jsonObject.has("emma_referrer_id")){
+                    referrerId = (String) jsonObject.get("emma_referrer_id");
+                    if (referrerId != null) {
+                        sysInfo.setExtra(referrerId);
+                    } else {
+                        sysInfo.setExtra(null);
+                    }
+                }else{
+                    sysInfo.setExtra(null);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                sysInfo.setExtra(null);
             }
         }
     }
