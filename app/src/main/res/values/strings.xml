@@ -16,7 +16,7 @@
     <string name="Boy">Boy</string>
     <string name="Girl">Girl</string>
     <string name="Guest">Guest</string>
-    <string name="Register">Register</string>
+    <string name="Register">Try it for free!</string>
     <string name="Choose_your_avatar">Choose your avatar</string>
     <string name="Use_this_avatar_int">Use this avatar?</string>
     <string name="How_old_are_you_int">How old are you?</string>
@@ -63,10 +63,10 @@
     <string name="Tutors">Tutors</string>
     <string name="Add_student">Add student</string>
     <string name="Add_tutor">Add tutor</string>
-    <string name="Login_as_other_Student">Login as other Student</string>
-    <string name="Login_as_other_Tutor">Login as other Tutor</string>
+    <string name="Login_as_other_Student">Another Student</string>
+    <string name="Login_as_other_Tutor">Another Tutor</string>
     <string name="plusInfo">+ Info</string>
-    <string name="I_already_use_Smartick">I already use Smartick</string>
+    <string name="I_already_use_Smartick">Log in</string>
     <string name="Loading">Loading</string>
     <string name="Edit">Edit</string>
     <string name="Finished">Finished</string>

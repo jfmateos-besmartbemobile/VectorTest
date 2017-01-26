@@ -61,10 +61,10 @@
     <string name="Tutors">Tutores</string>
     <string name="Add_student">Añadir alumno</string>
     <string name="Add_tutor">Añadir tutor</string>
-    <string name="Login_as_other_Student">Entrar como otro Alumno</string>
-    <string name="Login_as_other_Tutor">Entrar como otro Tutor</string>
+    <string name="Login_as_other_Student">Otro Alumno</string>
+    <string name="Login_as_other_Tutor">Otro Tutor</string>
     <string name="plusInfo">+ Info</string>
-    <string name="I_already_use_Smartick">Ya tengo cuenta en Smartick</string>
+    <string name="I_already_use_Smartick">Iniciar sesión</string>
     <string name="Loading">Cargando</string>
     <string name="Edit">Editar</string>
     <string name="Finished">Terminado</string>
