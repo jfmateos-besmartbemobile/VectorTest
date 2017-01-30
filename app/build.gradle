@@ -16,7 +16,7 @@ android {
         applicationId "com.mobile.android.smartick"
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 39  // Actualizar +1 cada vez que se sube a Google Play
+        versionCode 40  // Actualizar +1 cada vez que se sube a Google Play
         versionName "1.0.1"
     }
 
@@ -44,9 +44,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.gms:play-services-gcm:9.4.0'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
-//    compile 'org.xwalk:xwalk_core_library:10.39.235.15'
-//    compile 'org.xwalk:xwalk_core_library:21.51.546.6'
-    compile 'org.xwalk:xwalk_core_library:22.52.561.4'
+    compile 'org.xwalk:xwalk_core_library:23.53.589.4'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'cn.pedant.sweetalert:library:1.3'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'

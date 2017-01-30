@@ -9,7 +9,7 @@ public class Constants {
 
     public static final String URL_CONTEXT_PROD = "https://www.smartick.es"; //PROD ENVIRONMENT
     public static final String URL_CONTEXT_PRE = "https://dev.smartickmethod.com:90";  //DEV PRE ENVIROMENT
-    public static final String URL_CONTEXT_DEV = "https://sbarrio.smartickmethod.com";  //DEV LOCAL ENVIROMENT
+    public static final String URL_CONTEXT_DEV = "https://mpagan.smartickmethod.com";  //DEV LOCAL ENVIROMENT
 
     public static final String URL_SMARTICK_LOGIN = "/smartick_login";
     public static final String URL_SMARTICK_SOCIAL_LOGIN = "/login!validateSocial.html";

@@ -172,6 +172,8 @@ public class FreemiumMainActivity extends Activity {
 
         webView.getSettings().setUseWideViewPort(true);
 
+        webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+
         //webView settings
         setWebClientOptions();
 
@@ -372,7 +374,7 @@ public class FreemiumMainActivity extends Activity {
     private void executeAudioCallback(){
         if (audioCallback != null){
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - execute callback");
-            webView.evaluateJavascript(audioCallback + "()",null);
+            webView.evaluateJavascript("if (typeof " + audioCallback + " !== 'undefined') { " + audioCallback + "(); }",null);
         }
     }
 
