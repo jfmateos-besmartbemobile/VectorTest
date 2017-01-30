@@ -83,6 +83,8 @@ public class MainActivity extends FragmentActivity {
     private String password;
     private UserType userType;
 
+    private boolean sessionInvalidated = false;
+
     //Social
     private String token;
     private String socialType;
@@ -851,7 +853,12 @@ public class MainActivity extends FragmentActivity {
         }
 
         audioPlayer.stop();
-        webView.load(Constants.instance().getUrl_logout(), null);
+
+        if (!sessionInvalidated){
+            sessionInvalidated = true;
+            webView.load(Constants.instance().getUrl_logout(), null);
+        }
+
         finish();
     }
 

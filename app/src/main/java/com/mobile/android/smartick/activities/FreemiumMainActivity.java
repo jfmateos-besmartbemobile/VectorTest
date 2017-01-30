@@ -102,6 +102,7 @@ public class FreemiumMainActivity extends Activity {
     private RelativeLayout tutorNameHolder;
     private SystemInfo sysInfo;
     private FreemiumProfile freemiumProfile;
+    private boolean sessionInvalidated = false;
 
     //Modal dialogs
     private AlertDialog benefitAlertDialog;
@@ -241,7 +242,6 @@ public class FreemiumMainActivity extends Activity {
         tutorNameHolder = (RelativeLayout) findViewById(R.id.tutor_name_holder);
         tutorNameHolder.setVisibility(View.GONE);
     }
-
 
     //Buttons
     private void backButtonPressed(){
@@ -431,7 +431,7 @@ public class FreemiumMainActivity extends Activity {
             Log.d(Constants.WEBVIEW_LOG_TAG, "Should override loading: " + url);
 
             if (url.contains("acceso") || url.contains("login") || url.contains("accessDenied")){
-                doLogout();
+                toLogin();
                 return true;
             }
 
@@ -605,7 +605,17 @@ public class FreemiumMainActivity extends Activity {
             pDialog.dismiss();
         }
         audioPlayer.stop();
-        webView.load(Constants.instance().getUrl_logout(), null);
+
+        if (!sessionInvalidated){
+            sessionInvalidated = true;
+            webView.load(Constants.instance().getUrl_logout(), null);
+        }
+
+        finish();
+    }
+
+    //to login
+    private void toLogin() {
         finish();
     }
 
