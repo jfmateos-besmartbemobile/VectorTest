@@ -650,10 +650,10 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                         @Override
                         public void failure(RetrofitError error) {
                             // something went wrong
-                            showAlertDialog(getString(R.string.Notice),
-                                    SweetAlertDialog.ERROR_TYPE,
-                                    getString(R.string.You_must_be_connected_to_the_internet),
-                                    null, null, getString(R.string.OK), null);
+//                            showAlertDialog(getString(R.string.Notice),
+//                                    SweetAlertDialog.ERROR_TYPE,
+//                                    getString(R.string.You_must_be_connected_to_the_internet),
+//                                    null, null, getString(R.string.OK), null);
                         }
                     });
         }

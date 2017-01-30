@@ -5,7 +5,7 @@ package com.mobile.android.smartick.util;
  */
 public class Constants {
 
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG_MODE = true;
 
     public static final String URL_CONTEXT_PROD = "https://www.smartick.es"; //PROD ENVIRONMENT
     public static final String URL_CONTEXT_PRE = "https://dev.smartickmethod.com:90";  //DEV PRE ENVIROMENT
