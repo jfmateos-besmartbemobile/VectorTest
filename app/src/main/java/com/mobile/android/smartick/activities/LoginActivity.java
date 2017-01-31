@@ -61,6 +61,7 @@ import com.mobile.android.smartick.network.ValidateSocialResponse;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.pojos.UserType;
+import com.mobile.android.smartick.util.AudioPlayer;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.network.NetworkStatus;
 import com.mobile.android.smartick.util.LocaleHelper;
@@ -1005,6 +1006,7 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                 ((Button) freemiumWarningView.findViewById(R.id.debugEndpointPRODButton)).setTypeface(tfDidact);
                 ((Button) freemiumWarningView.findViewById(R.id.debugEndpointPREButton)).setTypeface(tfDidact);
                 ((Button) freemiumWarningView.findViewById(R.id.debugEndpointDEVButton)).setTypeface(tfDidact);
+                ((Button) freemiumWarningView.findViewById(R.id.debugClearAudioCacheButton)).setTypeface(tfDidact);
 
 
                 endpointSelectAlertDialog = alertBuilder.create();
@@ -1048,6 +1050,19 @@ public class LoginActivity extends Activity implements TextWatcher,LanguageSelec
                 SmartickRestClient.reset();
             }
         });
+    }
+
+    public void clearAudioCachePressed(View view){
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                endpointSelectAlertDialog.dismiss();
+            }
+        });
+
+        AudioPlayer audioPlayer = new AudioPlayer();
+        audioPlayer.init(this);
+        audioPlayer.clearAudioCache();
     }
 
     //Facebook login button pressed

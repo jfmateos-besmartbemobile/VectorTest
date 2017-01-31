@@ -329,8 +329,6 @@ public class MainActivity extends FragmentActivity {
         public synchronized void playUrl(String path) {
             Log.d(Constants.WEBVIEW_LOG_TAG,"SmartickAudioInterface - Play audio file: " + path);
 
-            audioPlayer.clearAudioCache();
-
             //if url is missing http we add our URL_CONTEXT
             if (path != null && path.startsWith("http")){
                 audioPlayer.playURL(path);
