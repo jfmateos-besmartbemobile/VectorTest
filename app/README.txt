@@ -79,4 +79,4 @@
 
     https://console.developers.google.com/apis/credentials?project=smartick-6538c
 
-    Con la misma cuenta que en la Google Play Developer Console.
+    Las credenciales son las mismas que para la Google Play Developer Console.
