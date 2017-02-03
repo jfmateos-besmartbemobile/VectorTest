@@ -185,12 +185,12 @@
             android:layout_height="65dp"
             android:background="@drawable/orange_confirm_selector"
             android:text="@string/Register"
-            android:textSize="25dp"
+            android:textSize="14dp"
             android:layout_marginLeft="30dp"
             android:onClick="registerButtonPressed"
             android:clickable="true"
             android:textColor="@color/WhiteColor"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:layout_marginRight="50dp"
             />
 
@@ -200,12 +200,12 @@
             android:layout_height="65dp"
             android:background="@drawable/blue_confirm_selector"
             android:text="@string/Later"
-            android:textSize="25dp"
+            android:textSize="16dp"
             android:onClick="laterButtonPressed"
             android:clickable="true"
             android:textColor="@color/WhiteColor"
             android:layout_marginRight="30dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             />
 
     </LinearLayout>
