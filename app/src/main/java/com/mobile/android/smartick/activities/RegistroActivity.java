@@ -574,6 +574,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d(Constants.REGISTER_LOG_TAG,"student alias changed to: " + s);
+
                 studentUsernameValid = false;
             }
 

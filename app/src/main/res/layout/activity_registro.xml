@@ -80,6 +80,8 @@
                 android:hint="@string/Alias"
                 android:paddingLeft="20dp"
                 android:textSize="20dp"
+                android:lines="1"
+                android:inputType="textPersonName"
                 android:textColor="@color/GrayColor"
                 android:layout_alignTop="@+id/student_username_icon"
                 android:layout_toRightOf="@+id/student_username_icon"
