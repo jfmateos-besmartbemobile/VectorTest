@@ -1,7 +1,7 @@
 ---=== Smartick Android ===---
 
     Versión mínima soportada: 4.1 (API 16)
-    Versión actual de la app: 1.0.1b41 (1/01/17)
+    Versión actual de la app: 1.0.1b42 (06/02/17)
 
 --- Gradle ---
 
