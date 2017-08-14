@@ -41,6 +41,7 @@
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
           android:layout_marginTop="220dp"
+          android:padding="2dp"
           android:shadowColor="@color/BlueColorDarker"
           android:shadowDx="0"
           android:shadowDy="0"
