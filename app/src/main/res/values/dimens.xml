@@ -16,7 +16,7 @@
     <dimen name="welcome_button_text_size_smaller">30sp</dimen>
 
     <!--Freemium-->
-    <dimen name="freemium_title_text_size">35dp</dimen>
+    <dimen name="freemium_title_text_size">50sp</dimen>
     <dimen name="freemium_button_text_size">25dp</dimen>
     <dimen name="freemium_age_bar_min_height">45dp</dimen>
     <dimen name="freemium_age_bar_max_height">45dp</dimen>

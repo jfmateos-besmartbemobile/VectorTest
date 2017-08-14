@@ -41,7 +41,7 @@
                 android:textSize="@dimen/freemium_title_text_size"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="220dp"
                 android:shadowColor="@color/BlueColorDarker"
                 android:shadowDx="0"
                 android:shadowDy="0"
