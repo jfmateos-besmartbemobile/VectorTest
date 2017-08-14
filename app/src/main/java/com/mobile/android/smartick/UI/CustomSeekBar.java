@@ -70,7 +70,7 @@ public class CustomSeekBar extends SeekBar {
         super.onDraw(canvas);
 
         //No text, no problem
-        if(overlayText.length() == 0) {
+        if(overlayText!= null  ||overlayText.length() == 0) {
             return;
         }
 
