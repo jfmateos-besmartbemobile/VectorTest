@@ -395,9 +395,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="30sp"
-            android:textColor="#000"
             android:text="@string/Yes"
+            android:textColor="#000"
+            android:textSize="30sp"
             />
 
         <Switch
@@ -590,6 +590,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -620,7 +621,7 @@
           android:layout_height="wrap_content"
           android:layout_below="@+id/tutor_credentials_title"
           android:layout_marginLeft="54dp"
-          android:layout_marginTop="34dp"
+          android:layout_marginTop="24dp"
           android:layout_toRightOf="@+id/b_goback6"
           android:src="@drawable/tutor_mail_on"
           />
@@ -656,6 +657,7 @@
           />
 
       <Button
+          android:id="@+id/b_goback6"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel6"
@@ -666,7 +668,6 @@
           android:background="@drawable/registro_back_selector"
           android:clickable="true"
           android:onClick="goBack"
-          android:id="@+id/b_goback6"
           />
 
       <Button
@@ -689,6 +690,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -718,8 +720,8 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
-          android:layout_toLeftOf="@+id/tutor_info_title"
-          android:layout_toStartOf="@+id/tutor_info_title"
+          android:layout_marginLeft="54dp"
+          android:layout_toRightOf="@+id/b_goback7"
           android:src="@drawable/icon_tutor"
           />
 
@@ -742,6 +744,7 @@
           />
 
       <Button
+          android:id="@+id/b_goback7"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel7"
@@ -793,7 +796,7 @@
           android:layout_alignTop="@+id/register_panel8"
           android:layout_centerHorizontal="true"
           android:layout_marginTop="20dp"
-          android:text="@string/Phone"
+          android:text="@string/Tutor_info"
           android:textColor="@color/BlueColor"
           android:textSize="32dp"
           />
@@ -803,10 +806,8 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
-          android:layout_marginEnd="77dp"
-          android:layout_marginRight="77dp"
-          android:layout_toLeftOf="@+id/tutor_phone_title"
-          android:layout_toStartOf="@+id/tutor_phone_title"
+          android:layout_marginLeft="54dp"
+          android:layout_toRightOf="@+id/b_goback8"
           android:src="@drawable/icon_phone"
           />
 
@@ -815,8 +816,7 @@
           android:layout_alignTop="@+id/tutor_phone_icon"
           android:layout_marginEnd="91dp"
           android:layout_marginRight="91dp"
-          android:layout_toLeftOf="@+id/button"
-          android:layout_toStartOf="@+id/button"
+          android:layout_toRightOf="@id/tutor_phone_icon"
           android:hint="@string/Phone"
           android:inputType="phone"
           android:maxLength="20"
@@ -825,6 +825,7 @@
 
 
       <Button
+          android:id="@+id/b_goback8"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel8"
