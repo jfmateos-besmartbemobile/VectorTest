@@ -158,25 +158,17 @@
                 android:layout_marginEnd="54dp" />
 
             <EditText
+                style="@style/register_edit_text"
                 android:id="@+id/student_name_edittext"
-                android:layout_width="300dp"
-                android:layout_height="70dp"
-                android:background="@drawable/rounded_edittext_register"
                 android:hint="@string/Name"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
                 android:textColor="@color/GrayColor"
                 android:layout_alignTop="@+id/student_info_icon"
                 android:layout_toRightOf="@+id/student_info_icon"/>
 
             <EditText
+                style="@style/register_edit_text"
                 android:id="@+id/student_lastname_edittext"
-                android:layout_width="300dp"
-                android:layout_height="70dp"
-                android:background="@drawable/rounded_edittext_register"
                 android:hint="@string/Last_name"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
                 android:textColor="@color/GrayColor"
                 android:layout_alignBottom="@+id/student_info_icon"
                 android:layout_toRightOf="@+id/student_info_icon" />
@@ -263,6 +255,7 @@
                 android:layout_marginStart="128dp" />
 
             <TextView
+                style="@style/register_edit_text"
                 android:id="@+id/text_boy"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -593,27 +586,18 @@
                 android:layout_marginTop="36dp" />
 
             <EditText
+                style="@style/register_edit_text"
                 android:id="@+id/tutor_mail_edittext"
-                android:layout_width="300dp"
-                android:layout_height="80dp"
-                android:background="@drawable/rounded_edittext_register"
                 android:hint="@string/Mail"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
                 android:textColor="@color/GrayColor"
                 android:layout_alignTop="@+id/tutor_mail_icon"
                 android:layout_toRightOf="@+id/tutor_mail_icon"
                 android:layout_toEndOf="@+id/tutor_mail_icon" />
 
             <EditText
+                style="@style/register_edit_text"
                 android:id="@+id/tutor_password_edittext"
-                android:layout_width="300dp"
-                android:layout_height="80dp"
-                android:background="@drawable/rounded_edittext_register"
                 android:hint="@string/Password"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
-                android:textColor="@color/GrayColor"
                 android:inputType="textPassword"
                 android:layout_alignTop="@+id/tutor_password_icon"
                 android:layout_toRightOf="@+id/tutor_mail_icon"
@@ -686,26 +670,17 @@
             android:layout_marginEnd="54dp" />
 
         <EditText
+            style="@style/register_edit_text"
             android:id="@+id/tutor_name_edittext"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:background="@drawable/rounded_edittext_register"
             android:hint="@string/Name"
-            android:paddingLeft="20dp"
-            android:textSize="20dp"
-            android:textColor="@color/GrayColor"
             android:layout_alignTop="@+id/tutor_info_icon"
             android:layout_toRightOf="@+id/tutor_info_icon"
             android:layout_toEndOf="@+id/tutor_info_icon" />
 
         <EditText
+            style="@style/register_edit_text"
             android:id="@+id/tutor_lastname_edittext"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:background="@drawable/rounded_edittext_register"
             android:hint="@string/Last_name"
-            android:paddingLeft="20dp"
-            android:textSize="20dp"
             android:textColor="@color/GrayColor"
             android:layout_alignBottom="@+id/tutor_info_icon"
             android:layout_toRightOf="@+id/tutor_info_icon"
@@ -778,16 +753,11 @@
             android:layout_toStartOf="@+id/tutor_phone_title" />
 
         <EditText
+            style="@style/register_edit_text"
             android:id="@+id/tutor_phone_edittext"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
-            android:background="@drawable/rounded_edittext_register"
             android:hint="@string/Phone"
-            android:paddingLeft="20dp"
-            android:textSize="20dp"
             android:maxLength="20"
             android:inputType="phone"
-            android:textColor="@color/GrayColor"
             android:layout_alignTop="@+id/tutor_phone_icon"
             android:layout_toLeftOf="@+id/button"
             android:layout_toStartOf="@+id/button"
