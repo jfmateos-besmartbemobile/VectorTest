@@ -34,6 +34,8 @@
 
     <!--Register-->
     <dimen name="confirm_student_margin_left">620dp</dimen>
+    <dimen name="register_edittext_width">380dp</dimen>
+    <dimen name="register_edittext">32sp</dimen>
 
     <!--General-->
     <dimen name="activity_horizontal_margin">64dp</dimen>

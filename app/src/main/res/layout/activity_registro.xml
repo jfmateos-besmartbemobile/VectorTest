@@ -73,29 +73,19 @@
                 android:layout_marginTop="36dp" />
 
             <EditText
+                style="@style/register_edit_text"
                 android:id="@+id/student_alias_edittext"
-                android:layout_width="300dp"
-                android:layout_height="80dp"
-                android:background="@drawable/rounded_edittext_register"
                 android:hint="@string/Choose_alias"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
                 android:lines="1"
                 android:inputType="textPersonName"
-                android:textColor="@color/GrayColor"
                 android:layout_alignTop="@+id/student_username_icon"
                 android:layout_toRightOf="@+id/student_username_icon"
                 android:layout_toEndOf="@+id/student_username_icon" />
 
             <EditText
+                style="@style/register_edit_text"
                 android:id="@+id/student_password_edittext"
-                android:layout_width="300dp"
-                android:layout_height="80dp"
-                android:background="@drawable/rounded_edittext_register"
                 android:hint="@string/Choose_password"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
-                android:textColor="@color/GrayColor"
                 android:inputType="textPassword"
                 android:layout_alignTop="@+id/student_password_icon"
                 android:layout_toRightOf="@+id/student_username_icon"
