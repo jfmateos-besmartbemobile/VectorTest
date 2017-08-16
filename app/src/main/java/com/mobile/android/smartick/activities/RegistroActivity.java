@@ -128,6 +128,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   private ImageView confirmTutorIcon;
   private TextView confirmTutorMail;
   private TextView confirmTutorName;
+  private TextView confirmTutorPhone;
 
   //validation
   private TextWatcher aliasTextWatcher;
@@ -479,6 +480,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     tutorPhone = tutorPhoneEditText.getText().toString();
     confirmTutorMail.setText(tutorMail);
     confirmTutorName.setText(tutorName + " " + tutorLastName);
+    confirmTutorPhone.setText(tutorPhone);
   }
 
   //init
@@ -534,6 +536,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     confirmTutorIcon = (ImageView) findViewById(R.id.confirm_tutor_icon);
     confirmTutorMail = (TextView) findViewById(R.id.confirm_tutor_mail);
     confirmTutorName = (TextView) findViewById(R.id.confirm_tutor_name);
+    confirmTutorPhone = (TextView) findViewById(R.id.confirm_tutor_phone);
   }
 
   public void setUpTextFontForView(String fontPath) {
@@ -559,6 +562,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     tutorConfirmTitle.setTypeface(dGothic);
     confirmTutorMail.setTypeface(dGothic);
     confirmTutorName.setTypeface(dGothic);
+    confirmTutorPhone.setTypeface(dGothic);
   }
 
   //validation

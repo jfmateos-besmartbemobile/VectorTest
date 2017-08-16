@@ -443,7 +443,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
       <ImageView
@@ -472,12 +472,12 @@
           android:id="@+id/confirm_sex_girl"
           android:layout_width="200dp"
           android:layout_height="200dp"
-          android:layout_alignEnd="@+id/student_confirm_title"
-          android:layout_alignRight="@+id/student_confirm_title"
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginEnd="148dp"
+          android:layout_marginLeft="54dp"
           android:layout_marginRight="148dp"
+          android:layout_toRightOf="@+id/back_button_confirm_student"
           android:background="@drawable/confirm_sex_holder"
           android:src="@drawable/girl_avatar"
           />
@@ -486,12 +486,12 @@
           android:id="@+id/confirm_sex_boy"
           android:layout_width="200dp"
           android:layout_height="200dp"
-          android:layout_alignEnd="@+id/student_confirm_title"
-          android:layout_alignRight="@+id/student_confirm_title"
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginEnd="148dp"
+          android:layout_marginLeft="54dp"
           android:layout_marginRight="148dp"
+          android:layout_toRightOf="@+id/back_button_confirm_student"
           android:background="@drawable/confirm_sex_holder"
           android:src="@drawable/boy_avatar"
           android:text="test"
@@ -499,60 +499,36 @@
 
       <TextView
           android:id="@+id/confirm_student_username"
-          android:layout_width="260dp"
-          android:layout_height="wrap_content"
           android:layout_below="@+id/student_confirm_title"
-          android:layout_gravity="center"
-          android:layout_marginTop="50dp"
-          android:layout_toLeftOf="@+id/confirm_button_student"
-          android:text="test"
-          android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          android:layout_marginLeft="280dp"
+          android:layout_toRightOf="@+id/back_button_confirm_student"
+          tools:text="test"
+          style="@style/register_confirm_text"
           />
 
       <TextView
           android:id="@+id/confirm_student_name"
-          android:layout_width="270dp"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/student_confirm_title"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginTop="100dp"
-          android:layout_toLeftOf="@+id/confirm_button_student"
-          android:gravity="left"
-          android:text="test"
-          android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          android:layout_alignLeft="@+id/confirm_student_username"
+          android:layout_alignStart="@+id/confirm_student_username"
+          android:layout_below="@+id/confirm_student_username"
+          tools:text="test"
+          style="@style/register_confirm_text"
           />
 
       <TextView
           android:id="@+id/confirm_student_birthdate"
-          android:layout_width="260dp"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/student_confirm_title"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginTop="150dp"
-          android:layout_toLeftOf="@+id/confirm_button_student"
-          android:gravity="left"
-          android:text="test"
-          android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          android:layout_alignLeft="@id/confirm_student_name"
+          android:layout_below="@+id/confirm_student_name"
+          tools:text="test"
+          style="@style/register_confirm_text"
           />
 
       <TextView
           android:id="@+id/confirm_student_can_read"
-          android:layout_width="260dp"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/student_confirm_title"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginTop="200dp"
-          android:layout_toLeftOf="@+id/confirm_button_student"
-          android:gravity="left"
-          android:text="test"
-          android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          android:layout_alignLeft="@id/confirm_student_name"
+          android:layout_below="@id/confirm_student_birthdate"
+          tools:text="test"
+          style="@style/register_confirm_text"
           />
 
       <Button
@@ -777,6 +753,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -885,44 +862,46 @@
 
       <ImageView
           android:id="@+id/confirm_tutor_icon"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_alignEnd="@+id/tutor_confirm_title"
-          android:layout_alignRight="@+id/tutor_confirm_title"
+          android:layout_width="180dp"
+          android:layout_height="180dp"
           android:layout_centerVertical="true"
           android:layout_gravity="center"
-          android:layout_marginEnd="148dp"
-          android:layout_marginRight="148dp"
+          android:layout_marginLeft="56dp"
+          android:layout_marginRight="26dp"
+          android:layout_toRightOf="@+id/b_goback9"
           android:src="@drawable/tutor_icon_big"
           />
 
       <TextView
           android:id="@+id/confirm_tutor_mail"
-          android:layout_width="260dp"
-          android:layout_height="wrap_content"
+          android:layout_alignTop="@+id/confirm_tutor_icon"
           android:layout_below="@+id/tutor_confirm_title"
-          android:layout_marginTop="50dp"
           android:layout_toRightOf="@+id/confirm_tutor_icon"
           android:gravity="left"
           android:text="test"
-          android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          style="@style/register_confirm_text"
           />
 
       <TextView
           android:id="@+id/confirm_tutor_name"
-          android:layout_width="260dp"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/tutor_confirm_title"
-          android:layout_marginTop="100dp"
+          android:layout_below="@+id/confirm_tutor_mail"
           android:layout_toRightOf="@+id/confirm_tutor_icon"
           android:gravity="left"
           android:text="test"
-          android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          style="@style/register_confirm_text"
+          />
+
+      <TextView
+          android:id="@+id/confirm_tutor_phone"
+          android:layout_below="@+id/confirm_tutor_name"
+          android:layout_toRightOf="@+id/confirm_tutor_icon"
+          android:gravity="left"
+          android:text="test"
+          style="@style/register_confirm_text"
           />
 
       <Button
+          android:id="@+id/b_goback9"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel9"
@@ -930,7 +909,7 @@
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
-          android:background="@drawable/registro_back_selector"
+          android:background="@drawable/registro_cancel_selector"
           android:clickable="true"
           android:onClick="goBack"
           />
