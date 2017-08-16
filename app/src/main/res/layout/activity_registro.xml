@@ -239,21 +239,20 @@
           android:layout_height="wrap_content"
           android:layout_alignTop="@+id/register_panel3"
           android:layout_centerHorizontal="true"
+          android:layout_marginBottom="10dp"
           android:layout_marginTop="20dp"
           android:text="@string/Students_Data"
           android:textColor="@color/BlueColor"
-          android:textSize="32dp"
+          android:textSize="32sp"
           />
 
       <ImageView
           android:id="@+id/icon_boy"
           android:layout_width="200dp"
           android:layout_height="200dp"
-          android:layout_alignEnd="@+id/student_sex_title"
-          android:layout_alignRight="@+id/student_sex_title"
-          android:layout_alignTop="@+id/icon_girl"
-          android:layout_marginEnd="141dp"
-          android:layout_marginRight="141dp"
+          android:layout_below="@+id/student_sex_title"
+          android:layout_marginLeft="50dp"
+          android:layout_toRightOf="@+id/b_goback2"
           android:background="@drawable/sex_selector_background"
           android:onClick="selectSex"
           android:src="@drawable/boy_avatar"
@@ -263,11 +262,10 @@
           android:id="@+id/icon_girl"
           android:layout_width="200dp"
           android:layout_height="200dp"
-          android:layout_alignLeft="@+id/student_sex_title"
-          android:layout_alignStart="@+id/student_sex_title"
+          android:layout_alignTop="@id/icon_boy"
           android:layout_centerVertical="true"
-          android:layout_marginLeft="128dp"
-          android:layout_marginStart="128dp"
+          android:layout_marginRight="50dp"
+          android:layout_toLeftOf="@+id/b_gonext2"
           android:background="@drawable/sex_selector_background"
           android:onClick="selectSex"
           android:src="@drawable/girl_avatar"
@@ -280,12 +278,11 @@
           android:layout_alignLeft="@+id/icon_boy"
           android:layout_alignStart="@+id/icon_boy"
           android:layout_below="@+id/icon_boy"
-          android:layout_marginTop="10dp"
+          android:layout_marginTop="3dp"
           android:gravity="center"
           android:text="@string/Boy"
           android:textColor="@color/BlueColor"
-          android:textSize="20dp"
-          style="@style/register_edit_text"
+          android:textSize="30sp"
           />
 
       <TextView
@@ -295,14 +292,15 @@
           android:layout_alignLeft="@+id/icon_girl"
           android:layout_alignStart="@+id/icon_girl"
           android:layout_below="@+id/icon_girl"
-          android:layout_marginTop="10dp"
+          android:layout_marginTop="3dp"
           android:gravity="center"
           android:text="@string/Girl"
           android:textColor="@color/BlueColor"
-          android:textSize="20dp"
+          android:textSize="30sp"
           />
 
       <Button
+          android:id="@+id/b_goback2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel3"
@@ -316,6 +314,7 @@
           />
 
       <Button
+          android:id="@+id/b_gonext2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignEnd="@+id/register_panel3"
