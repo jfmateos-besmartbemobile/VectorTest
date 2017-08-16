@@ -68,9 +68,9 @@
     <item name="android:background">@drawable/rounded_edittext_register</item>
     <item name="android:layout_width">@dimen/register_edittext_width</item>
     <item name="android:layout_height">80dp</item>
+    <item name="android:layout_marginLeft">16dp</item>
     <item name="android:paddingLeft">20dp</item>
     <item name="android:textSize">@dimen/register_edittext</item>
-
   </style>
 
 </resources>
