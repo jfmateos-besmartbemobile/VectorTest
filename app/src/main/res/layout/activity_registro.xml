@@ -335,6 +335,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -564,7 +565,7 @@
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
-          android:background="@drawable/registro_back_selector"
+          android:background="@drawable/registro_cancel_selector"
           android:clickable="true"
           android:onClick="goBack"
           />
