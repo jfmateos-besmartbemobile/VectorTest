@@ -174,7 +174,6 @@
           android:layout_alignTop="@+id/student_info_icon"
           android:layout_toRightOf="@+id/student_info_icon"
           android:hint="@string/Name"
-          android:textColor="@color/GrayColor"
           style="@style/register_edit_text"
           />
 
@@ -183,7 +182,6 @@
           android:layout_alignBottom="@+id/student_info_icon"
           android:layout_toRightOf="@+id/student_info_icon"
           android:hint="@string/Last_name"
-          android:textColor="@color/GrayColor"
           style="@style/register_edit_text"
           />
 
@@ -445,6 +443,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -620,11 +619,9 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_below="@+id/tutor_credentials_title"
-          android:layout_marginEnd="64dp"
-          android:layout_marginRight="24dp"
+          android:layout_marginLeft="54dp"
           android:layout_marginTop="34dp"
-          android:layout_toLeftOf="@+id/tutor_credentials_title"
-          android:layout_toStartOf="@+id/tutor_credentials_title"
+          android:layout_toRightOf="@+id/b_goback6"
           android:src="@drawable/tutor_mail_on"
           />
 
@@ -635,7 +632,7 @@
           android:layout_alignLeft="@+id/tutor_mail_icon"
           android:layout_alignStart="@+id/tutor_mail_icon"
           android:layout_below="@+id/tutor_mail_icon"
-          android:layout_marginTop="36dp"
+          android:layout_marginTop="30dp"
           android:src="@drawable/student_password_on"
           />
 
@@ -645,7 +642,6 @@
           android:layout_toEndOf="@+id/tutor_mail_icon"
           android:layout_toRightOf="@+id/tutor_mail_icon"
           android:hint="@string/Mail"
-          android:textColor="@color/GrayColor"
           style="@style/register_edit_text"
           />
 
@@ -670,6 +666,7 @@
           android:background="@drawable/registro_back_selector"
           android:clickable="true"
           android:onClick="goBack"
+          android:id="@+id/b_goback6"
           />
 
       <Button
@@ -741,7 +738,6 @@
           android:layout_toEndOf="@+id/tutor_info_icon"
           android:layout_toRightOf="@+id/tutor_info_icon"
           android:hint="@string/Last_name"
-          android:textColor="@color/GrayColor"
           style="@style/register_edit_text"
           />
 

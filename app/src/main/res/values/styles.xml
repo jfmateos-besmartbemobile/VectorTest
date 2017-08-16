@@ -63,7 +63,7 @@
   </style>
 
   <style name="register_edit_text">
-    <item name="android:textColor">@color/GrayColor</item>
+    <item name="android:textColor">@color/BlueColor</item>
     <item name="android:textColorHint">@color/hintColor</item>
     <item name="android:background">@drawable/rounded_edittext_register</item>
     <item name="android:layout_width">@dimen/register_edittext_width</item>
