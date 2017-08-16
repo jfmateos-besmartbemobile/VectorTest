@@ -113,6 +113,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   private TextView confirmStudentNameTextView;
   private TextView confirmStudentBirthDate;
   private TextView confirmStudentCanRead;
+  private TextView studentCanReadText;
   private TextView titleTutorCred;
   private ImageView tutorMailIcon;
   private ImageView tutorPasswordIcon;
@@ -168,8 +169,10 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         studentCanReadSwitch.setChecked(isChecked);
         studentCanRead = isChecked;
         if (isChecked) {
+          studentCanReadText.setText(getString(R.string.Yes));
           confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.Yes));
         } else {
+          studentCanReadText.setText(getString(R.string.No));
           confirmStudentCanRead.setText(getString(R.string.CanRead) + ": " + getString(R.string.No));
         }
 
@@ -518,6 +521,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     confirmStudentCanRead = (TextView) findViewById(R.id.confirm_student_can_read);
     titleTutorCred = (TextView) findViewById(R.id.tutor_credentials_title);
     tutorMailIcon = (ImageView) findViewById(R.id.tutor_mail_icon);
+    studentCanReadText = (TextView) findViewById(R.id.student_canread_text);
     tutorPasswordIcon = (ImageView) findViewById(R.id.tutor_password_icon);
     tutorMailEditText = (EditText) findViewById(R.id.tutor_mail_edittext);
     tutorPasswordEditText = (EditText) findViewById(R.id.tutor_password_edittext);
@@ -541,6 +545,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentNameEditText.setTypeface(dGothic);
     studentLastNameEditText.setTypeface(dGothic);
     studentCanReadLabelText.setTypeface(dGothic);
+    studentAliasEditText.setTypeface(dGothic);
     titleStudentSex.setTypeface(dGothic);
     textBoy.setTypeface(dGothic);
     textGirl.setTypeface(dGothic);

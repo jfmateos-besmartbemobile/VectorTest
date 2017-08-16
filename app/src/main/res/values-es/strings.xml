@@ -29,7 +29,7 @@
     <string name="Mail">Correo</string>
     <string name="Username">Usuario</string>
     <string name="FullName">Nombre completo</string>
-    <string name="Age">Edad</string>
+    <string name="Birth_date">Fecha de nacimiento</string>
     <string name="Password">Contraseña</string>
     <string name="Name">Nombre</string>
     <string name="Last_name">Apellidos</string>
