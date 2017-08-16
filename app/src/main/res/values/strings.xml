@@ -156,5 +156,7 @@
     <string name="RememberSuccess">Password sent succesfully to your email address.</string>
     <string name="RememberFailUser">Incorrect user. Please provide a valid username.</string>
     <string name="RememberFailTutor">Incorrect email. Please provide a valid one.</string>
+  <string name="Choose_alias">Choose an alias</string>
+    <string name="Choose_password">Choose a password</string>
 
 </resources>

@@ -23,6 +23,8 @@
     <string name="Date_of_birth">Fecha de nacimiento</string>
     <string name="Is_this_correct_int">¿Está bien así?</string>
     <string name="Tutor_info">Datos del tutor</string>
+    <string name="Choose_alias">Elige un usuario</string>
+    <string name="Choose_password">Elige una contraseña</string>
     <string name="Alias">Usuario</string>
     <string name="Mail">Correo</string>
     <string name="Username">Usuario</string>
@@ -117,7 +119,7 @@
     <string name="Service_unavailable_try_again_later">Servicio no disponbile, inténtalo más tarde</string>
     <string name="Result">Resultado</string>
     <string name="Back">Volver</string>
-    <string name="Students_Data">Datos del Alumno</string>
+    <string name="Students_Data">Alta nuevo alumno</string>
     <string name="username_not_valid_or_already_exists">El usuario no es válido o ya existe</string>
     <string name="Ialready_have_account">Iniciar sesión</string>
     <string name="Ask_your_parents">Pregunta a un adulto</string>
