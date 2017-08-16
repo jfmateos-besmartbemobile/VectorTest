@@ -91,10 +91,8 @@ public class FreemiumActivity extends Activity {
         }
         selectedAge = Constants.MIN_FREEMIUM_AGE + progress;
         avatarAgeSeekBar.setOverlayText(String.valueOf(selectedAge));
-        selectedAvatarPreview.setScaleY(0.5f + selectedAge / 18f);
-        selectedAvatarPreview.setScaleX(0.5f + selectedAge / 18f);
-//        selectedAvatarPreview.getLayoutParams().height = avatarPreviewHeight * selectedAge / 20;
-//        selectedAvatarPreview.getLayoutParams().width = avatarPreviewWidth * selectedAge / 20;
+        selectedAvatarPreview.setScaleY(0.6f + selectedAge / 26f);
+        selectedAvatarPreview.setScaleX(0.6f + selectedAge / 26f);
         selectedAvatarPreview.requestLayout();
       }
 
