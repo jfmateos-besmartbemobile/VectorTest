@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -357,11 +356,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.tutor_login_bg));
   }
 
-
-  public void onCardClick(View view) {
-    flipCard();
-  }
-
   private void flipCard() {
     View rootLayout = findViewById(R.id.main_activity_root);
     View cardFace = findViewById(R.id.card_login_panel_alumnos);
@@ -374,6 +368,26 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     if (cardFace.getVisibility() == View.GONE) {
       flipAnimation.reverse();
     }
+
+    flipAnimation.setAnimationListener(new Animation.AnimationListener() {
+      @Override
+      public void onAnimationStart(Animation animation) {
+        loginTutorFlipButton.setEnabled(false);
+        loginStudentFlipButton.setEnabled(false);
+      }
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        loginTutorFlipButton.setEnabled(true);
+        loginStudentFlipButton.setEnabled(true);
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {
+
+      }
+    });
+
     rootLayout.startAnimation(flipAnimation);
   }
 
