@@ -340,18 +340,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
-//
-//    View panelLoginTutor = findViewById(R.id.login_panel_tutores);
-////        panelLoginTutor.setVisibility(LinearLayout.GONE);
-//    View panelLoginAlumno = findViewById(R.id.login_panel_alumnos);
-//    panelLoginAlumno.setAnimation(new FlipAnimation(panelLoginTutor, panelLoginAlumno));
-
-//        panelLoginAlumno.setVisibility(LinearLayout.VISIBLE);
-
-//        Button botonFlipAlumno = (Button) findViewById(R.id.login_student_flip_button);
-//        botonFlipAlumno.setVisibility(Button.VISIBLE);
-//        Button botonFlipTutor = (Button) findViewById(R.id.login_tutor_flip_button);
-//        botonFlipTutor.setVisibility(Button.GONE);
   }
 
   /**
@@ -367,18 +355,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.tutor_login_bg));
-//
-//    View panelLoginTutor = findViewById(R.id.login_panel_tutores);
-////        panelLoginTutor.setVisibility(LinearLayout.GONE);
-//    View panelLoginAlumno = findViewById(R.id.login_panel_alumnos);
-//    panelLoginAlumno.setAnimation(new FlipAnimation(panelLoginAlumno, panelLoginTutor));
-
-//        panelLoginAlumno.setVisibility(LinearLayout.GONE);
-//
-//        Button botonFlipAlumno = (Button) findViewById(R.id.login_student_flip_button);
-//        botonFlipAlumno.setVisibility(Button.GONE);
-//        Button botonFlipTutor = (Button) findViewById(R.id.login_tutor_flip_button);
-//        botonFlipTutor.setVisibility(Button.VISIBLE);
   }
 
 
