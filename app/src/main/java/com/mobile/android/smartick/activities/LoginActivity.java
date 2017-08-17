@@ -217,13 +217,12 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     // Inicializamos systemInfo
     sysInfo = new SystemInfo(this.getApplicationContext());
 
-    // Inicialmente mostramos el login para alumnos
-    mostrarLoginAlumno(null);
-
     // Inicialmente ocultamos el panel de login
     findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
     findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
 
+    View layoutLogin = findViewById(R.id.login_layout);
+    layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
     //Dev menu?
     if (Constants.DEBUG_MODE) {
       findViewById(R.id.login_button_dev_menu).setVisibility(View.VISIBLE);
@@ -365,9 +364,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     FlipAnimation flipAnimation = new FlipAnimation(cardFace, cardBack, cardFaceShadow, cardBackShadow);
 
-    if (cardFace.getVisibility() == View.GONE) {
+    if (cardFace.getVisibility() == View.GONE)
       flipAnimation.reverse();
-    }
 
     flipAnimation.setAnimationListener(new Animation.AnimationListener() {
       @Override

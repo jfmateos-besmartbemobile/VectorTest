@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:animateLayoutChanges="true"
     tools:context="com.mobile.android.smartick.activities.LoginActivity"
     >
 
@@ -224,6 +225,7 @@
           android:layout_height="@dimen/login_panel_tutores_width"
           android:layout_centerInParent="true"
           android:background="@color/loginFlipShadowColor"
+          android:alpha="0"
           />
 
     </RelativeLayout>

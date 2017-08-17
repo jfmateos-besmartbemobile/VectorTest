@@ -32,7 +32,7 @@ public class FlipAnimation extends Animation {
     this.fromShadow = fromShadow;
     this.toShadow = toShadow;
 
-    setDuration(700);
+    setDuration(600);
     setFillAfter(false);
     setInterpolator(new AccelerateDecelerateInterpolator());
   }
