@@ -1,68 +1,85 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    </style>
+  <!-- Base application theme. -->
+  <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-    </style>
+  <!-- Application theme. -->
+  <style name="AppTheme" parent="AppBaseTheme"></style>
 
-    <!-- botones de entrada -->
-    <declare-styleable name="ButtonStrokeText">
-        <attr name="textStrokeColor" format="color"/>
-        <attr name="textStrokeWidth" format="dimension"/>
-    </declare-styleable>
+  <!-- botones de entrada -->
+  <declare-styleable name="ButtonStrokeText">
+    <attr format="color" name="textStrokeColor" />
+    <attr format="dimension" name="textStrokeWidth" />
+  </declare-styleable>
 
-    <style name="button_text_blue" >
-        <item name="android:layout_width" >fill_parent</item>
-        <item name="android:layout_height" >wrap_content</item>
-        <item name="android:textColor" >@color/white</item>
-        <item name="android:gravity" >center</item>
-        <item name="android:layout_margin" >3dp</item>
-        <item name="android:textSize" >45dp</item>
-        <item name="android:textStyle" >bold</item>
-        <item name="android:shadowColor" >@color/BlueTextShadowColor</item>
-        <item name="android:shadowDx" >0</item>
-        <item name="android:shadowDy" >0</item>
-        <item name="android:shadowRadius" >1</item>
-    </style>
+  <style name="button_text_blue">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_margin">3dp</item>
+    <item name="android:textSize">40sp</item>
+    <item name="android:shadowColor">@color/BlueTextShadowColor</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">0</item>
+    <item name="android:shadowRadius">6</item>
+  </style>
 
-    <style name="button_text_orange" >
-        <item name="android:layout_width" >fill_parent</item>
-        <item name="android:layout_height" >wrap_content</item>
-        <item name="android:textColor" >@color/white</item>
-        <item name="android:gravity" >center</item>
-        <item name="android:layout_margin" >3dp</item>
-        <item name="android:textSize" >45dp</item>
-        <item name="android:textStyle" >bold</item>
-        <item name="android:shadowColor" >@color/OrangeTextShadowColor</item>
-        <item name="android:shadowDx" >0</item>
-        <item name="android:shadowDy" >0</item>
-        <item name="android:shadowRadius" >1</item>
-    </style>
+  <style name="button_text_orange">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_margin">3dp</item>
+    <item name="android:textSize">45dp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:shadowColor">@color/OrangeTextShadowColor</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">0</item>
+    <item name="android:shadowRadius">1</item>
+  </style>
 
-    <style name="button_text_green" >
-        <item name="android:layout_width" >fill_parent</item>
-        <item name="android:layout_height" >wrap_content</item>
-        <item name="android:textColor" >@color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_margin" >3dp</item>
-        <item name="android:textSize" >18dp</item>
-        <item name="android:textStyle" >bold</item>
-        <item name="android:shadowColor" >@color/GreenTextShadowColor</item>
-        <item name="android:shadowDx" >0</item>
-        <item name="android:shadowDy" >0</item>
-        <item name="android:shadowRadius" >1</item>
-    </style>
+  <style name="button_text_green">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_margin">3dp</item>
+    <item name="android:textSize">18dp</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:shadowColor">@color/GreenTextShadowColor</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">0</item>
+    <item name="android:shadowRadius">1</item>
+  </style>
 
-    <style name="CustomSeekBar">
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/age_slider_progress9</item>
-        <item name="android:indeterminateDrawable">@drawable/age_slider_progress9</item>
-        <item name="android:thumb">@drawable/age_slider_knob_selector</item>
-        <item name="android:focusable">true</item>
-    </style>
+  <style name="CustomSeekBar">
+    <item name="android:indeterminateOnly">false</item>
+    <item name="android:progressDrawable">@drawable/age_slider_progress9</item>
+    <item name="android:indeterminateDrawable">@drawable/age_slider_progress9</item>
+    <item name="android:thumb">@drawable/age_slider_knob_selector</item>
+    <item name="android:focusable">true</item>
+  </style>
+
+  <style name="register_edit_text">
+    <item name="android:textColor">@color/BlueColor</item>
+    <item name="android:textColorHint">@color/hintColor</item>
+    <item name="android:background">@drawable/rounded_edittext_register</item>
+    <item name="android:layout_width">@dimen/register_edittext_width</item>
+    <item name="android:layout_height">80dp</item>
+    <item name="android:layout_marginLeft">16dp</item>
+    <item name="android:paddingLeft">20dp</item>
+    <item name="android:textSize">@dimen/register_edittext</item>
+  </style>
+
+
+  <style name="register_confirm_text">
+    <item name="android:textColor">@color/GrayColor</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginTop">16dp</item>
+    <item name="android:textSize">24sp</item>
+  </style>
 
 </resources>

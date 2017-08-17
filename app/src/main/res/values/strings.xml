@@ -29,7 +29,7 @@
     <string name="Mail">Email</string>
     <string name="Username">Username</string>
     <string name="FullName">FullName</string>
-    <string name="Age">Age</string>
+    <string name="Birth_date">Age</string>
     <string name="Password">Password</string>
     <string name="Name">Name</string>
     <string name="Last_name">Last name</string>
@@ -156,5 +156,7 @@
     <string name="RememberSuccess">Password sent succesfully to your email address.</string>
     <string name="RememberFailUser">Incorrect user. Please provide a valid username.</string>
     <string name="RememberFailTutor">Incorrect email. Please provide a valid one.</string>
+  <string name="Choose_alias">Choose an alias</string>
+    <string name="Choose_password">Choose a password</string>
 
 </resources>
