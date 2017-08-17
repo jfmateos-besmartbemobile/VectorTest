@@ -64,30 +64,41 @@
         android:layout_height="wrap_content"
         >
 
-      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
           android:id="@+id/login_panel_tutores"
           android:layout_width="@dimen/login_panel_tutores_width"
           android:layout_height="@dimen/login_panel_tutores_height"
           android:layout_centerHorizontal="true"
           android:layout_centerVertical="true"
           android:layout_gravity="center_horizontal"
-          android:background="@drawable/tutor_panel_holder"
-          android:gravity="center_horizontal"
+          android:background="@drawable/login_card_bg_students"
           android:orientation="vertical"
           android:padding="10dp"
           >
 
+        <ImageView
+            android:id="@+id/login_icon_cabecera_tutores"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/login_tutor_icon"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="40dp"
+            />
+
         <TextView
             android:id="@+id/login_label_cabecera_tutores"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/login_icon_cabecera_tutores"
+            android:text="@string/Tutor"
             android:layout_marginTop="5dp"
-            android:layout_weight=".2"
-            android:text="@string/Tutors"
-            android:textColor="@color/white"
-            android:textSize="30dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="40sp"
+            android:textColor="@color/WhiteColor"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
             />
 
         <ListView
@@ -95,9 +106,9 @@
             android:layout_width="500dp"
             android:layout_height="300dp"
             android:layout_below="@+id/login_label_cabecera_tutores"
+            android:layout_above="@+id/login_tutor_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:layout_weight=".6"
             android:divider="@null"
             android:dividerHeight="0dp"
             android:minHeight="210dp"
@@ -106,19 +117,18 @@
         <Button
             android:id="@+id/login_tutor_button"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_below="@id/list_tutores"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/add_tutor_selector"
-            android:maxHeight="100dp"
             android:onClick="entrarComoOtroTutor"
             android:text="@string/Login_as_other_Tutor"
             android:textColor="@color/WhiteColor"
-            android:textSize="22dp"
+            android:layout_alignParentBottom="true"
+            android:textSize="22sp"
             />
-      </LinearLayout>
+      </RelativeLayout>
 
 
       <Button
@@ -140,6 +150,7 @@
           android:layout_height="@dimen/login_panel_tutores_width"
           android:layout_centerInParent="true"
           android:background="@color/loginFlipShadowColor"
+          tools:visibility="gone"
           />
 
     </RelativeLayout>
@@ -148,53 +159,65 @@
         android:id="@+id/card_login_panel_alumnos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
-      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
           android:id="@+id/login_panel_alumnos"
           android:layout_width="@dimen/login_panel_alumnos_width"
           android:layout_height="@dimen/login_panel_alumnos_height"
           android:layout_centerHorizontal="true"
           android:layout_centerVertical="true"
           android:layout_gravity="center_horizontal"
-          android:background="@drawable/student_panel_holder"
+          android:background="@drawable/login_card_bg_students"
           android:gravity="center_horizontal"
           android:orientation="vertical"
           android:padding="10dp"
           >
 
+        <ImageView
+            android:id="@+id/login_icon_cabecera_alumnos"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/login_tutor_icon"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="40dp"
+            />
+
         <TextView
             android:id="@+id/login_label_cabecera_alumnos"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/login_icon_cabecera_alumnos"
+            android:text="@string/Tutor"
             android:layout_marginTop="5dp"
-            android:layout_weight=".2"
-            android:text="@string/Students"
-            android:textColor="@color/white"
-            android:textSize="30dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="40sp"
+            android:textColor="@color/WhiteColor"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
             />
 
         <ListView
             android:id="@+id/list_alumnos"
             android:layout_width="500dp"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/login_label_cabecera_alumnos"
+            android:layout_above="@+id/login_alumno_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_weight=".6"
             android:divider="@null"
             android:dividerHeight="0dp"
             android:minHeight="210dp"
-            ></ListView>
+            />
 
         <Button
             android:id="@+id/login_alumno_button"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:layout_below="@id/list_alumnos"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/add_student_selector"
@@ -204,7 +227,7 @@
             android:textColor="@color/WhiteColor"
             android:textSize="22dp"
             />
-      </LinearLayout>
+      </RelativeLayout>
 
       <Button
           android:id="@+id/login_student_flip_button"
@@ -226,6 +249,7 @@
           android:layout_centerInParent="true"
           android:background="@color/loginFlipShadowColor"
           android:alpha="0"
+          tools:visibility="gone"
           />
 
     </RelativeLayout>
