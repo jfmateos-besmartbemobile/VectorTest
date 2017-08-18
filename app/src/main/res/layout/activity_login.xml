@@ -18,7 +18,6 @@
       android:clickable="true"
       android:onClick="irWelcome"
       />
-
   <Button
       android:id="@+id/change_language_button"
       android:layout_width="50dp"
@@ -31,7 +30,6 @@
       android:onClick="showLanguageSelector"
       android:text=""
       />
-
   <Button
       android:id="@+id/login_button_dev_menu"
       android:layout_width="wrap_content"
@@ -138,21 +136,14 @@
             android:layout_marginTop="30dp"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:minHeight="210dp"
             />
 
         <Button
             android:id="@+id/login_tutor_button"
-            android:layout_width="500dp"
-            android:layout_height="100dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/add_tutor_selector"
             android:onClick="entrarComoOtroTutor"
             android:text="@string/Login_as_other_Tutor"
-            android:textColor="@color/WhiteColor"
-            android:textSize="30sp"
+            style="@style/login_bottom_button"
             />
 
       </RelativeLayout>
@@ -247,21 +238,14 @@
             android:layout_marginTop="30dp"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:minHeight="210dp"
             />
 
         <Button
             android:id="@+id/login_alumno_button"
-            android:layout_width="500dp"
-            android:layout_height="100dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/add_student_selector"
             android:onClick="entrarComoOtroAlumno"
             android:text="@string/Login_as_other_Student"
-            android:textColor="@color/WhiteColor"
-            android:textSize="30sp"
+            style="@style/login_bottom_button"
             />
       </RelativeLayout>
 
@@ -291,7 +275,6 @@
       android:gravity="center_horizontal"
       android:text=""
       />
-
   <Button
       android:id="@+id/google_sign_in"
       android:layout_width="60dp"
