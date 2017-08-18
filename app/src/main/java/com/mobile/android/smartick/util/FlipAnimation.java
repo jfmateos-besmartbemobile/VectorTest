@@ -32,7 +32,7 @@ public class FlipAnimation extends Animation {
     this.fromShadow = fromShadow;
     this.toShadow = toShadow;
 
-    setDuration(600);
+    setDuration(800);
     setFillAfter(false);
     setInterpolator(new AccelerateDecelerateInterpolator());
   }
@@ -61,10 +61,12 @@ public class FlipAnimation extends Animation {
       degrees -= 180.f;
       fromView.setVisibility(View.GONE);
       toView.setVisibility(View.VISIBLE);
+
     }
 
     if (forward)
       degrees = -degrees;
+
     if (fromShadow != null && toShadow != null) {
       fromShadow.setAlpha(Math.abs(degrees) / 90f);
       toShadow.setAlpha(Math.abs(degrees) / 90f);
@@ -73,10 +75,11 @@ public class FlipAnimation extends Animation {
     final Matrix matrix = t.getMatrix();
     camera.save();
     camera.getMatrix(matrix);
+    camera.translate(0, 0, Math.abs(degrees) * 2);
     camera.rotateY(degrees);
     camera.getMatrix(matrix);
     camera.restore();
-    matrix.preScale(1 - Math.abs(degrees) / 90f, 1);
+    matrix.preScale(1 - Math.abs(degrees) / 180f, 1);
     matrix.preTranslate(-centerX, -centerY);
     matrix.postTranslate(centerX, centerY);
   }

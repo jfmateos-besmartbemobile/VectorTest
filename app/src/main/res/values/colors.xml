@@ -31,5 +31,5 @@
     <color name="OrangeColor">#FCA72D</color>
 
     <color name="hintColor">#e0e0e0</color>
-    <color name="loginFlipShadowColor">#c8000000</color>
+    <color name="loginFlipShadowColor">#de000000</color>
 </resources>
