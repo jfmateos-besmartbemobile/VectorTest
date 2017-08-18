@@ -247,6 +247,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     ((Button) findViewById(R.id.login_tutor_button)).setTypeface(tfDidact);
     ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
     ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
+    ((TextView) findViewById(R.id.login_student_flip_button_label)).setTypeface(tfDidact);
+    ((TextView) findViewById(R.id.login_tutor_flip_button_label)).setTypeface(tfDidact);
 
     //Flip Buttons setuo
     loginStudentFlipButton = (Button) findViewById(R.id.login_student_flip_button);
