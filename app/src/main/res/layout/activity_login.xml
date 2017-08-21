@@ -136,6 +136,9 @@
             android:layout_marginTop="30dp"
             android:divider="@null"
             android:dividerHeight="0dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:listSelector="@android:color/transparent"
             />
 
         <Button
@@ -238,6 +241,9 @@
             android:layout_marginTop="30dp"
             android:divider="@null"
             android:dividerHeight="0dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:listSelector="@android:color/transparent"
             />
 
         <Button
