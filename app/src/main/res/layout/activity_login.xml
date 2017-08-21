@@ -18,31 +18,45 @@
       android:clickable="true"
       android:onClick="irWelcome"
       />
+
   <Button
       android:id="@+id/change_language_button"
       android:layout_width="70dp"
       android:layout_height="70dp"
-      android:layout_marginLeft="25dp"
-      android:layout_marginBottom="25dp"
-      android:layout_alignParentBottom="true"
+      android:layout_above="@+id/tv_change_language"
+      android:layout_marginLeft="54dp"
       android:background="@drawable/language_new"
       android:gravity="center_horizontal"
       android:onClick="showLanguageSelector"
-      android:text=""
       />
+
+  <TextView
+      android:id="@+id/tv_change_language"
+      android:layout_width="160dp"
+      android:layout_height="wrap_content"
+      android:layout_alignLeft="@+id/login_button_back"
+      android:layout_alignStart="@+id/login_button_back"
+      android:layout_alignTop="@+id/fb_login_button"
+      android:gravity="center"
+      android:text="@string/set_language"
+      android:textColor="@color/WhiteColor"
+      android:textSize="22sp"
+      tools:text="Cambio idioma"
+      />
+
   <Button
       android:id="@+id/login_button_dev_menu"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
-      android:layout_marginBottom="15dp"
+      android:layout_alignParentRight="true"
       android:layout_marginLeft="15dp"
       android:background="@color/blue_btn_bg_color"
       android:clickable="true"
       android:onClick="mostrarDevMenu"
       android:text="dev"
       android:textColor="@color/white"
-      android:textSize="20dp"
+      android:textSize="20sp"
       android:visibility="gone"
       />
 
@@ -136,9 +150,9 @@
             android:layout_marginTop="30dp"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:scrollbars="none"
-            android:overScrollMode="never"
             android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             />
 
         <Button
@@ -241,9 +255,9 @@
             android:layout_marginTop="30dp"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:scrollbars="none"
-            android:overScrollMode="never"
             android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             />
 
         <Button
