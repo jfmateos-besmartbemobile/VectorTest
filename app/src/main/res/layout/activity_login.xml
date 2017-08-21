@@ -20,12 +20,12 @@
       />
   <Button
       android:id="@+id/change_language_button"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
-      android:layout_marginLeft="20dp"
-      android:layout_marginTop="25dp"
-      android:layout_toRightOf="@+id/login_button_back"
-      android:background="@drawable/language"
+      android:layout_width="70dp"
+      android:layout_height="70dp"
+      android:layout_marginLeft="25dp"
+      android:layout_marginBottom="25dp"
+      android:layout_alignParentBottom="true"
+      android:background="@drawable/language_new"
       android:gravity="center_horizontal"
       android:onClick="showLanguageSelector"
       android:text=""
