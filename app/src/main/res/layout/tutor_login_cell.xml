@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/login_entry_panel_selector"
-    android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:background="@drawable/login_entry_panel_selector"
     >
 
-    <ImageView
-        android:src="@drawable/tutor_icon_big"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        />
+  <ImageView
+      android:id="@+id/iv_tutor"
+      android:layout_width="80dp"
+      android:padding="10dp"
+      android:layout_height="80dp"
+      android:layout_marginLeft="30dp"
+      android:layout_marginTop="20dp"
+      android:src="@drawable/login_tutor_icon"
+      android:tint="@color/BlueColor"
+      />
 
-    <TextView
-        android:id="@+id/userslist_botonloginText"
-        android:layout_width="300dp"
-        android:layout_height="110dp"
-        android:textColor="@color/BlueColor"
-        android:layout_marginLeft="10dp"
-        android:textSize="19dp"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="test"
-        />
+  <TextView
+      android:id="@+id/userslist_botonloginText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="16dp"
+      android:layout_toRightOf="@id/iv_tutor"
+      android:gravity="center"
+      android:textColor="@color/BlueColor"
+      android:textSize="19sp"
+      />
 
-</LinearLayout>
+</RelativeLayout>

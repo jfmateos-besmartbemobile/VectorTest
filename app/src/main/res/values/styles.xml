@@ -73,13 +73,59 @@
     <item name="android:textSize">@dimen/register_edittext</item>
   </style>
 
-
   <style name="register_confirm_text">
     <item name="android:textColor">@color/GrayColor</item>
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_marginTop">16dp</item>
     <item name="android:textSize">24sp</item>
+  </style>
+
+  <!-- Login -->
+  <style name="login_main_tab_icon">
+    <item name="android:layout_width">60dp</item>
+    <item name="android:layout_height">60dp</item>
+    <item name="android:layout_marginLeft">20dp</item>
+    <item name="android:layout_marginTop">5dp</item>
+    <item name="android:layout_alignParentTop">true</item>
+  </style>
+
+  <style name="login_main_tab_label">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">60dp</item>
+    <item name="android:layout_alignParentTop">true</item>
+    <item name="android:layout_marginLeft">15dp</item>
+    <item name="android:layout_marginTop">5dp</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textSize">@dimen/login_tabs_text_size</item>
+  </style>
+
+  <style name="login_secondary_tab_icon">
+    <item name="android:layout_width">60dp</item>
+    <item name="android:layout_height">60dp</item>
+    <item name="android:layout_marginLeft">40dp</item>
+    <item name="android:layout_centerVertical">true</item>
+  </style>
+
+  <style name="login_secondary_tab_label">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">60dp</item>
+    <item name="android:layout_centerVertical">true</item>
+    <item name="android:layout_marginLeft">20dp</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textSize">@dimen/login_tabs_text_size</item>
+  </style>
+
+  <style name="login_bottom_button">
+    <item name="android:layout_width">500dp</item>
+    <item name="android:layout_height">110dp</item>
+    <item name="android:layout_alignParentBottom">true</item>
+    <item name="android:layout_centerHorizontal">true</item>
+    <item name="android:layout_marginBottom">10dp</item>
+    <item name="android:textColor">@color/WhiteColor</item>
+    <item name="android:textSize">30sp</item>
   </style>
 
 </resources>

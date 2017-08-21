@@ -3,219 +3,316 @@
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="horizontal"
-    tools:context="com.mobile.android.smartick.activities.LoginActivity">
+    tools:context="com.mobile.android.smartick.activities.LoginActivity"
+    >
 
-    <Button
-        android:id="@+id/login_button_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/purple_button_back_selector"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:clickable="true"
-        android:onClick="irWelcome"
-    />
+  <Button
+      android:id="@+id/login_button_back"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/purple_button_back_selector"
+      android:clickable="true"
+      android:onClick="irWelcome"
+      />
 
-    <Button
-        android:id="@+id/change_language_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text=""
-        android:onClick="showLanguageSelector"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/login_button_back"
-        android:background="@drawable/language"
-        android:gravity="center_horizontal"
-        />
+  <Button
+      android:id="@+id/change_language_button"
+      android:layout_width="70dp"
+      android:layout_height="70dp"
+      android:layout_above="@+id/tv_change_language"
+      android:layout_marginLeft="54dp"
+      android:background="@drawable/language_new"
+      android:gravity="center_horizontal"
+      android:onClick="showLanguageSelector"
+      />
 
-    <Button
-        android:id="@+id/login_button_dev_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/blue_btn_bg_color"
-        android:visibility="gone"
-        android:clickable="true"
-        android:text="dev"
-        android:textColor="@color/white"
-        android:onClick="mostrarDevMenu"
-        android:textSize="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_alignParentBottom="true"
-        />
+  <TextView
+      android:id="@+id/tv_change_language"
+      android:layout_width="160dp"
+      android:layout_height="wrap_content"
+      android:layout_alignLeft="@+id/login_button_back"
+      android:layout_alignStart="@+id/login_button_back"
+      android:layout_alignTop="@+id/fb_login_button"
+      android:gravity="center"
+      android:text="@string/set_language"
+      android:textColor="@color/WhiteColor"
+      android:textSize="22sp"
+      tools:text="Cambio idioma"
+      />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_panel_tutores"
+  <Button
+      android:id="@+id/login_button_dev_menu"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true"
+      android:layout_marginLeft="15dp"
+      android:background="@color/blue_btn_bg_color"
+      android:clickable="true"
+      android:onClick="mostrarDevMenu"
+      android:text="dev"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      android:visibility="gone"
+      />
+
+  <RelativeLayout
+      android:id="@+id/main_activity_root"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:background="@android:color/transparent"
+      >
+
+    <RelativeLayout
+        android:id="@+id/card_login_panel_tutores"
         android:layout_width="@dimen/login_panel_tutores_width"
         android:layout_height="@dimen/login_panel_tutores_height"
-        android:orientation="vertical"
-        android:background="@drawable/tutor_panel_holder"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
+        android:visibility="gone"
+        tools:visibility="gone"
         >
+
+      <RelativeLayout
+          android:layout_width="295dp"
+          android:layout_height="90dp"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginRight="3dp"
+          >
+
+        <Button
+            android:id="@+id/login_tutor_flip_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_card_bg_tab"
+            android:clickable="true"
+            android:onClick="mostrarLoginAlumno"
+            />
+
+        <ImageView
+            android:id="@+id/login_tutor_flip_button_icon"
+            android:src="@drawable/login_student_icon"
+            style="@style/login_secondary_tab_icon"
+            />
+
+        <TextView
+            android:id="@+id/login_tutor_flip_button_label"
+            android:layout_toRightOf="@+id/login_tutor_flip_button_icon"
+            android:text="@string/Students"
+            style="@style/login_secondary_tab_label"
+            />
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:id="@+id/login_panel_tutores"
+          android:layout_width="@dimen/login_panel_tutores_width"
+          android:layout_height="@dimen/login_panel_tutores_height"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:layout_gravity="center_horizontal"
+          android:background="@drawable/login_card_bg_students"
+          android:orientation="vertical"
+          android:padding="10dp"
+          >
+
+        <ImageView
+            android:id="@+id/login_icon_cabecera_tutores"
+            android:src="@drawable/login_tutor_icon"
+            style="@style/login_main_tab_icon"
+            />
 
         <TextView
             android:id="@+id/login_label_cabecera_tutores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/login_icon_cabecera_tutores"
             android:text="@string/Tutors"
-            android:textColor="@color/white"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight=".2"
-            android:layout_marginTop="5dp"
-            android:textSize="30dp" />
+            style="@style/login_main_tab_label"
+            />
 
         <ListView
             android:id="@+id/list_tutores"
             android:layout_width="500dp"
             android:layout_height="300dp"
-            android:minHeight="210dp"
-            android:dividerHeight="0dp"
-            android:divider="@null"
-            android:layout_weight=".6"
+            android:layout_above="@+id/login_tutor_button"
             android:layout_below="@+id/login_label_cabecera_tutores"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true">
-        </ListView>
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            />
 
         <Button
             android:id="@+id/login_tutor_button"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:maxHeight="100dp"
+            android:background="@drawable/add_tutor_selector"
             android:onClick="entrarComoOtroTutor"
             android:text="@string/Login_as_other_Tutor"
-            android:background="@drawable/add_tutor_selector"
-            android:textColor="@color/WhiteColor"
-            android:textSize="22dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/list_tutores"/>
-    </LinearLayout>
+            style="@style/login_bottom_button"
+            />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_panel_alumnos"
+      </RelativeLayout>
+
+      <View
+          android:id="@+id/login_panel_alumnos_shadow"
+          android:layout_width="@dimen/login_panel_tutores_width"
+          android:layout_height="@dimen/login_panel_tutores_width"
+          android:layout_centerInParent="true"
+          android:background="@color/loginFlipShadowColor"
+          tools:visibility="gone"
+          />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/card_login_panel_alumnos"
         android:layout_width="@dimen/login_panel_alumnos_width"
-        android:layout_height="@dimen/login_panel_alumnos_height"
-        android:orientation="vertical"
-        android:background="@drawable/student_panel_holder"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
+        android:layout_height="@dimen/login_panel_alumnos_width"
+        tools:visibility="visible"
         >
+
+      <RelativeLayout
+          android:layout_width="295dp"
+          android:layout_height="90dp"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginRight="3dp"
+          >
+        <Button
+            android:id="@+id/login_student_flip_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_card_bg_tab"
+            android:clickable="true"
+            android:onClick="mostrarLoginTutor"
+            />
+
+        <ImageView
+            android:id="@+id/login_student_flip_button_icon"
+            android:src="@drawable/login_tutor_icon"
+            style="@style/login_secondary_tab_icon"
+            />
+
+        <TextView
+            android:id="@+id/login_student_flip_button_label"
+            android:layout_toRightOf="@+id/login_student_flip_button_icon"
+            android:text="@string/Tutors"
+            style="@style/login_secondary_tab_label"
+            />
+
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:id="@+id/login_panel_alumnos"
+          android:layout_width="@dimen/login_panel_alumnos_width"
+          android:layout_height="@dimen/login_panel_alumnos_width"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:layout_gravity="center_horizontal"
+          android:background="@drawable/login_card_bg_students"
+          android:orientation="vertical"
+          android:padding="10dp"
+          >
+
+        <ImageView
+            android:id="@+id/login_icon_cabecera_alumnos"
+            android:src="@drawable/login_student_icon"
+            style="@style/login_main_tab_icon"
+            />
 
         <TextView
             android:id="@+id/login_label_cabecera_alumnos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/login_icon_cabecera_alumnos"
             android:text="@string/Students"
-            android:textColor="@color/white"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:layout_weight=".2"
-            android:textSize="30dp" />
+            style="@style/login_main_tab_label"
+            />
 
         <ListView
             android:id="@+id/list_alumnos"
             android:layout_width="500dp"
             android:layout_height="300dp"
-            android:minHeight="210dp"
-            android:dividerHeight="0dp"
-            android:divider="@null"
-            android:layout_weight=".6"
+            android:layout_above="@+id/login_alumno_button"
             android:layout_below="@+id/login_label_cabecera_alumnos"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true">
-        </ListView>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            />
 
         <Button
             android:id="@+id/login_alumno_button"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:maxHeight="100dp"
+            android:background="@drawable/add_student_selector"
             android:onClick="entrarComoOtroAlumno"
             android:text="@string/Login_as_other_Student"
-            android:background="@drawable/add_student_selector"
-            android:textColor="@color/WhiteColor"
-            android:textSize="22dp"
-            android:layout_marginTop="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/list_alumnos"/>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/fb_login_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:text=""
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/fb_logo"
-        android:gravity="center_horizontal"
-        />
-
-    <Button
-        android:id="@+id/google_sign_in"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="120dp"
-        android:background="@drawable/google_logo"
-        />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/login_panel_alumnos"
-        android:layout_toRightOf="@id/login_panel_alumnos"
-        android:layout_alignTop="@id/login_panel_alumnos"
-        >
-        <Button
-            android:id="@+id/login_student_flip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/tutor_login_flip_selector"
-            android:clickable="true"
-            android:onClick="mostrarLoginTutor"
-            android:textSize="28dp"
-
-            android:layout_marginTop="20dp"
+            style="@style/login_bottom_button"
             />
-    </RelativeLayout>
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/login_panel_tutores"
-            android:layout_toRightOf="@id/login_panel_tutores"
-            android:layout_alignTop="@id/login_panel_tutores"
-        >
-        <Button
-            android:id="@+id/login_tutor_flip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/student_login_flip_selector"
-            android:clickable="true"
-            android:onClick="mostrarLoginAlumno"
-            android:textSize="28dp"
-            android:layout_marginTop="20dp"
-            />
+      </RelativeLayout>
+
+      <View
+          android:id="@+id/login_panel_tutores_shadow"
+          android:layout_width="@dimen/login_panel_tutores_width"
+          android:layout_height="@dimen/login_panel_tutores_width"
+          android:layout_centerInParent="true"
+          android:alpha="0"
+          android:background="@color/loginFlipShadowColor"
+          tools:visibility="gone"
+          />
+
     </RelativeLayout>
 
-    <include layout="@layout/panel_login_alumno"/>
-    <include layout="@layout/panel_login_tutor"/>
+  </RelativeLayout>
+
+  <Button
+      android:id="@+id/fb_login_button"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true"
+      android:layout_marginBottom="50dp"
+      android:layout_marginRight="50dp"
+      android:background="@drawable/fb_logo"
+      android:gravity="center_horizontal"
+      android:text=""
+      />
+  <Button
+      android:id="@+id/google_sign_in"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true"
+      android:layout_marginBottom="120dp"
+      android:layout_marginRight="50dp"
+      android:background="@drawable/google_logo"
+      />
+
+  <include
+      layout="@layout/panel_login_alumno"
+      tools:visibility="gone"
+      />
+  <include
+      layout="@layout/panel_login_tutor"
+      tools:visibility="gone"
+      />
 
 </RelativeLayout>

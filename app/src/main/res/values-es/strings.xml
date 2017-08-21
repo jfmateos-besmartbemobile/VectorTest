@@ -138,7 +138,7 @@
     <string name="CanRead">¿Sabe leer?</string>
     <string name="Social_need_email">Necesitas una cuenta de email asociada a tu cuenta social para poder usarla con Smartick</string>
     <string name="Demo">Demo</string>
-    <string name="set_language">Seleccionar idioma</string>
+    <string name="set_language">Cambio idioma</string>
     <string name="lang_en">English</string>
     <string name="lang_es">Español</string>
     <string name="lang_es_AR">Español (Argentina)</string>
