@@ -260,6 +260,33 @@
             android:scrollbars="none"
             />
 
+        <LinearLayout
+            android:id="@+id/ll_add_students"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/login_alumno_button"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
+
+          <Button
+              android:text="registarar nuevo alumno"
+              style="@style/login_add_students_buttons"
+              />
+          <Button
+              android:text="añadir aluno exisitente"
+              style="@style/login_add_students_buttons"
+              />
+          <Button
+              android:drawableLeft="@drawable/avatar1_big"
+              android:text="añadir todos mis alumnos"
+              style="@style/login_add_students_buttons"
+              />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/login_alumno_button"
             android:background="@drawable/add_student_selector"
