@@ -185,7 +185,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/login_card_bg_tab"
             android:clickable="true"
-            android:onClick="mostrarLoginAlumno"
+            android:onClick="mostrarLoginTutor"
             />
 
         <ImageView

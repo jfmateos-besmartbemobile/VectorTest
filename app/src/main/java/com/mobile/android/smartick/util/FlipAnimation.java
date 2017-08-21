@@ -61,7 +61,6 @@ public class FlipAnimation extends Animation {
       degrees -= 180.f;
       fromView.setVisibility(View.GONE);
       toView.setVisibility(View.VISIBLE);
-
     }
 
     if (forward)
