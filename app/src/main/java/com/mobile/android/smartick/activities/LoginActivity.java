@@ -20,11 +20,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -71,7 +76,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   enum TipoLogin {ALUMNO, TUTOR}
 
-  ;
 
   private TipoLogin tipoLogin = TipoLogin.ALUMNO;
 
@@ -437,16 +441,51 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   /**
    * Muestra panel de login
    */
-  public void entrarComoOtroAlumno(View view) {
 
-    if (loginStudentShowing || loginTutorShowing) {
-      return;
+
+  boolean mostrar = true;
+
+  public void addAnotherStudent(View view) {
+
+    if (loginStudentShowing || loginTutorShowing) return;
+
+    showHideAddStudentOptions();
+
+  }
+
+  private void showHideAddStudentOptions() {
+    AnimationSet set = new AnimationSet(true);
+    Animation animation;
+    Animation animationAlpha;
+    if (mostrar) {
+      animation = new TranslateAnimation(
+          Animation.RELATIVE_TO_SELF, 0.0f,
+          Animation.RELATIVE_TO_SELF, 0.0f,
+          Animation.RELATIVE_TO_SELF, 1.0f,
+          Animation.RELATIVE_TO_SELF, 0.0f);
+
+      animationAlpha = new AlphaAnimation(0, 1);
+    } else {
+      animation = new TranslateAnimation(
+          Animation.RELATIVE_TO_SELF, 0.0f,
+          Animation.RELATIVE_TO_SELF, 0.0f,
+          Animation.RELATIVE_TO_SELF, 0.0f,
+          Animation.RELATIVE_TO_SELF, 1.0f);
+      animationAlpha = new AlphaAnimation(1, 0);
     }
+    animation.setDuration(500);
+    animationAlpha.setDuration(500);
+//    set.addAnimation(animation);
+    set.addAnimation(animationAlpha);
+    LayoutAnimationController controller = new LayoutAnimationController(set, 0.25f);
 
-    loginStudentShowing = true;
-    enableFlipButtons(false);
+    LinearLayout llAnimado = (LinearLayout) findViewById(R.id.ll_add_students);
+    llAnimado.setLayoutAnimation(controller);
+//    llAnimado.startAnimation(animation);
+    llAnimado.startAnimation(animationAlpha);
 
-    setAddAlumnoPanelVisible(true);
+    llAnimado.setVisibility(mostrar ? View.VISIBLE : View.GONE);
+    mostrar = !mostrar;
   }
 
   /**
@@ -943,6 +982,23 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
       return matcher.matches();
     }
   }
+
+
+  public void addNewStudent(View view) {
+    showHideAddStudentOptions();
+    startActivity(new Intent(this, RegistroActivity.class));
+
+  }
+
+  public void addExistingStudent(View view) {
+    showHideAddStudentOptions();
+    setLoginAlumnoPanelVisible(true);
+  }
+
+  public void addAllMyStudents(View view) {
+
+  }
+
 
   //TextWatcher methods
   @Override

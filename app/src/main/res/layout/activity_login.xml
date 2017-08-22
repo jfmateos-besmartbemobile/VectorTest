@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -260,10 +261,42 @@
             android:scrollbars="none"
             />
 
+        <LinearLayout
+            android:id="@+id/ll_add_students"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/login_alumno_button"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
+
+          <com.mobile.android.smartick.cutomviews.LeftImageButton
+              custom:image="@drawable/register_new_user_icon"
+              custom:label="Añadir nuevo alumno"
+              style="@style/login_add_students_buttons"
+              android:onClick="addNewStudent"
+              />
+          <com.mobile.android.smartick.cutomviews.LeftImageButton
+              custom:image="@drawable/add_existing_student_icon"
+              custom:label="Añadir aluno exisitente"
+              style="@style/login_add_students_buttons"
+              android:onClick="addExistingStudent"
+              />
+          <com.mobile.android.smartick.cutomviews.LeftImageButton
+              custom:image="@drawable/add_all_my_studedents_icon"
+              custom:label="Añadir todos mis alumnos"
+              style="@style/login_add_students_buttons"
+              android:onClick="addAllMyStudents"
+              />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/login_alumno_button"
             android:background="@drawable/add_student_selector"
-            android:onClick="entrarComoOtroAlumno"
+            android:onClick="addAnotherStudent"
             android:text="@string/Login_as_other_Student"
             style="@style/login_bottom_button"
             />

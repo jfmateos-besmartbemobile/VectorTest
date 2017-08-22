@@ -28,7 +28,12 @@
         <attr name="strokeWidth" format="float" />
     </declare-styleable>
 
-
+    <declare-styleable name="LeftImageButton">
+        <attr name="image" format="integer" />
+        <attr name="label" format="string" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+    </declare-styleable>
 
 </resources>
 
