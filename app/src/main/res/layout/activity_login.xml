@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -271,17 +272,19 @@
             tools:visibility="visible"
             >
 
-          <Button
-              android:text="registarar nuevo alumno"
+          <com.mobile.android.smartick.cutomviews.LeftImageButton
+              custom:image="@drawable/register_new_user_icon"
+              custom:label="Añadir nuevo alumno"
               style="@style/login_add_students_buttons"
               />
-          <Button
-              android:text="añadir aluno exisitente"
+          <com.mobile.android.smartick.cutomviews.LeftImageButton
+              custom:image="@drawable/add_existing_student_icon"
+              custom:label="Añadir aluno exisitente"
               style="@style/login_add_students_buttons"
               />
-          <Button
-              android:drawableLeft="@drawable/avatar1_big"
-              android:text="añadir todos mis alumnos"
+          <com.mobile.android.smartick.cutomviews.LeftImageButton
+              custom:image="@drawable/add_all_my_studedents_icon"
+              custom:label="Añadir todos mis alumnos"
               style="@style/login_add_students_buttons"
               />
 
