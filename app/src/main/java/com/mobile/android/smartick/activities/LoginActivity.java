@@ -76,7 +76,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   enum TipoLogin {ALUMNO, TUTOR}
 
-  ;
 
   private TipoLogin tipoLogin = TipoLogin.ALUMNO;
 
@@ -444,25 +443,17 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
    */
 
 
-  boolean flag = true;
+  boolean mostrar = true;
 
-  public void entrarComoOtroAlumno(View view) {
+  public void addAnotherStudent(View view) {
 
-    if (loginStudentShowing || loginTutorShowing) {
-      return;
-    }
+    if (loginStudentShowing || loginTutorShowing) return;
 
-    animar(flag);
-    flag = !flag;
+    showHideAddStudentOptions();
 
-//    loginStudentShowing = true;
-//    enableFlipButtons(false);
-//
-//    setAddAlumnoPanelVisible(true);
   }
 
-
-  private void animar(boolean mostrar) {
+  private void showHideAddStudentOptions() {
     AnimationSet set = new AnimationSet(true);
     Animation animation;
     Animation animationAlpha;
@@ -494,6 +485,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     llAnimado.startAnimation(animationAlpha);
 
     llAnimado.setVisibility(mostrar ? View.VISIBLE : View.GONE);
+    mostrar = !mostrar;
   }
 
   /**
@@ -990,6 +982,23 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
       return matcher.matches();
     }
   }
+
+
+  public void addNewStudent(View view) {
+    showHideAddStudentOptions();
+    startActivity(new Intent(this, RegistroActivity.class));
+
+  }
+
+  public void addExistingStudent(View view) {
+    showHideAddStudentOptions();
+    setLoginAlumnoPanelVisible(true);
+  }
+
+  public void addAllMyStudents(View view) {
+
+  }
+
 
   //TextWatcher methods
   @Override

@@ -31,6 +31,7 @@ public class LeftImageButton extends LinearLayout {
 
     setOrientation(LinearLayout.HORIZONTAL);
     setGravity(Gravity.CENTER_VERTICAL);
+    setClickable(true);
 
     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.left_image_button, this, true);
