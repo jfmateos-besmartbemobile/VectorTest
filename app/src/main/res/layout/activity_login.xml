@@ -272,19 +272,19 @@
             tools:visibility="visible"
             >
 
-          <com.mobile.android.smartick.cutomviews.LeftImageButton
+          <com.mobile.android.smartick.customviews.LeftImageButton
               custom:image="@drawable/register_new_user_icon"
               custom:label="Añadir nuevo alumno"
               style="@style/login_add_students_buttons"
               android:onClick="addNewStudent"
               />
-          <com.mobile.android.smartick.cutomviews.LeftImageButton
+          <com.mobile.android.smartick.customviews.LeftImageButton
               custom:image="@drawable/add_existing_student_icon"
               custom:label="Añadir aluno exisitente"
               style="@style/login_add_students_buttons"
               android:onClick="addExistingStudent"
               />
-          <com.mobile.android.smartick.cutomviews.LeftImageButton
+          <com.mobile.android.smartick.customviews.LeftImageButton
               custom:image="@drawable/add_all_my_studedents_icon"
               custom:label="Añadir todos mis alumnos"
               style="@style/login_add_students_buttons"
