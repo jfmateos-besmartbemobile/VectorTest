@@ -76,7 +76,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   private String studentUsername;
   private String studentPassword;
   private String studentName;
-  private String studentLastName;
   private int studentBirthDay;
   private int studentBirthMonth;
   private int studentBirthYear;
@@ -95,12 +94,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   private ImageView studentPasswordIcon;
   private EditText studentAliasEditText;
   private EditText studentPasswordEditText;
-  private TextView titleStudentInfo;
+//  private TextView titleStudentInfo;
   private EditText studentNameEditText;
-  private EditText studentLastNameEditText;
+//  private EditText studentLastNameEditText;
   private TextView studentCanReadLabelText;
   private Switch studentCanReadSwitch;
-  private TextView titleStudentSex;
+//  private TextView titleStudentSex;
   private TextView textBoy, textGirl;
   private ImageView iconBoy;
   private ImageView iconGirl;
@@ -319,7 +318,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
         break;
       case 1:
-        if (isValidName(studentNameEditText.getText().toString()) && isValidName(studentLastNameEditText.getText().toString())) {
+        if (isValidName(studentNameEditText.getText().toString())) {
           updateStudentConfirmData();
           scrollToNextPage();
         } else {
@@ -384,7 +383,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentAliasEditText.clearFocus();
     studentPasswordEditText.clearFocus();
     studentNameEditText.clearFocus();
-    studentLastNameEditText.clearFocus();
+//    studentLastNameEditText.clearFocus();
     tutorMailEditText.clearFocus();
     tutorPasswordEditText.clearFocus();
     tutorPhoneEditText.clearFocus();
@@ -394,7 +393,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentAliasEditText.setText("testAndroid2");
     studentPasswordEditText.setText("Sm1rt3cK");
     studentNameEditText.setText("testAndroid1");
-    studentLastNameEditText.setText("testAndroid1");
+//    studentLastNameEditText.setText("testAndroid1");
     studentSex = MALE;
     tutorMailEditText.setText("test@Android4.es");
     tutorPasswordEditText.setText("Sm1rt3cK");
@@ -451,7 +450,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentUsername = studentAliasEditText.getText().toString().trim();
     studentPassword = studentPasswordEditText.getText().toString();
     studentName = studentNameEditText.getText().toString();
-    studentLastName = studentLastNameEditText.getText().toString();
+//    studentLastName = studentLastNameEditText.getText().toString();
     studentCanRead = studentCanReadSwitch.isChecked();
     studentBirthDay = studentAgeDatePicker.getDayOfMonth();
     studentBirthMonth = studentAgeDatePicker.getMonth() + 1;
@@ -466,7 +465,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       confirmSexBoy.setVisibility(View.GONE);
     }
 
-    confirmStudentNameTextView.setText(studentName + " " + studentLastName);
+    confirmStudentNameTextView.setText(studentName );
     confirmStudentBirthDate.setText(studentBirthDay + "/" + studentBirthMonth + "/" + studentBirthYear);
     confirmStudentUsernameTextView.setText(studentUsername);
 
@@ -502,12 +501,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentPasswordIcon = (ImageView) findViewById(R.id.student_password_icon);
     studentAliasEditText = (EditText) findViewById(R.id.student_alias_edittext);
     studentPasswordEditText = (EditText) findViewById(R.id.student_password_edittext);
-    titleStudentInfo = (TextView) findViewById(R.id.student_info_title);
+//    titleStudentInfo = (TextView) findViewById(R.id.student_info_title);
     studentNameEditText = (EditText) findViewById(R.id.student_name_edittext);
-    studentLastNameEditText = (EditText) findViewById(R.id.student_lastname_edittext);
+//    studentLastNameEditText = (EditText) findViewById(R.id.student_lastname_edittext);
     studentCanReadLabelText = (TextView) findViewById(R.id.student_canread_label);
     studentCanReadSwitch = (Switch) findViewById(R.id.student_canread_switch);
-    titleStudentSex = (TextView) findViewById(R.id.student_sex_title);
+//    titleStudentSex = (TextView) findViewById(R.id.student_sex_title);
     textBoy = (TextView) findViewById(R.id.text_boy);
     textGirl = (TextView) findViewById(R.id.text_girl);
     iconBoy = (ImageView) findViewById(R.id.icon_boy);
@@ -544,12 +543,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     titleStudentCred.setTypeface(dGothic);
     studentAliasEditText.setTypeface(dGothic);
     studentPasswordEditText.setTypeface(dGothic);
-    titleStudentInfo.setTypeface(dGothic);
+//    titleStudentInfo.setTypeface(dGothic);
     studentNameEditText.setTypeface(dGothic);
-    studentLastNameEditText.setTypeface(dGothic);
+//    studentLastNameEditText.setTypeface(dGothic);
     studentCanReadLabelText.setTypeface(dGothic);
     studentAliasEditText.setTypeface(dGothic);
-    titleStudentSex.setTypeface(dGothic);
+//    titleStudentSex.setTypeface(dGothic);
     textBoy.setTypeface(dGothic);
     textGirl.setTypeface(dGothic);
     titleStudentAge.setTypeface(dGothic);
@@ -790,7 +789,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     SmartickRestClient.get().registerAlumnoMobile(studentUsername,
         studentPassword,
         studentName,
-        studentLastName,
+        "",
         String.valueOf(studentBirthDay),
         String.valueOf(studentBirthMonth),
         String.valueOf(studentBirthYear),

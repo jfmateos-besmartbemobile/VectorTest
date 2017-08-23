@@ -133,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
       <ImageView
@@ -146,44 +146,69 @@
           android:src="@drawable/register_panel"
           />
 
-      <TextView
-          android:id="@+id/student_info_title"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignTop="@+id/register_panel2"
-          android:layout_centerHorizontal="true"
-          android:layout_marginTop="20dp"
-          android:text="@string/Students_Data"
-          android:textColor="@color/BlueColor"
-          android:textSize="32dp"
-          />
-
-      <ImageView
-          android:id="@+id/student_info_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerVertical="true"
-          android:layout_marginLeft="40dp"
-          android:layout_marginRight="16dp"
-          android:layout_toRightOf="@+id/b_goback1"
-          android:src="@drawable/student_info_icon"
-          />
-
       <EditText
           android:id="@+id/student_name_edittext"
-          android:layout_alignTop="@+id/student_info_icon"
-          android:layout_toRightOf="@+id/student_info_icon"
+          android:layout_alignTop="@+id/register_panel2"
+          android:layout_centerHorizontal="true"
+          android:layout_marginBottom="20dp"
+          android:layout_marginTop="40dp"
           android:hint="@string/Name"
           style="@style/register_edit_text"
           />
 
-      <EditText
-          android:id="@+id/student_lastname_edittext"
-          android:layout_alignBottom="@+id/student_info_icon"
-          android:layout_toRightOf="@+id/student_info_icon"
-          android:hint="@string/Last_name"
-          style="@style/register_edit_text"
+      <ImageView
+          android:id="@+id/icon_boy"
+          android:layout_width="150dp"
+          android:layout_height="150dp"
+          android:layout_below="@+id/student_name_edittext"
+          android:layout_marginLeft="110dp"
+          android:layout_toRightOf="@+id/b_goback1"
+          android:background="@drawable/sex_selector_background"
+          android:onClick="selectSex"
+          android:src="@drawable/boy_avatar"
           />
+
+      <ImageView
+          android:id="@+id/icon_girl"
+          android:layout_width="150dp"
+          android:layout_height="150dp"
+          android:layout_alignTop="@id/icon_boy"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="110dp"
+          android:layout_toLeftOf="@+id/b_gonext1"
+          android:background="@drawable/sex_selector_background"
+          android:onClick="selectSex"
+          android:src="@drawable/girl_avatar"
+          />
+
+      <TextView
+          android:id="@+id/text_boy"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/icon_boy"
+          android:layout_alignStart="@+id/icon_boy"
+          android:layout_below="@+id/icon_boy"
+          android:layout_marginTop="3dp"
+          android:gravity="center"
+          android:text="@string/Boy"
+          android:textColor="@color/BlueColor"
+          android:textSize="30sp"
+          />
+
+      <TextView
+          android:id="@+id/text_girl"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/icon_girl"
+          android:layout_alignStart="@+id/icon_girl"
+          android:layout_below="@+id/icon_girl"
+          android:layout_marginTop="3dp"
+          android:gravity="center"
+          android:text="@string/Girl"
+          android:textColor="@color/BlueColor"
+          android:textSize="30sp"
+          />
+
 
       <Button
           android:id="@+id/b_goback1"
@@ -200,124 +225,11 @@
           />
 
       <Button
+          android:id="@+id/b_gonext1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignEnd="@+id/register_panel2"
           android:layout_alignRight="@+id/register_panel2"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginRight="10dp"
-          android:background="@drawable/registro_forward_green_selector"
-          android:clickable="true"
-          android:onClick="goNext"
-          />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/register_page3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        tools:visibility="gone"
-        >
-
-      <ImageView
-          android:id="@+id/register_panel3"
-          android:layout_width="880dp"
-          android:layout_height="wrap_content"
-          android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:src="@drawable/register_panel"
-          />
-
-      <TextView
-          android:id="@+id/student_sex_title"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignTop="@+id/register_panel3"
-          android:layout_centerHorizontal="true"
-          android:layout_marginBottom="10dp"
-          android:layout_marginTop="20dp"
-          android:text="@string/Students_Data"
-          android:textColor="@color/BlueColor"
-          android:textSize="32sp"
-          />
-
-      <ImageView
-          android:id="@+id/icon_boy"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_below="@+id/student_sex_title"
-          android:layout_marginLeft="50dp"
-          android:layout_toRightOf="@+id/b_goback2"
-          android:background="@drawable/sex_selector_background"
-          android:onClick="selectSex"
-          android:src="@drawable/boy_avatar"
-          />
-
-      <ImageView
-          android:id="@+id/icon_girl"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_alignTop="@id/icon_boy"
-          android:layout_centerVertical="true"
-          android:layout_marginRight="50dp"
-          android:layout_toLeftOf="@+id/b_gonext2"
-          android:background="@drawable/sex_selector_background"
-          android:onClick="selectSex"
-          android:src="@drawable/girl_avatar"
-          />
-
-      <TextView
-          android:id="@+id/text_boy"
-          android:layout_width="200dp"
-          android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/icon_boy"
-          android:layout_alignStart="@+id/icon_boy"
-          android:layout_below="@+id/icon_boy"
-          android:layout_marginTop="3dp"
-          android:gravity="center"
-          android:text="@string/Boy"
-          android:textColor="@color/BlueColor"
-          android:textSize="30sp"
-          />
-
-      <TextView
-          android:id="@+id/text_girl"
-          android:layout_width="200dp"
-          android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/icon_girl"
-          android:layout_alignStart="@+id/icon_girl"
-          android:layout_below="@+id/icon_girl"
-          android:layout_marginTop="3dp"
-          android:gravity="center"
-          android:text="@string/Girl"
-          android:textColor="@color/BlueColor"
-          android:textSize="30sp"
-          />
-
-      <Button
-          android:id="@+id/b_goback2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/register_panel3"
-          android:layout_alignStart="@+id/register_panel3"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginLeft="10dp"
-          android:background="@drawable/registro_back_selector"
-          android:clickable="true"
-          android:onClick="goBack"
-          />
-
-      <Button
-          android:id="@+id/b_gonext2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignEnd="@+id/register_panel3"
-          android:layout_alignRight="@+id/register_panel3"
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginRight="10dp"
