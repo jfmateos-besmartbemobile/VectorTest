@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 
 android {
@@ -38,7 +48,8 @@ android {
     }
 }
 
-repositories { mavenCentral() }
+repositories { mavenCentral()
+    maven { url 'https://maven.fabric.io/public' } }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -53,6 +64,9 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile ('io.emma:eMMaSDK:2.5.5') {
         exclude group: 'com.google.android.gms'
+    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
     }
 }
 repositories {
