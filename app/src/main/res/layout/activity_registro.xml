@@ -472,7 +472,7 @@
         android:id="@+id/register_page6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
       <ImageView
@@ -504,7 +504,7 @@
           android:layout_height="wrap_content"
           android:layout_below="@+id/tutor_credentials_title"
           android:layout_marginLeft="54dp"
-          android:layout_marginTop="24dp"
+          android:layout_marginTop="20dp"
           android:layout_toRightOf="@+id/b_goback6"
           android:src="@drawable/tutor_mail_on"
           />
@@ -516,7 +516,7 @@
           android:layout_alignLeft="@+id/tutor_mail_icon"
           android:layout_alignStart="@+id/tutor_mail_icon"
           android:layout_below="@+id/tutor_mail_icon"
-          android:layout_marginTop="30dp"
+          android:layout_marginTop="20dp"
           android:src="@drawable/student_password_on"
           />
 
@@ -539,35 +539,81 @@
           style="@style/register_edit_text"
           />
 
+      <LinearLayout
+          android:id="@+id/tutor_separator"
+          android:layout_width="600dp"
+          android:layout_height="60dp"
+          android:layout_below="@+id/tutor_password_icon"
+          android:layout_centerHorizontal="true"
+          android:paddingLeft="50dp"
+          android:paddingRight="50dp"
+          >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_gravity="center_vertical"
+            android:background="#c6dee4"
+            android:layout_weight="0.5"
+            android:layout_marginRight="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="○"
+            android:textStyle="bold"
+            android:textColor="#c6dee4"
+            android:textSize="20sp"
+            />
+
+        <View
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_gravity="center_vertical"
+            android:background="#c6dee4"
+            android:layout_weight="0.5"
+            />
+
+      </LinearLayout>
+
 
       <com.mobile.android.smartick.cutomviews.LeftImageButton
           android:id="@+id/tutor_singing_fb"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/tutor_password_icon"
+          android:layout_width="400dp"
+          android:layout_height="80dp"
+          android:layout_below="@+id/tutor_separator"
           android:layout_centerHorizontal="true"
           android:layout_gravity="center"
-          android:layout_marginTop="30dp"
+          android:background="@drawable/fb_button_selector"
           android:clickable="true"
           android:onClick="goNext"
+          android:paddingLeft="20dp"
           android:src="@drawable/register_panel"
-          android:textSize="32sp"
+          android:textColor="@color/white"
+          android:textSize="28sp"
+          custom:image="@drawable/fb_logo"
           custom:label="Entrar con Facebook"
           />
 
       <com.mobile.android.smartick.cutomviews.LeftImageButton
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="400dp"
+          android:layout_height="80dp"
           android:layout_below="@+id/tutor_singing_fb"
           android:layout_centerHorizontal="true"
           android:layout_gravity="center"
           android:layout_marginRight="10dp"
           android:layout_marginTop="20dp"
+          android:background="@drawable/google_button_selector"
           android:clickable="true"
           android:onClick="goNext"
+          android:paddingLeft="20dp"
           android:text="@string/Tutor_info"
-          android:textColor="@color/BlueColor"
-          android:textSize="32sp"
+          android:textColor="@color/white"
+          android:textSize="28sp"
+          custom:image="@drawable/google_logo"
           custom:label="Entrar con Google"
           />
 
@@ -773,6 +819,7 @@
         android:id="@+id/register_page9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -812,9 +859,9 @@
       <TextView
           android:id="@+id/confirm_tutor_mail"
           android:layout_below="@+id/tutor_confirm_title"
+          android:layout_marginTop="30dp"
           android:layout_toRightOf="@+id/confirm_tutor_icon"
           android:gravity="left"
-          android:layout_marginTop="30dp"
           android:text="test"
           style="@style/register_confirm_text"
           />
