@@ -390,7 +390,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   }
 
   public void setUpDebugData() {
-    studentAliasEditText.setText("testAndroid2");
+    studentAliasEditText.setText("testAndroid3");
     studentPasswordEditText.setText("Sm1rt3cK");
     studentNameEditText.setText("testAndroid1");
 //    studentLastNameEditText.setText("testAndroid1");
