@@ -1,6 +1,7 @@
 package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -235,7 +237,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 //        });
 
     //DEBUG
-    setUpDebugData();
+//    setUpDebugData();
   }
 
 //    @Override
@@ -318,8 +320,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           studentPasswordEditText.requestFocus();
         }
 
-        //default
-//        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
         break;
       case 1:
         if (isValidName(studentNameEditText.getText().toString())) {
@@ -327,13 +327,14 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           scrollToNextPage();
         } else {
           studentNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
-//          showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
         }
         break;
       case 2:
       case 3:
         updateStudentConfirmData();
         scrollToNextPage();
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         break;
       case 4:
         //user and password ok
@@ -360,15 +361,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           validateTutorMail(tutorMailEditText.getText().toString().trim());
         }
 
-//        if (!tutorMailValid && !passwordTutorValid) {
-//          tutorMailEditText.setError(getText(R.string.Invalid_mail_address));
-//          break;
-//        }
-
-        //default
-//        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
         break;
-
       case 5:
         if (isValidName(tutorNameEditText.getText().toString()) && isValidName(tutorLastNameEditText.getText().toString())) {
           updateTutorConfirmData();
@@ -380,7 +373,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           if (!isValidName(tutorLastNameEditText.getText().toString()))
             tutorLastNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
 
-//          showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
         }
         break;
       case 6:
@@ -389,7 +381,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           scrollToNextPage();
         } else {
           tutorPhoneEditText.setError(getText(R.string.Invalid_phone_number));
-//          showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Invalid_phone_number).toString(), null, null, null, null);
         }
         break;
       default:
@@ -637,7 +628,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       }
     } else {
       studentAliasEditText.setError(getText(R.string.Invalid_username).toString());
-//      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Invalid_username).toString(), null, null, null, null);
     }
 
     return false;
@@ -656,7 +646,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       }
     } else {
       tutorMailEditText.setError(getText(R.string.Invalid_mail_address).toString());
-//      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Invalid_mail_address).toString(), null, null, null, null);
     }
 
     return false;
@@ -738,14 +727,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
                 validationStudentPending = false;
                 studentAliasEditText.setError(getString(R.string.Invalid_username));
                 studentAliasEditText.requestFocus();
-//                showAlertDialog(getString(R.string.Invalid_username), SweetAlertDialog.WARNING_TYPE, null, null, null, null, null);
               }
               if (type.equals(UserType.TUTOR)) {
                 tutorMailValid = false;
                 validationTutorPending = false;
                 tutorMailEditText.setError(getString(R.string.Invalid_username));
                 tutorMailEditText.requestFocus();
-//                showAlertDialog(getString(R.string.Invalid_username), SweetAlertDialog.WARNING_TYPE, null, null, null, null, null);
               }
             }
           }
