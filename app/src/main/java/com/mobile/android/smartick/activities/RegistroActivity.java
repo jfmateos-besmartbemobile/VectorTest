@@ -235,7 +235,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 //        });
 
     //DEBUG
-//        setUpDebugData();
+        setUpDebugData();
   }
 
 //    @Override
