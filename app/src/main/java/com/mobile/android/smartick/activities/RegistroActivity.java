@@ -330,11 +330,11 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         }
         break;
       case 2:
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
       case 3:
         updateStudentConfirmData();
         scrollToNextPage();
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         break;
       case 4:
         //user and password ok

@@ -595,7 +595,7 @@
           android:textColor="@color/white"
           android:textSize="28sp"
           custom:image="@drawable/fb_logo"
-          custom:label="Entrar con Facebook"
+          custom:label="@string/login_with_fb"
           />
 
       <com.mobile.android.smartick.cutomviews.LeftImageButton
@@ -614,7 +614,7 @@
           android:textColor="@color/white"
           android:textSize="28sp"
           custom:image="@drawable/google_logo"
-          custom:label="Entrar con Google"
+          custom:label="@string/login_with_google"
           />
 
       <Button
