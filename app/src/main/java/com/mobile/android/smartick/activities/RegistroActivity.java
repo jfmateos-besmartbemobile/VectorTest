@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.RegisterScrollView;
@@ -894,6 +895,14 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         Log.d(Constants.REGISTER_LOG_TAG, "eMMa conversion tracking failed - " + e.toString());
       }
     }
+  }
+
+  public void loginFb(View view) {
+    Toast.makeText(this, "Login with FB WIP", Toast.LENGTH_SHORT).show();
+  }
+
+  public void loginGoogle(View view) {
+    Toast.makeText(this, "Login with Google WIP", Toast.LENGTH_SHORT).show();
   }
 
   private class AsyncTrackConversion extends AsyncTask<String, Integer, String> {

@@ -173,7 +173,6 @@
           android:layout_width="150dp"
           android:layout_height="150dp"
           android:layout_alignTop="@id/icon_boy"
-          android:layout_centerVertical="true"
           android:layout_marginRight="110dp"
           android:layout_toLeftOf="@+id/b_gonext1"
           android:background="@drawable/sex_selector_background"
@@ -244,7 +243,7 @@
         android:id="@+id/register_page4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
       <ImageView
@@ -327,6 +326,7 @@
           android:layout_alignStart="@+id/register_panel4"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
+          android:layout_marginTop="10dp"
           android:background="@drawable/registro_back_selector"
           android:clickable="true"
           android:onClick="goBack"
@@ -339,6 +339,7 @@
           android:layout_alignRight="@+id/register_panel4"
           android:layout_gravity="center"
           android:layout_marginRight="10dp"
+          android:layout_marginTop="10dp"
           android:background="@drawable/registro_forward_green_selector"
           android:clickable="true"
           android:onClick="goNext"
@@ -553,9 +554,9 @@
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_gravity="center_vertical"
-            android:background="#c6dee4"
-            android:layout_weight="0.5"
             android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:background="#c6dee4"
             />
 
         <TextView
@@ -563,18 +564,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="○"
-            android:textStyle="bold"
             android:textColor="#c6dee4"
             android:textSize="20sp"
+            android:textStyle="bold"
             />
 
         <View
-            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:layout_gravity="center_vertical"
-            android:background="#c6dee4"
+            android:layout_marginLeft="20dp"
             android:layout_weight="0.5"
+            android:background="#c6dee4"
             />
 
       </LinearLayout>
@@ -589,7 +590,7 @@
           android:layout_gravity="center"
           android:background="@drawable/fb_button_selector"
           android:clickable="true"
-          android:onClick="goNext"
+          android:onClick="loginFb"
           android:paddingLeft="20dp"
           android:src="@drawable/register_panel"
           android:textColor="@color/white"
@@ -608,7 +609,7 @@
           android:layout_marginTop="20dp"
           android:background="@drawable/google_button_selector"
           android:clickable="true"
-          android:onClick="goNext"
+          android:onClick="loginGoogle"
           android:paddingLeft="20dp"
           android:text="@string/Tutor_info"
           android:textColor="@color/white"
