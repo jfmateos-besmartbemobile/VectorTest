@@ -45,6 +45,7 @@ import com.facebook.login.LoginResult;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.LanguageSelectorDialog;
 import com.mobile.android.smartick.UI.LanguageSelectorInterface;
+import com.mobile.android.smartick.cutomviews.LeftImageButton;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
 import com.mobile.android.smartick.network.LoginStatusResponse;
@@ -101,8 +102,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   private EditText rememberPasswordStudentUsername;
   private EditText rememberPasswordTutorMail;
 
-  private Button loginStudentFlipButton;
-  private Button loginTutorFlipButton;
+  private LeftImageButton loginStudentFlipButton;
+  private LeftImageButton loginTutorFlipButton;
 
   private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -179,15 +180,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     //sets activity layout
     setContentView(R.layout.activity_login);
 
-    //FB Login
-    Button loginButton = (Button) findViewById(R.id.fb_login_button);
-    loginButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        facebookLoginButtonPressed();
-      }
-    });
-
     // If the access token is available already assign it.
     accessToken = AccessToken.getCurrentAccessToken();
 
@@ -209,14 +201,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     mGoogleApiClient = new GoogleApiClient.Builder(this)
         .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
         .build();
-
-    Button signInButton = (Button) findViewById(R.id.google_sign_in);
-    signInButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        googleSignIn();
-      }
-    });
 
     // Inicializamos systemInfo
     sysInfo = new SystemInfo(this.getApplicationContext());
@@ -251,12 +235,12 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     ((Button) findViewById(R.id.login_tutor_button)).setTypeface(tfDidact);
     ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
     ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
-    ((TextView) findViewById(R.id.login_student_flip_button_label)).setTypeface(tfDidact);
-    ((TextView) findViewById(R.id.login_tutor_flip_button_label)).setTypeface(tfDidact);
+//    ((TextView) findViewById(R.id.login_student_flip_button_label)).setTypeface(tfDidact);
+//    ((TextView) findViewById(R.id.login_tutor_flip_button_label)).setTypeface(tfDidact);
 
     //Flip Buttons setuo
-    loginStudentFlipButton = (Button) findViewById(R.id.login_student_flip_button);
-    loginTutorFlipButton = (Button) findViewById(R.id.login_tutor_flip_button);
+    loginStudentFlipButton = (LeftImageButton) findViewById(R.id.login_student_flip_button);
+    loginTutorFlipButton = (LeftImageButton) findViewById(R.id.login_tutor_flip_button);
 
     //loads users into their respective listView
     //STUDENTS

@@ -37,7 +37,7 @@
       android:layout_height="wrap_content"
       android:layout_alignLeft="@+id/login_button_back"
       android:layout_alignStart="@+id/login_button_back"
-      android:layout_alignTop="@+id/fb_login_button"
+      android:layout_alignBottom="@+id/main_activity_root"
       android:gravity="center"
       android:text="@string/set_language"
       android:textColor="@color/WhiteColor"
@@ -78,43 +78,26 @@
         tools:visibility="gone"
         >
 
-      <RelativeLayout
+
+      <com.mobile.android.smartick.cutomviews.LeftImageButton
+          android:id="@+id/login_tutor_flip_button"
           android:layout_width="295dp"
           android:layout_height="90dp"
           android:layout_alignParentEnd="true"
           android:layout_alignParentRight="true"
           android:layout_alignParentTop="true"
           android:layout_marginRight="3dp"
-          >
-
-        <Button
-            android:id="@+id/login_tutor_flip_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="3dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/login_card_bg_tab"
-            android:clickable="true"
-            android:onClick="mostrarLoginAlumno"
-            />
-
-        <ImageView
-            android:id="@+id/login_tutor_flip_button_icon"
-            android:src="@drawable/login_student_icon"
-            style="@style/login_secondary_tab_icon"
-            />
-
-        <TextView
-            android:id="@+id/login_tutor_flip_button_label"
-            android:layout_toRightOf="@+id/login_tutor_flip_button_icon"
-            android:text="@string/Students"
-            style="@style/login_secondary_tab_label"
-            />
-
-      </RelativeLayout>
+          android:background="@drawable/login_card_bg_tab"
+          custom:image="@drawable/login_student_icon"
+          custom:label="@string/Students"
+          android:textSize="40sp"
+          android:textColor="#FFF"
+          custom:imageHeight="80dp"
+          custom:imageWidth="60dp"
+          android:paddingLeft="10dp"
+          android:clickable="true"
+          android:onClick="mostrarLoginAlumno"
+          />
 
       <RelativeLayout
           android:id="@+id/login_panel_tutores"
@@ -184,42 +167,26 @@
         tools:visibility="visible"
         >
 
-      <RelativeLayout
+
+      <com.mobile.android.smartick.cutomviews.LeftImageButton
+          android:id="@+id/login_student_flip_button"
           android:layout_width="295dp"
           android:layout_height="90dp"
           android:layout_alignParentEnd="true"
           android:layout_alignParentRight="true"
           android:layout_alignParentTop="true"
           android:layout_marginRight="3dp"
-          >
-        <Button
-            android:id="@+id/login_student_flip_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="3dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/login_card_bg_tab"
-            android:clickable="true"
-            android:onClick="mostrarLoginTutor"
-            />
-
-        <ImageView
-            android:id="@+id/login_student_flip_button_icon"
-            android:src="@drawable/login_tutor_icon"
-            style="@style/login_secondary_tab_icon"
-            />
-
-        <TextView
-            android:id="@+id/login_student_flip_button_label"
-            android:layout_toRightOf="@+id/login_student_flip_button_icon"
-            android:text="@string/Tutors"
-            style="@style/login_secondary_tab_label"
-            />
-
-      </RelativeLayout>
+          android:background="@drawable/login_card_bg_tab"
+          custom:image="@drawable/login_tutor_icon"
+          custom:label="@string/Tutors"
+          android:textSize="40sp"
+          android:textColor="#FFF"
+          custom:imageHeight="80dp"
+          custom:imageWidth="60dp"
+          android:paddingLeft="10dp"
+          android:clickable="true"
+          android:onClick="mostrarLoginTutor"
+          />
 
       <RelativeLayout
           android:id="@+id/login_panel_alumnos"
@@ -315,29 +282,6 @@
     </RelativeLayout>
 
   </RelativeLayout>
-
-  <Button
-      android:id="@+id/fb_login_button"
-      android:layout_width="60dp"
-      android:layout_height="60dp"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentRight="true"
-      android:layout_marginBottom="50dp"
-      android:layout_marginRight="50dp"
-      android:background="@drawable/fb_logo"
-      android:gravity="center_horizontal"
-      android:text=""
-      />
-  <Button
-      android:id="@+id/google_sign_in"
-      android:layout_width="60dp"
-      android:layout_height="60dp"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentRight="true"
-      android:layout_marginBottom="120dp"
-      android:layout_marginRight="50dp"
-      android:background="@drawable/google_logo"
-      />
 
   <include
       layout="@layout/panel_login_alumno"

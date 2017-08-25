@@ -30,9 +30,12 @@
 
     <declare-styleable name="LeftImageButton">
         <attr name="image" format="integer" />
+        <attr name="imageWidth" format="dimension" />
+        <attr name="imageHeight" format="dimension" />
         <attr name="label" format="string" />
         <attr name="android:textColor" />
         <attr name="android:textSize" />
+        <attr name="android:scaleType" />
     </declare-styleable>
 
 </resources>

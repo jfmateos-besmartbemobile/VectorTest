@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,9 @@ public class LeftImageButton extends LinearLayout {
     String label = a.getString(R.styleable.LeftImageButton_label);
     int valueColor = a.getColor(R.styleable.LeftImageButton_android_textColor, getResources().getColor(R.color.BlueColor));
     Float textSize = a.getDimension(R.styleable.LeftImageButton_android_textSize, 30);
+    int scaleTypeIndex = a.getInt(R.styleable.LeftImageButton_android_scaleType, -1);
+    Float imageHeight = a.getDimension(R.styleable.LeftImageButton_imageHeight, 0);
+    Float imageWidth = a.getDimension(R.styleable.LeftImageButton_imageWidth, 0);
     a.recycle();
 
     setOrientation(LinearLayout.HORIZONTAL);
@@ -45,6 +49,18 @@ public class LeftImageButton extends LinearLayout {
     tvLabel.setTextColor(valueColor);
     tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 
+    if (imageHeight > 0 && imageWidth > 0) {
+      ViewGroup.LayoutParams layoutParams = icon.getLayoutParams();
+      layoutParams.width = Math.round(imageWidth);
+      layoutParams.height = Math.round(imageHeight);
+      icon.setLayoutParams(layoutParams);
+    }
+
+    if (scaleTypeIndex > -1) {
+      ImageView.ScaleType[] types = ImageView.ScaleType.values();
+      ImageView.ScaleType scaleType = types[scaleTypeIndex];
+      icon.setScaleType(scaleType);
+    }
     icon.setImageDrawable(drawableImage);
 
   }
