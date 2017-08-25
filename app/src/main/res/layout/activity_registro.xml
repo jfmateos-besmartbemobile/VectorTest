@@ -72,8 +72,8 @@
 
       <ImageView
           android:id="@+id/student_username_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_below="@+id/student_credentials_title"
           android:layout_marginLeft="54dp"
           android:layout_marginTop="34dp"
@@ -84,8 +84,8 @@
 
       <ImageView
           android:id="@+id/student_password_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_alignLeft="@+id/student_username_icon"
           android:layout_alignStart="@+id/student_username_icon"
           android:layout_below="@+id/student_username_icon"
@@ -243,7 +243,7 @@
         android:id="@+id/register_page4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:visibility="visible"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -501,24 +501,24 @@
 
       <ImageView
           android:id="@+id/tutor_mail_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_below="@+id/tutor_credentials_title"
           android:layout_marginLeft="54dp"
           android:layout_marginTop="20dp"
           android:layout_toRightOf="@+id/b_goback6"
-          android:src="@drawable/tutor_mail_on"
+          android:src="@drawable/tutor_mail_selector"
           />
 
       <ImageView
           android:id="@+id/tutor_password_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_alignLeft="@+id/tutor_mail_icon"
           android:layout_alignStart="@+id/tutor_mail_icon"
           android:layout_below="@+id/tutor_mail_icon"
           android:layout_marginTop="20dp"
-          android:src="@drawable/student_password_on"
+          android:src="@drawable/student_password_selector"
           />
 
       <EditText

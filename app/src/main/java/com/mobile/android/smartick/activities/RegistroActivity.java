@@ -208,6 +208,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //sets up text watchers
     setUpTextWatchers();
+    setUpOnFocusListeners();
 
     //gets window width and adapts width of every page
     Display display = getWindowManager().getDefaultDisplay();
@@ -331,7 +332,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         }
         break;
       case 2:
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
       case 3:
         updateStudentConfirmData();
@@ -574,6 +575,36 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     confirmTutorPhone.setTypeface(dGothic);
   }
 
+  private void setUpOnFocusListeners() {
+    studentAliasEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        studentUsernameIcon.setSelected(hasFocus);
+      }
+    });
+
+    studentPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        studentPasswordIcon.setSelected(hasFocus);
+      }
+    });
+
+    tutorMailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorMailIcon.setSelected(hasFocus);
+      }
+    });
+
+    tutorPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorPasswordIcon.setSelected(hasFocus);
+      }
+    });
+  }
+
   //validation
   public void setUpTextWatchers() {
 
@@ -616,7 +647,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   }
 
   public boolean validateStudentUsername(String username) {
-
 
     if (username.length() >= Constants.USERNAME_MIN_LENGTH) {
       if (!studentUsernameValid) {
