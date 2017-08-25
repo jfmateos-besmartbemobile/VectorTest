@@ -358,6 +358,8 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentNameEditText.clearFocus();
     tutorMailEditText.clearFocus();
     tutorPasswordEditText.clearFocus();
+    tutorNameEditText.clearFocus();
+    tutorLastNameEditText.clearFocus();
     tutorPhoneEditText.clearFocus();
   }
 
@@ -827,7 +829,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
     return false;
   }
-  
+
   public void loginFb(View view) {
     Toast.makeText(this, "Login with FB WIP", Toast.LENGTH_SHORT).show();
   }
