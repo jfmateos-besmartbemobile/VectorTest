@@ -158,5 +158,7 @@
     <string name="RememberFailTutor">Incorrect email. Please provide a valid one.</string>
   <string name="Choose_alias">Choose an alias</string>
     <string name="Choose_password">Choose a password</string>
+  <string name="login_with_fb">Login with Facebook</string>
+  <string name="login_with_google">Login with Google</string>
 
 </resources>

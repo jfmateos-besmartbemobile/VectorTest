@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <com.mobile.android.smartick.UI.RegisterScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register_horizontalScroll"
     android:layout_width="match_parent"
@@ -16,17 +17,17 @@
   <LinearLayout
       android:id="@+id/register_horizontalScroll_linear"
       android:layout_width="900dp"
-      android:layout_height="450dp"
+      android:layout_height="match_parent"
       android:layout_alignParentRight="true"
       android:fillViewport="true"
       android:orientation="horizontal"
+      android:paddingTop="50dp"
       >
 
     <RelativeLayout
         android:id="@+id/register_page1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         tools:visibility="gone"
         >
 
@@ -71,8 +72,8 @@
 
       <ImageView
           android:id="@+id/student_username_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_below="@+id/student_credentials_title"
           android:layout_marginLeft="54dp"
           android:layout_marginTop="34dp"
@@ -83,8 +84,8 @@
 
       <ImageView
           android:id="@+id/student_password_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_alignLeft="@+id/student_username_icon"
           android:layout_alignStart="@+id/student_username_icon"
           android:layout_below="@+id/student_username_icon"
@@ -130,9 +131,8 @@
 
     <RelativeLayout
         android:id="@+id/register_page2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:visibility="gone"
         >
 
@@ -146,44 +146,68 @@
           android:src="@drawable/register_panel"
           />
 
-      <TextView
-          android:id="@+id/student_info_title"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignTop="@+id/register_panel2"
-          android:layout_centerHorizontal="true"
-          android:layout_marginTop="20dp"
-          android:text="@string/Students_Data"
-          android:textColor="@color/BlueColor"
-          android:textSize="32dp"
-          />
-
-      <ImageView
-          android:id="@+id/student_info_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerVertical="true"
-          android:layout_marginLeft="40dp"
-          android:layout_marginRight="16dp"
-          android:layout_toRightOf="@+id/b_goback1"
-          android:src="@drawable/student_info_icon"
-          />
-
       <EditText
           android:id="@+id/student_name_edittext"
-          android:layout_alignTop="@+id/student_info_icon"
-          android:layout_toRightOf="@+id/student_info_icon"
+          android:layout_alignTop="@+id/register_panel2"
+          android:layout_centerHorizontal="true"
+          android:layout_marginBottom="20dp"
+          android:layout_marginTop="40dp"
           android:hint="@string/Name"
           style="@style/register_edit_text"
           />
 
-      <EditText
-          android:id="@+id/student_lastname_edittext"
-          android:layout_alignBottom="@+id/student_info_icon"
-          android:layout_toRightOf="@+id/student_info_icon"
-          android:hint="@string/Last_name"
-          style="@style/register_edit_text"
+      <ImageView
+          android:id="@+id/icon_boy"
+          android:layout_width="150dp"
+          android:layout_height="150dp"
+          android:layout_below="@+id/student_name_edittext"
+          android:layout_marginLeft="110dp"
+          android:layout_toRightOf="@+id/b_goback1"
+          android:background="@drawable/sex_selector_background"
+          android:onClick="selectSex"
+          android:src="@drawable/boy_avatar"
           />
+
+      <ImageView
+          android:id="@+id/icon_girl"
+          android:layout_width="150dp"
+          android:layout_height="150dp"
+          android:layout_alignTop="@id/icon_boy"
+          android:layout_marginRight="110dp"
+          android:layout_toLeftOf="@+id/b_gonext1"
+          android:background="@drawable/sex_selector_background"
+          android:onClick="selectSex"
+          android:src="@drawable/girl_avatar"
+          />
+
+      <TextView
+          android:id="@+id/text_boy"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/icon_boy"
+          android:layout_alignStart="@+id/icon_boy"
+          android:layout_below="@+id/icon_boy"
+          android:layout_marginTop="3dp"
+          android:gravity="center"
+          android:text="@string/Boy"
+          android:textColor="@color/BlueColor"
+          android:textSize="30sp"
+          />
+
+      <TextView
+          android:id="@+id/text_girl"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/icon_girl"
+          android:layout_alignStart="@+id/icon_girl"
+          android:layout_below="@+id/icon_girl"
+          android:layout_marginTop="3dp"
+          android:gravity="center"
+          android:text="@string/Girl"
+          android:textColor="@color/BlueColor"
+          android:textSize="30sp"
+          />
+
 
       <Button
           android:id="@+id/b_goback1"
@@ -200,6 +224,7 @@
           />
 
       <Button
+          android:id="@+id/b_gonext1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignEnd="@+id/register_panel2"
@@ -215,124 +240,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/register_page3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        tools:visibility="gone"
-        >
-
-      <ImageView
-          android:id="@+id/register_panel3"
-          android:layout_width="880dp"
-          android:layout_height="wrap_content"
-          android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:src="@drawable/register_panel"
-          />
-
-      <TextView
-          android:id="@+id/student_sex_title"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignTop="@+id/register_panel3"
-          android:layout_centerHorizontal="true"
-          android:layout_marginBottom="10dp"
-          android:layout_marginTop="20dp"
-          android:text="@string/Students_Data"
-          android:textColor="@color/BlueColor"
-          android:textSize="32sp"
-          />
-
-      <ImageView
-          android:id="@+id/icon_boy"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_below="@+id/student_sex_title"
-          android:layout_marginLeft="50dp"
-          android:layout_toRightOf="@+id/b_goback2"
-          android:background="@drawable/sex_selector_background"
-          android:onClick="selectSex"
-          android:src="@drawable/boy_avatar"
-          />
-
-      <ImageView
-          android:id="@+id/icon_girl"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_alignTop="@id/icon_boy"
-          android:layout_centerVertical="true"
-          android:layout_marginRight="50dp"
-          android:layout_toLeftOf="@+id/b_gonext2"
-          android:background="@drawable/sex_selector_background"
-          android:onClick="selectSex"
-          android:src="@drawable/girl_avatar"
-          />
-
-      <TextView
-          android:id="@+id/text_boy"
-          android:layout_width="200dp"
-          android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/icon_boy"
-          android:layout_alignStart="@+id/icon_boy"
-          android:layout_below="@+id/icon_boy"
-          android:layout_marginTop="3dp"
-          android:gravity="center"
-          android:text="@string/Boy"
-          android:textColor="@color/BlueColor"
-          android:textSize="30sp"
-          />
-
-      <TextView
-          android:id="@+id/text_girl"
-          android:layout_width="200dp"
-          android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/icon_girl"
-          android:layout_alignStart="@+id/icon_girl"
-          android:layout_below="@+id/icon_girl"
-          android:layout_marginTop="3dp"
-          android:gravity="center"
-          android:text="@string/Girl"
-          android:textColor="@color/BlueColor"
-          android:textSize="30sp"
-          />
-
-      <Button
-          android:id="@+id/b_goback2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignLeft="@+id/register_panel3"
-          android:layout_alignStart="@+id/register_panel3"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginLeft="10dp"
-          android:background="@drawable/registro_back_selector"
-          android:clickable="true"
-          android:onClick="goBack"
-          />
-
-      <Button
-          android:id="@+id/b_gonext2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignEnd="@+id/register_panel3"
-          android:layout_alignRight="@+id/register_panel3"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
-          android:layout_marginRight="10dp"
-          android:background="@drawable/registro_forward_green_selector"
-          android:clickable="true"
-          android:onClick="goNext"
-          />
-
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/register_page4"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:visibility="gone"
         >
 
@@ -341,7 +251,6 @@
           android:layout_width="880dp"
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:src="@drawable/register_panel"
           />
@@ -415,9 +324,9 @@
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel4"
           android:layout_alignStart="@+id/register_panel4"
-          android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
+          android:layout_marginTop="10dp"
           android:background="@drawable/registro_back_selector"
           android:clickable="true"
           android:onClick="goBack"
@@ -428,9 +337,9 @@
           android:layout_height="wrap_content"
           android:layout_alignEnd="@+id/register_panel4"
           android:layout_alignRight="@+id/register_panel4"
-          android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginRight="10dp"
+          android:layout_marginTop="10dp"
           android:background="@drawable/registro_forward_green_selector"
           android:clickable="true"
           android:onClick="goNext"
@@ -440,10 +349,9 @@
 
     <RelativeLayout
         android:id="@+id/register_page5"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        tools:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -563,19 +471,19 @@
 
     <RelativeLayout
         android:id="@+id/register_page6"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        tools:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="visible"
         >
 
       <ImageView
           android:id="@+id/register_panel6"
           android:layout_width="880dp"
-          android:layout_height="wrap_content"
+          android:layout_height="560dp"
           android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
           android:layout_gravity="center"
+          android:cropToPadding="true"
+          android:scaleType="fitXY"
           android:src="@drawable/register_panel"
           />
 
@@ -593,24 +501,24 @@
 
       <ImageView
           android:id="@+id/tutor_mail_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_below="@+id/tutor_credentials_title"
           android:layout_marginLeft="54dp"
-          android:layout_marginTop="24dp"
+          android:layout_marginTop="20dp"
           android:layout_toRightOf="@+id/b_goback6"
-          android:src="@drawable/tutor_mail_on"
+          android:src="@drawable/tutor_mail_selector"
           />
 
       <ImageView
           android:id="@+id/tutor_password_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
           android:layout_alignLeft="@+id/tutor_mail_icon"
           android:layout_alignStart="@+id/tutor_mail_icon"
           android:layout_below="@+id/tutor_mail_icon"
-          android:layout_marginTop="30dp"
-          android:src="@drawable/student_password_on"
+          android:layout_marginTop="20dp"
+          android:src="@drawable/student_password_selector"
           />
 
       <EditText
@@ -632,15 +540,94 @@
           style="@style/register_edit_text"
           />
 
+      <LinearLayout
+          android:id="@+id/tutor_separator"
+          android:layout_width="600dp"
+          android:layout_height="60dp"
+          android:layout_below="@+id/tutor_password_icon"
+          android:layout_centerHorizontal="true"
+          android:paddingLeft="50dp"
+          android:paddingRight="50dp"
+          >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:background="#c6dee4"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="○"
+            android:textColor="#c6dee4"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="0.5"
+            android:background="#c6dee4"
+            />
+
+      </LinearLayout>
+
+
+      <com.mobile.android.smartick.cutomviews.LeftImageButton
+          android:id="@+id/tutor_singing_fb"
+          android:layout_width="400dp"
+          android:layout_height="80dp"
+          android:layout_below="@+id/tutor_separator"
+          android:layout_centerHorizontal="true"
+          android:layout_gravity="center"
+          android:background="@drawable/fb_button_selector"
+          android:clickable="true"
+          android:onClick="loginFb"
+          android:paddingLeft="20dp"
+          android:src="@drawable/register_panel"
+          android:textColor="@color/white"
+          android:textSize="28sp"
+          custom:image="@drawable/fb_logo"
+          custom:label="@string/login_with_fb"
+          />
+
+      <com.mobile.android.smartick.cutomviews.LeftImageButton
+          android:layout_width="400dp"
+          android:layout_height="80dp"
+          android:layout_below="@+id/tutor_singing_fb"
+          android:layout_centerHorizontal="true"
+          android:layout_gravity="center"
+          android:layout_marginRight="10dp"
+          android:layout_marginTop="20dp"
+          android:background="@drawable/google_button_selector"
+          android:clickable="true"
+          android:onClick="loginGoogle"
+          android:paddingLeft="20dp"
+          android:text="@string/Tutor_info"
+          android:textColor="@color/white"
+          android:textSize="28sp"
+          custom:image="@drawable/google_logo"
+          custom:label="@string/login_with_google"
+          />
+
       <Button
           android:id="@+id/b_goback6"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="530dp"
           android:layout_alignLeft="@+id/register_panel6"
           android:layout_alignStart="@+id/register_panel6"
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
+          android:layout_marginTop="15dp"
           android:background="@drawable/registro_back_selector"
           android:clickable="true"
           android:onClick="goBack"
@@ -648,12 +635,12 @@
 
       <Button
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="530dp"
           android:layout_alignEnd="@+id/register_panel6"
           android:layout_alignRight="@+id/register_panel6"
-          android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginRight="10dp"
+          android:layout_marginTop="15dp"
           android:background="@drawable/registro_forward_green_selector"
           android:clickable="true"
           android:onClick="goNext"
@@ -663,9 +650,8 @@
 
     <RelativeLayout
         android:id="@+id/register_page7"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:visibility="gone"
         >
 
@@ -674,8 +660,6 @@
           android:layout_width="880dp"
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
           android:src="@drawable/register_panel"
           />
 
@@ -703,7 +687,8 @@
 
       <EditText
           android:id="@+id/tutor_name_edittext"
-          android:layout_alignTop="@+id/tutor_info_icon"
+          android:layout_below="@+id/tutor_info_title"
+          android:layout_marginTop="25dp"
           android:layout_toEndOf="@+id/tutor_info_icon"
           android:layout_toRightOf="@+id/tutor_info_icon"
           android:hint="@string/Name"
@@ -712,7 +697,8 @@
 
       <EditText
           android:id="@+id/tutor_lastname_edittext"
-          android:layout_alignBottom="@+id/tutor_info_icon"
+          android:layout_below="@id/tutor_name_edittext"
+          android:layout_marginTop="20dp"
           android:layout_toEndOf="@+id/tutor_info_icon"
           android:layout_toRightOf="@+id/tutor_info_icon"
           android:hint="@string/Last_name"
@@ -750,9 +736,8 @@
 
     <RelativeLayout
         android:id="@+id/register_page8"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:visibility="gone"
         >
 
@@ -761,8 +746,6 @@
           android:layout_width="880dp"
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
-          android:layout_gravity="center"
           android:src="@drawable/register_panel"
           />
 
@@ -791,6 +774,7 @@
       <EditText
           android:id="@+id/tutor_phone_edittext"
           android:layout_alignTop="@+id/tutor_phone_icon"
+          android:layout_centerVertical="true"
           android:layout_marginEnd="91dp"
           android:layout_marginRight="91dp"
           android:layout_toRightOf="@id/tutor_phone_icon"
@@ -800,16 +784,15 @@
           style="@style/register_edit_text"
           />
 
-
       <Button
           android:id="@+id/b_goback8"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignLeft="@+id/register_panel8"
           android:layout_alignStart="@+id/register_panel8"
-          android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginLeft="10dp"
+          android:layout_marginTop="10dp"
           android:background="@drawable/registro_back_selector"
           android:clickable="true"
           android:onClick="goBack"
@@ -824,6 +807,8 @@
           android:layout_centerVertical="true"
           android:layout_gravity="center"
           android:layout_marginRight="10dp"
+          android:layout_marginTop="10dp"
+
           android:background="@drawable/registro_forward_green_selector"
           android:clickable="true"
           android:onClick="goNext"
@@ -833,9 +818,9 @@
 
     <RelativeLayout
         android:id="@+id/register_page9"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="gone"
         >
 
       <ImageView
@@ -874,8 +859,8 @@
 
       <TextView
           android:id="@+id/confirm_tutor_mail"
-          android:layout_alignTop="@+id/confirm_tutor_icon"
           android:layout_below="@+id/tutor_confirm_title"
+          android:layout_marginTop="30dp"
           android:layout_toRightOf="@+id/confirm_tutor_icon"
           android:gravity="left"
           android:text="test"

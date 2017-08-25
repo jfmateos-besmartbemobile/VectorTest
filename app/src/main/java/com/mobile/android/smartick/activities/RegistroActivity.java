@@ -1,6 +1,7 @@
 package com.mobile.android.smartick.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.RegisterScrollView;
@@ -76,7 +79,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   private String studentUsername;
   private String studentPassword;
   private String studentName;
-  private String studentLastName;
   private int studentBirthDay;
   private int studentBirthMonth;
   private int studentBirthYear;
@@ -95,12 +97,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   private ImageView studentPasswordIcon;
   private EditText studentAliasEditText;
   private EditText studentPasswordEditText;
-  private TextView titleStudentInfo;
+  //  private TextView titleStudentInfo;
   private EditText studentNameEditText;
-  private EditText studentLastNameEditText;
+  //  private EditText studentLastNameEditText;
   private TextView studentCanReadLabelText;
   private Switch studentCanReadSwitch;
-  private TextView titleStudentSex;
+  //  private TextView titleStudentSex;
   private TextView textBoy, textGirl;
   private ImageView iconBoy;
   private ImageView iconGirl;
@@ -206,6 +208,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     //sets up text watchers
     setUpTextWatchers();
+    setUpOnFocusListeners();
 
     //gets window width and adapts width of every page
     Display display = getWindowManager().getDefaultDisplay();
@@ -221,7 +224,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     scrollView1.setRegisterScrollViewListener(this);
 
     //initial focus on student alias
-
     studentAliasEditText.requestFocus();
 
 //        studentAliasEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -236,45 +238,8 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 //        });
 
     //DEBUG
-//        setUpDebugData();
+//    setUpDebugData();
   }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-//        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
-//                && keyCode == KeyEvent.KEYCODE_BACK
-//                && event.getRepeatCount() == 0) {
-//            Log.d("CDA", "onKeyDown Called");
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-//
-//    private void resetScrollViewPositiuon(){
-//        clearEditTextFocus();
-//        hideSoftKeyboard();
-//        scrollView1.setY(0);
-//    }
-
-  //Soft keyboard
-//    private void hideSoftKeyboard() {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(studentAliasEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(studentPasswordEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(studentNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(studentLastNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorMailEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorPasswordEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorLastNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorPhoneEditText.getWindowToken(), 0);
-//    }
-//
-//    public void onBackPressed() {
-//        resetScrollViewPositiuon();
-//    }
-
 
   public void goBack(View view) {
     clearEditTextFocus();
@@ -301,44 +266,41 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     //depending on which page we are on we validate its content and decide wether or not we allow the user to keep going
     switch (currentPage) {
       case 0:
+
         //user and password ok
         if (studentUsernameValid && passwordStudentValid) {
           updateStudentConfirmData();
           scrollToNextPage();
-          studentNameEditText.requestFocus();
           break;
         }
 
         //user needs validation but password is ok
-        if (!studentUsernameValid && passwordStudentValid) {
+        if (!studentUsernameValid) {
           validateStudentUsername(studentAliasEditText.getText().toString().trim());
-          break;
         }
 
-        //default
-        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
+        if (!passwordStudentValid) {
+          studentPasswordEditText.setError(getText(R.string.Incorrect_password));
+          studentPasswordEditText.requestFocus();
+        }
+
         break;
       case 1:
-        if (isValidName(studentNameEditText.getText().toString()) && isValidName(studentLastNameEditText.getText().toString())) {
+        if (isValidName(studentNameEditText.getText().toString())) {
           updateStudentConfirmData();
           scrollToNextPage();
         } else {
-          showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
+          studentNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
         }
         break;
       case 2:
-        updateStudentConfirmData();
-        scrollToNextPage();
-        break;
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
       case 3:
         updateStudentConfirmData();
         scrollToNextPage();
         break;
       case 4:
-        scrollToNextPage();
-        tutorMailEditText.requestFocus();
-        break;
-      case 5:
         //user and password ok
         if (tutorMailValid && passwordTutorValid) {
           updateTutorConfirmData();
@@ -347,32 +309,42 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           break;
         }
 
+        if (!passwordTutorValid) {
+          tutorPasswordEditText.setError(getText(R.string.Incorrect_password));
+          tutorPasswordEditText.requestFocus();
+        }
+
         //user needs validation but password is ok
         if (!tutorMailValid && passwordTutorValid) {
           validateTutorMail(tutorMailEditText.getText().toString().trim());
           break;
         }
 
-        //default
-        showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
+        //user needs validation but password is ok
+        if (!tutorMailValid) {
+          validateTutorMail(tutorMailEditText.getText().toString().trim());
+        }
+
         break;
-
-
-      case 6:
+      case 5:
         if (isValidName(tutorNameEditText.getText().toString()) && isValidName(tutorLastNameEditText.getText().toString())) {
           updateTutorConfirmData();
           scrollToNextPage();
           tutorPhoneEditText.requestFocus();
         } else {
-          showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Fill_in_the_fields_to_contiune).toString(), null, null, null, null);
+          if (!isValidName(tutorNameEditText.getText().toString()))
+            tutorNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
+          if (!isValidName(tutorLastNameEditText.getText().toString()))
+            tutorLastNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
+
         }
         break;
-      case 7:
+      case 6:
         if (isValidPhone(tutorPhoneEditText.getText().toString())) {
           updateTutorConfirmData();
           scrollToNextPage();
         } else {
-          showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Invalid_phone_number).toString(), null, null, null, null);
+          tutorPhoneEditText.setError(getText(R.string.Invalid_phone_number));
         }
         break;
       default:
@@ -384,19 +356,19 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentAliasEditText.clearFocus();
     studentPasswordEditText.clearFocus();
     studentNameEditText.clearFocus();
-    studentLastNameEditText.clearFocus();
     tutorMailEditText.clearFocus();
     tutorPasswordEditText.clearFocus();
+    tutorNameEditText.clearFocus();
+    tutorLastNameEditText.clearFocus();
     tutorPhoneEditText.clearFocus();
   }
 
   public void setUpDebugData() {
-    studentAliasEditText.setText("testAndroid2");
+    studentAliasEditText.setText("testAndroid4");
     studentPasswordEditText.setText("Sm1rt3cK");
     studentNameEditText.setText("testAndroid1");
-    studentLastNameEditText.setText("testAndroid1");
     studentSex = MALE;
-    tutorMailEditText.setText("test@Android4.es");
+    tutorMailEditText.setText("test@Android5.es");
     tutorPasswordEditText.setText("Sm1rt3cK");
     tutorNameEditText.setText("testAndroid1");
     tutorLastNameEditText.setText("testAndroid1");
@@ -451,7 +423,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentUsername = studentAliasEditText.getText().toString().trim();
     studentPassword = studentPasswordEditText.getText().toString();
     studentName = studentNameEditText.getText().toString();
-    studentLastName = studentLastNameEditText.getText().toString();
     studentCanRead = studentCanReadSwitch.isChecked();
     studentBirthDay = studentAgeDatePicker.getDayOfMonth();
     studentBirthMonth = studentAgeDatePicker.getMonth() + 1;
@@ -466,7 +437,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       confirmSexBoy.setVisibility(View.GONE);
     }
 
-    confirmStudentNameTextView.setText(studentName + " " + studentLastName);
+    confirmStudentNameTextView.setText(studentName);
     confirmStudentBirthDate.setText(studentBirthDay + "/" + studentBirthMonth + "/" + studentBirthYear);
     confirmStudentUsernameTextView.setText(studentUsername);
 
@@ -486,7 +457,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   //init
   private void adaptScrollViewPageWidth(ViewGroup parent, int width) {
 
-    int count = parent.getChildCount();
     for (int i = 0; i < parent.getChildCount(); i++) {
       View child = parent.getChildAt(i);
       LinearLayout.LayoutParams paramsLinear = (LinearLayout.LayoutParams) child.getLayoutParams();
@@ -502,12 +472,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentPasswordIcon = (ImageView) findViewById(R.id.student_password_icon);
     studentAliasEditText = (EditText) findViewById(R.id.student_alias_edittext);
     studentPasswordEditText = (EditText) findViewById(R.id.student_password_edittext);
-    titleStudentInfo = (TextView) findViewById(R.id.student_info_title);
     studentNameEditText = (EditText) findViewById(R.id.student_name_edittext);
-    studentLastNameEditText = (EditText) findViewById(R.id.student_lastname_edittext);
     studentCanReadLabelText = (TextView) findViewById(R.id.student_canread_label);
     studentCanReadSwitch = (Switch) findViewById(R.id.student_canread_switch);
-    titleStudentSex = (TextView) findViewById(R.id.student_sex_title);
     textBoy = (TextView) findViewById(R.id.text_boy);
     textGirl = (TextView) findViewById(R.id.text_girl);
     iconBoy = (ImageView) findViewById(R.id.icon_boy);
@@ -544,12 +511,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     titleStudentCred.setTypeface(dGothic);
     studentAliasEditText.setTypeface(dGothic);
     studentPasswordEditText.setTypeface(dGothic);
-    titleStudentInfo.setTypeface(dGothic);
     studentNameEditText.setTypeface(dGothic);
-    studentLastNameEditText.setTypeface(dGothic);
     studentCanReadLabelText.setTypeface(dGothic);
     studentAliasEditText.setTypeface(dGothic);
-    titleStudentSex.setTypeface(dGothic);
     textBoy.setTypeface(dGothic);
     textGirl.setTypeface(dGothic);
     titleStudentAge.setTypeface(dGothic);
@@ -563,6 +527,36 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     confirmTutorMail.setTypeface(dGothic);
     confirmTutorName.setTypeface(dGothic);
     confirmTutorPhone.setTypeface(dGothic);
+  }
+
+  private void setUpOnFocusListeners() {
+    studentAliasEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        studentUsernameIcon.setSelected(hasFocus);
+      }
+    });
+
+    studentPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        studentPasswordIcon.setSelected(hasFocus);
+      }
+    });
+
+    tutorMailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorMailIcon.setSelected(hasFocus);
+      }
+    });
+
+    tutorPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorPasswordIcon.setSelected(hasFocus);
+      }
+    });
   }
 
   //validation
@@ -608,7 +602,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
   public boolean validateStudentUsername(String username) {
 
-
     if (username.length() >= Constants.USERNAME_MIN_LENGTH) {
       if (!studentUsernameValid) {
         if (!validationTutorPending && !validationStudentPending) {
@@ -619,7 +612,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         return true;
       }
     } else {
-      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Invalid_username).toString(), null, null, null, null);
+      studentAliasEditText.setError(getText(R.string.Invalid_username).toString());
     }
 
     return false;
@@ -637,7 +630,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         return true;
       }
     } else {
-      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getText(R.string.Invalid_mail_address).toString(), null, null, null, null);
+      tutorMailEditText.setError(getText(R.string.Invalid_mail_address).toString());
     }
 
     return false;
@@ -717,12 +710,14 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
               if (type.equals(UserType.ALUMNO)) {
                 studentUsernameValid = false;
                 validationStudentPending = false;
-                showAlertDialog(getString(R.string.Invalid_username), SweetAlertDialog.WARNING_TYPE, null, null, null, null, null);
+                studentAliasEditText.setError(getString(R.string.Invalid_username));
+                studentAliasEditText.requestFocus();
               }
               if (type.equals(UserType.TUTOR)) {
                 tutorMailValid = false;
                 validationTutorPending = false;
-                showAlertDialog(getString(R.string.Invalid_username), SweetAlertDialog.WARNING_TYPE, null, null, null, null, null);
+                tutorMailEditText.setError(getString(R.string.Invalid_username));
+                tutorMailEditText.requestFocus();
               }
             }
           }
@@ -790,7 +785,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     SmartickRestClient.get().registerAlumnoMobile(studentUsername,
         studentPassword,
         studentName,
-        studentLastName,
+        "",
         String.valueOf(studentBirthDay),
         String.valueOf(studentBirthMonth),
         String.valueOf(studentBirthYear),
@@ -833,6 +828,14 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       return true;
     }
     return false;
+  }
+
+  public void loginFb(View view) {
+    Toast.makeText(this, "Login with FB WIP", Toast.LENGTH_SHORT).show();
+  }
+
+  public void loginGoogle(View view) {
+    Toast.makeText(this, "Login with Google WIP", Toast.LENGTH_SHORT).show();
   }
 
   /**
