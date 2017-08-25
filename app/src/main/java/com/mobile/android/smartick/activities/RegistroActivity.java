@@ -224,7 +224,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     scrollView1.setRegisterScrollViewListener(this);
 
     //initial focus on student alias
-
     studentAliasEditText.requestFocus();
 
 //        studentAliasEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -241,43 +240,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     //DEBUG
 //    setUpDebugData();
   }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-//        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
-//                && keyCode == KeyEvent.KEYCODE_BACK
-//                && event.getRepeatCount() == 0) {
-//            Log.d("CDA", "onKeyDown Called");
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-//
-//    private void resetScrollViewPositiuon(){
-//        clearEditTextFocus();
-//        hideSoftKeyboard();
-//        scrollView1.setY(0);
-//    }
-
-  //Soft keyboard
-//    private void hideSoftKeyboard() {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(studentAliasEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(studentPasswordEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(studentNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(studentLastNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorMailEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorPasswordEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorLastNameEditText.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(tutorPhoneEditText.getWindowToken(), 0);
-//    }
-//
-//    public void onBackPressed() {
-//        resetScrollViewPositiuon();
-//    }
-
 
   public void goBack(View view) {
     clearEditTextFocus();
@@ -394,7 +356,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentAliasEditText.clearFocus();
     studentPasswordEditText.clearFocus();
     studentNameEditText.clearFocus();
-//    studentLastNameEditText.clearFocus();
     tutorMailEditText.clearFocus();
     tutorPasswordEditText.clearFocus();
     tutorPhoneEditText.clearFocus();
@@ -404,7 +365,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentAliasEditText.setText("testAndroid4");
     studentPasswordEditText.setText("Sm1rt3cK");
     studentNameEditText.setText("testAndroid1");
-//    studentLastNameEditText.setText("testAndroid1");
     studentSex = MALE;
     tutorMailEditText.setText("test@Android5.es");
     tutorPasswordEditText.setText("Sm1rt3cK");
@@ -461,7 +421,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentUsername = studentAliasEditText.getText().toString().trim();
     studentPassword = studentPasswordEditText.getText().toString();
     studentName = studentNameEditText.getText().toString();
-//    studentLastName = studentLastNameEditText.getText().toString();
     studentCanRead = studentCanReadSwitch.isChecked();
     studentBirthDay = studentAgeDatePicker.getDayOfMonth();
     studentBirthMonth = studentAgeDatePicker.getMonth() + 1;
@@ -496,7 +455,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
   //init
   private void adaptScrollViewPageWidth(ViewGroup parent, int width) {
 
-    int count = parent.getChildCount();
     for (int i = 0; i < parent.getChildCount(); i++) {
       View child = parent.getChildAt(i);
       LinearLayout.LayoutParams paramsLinear = (LinearLayout.LayoutParams) child.getLayoutParams();
@@ -512,12 +470,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentPasswordIcon = (ImageView) findViewById(R.id.student_password_icon);
     studentAliasEditText = (EditText) findViewById(R.id.student_alias_edittext);
     studentPasswordEditText = (EditText) findViewById(R.id.student_password_edittext);
-//    titleStudentInfo = (TextView) findViewById(R.id.student_info_title);
     studentNameEditText = (EditText) findViewById(R.id.student_name_edittext);
-//    studentLastNameEditText = (EditText) findViewById(R.id.student_lastname_edittext);
     studentCanReadLabelText = (TextView) findViewById(R.id.student_canread_label);
     studentCanReadSwitch = (Switch) findViewById(R.id.student_canread_switch);
-//    titleStudentSex = (TextView) findViewById(R.id.student_sex_title);
     textBoy = (TextView) findViewById(R.id.text_boy);
     textGirl = (TextView) findViewById(R.id.text_girl);
     iconBoy = (ImageView) findViewById(R.id.icon_boy);
@@ -554,12 +509,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     titleStudentCred.setTypeface(dGothic);
     studentAliasEditText.setTypeface(dGothic);
     studentPasswordEditText.setTypeface(dGothic);
-//    titleStudentInfo.setTypeface(dGothic);
     studentNameEditText.setTypeface(dGothic);
-//    studentLastNameEditText.setTypeface(dGothic);
     studentCanReadLabelText.setTypeface(dGothic);
     studentAliasEditText.setTypeface(dGothic);
-//    titleStudentSex.setTypeface(dGothic);
     textBoy.setTypeface(dGothic);
     textGirl.setTypeface(dGothic);
     titleStudentAge.setTypeface(dGothic);
@@ -875,6 +827,14 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
     return false;
   }
+  
+  public void loginFb(View view) {
+    Toast.makeText(this, "Login with FB WIP", Toast.LENGTH_SHORT).show();
+  }
+
+  public void loginGoogle(View view) {
+    Toast.makeText(this, "Login with Google WIP", Toast.LENGTH_SHORT).show();
+  }
 
   /**
    * busca un usuario en db y devuelve su id si existe
@@ -925,14 +885,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         Log.d(Constants.REGISTER_LOG_TAG, "eMMa conversion tracking failed - " + e.toString());
       }
     }
-  }
-
-  public void loginFb(View view) {
-    Toast.makeText(this, "Login with FB WIP", Toast.LENGTH_SHORT).show();
-  }
-
-  public void loginGoogle(View view) {
-    Toast.makeText(this, "Login with Google WIP", Toast.LENGTH_SHORT).show();
   }
 
   private class AsyncTrackConversion extends AsyncTask<String, Integer, String> {
