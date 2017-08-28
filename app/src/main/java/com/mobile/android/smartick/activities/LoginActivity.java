@@ -1109,12 +1109,12 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   //Facebook login button pressed
-  public void facebookLoginButtonPressed() {
+  public void facebookLoginButtonPressed(View v) {
     LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
   }
 
   //Google sign in button pressed
-  public void googleSignIn() {
+  public void googleSignIn(View v) {
     Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
     startActivityForResult(signInIntent, RC_SIGN_IN);
   }
