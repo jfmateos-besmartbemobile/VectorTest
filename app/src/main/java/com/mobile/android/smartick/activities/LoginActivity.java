@@ -488,11 +488,18 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   public void setAddAlumnoPanelVisible(boolean visible) {
-    View view = findViewById(R.id.panel_login_alumno);
+    View loginTutor = findViewById(R.id.tutor_login);
+    View tutorLoginButton = findViewById(R.id.login_tutor_button);
+
     if (visible) {
-      view.setVisibility(View.VISIBLE);
+      loginTutor.setVisibility(View.VISIBLE);
+      listViewTutors.setVisibility(View.GONE);
+      tutorLoginButton.setVisibility(View.GONE);
+
     } else {
-      view.setVisibility(View.GONE);
+      loginTutor.setVisibility(View.GONE);
+      listViewTutors.setVisibility(View.VISIBLE);
+      tutorLoginButton.setVisibility(View.VISIBLE);
     }
   }
 
