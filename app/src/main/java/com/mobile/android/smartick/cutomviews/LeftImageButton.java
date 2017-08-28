@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.mobile.android.smartick.R;
 
 /**
@@ -66,27 +65,5 @@ public class LeftImageButton extends LinearLayout {
       icon.setScaleType(scaleType);
     }
     icon.setImageDrawable(drawableImage);
-
-    final float displacementX = textSize / 80;
-    final float displacementY = textSize / 40;
-
-    this.setOnTouchListener(new OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        Log.d("TAG", "l> " + event);
-        switch (event.getAction()) {
-          case MotionEvent.ACTION_DOWN:
-            icon.animate().translationXBy(displacementX).translationYBy(displacementY).setDuration(2);
-            tvLabel.animate().translationXBy(displacementX).translationYBy(displacementY).setDuration(2);
-            return false;
-          case MotionEvent.ACTION_OUTSIDE:
-          case MotionEvent.ACTION_UP:
-            icon.animate().translationXBy(-displacementX).translationYBy(-displacementY).setDuration(2);
-            tvLabel.animate().translationXBy(-displacementX).translationYBy(-displacementY).setDuration(2);
-            return false;
-        }
-        return false;
-      }
-    });
   }
 }
