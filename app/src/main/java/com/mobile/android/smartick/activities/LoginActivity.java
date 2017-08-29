@@ -495,7 +495,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
       loginTutor.setVisibility(View.VISIBLE);
       listViewTutors.setVisibility(View.GONE);
       tutorLoginButton.setVisibility(View.GONE);
-
     } else {
       loginTutor.setVisibility(View.GONE);
       listViewTutors.setVisibility(View.VISIBLE);
@@ -798,6 +797,9 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   //Refreshes listView
   private void refreshListViewContent(ListView listView, List<User> userList, int layout) {
+    if (listView.getId() == R.id.list_tutores) {
+      setAddAlumnoPanelVisible(userList.size() == 0);
+    }
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
   }
@@ -815,8 +817,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   public void checkLoginTutor(View view) {
-    username = ((EditText) findViewById(R.id.login_alias2)).getText().toString();
-    password = ((EditText) findViewById(R.id.login_password2)).getText().toString();
+    username = ((EditText) findViewById(R.id.tutor_mail_edittext)).getText().toString();
+    password = ((EditText) findViewById(R.id.tutor_password_edittext)).getText().toString();
     if (validateTutorLogin(username, password)) {
       checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
     } else {

@@ -13,7 +13,9 @@
       android:layout_width="80dp"
       android:layout_height="70dp"
       android:layout_alignParentTop="true"
-      android:layout_marginLeft="54dp"
+      android:layout_alignLeft="@+id/b_tutor_login"
+      android:layout_alignStart="@+id/b_tutor_login"
+      android:layout_marginLeft="10dp"
       android:layout_marginTop="20dp"
       android:src="@drawable/tutor_mail_selector"
       />
@@ -51,16 +53,16 @@
 
   <Button
       android:id="@+id/b_tutor_login"
-      android:layout_width="wrap_content"
+      android:layout_width="500dp"
       android:layout_height="75dp"
       android:layout_marginTop="10dp"
-      android:layout_alignLeft="@+id/tutor_password_icon"
-      android:layout_alignRight="@+id/tutor_password_edittext"
       android:layout_below="@+id/tutor_password_icon"
+      android:layout_centerHorizontal="true"
       android:background="@drawable/orange_confirm_selector"
-      android:text="Entrar"
+      android:text="@string/login"
       android:textSize="32sp"
       android:textColor="@color/white"
+      android:onClick="checkLoginTutor"
       />
 
   <LinearLayout
@@ -148,7 +150,7 @@
       android:layout_centerHorizontal="true"
       android:layout_marginTop="10dp"
       android:background="@color/float_transparent"
-      android:text="No tengo una cuenta de Smartick: Regístrate gratis >>"
+      android:text="@string/no_acount_register_free"
       android:textSize="20sp"
       style="@style/register_edit_text"
       />
