@@ -159,6 +159,7 @@
   <string name="Choose_alias">Choose an alias</string>
     <string name="Choose_password">Choose a password</string>
     <string name="login">Login</string>
+  <string name="change_tutor">Change tutor</string>
     <string name="no_acount_register_free">No tengo una cuenta de Smartick: Regístrate gratis»</string>
     <string name="login_with_fb">Login with Facebook</string>
   <string name="login_with_google">Login with Google</string>

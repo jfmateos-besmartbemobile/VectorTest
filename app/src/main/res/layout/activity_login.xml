@@ -125,12 +125,13 @@
             />
 
         <include
-            android:id="@+id/tutor_login"
             layout="@layout/tutor_login"
+            android:id="@+id/tutor_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_below="@+id/login_label_cabecera_tutores"
+            android:layout_marginTop="20dp"
+            tools:visibility="gone"
             />
 
         <ListView
@@ -150,13 +151,18 @@
             tools:visibility="gone"
             />
 
-        <Button
+        <com.mobile.android.smartick.cutomviews.LeftImageButton
             android:id="@+id/login_tutor_button"
-            android:background="@drawable/add_tutor_selector"
+            android:background="@drawable/change_tutor_selector"
             android:onClick="entrarComoOtroTutor"
-            android:text="@string/Login_as_other_Tutor"
+            android:paddingLeft="20dp"
+            android:textSize="34sp"
             android:visibility="gone"
-            tools:visibility="gone"
+            custom:image="@drawable/change_tutor_icon"
+            custom:imageHeight="70dp"
+            custom:imageWidth="110dp"
+            custom:label="@string/change_tutor"
+            tools:visibility="visible"
             style="@style/login_bottom_button"
             />
 

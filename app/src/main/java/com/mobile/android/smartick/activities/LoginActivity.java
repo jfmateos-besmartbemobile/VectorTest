@@ -232,7 +232,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     //TextView font setup
     Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
     ((TextView) findViewById(R.id.login_label_cabecera_tutores)).setTypeface(tfDidact);
-    ((Button) findViewById(R.id.login_tutor_button)).setTypeface(tfDidact);
     ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
     ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
 //    ((TextView) findViewById(R.id.login_student_flip_button_label)).setTypeface(tfDidact);
