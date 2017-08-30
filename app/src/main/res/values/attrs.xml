@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* Copyright 2008, The Android Open Source Project
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,25 +17,26 @@
 
 <resources>
 
-    <!-- StrokedTextView specific attributes. -->
-    <declare-styleable name="StrokedTextView">
-        <!-- The color of the stroke outline -->
-        <attr name="strokeColor" format="color" />
-        <!-- The color of the text -->
-        <attr name="strokeTextColor" format="color" />
-        <!-- The width of the stroke -->
-        <attr name="strokeWidth" format="float" />
-    </declare-styleable>
+  <!-- StrokedTextView specific attributes. -->
+  <declare-styleable name="StrokedTextView">
+    <!-- The color of the stroke outline -->
+    <attr format="color" name="strokeColor" />
+    <!-- The color of the text -->
+    <attr format="color" name="strokeTextColor" />
+    <!-- The width of the stroke -->
+    <attr format="float" name="strokeWidth" />
+  </declare-styleable>
 
-    <declare-styleable name="LeftImageButton">
-        <attr name="image" format="integer" />
-        <attr name="imageWidth" format="dimension" />
-        <attr name="imageHeight" format="dimension" />
-        <attr name="label" format="string" />
-        <attr name="android:textColor" />
-        <attr name="android:textSize" />
-        <attr name="android:scaleType" />
-    </declare-styleable>
+  <declare-styleable name="LeftImageButton">
+    <attr format="integer" name="image" />
+    <attr format="dimension" name="imageWidth" />
+    <attr format="dimension" name="imageHeight" />
+    <attr format="string" name="label" />
+    <attr name="android:textColor" />
+    <attr name="android:textSize" />
+    <attr name="android:scaleType" />
+    <attr name="android:tint" />
+  </declare-styleable>
 
 </resources>
 

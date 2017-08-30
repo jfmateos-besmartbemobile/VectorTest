@@ -104,6 +104,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   private LeftImageButton loginStudentFlipButton;
   private LeftImageButton loginTutorFlipButton;
+  private LeftImageButton activeTutor;
 
   private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -234,6 +235,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     ((TextView) findViewById(R.id.login_label_cabecera_tutores)).setTypeface(tfDidact);
     ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
     ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
+    activeTutor = (LeftImageButton) findViewById(R.id.tutor_active);
 //    ((TextView) findViewById(R.id.login_student_flip_button_label)).setTypeface(tfDidact);
 //    ((TextView) findViewById(R.id.login_tutor_flip_button_label)).setTypeface(tfDidact);
 
@@ -489,14 +491,15 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   public void setAddAlumnoPanelVisible(boolean visible) {
     View loginTutor = findViewById(R.id.tutor_login);
     View tutorLoginButton = findViewById(R.id.login_tutor_button);
+    View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
-      listViewTutors.setVisibility(View.GONE);
+      tutorActivo.setVisibility(View.GONE);
       tutorLoginButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
-      listViewTutors.setVisibility(View.VISIBLE);
+      tutorActivo.setVisibility(View.VISIBLE);
       tutorLoginButton.setVisibility(View.VISIBLE);
     }
   }
@@ -797,10 +800,14 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   //Refreshes listView
   private void refreshListViewContent(ListView listView, List<User> userList, int layout) {
     if (listView.getId() == R.id.list_tutores) {
-      setAddAlumnoPanelVisible(userList.size() == 0);
+      setAddAlumnoPanelVisible(userList.isEmpty());
     }
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
+
+    if (!userList.isEmpty())
+      //TODO Decidir cual es el tutor activo
+      activeTutor.setLabel(userList.get(0).getUsername());
   }
 
   /**
