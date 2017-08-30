@@ -848,6 +848,16 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   public void checkLoginTutor(View view) {
     username = ((EditText) findViewById(R.id.tutor_mail_edittext)).getText().toString();
     password = ((EditText) findViewById(R.id.tutor_password_edittext)).getText().toString();
+    doLogin(username, password);
+  }
+
+  public void checkLoginTutorPanel(View view) {
+    username = ((EditText) findViewById(R.id.login_alias2)).getText().toString();
+    password = ((EditText) findViewById(R.id.login_password2)).getText().toString();
+    doLogin(username, password);
+  }
+
+  private void doLogin(String username, String password) {
     if (validateTutorLogin(username, password)) {
       checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
       ((EditText) findViewById(R.id.tutor_mail_edittext)).setText("");
