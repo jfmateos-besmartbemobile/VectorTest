@@ -105,6 +105,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   private LeftImageButton loginStudentFlipButton;
   private LeftImageButton loginTutorFlipButton;
   private LeftImageButton activeTutor;
+  private LeftImageButton changeTutor;
+  private Button otherTutor;
 
   private UsersDBHandler localDB = new UsersDBHandler(this);
 
@@ -235,6 +237,10 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     ((TextView) findViewById(R.id.login_label_cabecera_tutores)).setTypeface(tfDidact);
     ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
     ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
+    otherTutor = ((Button) findViewById(R.id.other_tutor_button));
+    otherTutor.setTypeface(tfDidact);
+
+    changeTutor = (LeftImageButton) findViewById(R.id.change_tutor_button);
     activeTutor = (LeftImageButton) findViewById(R.id.tutor_active);
 //    ((TextView) findViewById(R.id.login_student_flip_button_label)).setTypeface(tfDidact);
 //    ((TextView) findViewById(R.id.login_tutor_flip_button_label)).setTypeface(tfDidact);
@@ -476,6 +482,19 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   /**
    * Muestra panel de login
    */
+
+  public void cambiarTutor(View view) {
+
+    if (loginStudentShowing || loginTutorShowing) {
+      return;
+    }
+
+    listViewTutors.setVisibility(View.VISIBLE);
+    changeTutor.setVisibility(View.GONE);
+    otherTutor.setVisibility(View.VISIBLE);
+    activeTutor.setVisibility(View.GONE);
+  }
+
   public void entrarComoOtroTutor(View view) {
 
     if (loginStudentShowing || loginTutorShowing) {
@@ -490,18 +509,22 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void setAddAlumnoPanelVisible(boolean visible) {
     View loginTutor = findViewById(R.id.tutor_login);
-    View tutorLoginButton = findViewById(R.id.login_tutor_button);
+    View chaneTutorButton = findViewById(R.id.change_tutor_button);
+    View otherTutorButton = findViewById(R.id.other_tutor_button);
     View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
       tutorActivo.setVisibility(View.GONE);
-      tutorLoginButton.setVisibility(View.GONE);
+      chaneTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
       tutorActivo.setVisibility(View.VISIBLE);
-      tutorLoginButton.setVisibility(View.VISIBLE);
+      chaneTutorButton.setVisibility(View.VISIBLE);
     }
+
+    listViewTutors.setVisibility(View.GONE);
+    otherTutorButton.setVisibility(View.GONE);
   }
 
   public void setAddTutorPanelVisible(boolean visible) {
@@ -827,6 +850,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     password = ((EditText) findViewById(R.id.tutor_password_edittext)).getText().toString();
     if (validateTutorLogin(username, password)) {
       checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
+      ((EditText) findViewById(R.id.tutor_mail_edittext)).setText("");
+      ((EditText) findViewById(R.id.tutor_password_edittext)).setText("");
     } else {
       showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
       resetLoginTutorPanel();
