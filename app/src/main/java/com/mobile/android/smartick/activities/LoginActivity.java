@@ -501,13 +501,10 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
       return;
     }
 
-    loginTutorShowing = true;
-    enableFlipButtons(false);
-
-    setAddTutorPanelVisible(true);
+    showTutorLogin(true);
   }
 
-  public void setAddAlumnoPanelVisible(boolean visible) {
+  public void showTutorLogin(boolean visible) {
     View loginTutor = findViewById(R.id.tutor_login);
     View chaneTutorButton = findViewById(R.id.change_tutor_button);
     View otherTutorButton = findViewById(R.id.other_tutor_button);
@@ -728,7 +725,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
           prepareListView(listViewTutors);
         }
 
-        setAddAlumnoPanelVisible(false);
+        showTutorLogin(false);
         setAddTutorPanelVisible(false);
         resetLoginAlumnoPanel();
         resetLoginTutorPanel();
@@ -823,7 +820,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   //Refreshes listView
   private void refreshListViewContent(ListView listView, List<User> userList, int layout) {
     if (listView.getId() == R.id.list_tutores) {
-      setAddAlumnoPanelVisible(userList.isEmpty());
+      showTutorLogin(userList.isEmpty());
     }
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
