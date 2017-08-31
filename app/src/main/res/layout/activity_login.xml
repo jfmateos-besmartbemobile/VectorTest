@@ -336,9 +336,5 @@
       layout="@layout/panel_login_alumno"
       tools:visibility="gone"
       />
-  <include
-      layout="@layout/panel_login_tutor"
-      tools:visibility="gone"
-      />
 
 </RelativeLayout>

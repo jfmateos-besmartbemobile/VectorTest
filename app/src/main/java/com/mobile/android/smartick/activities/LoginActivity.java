@@ -210,7 +210,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     // Inicialmente ocultamos el panel de login
     findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
-    findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
@@ -524,15 +523,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     otherTutorButton.setVisibility(View.GONE);
   }
 
-  public void setAddTutorPanelVisible(boolean visible) {
-    View view = findViewById(R.id.panel_login_tutor);
-    if (visible) {
-      view.setVisibility(View.VISIBLE);
-    } else {
-      view.setVisibility(View.GONE);
-    }
-  }
-
   /**
    * Comprueba las credenciales del alumno
    * Añade el alumno al listado junto con su avatar
@@ -726,7 +716,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
         }
 
         showTutorLogin(false);
-        setAddTutorPanelVisible(false);
         resetLoginAlumnoPanel();
         resetLoginTutorPanel();
         loginStudentShowing = false;
@@ -862,19 +851,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     } else {
       showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
       resetLoginTutorPanel();
-    }
-  }
-
-  private void resetLoginTutorPanel() {
-    ((EditText) findViewById(R.id.login_alias2)).setText("");
-    ((EditText) findViewById(R.id.login_password2)).setText("");
-  }
-
-  private void setLoginTutorPanelVisible(boolean visible) {
-    if (visible) {
-      findViewById(R.id.panel_login_tutor).setVisibility(View.VISIBLE);
-    } else {
-      findViewById(R.id.panel_login_tutor).setVisibility(View.GONE);
     }
   }
 
