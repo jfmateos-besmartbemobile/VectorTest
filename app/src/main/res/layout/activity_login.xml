@@ -155,7 +155,7 @@
             android:id="@+id/list_tutores"
             android:layout_width="500dp"
             android:layout_height="300dp"
-            android:layout_above="@+id/change_tutor_button"
+            android:layout_above="@+id/other_tutor_button"
             android:layout_below="@+id/login_label_cabecera_tutores"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
@@ -194,7 +194,6 @@
             tools:visibility="visible"
             style="@style/login_bottom_button"
             />
-
 
       </RelativeLayout>
 
