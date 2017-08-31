@@ -153,6 +153,7 @@
       android:text="@string/no_acount_register_free"
       android:textSize="20sp"
       style="@style/register_edit_text"
+      android:onClick="goToRegister"
       />
 
 </RelativeLayout>

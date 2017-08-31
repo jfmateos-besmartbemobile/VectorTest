@@ -971,7 +971,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   public void addNewStudent(View view) {
     showHideAddStudentOptions();
     startActivity(new Intent(this, RegistroActivity.class));
-
   }
 
   public void addExistingStudent(View view) {
@@ -981,6 +980,11 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void addAllMyStudents(View view) {
 
+  }
+
+  public void goToRegister(View view) {
+    showTutorLogin(false);
+    startActivity(new Intent(this, RegistroActivity.class));
   }
 
 
