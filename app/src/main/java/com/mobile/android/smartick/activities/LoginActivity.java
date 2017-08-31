@@ -77,6 +77,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   enum TipoLogin {ALUMNO, TUTOR}
 
   private TipoLogin tipoLogin = TipoLogin.ALUMNO;
+  private final String FONT = "fonts/DidactGothic.ttf";
 
   private SystemInfo sysInfo;
 
@@ -224,8 +225,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     studentPasswordEditText.addTextChangedListener(this);
 
     //TextView font setup
-    Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
-    ((TextView) findViewById(R.id.login_label_cabecera_tutores)).setTypeface(tfDidact);
+    Typeface tfDidact = Typeface.createFromAsset(getAssets(), FONT);
     ((TextView) findViewById(R.id.login_label_cabecera_alumnos)).setTypeface(tfDidact);
     ((Button) findViewById(R.id.login_alumno_button)).setTypeface(tfDidact);
     otherTutor = ((Button) findViewById(R.id.other_tutor_button));
@@ -507,6 +507,11 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     listViewTutors.setVisibility(View.GONE);
     otherTutorButton.setVisibility(View.GONE);
+  }
+
+
+  public void showActiveTutor(View view) {
+    showTutorLogin(false);
   }
 
   /**
@@ -1026,7 +1031,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
         alertBuilder.setView(freemiumWarningView);
 
         //sets modal content
-        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+        Typeface tfDidact = Typeface.createFromAsset(getAssets(), FONT);
         TextView titleWarning = (TextView) freemiumWarningView.findViewById(R.id.titleEndpoint);
         titleWarning.setTypeface(tfDidact);
 
@@ -1161,7 +1166,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
         alertBuilder.setView(rememberPasswordView);
 
         //sets modal content
-        Typeface tfDidact = Typeface.createFromAsset(getAssets(), "fonts/DidactGothic.ttf");
+        Typeface tfDidact = Typeface.createFromAsset(getAssets(), FONT);
         TextView titleWarning = (TextView) rememberPasswordView.findViewById(R.id.titleRemember);
         titleWarning.setTypeface(tfDidact);
 

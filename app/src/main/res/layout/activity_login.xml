@@ -111,17 +111,20 @@
           android:padding="10dp"
           >
 
-        <ImageView
+        <com.mobile.android.smartick.cutomviews.LeftImageButton
             android:id="@+id/login_icon_cabecera_tutores"
-            android:src="@drawable/login_tutor_icon"
-            style="@style/login_main_tab_icon"
-            />
-
-        <TextView
-            android:id="@+id/login_label_cabecera_tutores"
-            android:layout_toRightOf="@id/login_icon_cabecera_tutores"
-            android:text="@string/Tutors"
-            style="@style/login_main_tab_label"
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:onClick="showActiveTutor"
+            android:paddingLeft="5dp"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            custom:image="@drawable/login_tutor_icon"
+            custom:imageHeight="70dp"
+            custom:imageWidth="65dp"
+            custom:label="@string/Tutors"
             />
 
         <include
@@ -129,7 +132,7 @@
             android:id="@+id/tutor_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_label_cabecera_tutores"
+            android:layout_below="@+id/login_icon_cabecera_tutores"
             android:layout_marginTop="20dp"
             tools:visibility="gone"
             />
@@ -138,25 +141,25 @@
             android:id="@+id/tutor_active"
             android:layout_width="500dp"
             android:layout_height="120dp"
-            android:layout_below="@+id/login_label_cabecera_tutores"
+            android:layout_below="@+id/login_icon_cabecera_tutores"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:background="@drawable/login_entry_panel_selector"
+            android:paddingLeft="10dp"
             android:textSize="19sp"
+            android:tint="@color/BlueColor"
             custom:image="@drawable/login_tutor_icon"
             custom:imageHeight="45dp"
-            custom:imageWidth="110dp"
+            custom:imageWidth="80dp"
             custom:label="@string/change_tutor"
-            android:tint="@color/BlueColor"
             />
-
 
         <ListView
             android:id="@+id/list_tutores"
             android:layout_width="500dp"
             android:layout_height="300dp"
             android:layout_above="@+id/other_tutor_button"
-            android:layout_below="@+id/login_label_cabecera_tutores"
+            android:layout_below="@+id/login_icon_cabecera_tutores"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:divider="@null"
@@ -187,8 +190,8 @@
             android:id="@+id/other_tutor_button"
             android:background="@drawable/add_tutor_selector"
             android:onClick="entrarComoOtroTutor"
-            android:text="@string/Login_as_other_Tutor"
             android:paddingLeft="20dp"
+            android:text="@string/Login_as_other_Tutor"
             android:textSize="34sp"
             android:visibility="gone"
             tools:visibility="visible"
