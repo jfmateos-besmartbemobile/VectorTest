@@ -90,7 +90,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   private String resultURL;
 
   private boolean loginStudentShowing = false;
-  private boolean mostrarAddStudentOptions = false;
+  private boolean mostrarAddStudentOptions = true;
 
   private String usernameToDelete = null;
   private SweetAlertDialog pDialogDelete;
