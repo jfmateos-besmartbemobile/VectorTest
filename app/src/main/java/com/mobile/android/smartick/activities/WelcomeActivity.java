@@ -1,5 +1,6 @@
 package com.mobile.android.smartick.activities;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -39,6 +40,7 @@ import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.services.SmartickRegistrationIntentService;
 import com.mobile.android.smartick.util.Constants;
 import com.mobile.android.smartick.util.LocaleHelper;
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit.Callback;
@@ -70,6 +72,7 @@ public class WelcomeActivity extends Activity implements eMMaUserInfoInterface {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Fabric.with(this, new Crashlytics());
 
     //Set up selected language
     LocaleHelper.onCreate(this);

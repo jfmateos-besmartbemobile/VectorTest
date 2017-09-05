@@ -1,4 +1,4 @@
-package com.mobile.android.smartick.cutomviews;
+package com.mobile.android.smartick.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
