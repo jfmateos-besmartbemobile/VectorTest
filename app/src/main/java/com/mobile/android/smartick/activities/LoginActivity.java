@@ -45,7 +45,7 @@ import com.facebook.login.LoginResult;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.LanguageSelectorDialog;
 import com.mobile.android.smartick.UI.LanguageSelectorInterface;
-import com.mobile.android.smartick.cutomviews.LeftImageButton;
+import com.mobile.android.smartick.customviews.LeftImageButton;
 import com.mobile.android.smartick.data.UsersDBHandler;
 import com.mobile.android.smartick.network.CheckUserMobileActiveResponse;
 import com.mobile.android.smartick.network.LoginStatusResponse;

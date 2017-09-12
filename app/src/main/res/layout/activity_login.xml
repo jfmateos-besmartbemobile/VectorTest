@@ -78,7 +78,7 @@
         tools:visibility="visible"
         >
 
-      <com.mobile.android.smartick.cutomviews.LeftImageButton
+      <com.mobile.android.smartick.customviews.LeftImageButton
           android:id="@+id/login_tutor_flip_button"
           android:layout_width="290dp"
           android:layout_height="72dp"
@@ -111,7 +111,7 @@
           android:padding="10dp"
           >
 
-        <com.mobile.android.smartick.cutomviews.LeftImageButton
+        <com.mobile.android.smartick.customviews.LeftImageButton
             android:id="@+id/login_icon_cabecera_tutores"
             android:layout_width="280dp"
             android:layout_height="80dp"
@@ -137,7 +137,7 @@
             tools:visibility="gone"
             />
 
-        <com.mobile.android.smartick.cutomviews.LeftImageButton
+        <com.mobile.android.smartick.customviews.LeftImageButton
             android:id="@+id/tutor_active"
             android:layout_width="500dp"
             android:layout_height="120dp"
@@ -171,7 +171,7 @@
             tools:visibility="gone"
             />
 
-        <com.mobile.android.smartick.cutomviews.LeftImageButton
+        <com.mobile.android.smartick.customviews.LeftImageButton
             android:id="@+id/change_tutor_button"
             android:background="@drawable/change_tutor_selector"
             android:onClick="cambiarTutor"
@@ -218,7 +218,7 @@
         tools:visibility="gone"
         >
 
-      <com.mobile.android.smartick.cutomviews.LeftImageButton
+      <com.mobile.android.smartick.customviews.LeftImageButton
           android:id="@+id/login_student_flip_button"
           android:layout_width="290dp"
           android:layout_height="70dp"
