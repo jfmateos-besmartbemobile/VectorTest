@@ -581,7 +581,7 @@
       </LinearLayout>
 
 
-      <com.mobile.android.smartick.cutomviews.LeftImageButton
+      <com.mobile.android.smartick.customviews.LeftImageButton
           android:id="@+id/tutor_singing_fb"
           android:layout_width="400dp"
           android:layout_height="80dp"
@@ -599,7 +599,7 @@
           custom:label="@string/login_with_fb"
           />
 
-      <com.mobile.android.smartick.cutomviews.LeftImageButton
+      <com.mobile.android.smartick.customviews.LeftImageButton
           android:layout_width="400dp"
           android:layout_height="80dp"
           android:layout_below="@+id/tutor_singing_fb"

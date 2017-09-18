@@ -1,5 +1,9 @@
 package com.mobile.android.smartick.activities;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +28,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.mobile.android.smartick.R;
 import com.mobile.android.smartick.UI.RegisterScrollView;
 import com.mobile.android.smartick.UI.RegisterScrollViewListener;
@@ -34,6 +40,7 @@ import com.mobile.android.smartick.network.RegisterAlumnoResponse;
 import com.mobile.android.smartick.network.RegisterTutorResponse;
 import com.mobile.android.smartick.network.SmartickAPI;
 import com.mobile.android.smartick.network.SmartickRestClient;
+import com.mobile.android.smartick.network.ValidateSocialResponse;
 import com.mobile.android.smartick.pojos.SystemInfo;
 import com.mobile.android.smartick.pojos.User;
 import com.mobile.android.smartick.pojos.UserType;
@@ -49,6 +56,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -60,6 +68,9 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
   private final String MALE = "MASCULINO";
   private final String FEMALE = "FEMENINO";
+  //Google Sign in
+  private GoogleApiClient mGoogleApiClient;
+  private int RC_SIGN_IN = 600613; //GOOGLE
 
   //scroll view control
   private int pageWidth = 0;
@@ -157,6 +168,20 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
     // Inicializamos systemInfo
     sysInfo = new SystemInfo(this.getApplicationContext());
+
+    //Google login
+    // Configure sign-in to request the user's ID, email address, and basic
+    // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .requestIdToken(getString(R.string.server_client_id))
+        .build();
+
+    // Build a GoogleApiClient with access to the Google Sign-In API and the
+    // options specified by gso.
+    mGoogleApiClient = new GoogleApiClient.Builder(this)
+        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+        .build();
 
     //sets up view elements
     setUpRegisterViewElements();
@@ -832,10 +857,97 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
   public void loginFb(View view) {
     Toast.makeText(this, "Login with FB WIP", Toast.LENGTH_SHORT).show();
+    facebookLoginButtonPressed(null);
   }
 
   public void loginGoogle(View view) {
     Toast.makeText(this, "Login with Google WIP", Toast.LENGTH_SHORT).show();
+    googleSignIn(null);
+  }
+
+  public void facebookLoginButtonPressed(View v) {
+    LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+  }
+
+  public void googleSignIn(View v) {
+    Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+    startActivityForResult(signInIntent, RC_SIGN_IN);
+  }
+
+  private void doLoginFacebook() {
+
+    final String token = AccessToken.getCurrentAccessToken().getToken();
+
+    Log.d(Constants.LOGIN_LOG_TAG, "Do login facebook for token" + token);
+    SmartickRestClient.get().validateSocial(token, "Facebook", new Callback<ValidateSocialResponse>() {
+      @Override
+      public void success(ValidateSocialResponse validateSocialResponse, Response response) {
+        Log.d(Constants.LOGIN_LOG_TAG, "success");
+        String email = validateSocialResponse.getEmail();
+        if (email != null) {
+          //TODO cuando el loding sea exitoso ir a donde?
+//          irMainSocial(email, token, "Facebook");
+        } else {
+          //No email -> Error
+          showAlertDialog(getString(R.string.Notice),
+              SweetAlertDialog.ERROR_TYPE,
+              getString(R.string.Social_need_email),
+              null, null, getString(R.string.OK), null);
+
+          LoginManager.getInstance().logOut();
+        }
+      }
+
+      @Override
+      public void failure(RetrofitError error) {
+        Log.d(Constants.LOGIN_LOG_TAG, "failure");
+
+        showAlertDialog(getString(R.string.Notice),
+            SweetAlertDialog.ERROR_TYPE,
+            getString(R.string.Something_went_wrong_try_again_later),
+            null, null, getString(R.string.OK), null);
+
+        LoginManager.getInstance().logOut();
+      }
+    });
+  }
+
+  private void doLoginGoogle(String idToken) {
+
+    final String token = idToken;
+
+    Log.d(Constants.LOGIN_LOG_TAG, "Do login google for token" + token);
+    SmartickRestClient.get().validateSocial(token, "Google", new Callback<ValidateSocialResponse>() {
+      @Override
+      public void success(ValidateSocialResponse validateSocialResponse, Response response) {
+        Log.d(Constants.LOGIN_LOG_TAG, "success");
+        String email = validateSocialResponse.getEmail();
+        if (email != null) {
+          //TODO cuando el loding sea exitoso ir a donde?
+//          irMainSocial(email, token, "Google");
+        } else {
+          //No email -> Error
+          showAlertDialog(getString(R.string.Notice),
+              SweetAlertDialog.ERROR_TYPE,
+              getString(R.string.Social_need_email),
+              null, null, getString(R.string.OK), null);
+
+          LoginManager.getInstance().logOut();
+        }
+      }
+
+      @Override
+      public void failure(RetrofitError error) {
+        Log.d(Constants.LOGIN_LOG_TAG, "failure");
+
+        showAlertDialog(getString(R.string.Notice),
+            SweetAlertDialog.ERROR_TYPE,
+            getString(R.string.Something_went_wrong_try_again_later),
+            null, null, getString(R.string.OK), null);
+
+        LoginManager.getInstance().logOut();
+      }
+    });
   }
 
   /**

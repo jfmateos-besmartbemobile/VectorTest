@@ -156,6 +156,9 @@
   <string name="RememberSuccess">Password enviado correctamente a tu email.</string>
   <string name="RememberFailUser">Usuario incorrecto. Por favor introduce uno válido.</string>
   <string name="RememberFailTutor">Email incorrecto. Por favor introduce uno válido.</string>
+  <string name="login">Entrar</string>
+  <string name="change_tutor">Cambiar tutor</string>
+  <string name="no_acount_register_free">No tengo una cuenta de Smartick: Regístrate gratis»</string>
   <string name="login_with_fb">Entrar con Facebook</string>
   <string name="login_with_google">Entrar con Google</string>
 

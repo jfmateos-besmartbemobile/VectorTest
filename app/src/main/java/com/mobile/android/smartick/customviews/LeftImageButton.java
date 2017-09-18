@@ -1,16 +1,13 @@
-package com.mobile.android.smartick.cutomviews;
+package com.mobile.android.smartick.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +20,9 @@ import com.mobile.android.smartick.R;
 
 public class LeftImageButton extends LinearLayout {
 
+  private final TextView tvLabel;
+  private final ImageView icon;
+
   public LeftImageButton(Context context, AttributeSet attrs) {
     super(context, attrs);
 
@@ -32,6 +32,7 @@ public class LeftImageButton extends LinearLayout {
     int valueColor = a.getColor(R.styleable.LeftImageButton_android_textColor, getResources().getColor(R.color.BlueColor));
     final Float textSize = a.getDimension(R.styleable.LeftImageButton_android_textSize, 30);
     int scaleTypeIndex = a.getInt(R.styleable.LeftImageButton_android_scaleType, -1);
+    int tintColor = a.getInt(R.styleable.LeftImageButton_android_tint, 0);
     Float imageHeight = a.getDimension(R.styleable.LeftImageButton_imageHeight, 0);
     Float imageWidth = a.getDimension(R.styleable.LeftImageButton_imageWidth, 0);
     a.recycle();
@@ -43,8 +44,8 @@ public class LeftImageButton extends LinearLayout {
     LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.left_image_button, this, true);
 
-    final TextView tvLabel = (TextView) findViewById(R.id.tv_label);
-    final ImageView icon = (ImageView) findViewById(R.id.iv_leftIcon);
+    tvLabel = (TextView) findViewById(R.id.tv_label);
+    icon = (ImageView) findViewById(R.id.iv_leftIcon);
 
     Typeface tfDidact = Typeface.createFromAsset(context.getAssets(), "fonts/DidactGothic.ttf");
     tvLabel.setTypeface(tfDidact);
@@ -65,5 +66,14 @@ public class LeftImageButton extends LinearLayout {
       icon.setScaleType(scaleType);
     }
     icon.setImageDrawable(drawableImage);
+
+    if (tintColor != 0) {
+      icon.setColorFilter(tintColor);
+    }
+  }
+
+
+  public void setLabel(String label) {
+    tvLabel.setText(label);
   }
 }

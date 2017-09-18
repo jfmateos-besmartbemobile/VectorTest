@@ -89,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_weight=".35"
             android:layout_height="wrap_content"
-            android:onClick="checkLoginTutor"
+            android:onClick="checkLoginTutorPanel"
             android:background="@drawable/green_confirm_selector"
             android:text="@string/Add"
             android:textSize="30dp"
