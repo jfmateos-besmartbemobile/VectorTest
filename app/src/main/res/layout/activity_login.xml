@@ -291,18 +291,21 @@
             >
 
           <com.mobile.android.smartick.customviews.LeftImageButton
-              custom:image="@drawable/register_new_user_icon"
-              custom:label="Añadir nuevo alumno"
+              android:onClick="addNewStudent"
+              custom:image="@drawable/register_new_student_icon"
+              custom:label="@string/register_new_student"
               style="@style/login_add_students_buttons"
               />
           <com.mobile.android.smartick.customviews.LeftImageButton
+              android:onClick="addExistingStudent"
               custom:image="@drawable/add_existing_student_icon"
-              custom:label="Añadir aluno exisitente"
+              custom:label="@string/add_new_student"
               style="@style/login_add_students_buttons"
               />
           <com.mobile.android.smartick.customviews.LeftImageButton
+              android:onClick="addAllMyStudents"
               custom:image="@drawable/add_all_my_studedents_icon"
-              custom:label="Añadir todos mis alumnos"
+              custom:label="@string/add_all_students"
               style="@style/login_add_students_buttons"
               />
 
@@ -315,6 +318,15 @@
             android:text="@string/Login_as_other_Student"
             style="@style/login_bottom_button"
             />
+
+        <com.mobile.android.smartick.customviews.CenterImageButton
+            android:id="@+id/login_alumno_button_selected"
+            android:background="@drawable/orange_confirm_selector"
+            android:onClick="addAnotherStudent"
+            custom:image="@drawable/cancel_icon"
+            style="@style/login_bottom_button"
+            />
+
       </RelativeLayout>
 
       <View

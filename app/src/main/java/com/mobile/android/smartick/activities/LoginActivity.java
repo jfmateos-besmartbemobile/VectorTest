@@ -441,6 +441,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
           Animation.RELATIVE_TO_SELF, 0.0f);
 
       animationAlpha = new AlphaAnimation(0, 1);
+      findViewById(R.id.login_alumno_button_selected).setVisibility(View.VISIBLE);
+      findViewById(R.id.login_alumno_button).setVisibility(View.INVISIBLE);
     } else {
       animation = new TranslateAnimation(
           Animation.RELATIVE_TO_SELF, 0.0f,
@@ -448,6 +450,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
           Animation.RELATIVE_TO_SELF, 0.0f,
           Animation.RELATIVE_TO_SELF, 1.0f);
       animationAlpha = new AlphaAnimation(1, 0);
+      findViewById(R.id.login_alumno_button_selected).setVisibility(View.INVISIBLE);
+      findViewById(R.id.login_alumno_button).setVisibility(View.VISIBLE);
     }
     animation.setDuration(500);
     animationAlpha.setDuration(500);

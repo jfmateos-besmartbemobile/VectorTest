@@ -63,6 +63,9 @@
   <string name="Tutors">Tutores</string>
   <string name="Add_student">Añadir alumno</string>
   <string name="Add_tutor">Añadir tutor</string>
+  <string name="register_new_student">Registrar nuevo alumno</string>
+  <string name="add_new_student">Añadir alumno existente</string>
+  <string name="add_all_students">Añadir todos mis alumnos</string>
   <string name="Login_as_other_Student">Otro Alumno</string>
   <string name="Login_as_other_Tutor">Otro Tutor</string>
   <string name="plusInfo">+ Info</string>
