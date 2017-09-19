@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    tools:visibility="visible"
+    >
+
+  <ImageView
+      android:id="@+id/student_mail_icon"
+      android:layout_width="80dp"
+      android:layout_height="70dp"
+      android:layout_alignParentTop="true"
+      android:layout_alignLeft="@+id/b_student_login"
+      android:layout_alignStart="@+id/b_student_login"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="20dp"
+      android:src="@drawable/student_mail_selector"
+      />
+
+  <ImageView
+      android:id="@+id/student_password_icon"
+      android:layout_width="80dp"
+      android:layout_height="70dp"
+      android:layout_alignLeft="@+id/student_mail_icon"
+      android:layout_alignStart="@+id/student_mail_icon"
+      android:layout_below="@+id/student_mail_icon"
+      android:layout_marginTop="10dp"
+      android:src="@drawable/student_password_selector"
+      />
+
+  <EditText
+      android:id="@+id/student_mail_edittext"
+      android:layout_alignTop="@+id/student_mail_icon"
+      android:layout_toEndOf="@+id/student_mail_icon"
+      android:layout_toRightOf="@+id/student_mail_icon"
+      android:hint="@string/Name"
+      style="@style/login_edit_text"
+      />
+
+  <EditText
+      android:id="@+id/student_password_edittext"
+      android:layout_alignTop="@+id/student_password_icon"
+      android:layout_marginBottom="10dp"
+      android:layout_toEndOf="@+id/student_mail_icon"
+      android:layout_toRightOf="@+id/student_mail_icon"
+      android:hint="@string/Password"
+      android:inputType="textPassword"
+      style="@style/login_edit_text"
+      />
+
+  <Button
+      android:id="@+id/b_student_login"
+      android:layout_width="500dp"
+      android:layout_height="75dp"
+      android:layout_marginTop="10dp"
+      android:layout_below="@+id/student_password_icon"
+      android:layout_centerHorizontal="true"
+      android:background="@drawable/orange_confirm_selector"
+      android:text="@string/login"
+      android:textSize="32sp"
+      android:textColor="@color/white"
+      android:onClick="checkLoginstudent"
+      />
+
+  <LinearLayout
+      android:id="@+id/student_separator"
+      android:layout_width="600dp"
+      android:layout_height="40dp"
+      android:layout_below="@+id/b_student_login"
+      android:layout_centerHorizontal="true"
+      android:paddingLeft="50dp"
+      android:paddingRight="50dp"
+      >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp"
+        android:layout_weight="0.5"
+        android:background="#c6dee4"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="○"
+        android:textColor="#c6dee4"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="0.5"
+        android:background="#c6dee4"
+        />
+
+  </LinearLayout>
+
+  <com.mobile.android.smartick.customviews.LeftImageButton
+      android:id="@+id/student_singing_fb"
+      android:layout_width="400dp"
+      android:layout_height="70dp"
+      android:layout_below="@+id/student_separator"
+      android:layout_centerHorizontal="true"
+      android:layout_gravity="center"
+      android:background="@drawable/fb_button_selector"
+      android:clickable="true"
+      android:onClick="facebookLoginButtonPressed"
+      android:paddingLeft="20dp"
+      android:src="@drawable/register_panel"
+      android:textColor="@color/white"
+      android:textSize="28sp"
+      custom:image="@drawable/fb_logo"
+      custom:label="@string/login_with_fb"
+      />
+
+  <com.mobile.android.smartick.customviews.LeftImageButton
+      android:id="@+id/student_singing_google"
+      android:layout_width="400dp"
+      android:layout_height="70dp"
+      android:layout_below="@+id/student_singing_fb"
+      android:layout_centerHorizontal="true"
+      android:layout_gravity="center"
+      android:layout_marginRight="10dp"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/google_button_selector"
+      android:clickable="true"
+      android:onClick="googleSignIn"
+      android:paddingLeft="20dp"
+      android:text="@string/student_info"
+      android:textColor="@color/white"
+      android:textSize="28sp"
+      custom:image="@drawable/google_logo"
+      custom:label="@string/login_with_google"
+      />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/student_singing_google"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="10dp"
+      android:background="@color/float_transparent"
+      android:text="@string/no_acount_register_free"
+      android:textSize="20sp"
+      style="@style/register_edit_text"
+      android:onClick="goToRegister"
+      />
+
+</RelativeLayout>
