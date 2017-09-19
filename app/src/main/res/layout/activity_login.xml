@@ -215,7 +215,7 @@
         android:id="@+id/card_login_panel_alumnos"
         android:layout_width="@dimen/login_panel_alumnos_width"
         android:layout_height="@dimen/login_panel_alumnos_width"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
       <com.mobile.android.smartick.customviews.LeftImageButton
@@ -323,6 +323,10 @@
             android:id="@+id/login_alumno_button_selected"
             android:background="@drawable/orange_confirm_selector"
             android:onClick="addAnotherStudent"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            custom:imageWidth="70dp"
+            custom:imageHeight="70dp"
             custom:image="@drawable/cancel_icon"
             style="@style/login_bottom_button"
             />
