@@ -156,13 +156,13 @@
   <string name="RememberSuccess">Password sent succesfully to your email address.</string>
   <string name="RememberFailUser">Incorrect user. Please provide a valid username.</string>
   <string name="RememberFailTutor">Incorrect email. Please provide a valid one.</string>
-  <string name="Choose_alias">Choose an alias</string>
-  <string name="Choose_password">Choose a password</string>
-  <string name="change_tutor">Change tutor</string>
-  <string name="no_acount_register_free">No tengo una cuenta de Smartick: Regístrate gratis»</string>
-
-  <!-- MODIFICACIONES SIN TRADUCCION -->
   
+  <!-- MODIFICACIONES SIN TRADUCCION -->
+
+  <string name="Choose_alias">Elige un usuario</string>
+  <string name="Choose_password">Elige una contraseña</string>
+  <string name="change_tutor">Cambiar tutor</string>
+  <string name="no_acount_register_free">No tengo una cuenta de Smartick: Regístrate gratis»</string>
   <string name="login">Entrar</string>
   <string name="login_with_fb">Entrar con Facebook</string>
   <string name="login_with_google">Entrar con Google</string>
