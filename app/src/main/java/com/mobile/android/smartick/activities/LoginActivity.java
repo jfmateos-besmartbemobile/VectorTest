@@ -72,7 +72,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginActivity extends Activity implements TextWatcher, LanguageSelectorInterface {
+public class LoginActivity extends Activity implements LanguageSelectorInterface {
 
   enum TipoLogin {ALUMNO, TUTOR}
 
@@ -207,8 +207,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     // Inicializamos systemInfo
     sysInfo = new SystemInfo(this.getApplicationContext());
 
-    // Inicialmente ocultamos el panel de login
-    findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
@@ -216,13 +214,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     if (Constants.DEBUG_MODE) {
       findViewById(R.id.login_button_dev_menu).setVisibility(View.VISIBLE);
     }
-
-    //login form validation
-    EditText studentUsernameEditText = (EditText) findViewById(R.id.login_alias);
-    studentUsernameEditText.addTextChangedListener(this);
-
-    EditText studentPasswordEditText = (EditText) findViewById(R.id.login_password);
-    studentPasswordEditText.addTextChangedListener(this);
 
     //TextView font setup
     Typeface tfDidact = Typeface.createFromAsset(getAssets(), FONT);
@@ -735,12 +726,10 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
           refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
           prepareListView(listViewTutors);
         }
-        resetLoginAlumnoPanel();
         loginStudentShowing = false;
 
       } else {
         showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-        resetLoginAlumnoPanel();
       }
     }
 
@@ -753,7 +742,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
       checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
     } else {
       showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-      resetLoginAlumnoPanel();
     }
   }
 
@@ -774,20 +762,15 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
             } else {
               if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-                resetLoginAlumnoPanel();
               }
 
               if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
-                resetLoginAlumnoPanel();
               }
 
               if (loginStatusResponse.getStatus().equals(SmartickAPI.PASSWORD_INVALID)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.Incorrect_password), null, null, getString(R.string.OK), null);
 
-                //just resets the password
-                ((EditText) findViewById(R.id.login_password)).setText("");
-                ((EditText) findViewById(R.id.login_password2)).setText("");
               }
             }
           }
@@ -801,23 +784,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
                 null, null, getString(R.string.OK), null);
           }
         });
-  }
-
-  private void resetLoginAlumnoPanel() {
-    ((EditText) findViewById(R.id.login_alias)).setText("");
-    ((EditText) findViewById(R.id.login_password)).setText("");
-  }
-
-  private void setLoginAlumnoPanelVisible(boolean visible) {
-    if (visible) {
-      loginStudentShowing = true;
-      enableFlipButtons(false);
-      findViewById(R.id.panel_login_alumno).setVisibility(View.VISIBLE);
-    } else {
-      loginStudentShowing = false;
-      enableFlipButtons(true);
-      findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
-    }
   }
 
   //Refreshes listView
@@ -834,16 +800,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     if (!userList.isEmpty())
       //TODO Decidir cual es el tutor activo
       activeTutor.setLabel(userList.get(0).getUsername());
-  }
-
-  /**
-   * Oculta el panel de nuevo alumnos
-   */
-  public void cancelar(View view) {
-    setLoginAlumnoPanelVisible(false);
-    loginStudentShowing = false;
-    enableFlipButtons(true);
-    hideSoftKeyboard();
   }
 
   public void checkLoginTutor(View view) {
@@ -1017,30 +973,13 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     startActivity(new Intent(this, RegistroActivity.class));
   }
 
-
-  //TextWatcher methods
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-  }
-
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-  }
-
-  @Override
-  public void afterTextChanged(Editable s) {
-
-  }
-
   //Soft keyboard
   private void hideSoftKeyboard() {
-    EditText e1 = ((EditText) findViewById(R.id.login_alias));
-    EditText e2 = ((EditText) findViewById(R.id.login_password));
-    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-    imm.hideSoftInputFromWindow(e1.getWindowToken(), 0);
-    imm.hideSoftInputFromWindow(e2.getWindowToken(), 0);
+//    EditText e1 = ((EditText) findViewById(R.id.login_alias));
+//    EditText e2 = ((EditText) findViewById(R.id.login_password));
+//    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+//    imm.hideSoftInputFromWindow(e1.getWindowToken(), 0);
+//    imm.hideSoftInputFromWindow(e2.getWindowToken(), 0);
   }
 
   //DEBUG MENU

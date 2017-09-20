@@ -359,9 +359,4 @@
 
   </RelativeLayout>
 
-  <include
-      layout="@layout/panel_login_alumno"
-      tools:visibility="gone"
-      />
-
 </RelativeLayout>
