@@ -314,7 +314,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         if (isValidName(studentNameEditText.getText().toString())) {
           updateStudentConfirmData();
           scrollToNextPage();
-          studentNameEditText.setEnabled(false);
         } else {
           studentNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
         }
