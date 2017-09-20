@@ -303,9 +303,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
    */
   public void mostrarLoginAlumno(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
     if (listViewStudents.getAdapter().getCount() > 0)
       showStudentLogin(false);
@@ -321,9 +319,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
    */
   public void mostrarLoginTutor(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
     if (listViewTutors.getAdapter().getCount() > 0)
       showTutorLogin(false);
@@ -467,9 +463,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
   public void cambiarTutor(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
     listViewTutors.setVisibility(View.VISIBLE);
     changeTutor.setVisibility(View.GONE);
@@ -479,9 +473,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
   public void entrarComoOtroTutor(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
     showTutorLogin(true);
   }
@@ -510,23 +502,16 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
   public void showStudentLogin(boolean visible) {
     View loginTutor = findViewById(R.id.student_login);
-
-//    View changeStudentButton = findViewById(R.id.change_student_button);
     View otherStudentButton = findViewById(R.id.login_alumno_button);
-//    View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
       listViewStudents.setVisibility(View.GONE);
       otherStudentButton.setVisibility(View.GONE);
-//      tutorActivo.setVisibility(View.GONE);
-//      chaneTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
       listViewStudents.setVisibility(View.VISIBLE);
       otherStudentButton.setVisibility(View.VISIBLE);
-//      tutorActivo.setVisibility(View.VISIBLE);
-//      chaneTutorButton.setVisibility(View.VISIBLE);
     }
   }
 
@@ -762,7 +747,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
             Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)) {
               addUser(username, password, type);
-              hideSoftKeyboard();
             } else {
               if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
@@ -977,17 +961,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     startActivity(new Intent(this, RegistroActivity.class));
   }
 
-  //Soft keyboard
-  private void hideSoftKeyboard() {
-//    EditText e1 = ((EditText) findViewById(R.id.login_alias));
-//    EditText e2 = ((EditText) findViewById(R.id.login_password));
-//    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-//    imm.hideSoftInputFromWindow(e1.getWindowToken(), 0);
-//    imm.hideSoftInputFromWindow(e2.getWindowToken(), 0);
-  }
-
-  //DEBUG MENU
-
   /**
    * Volver a la pantalla de inicio
    */
@@ -1166,9 +1139,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   }
 
   public void doRememberPassword(View view) {
-    if (rememberPasswordStudentUsername == null || rememberPasswordTutorMail == null) {
-      return;
-    }
+    if (rememberPasswordStudentUsername == null || rememberPasswordTutorMail == null) return;
 
     String studentUsername = rememberPasswordStudentUsername.getText().toString();
     String tutorMail = rememberPasswordTutorMail.getText().toString();
