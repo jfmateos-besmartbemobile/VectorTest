@@ -133,7 +133,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_icon_cabecera_tutores"
-            android:layout_marginTop="20dp"
             tools:visibility="gone"
             />
 
@@ -270,7 +269,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_icon_cabecera_alumnos"
-            android:layout_marginTop="20dp"
             tools:visibility="visible"
             />
 

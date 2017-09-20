@@ -13,9 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -740,6 +737,8 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     password = ((EditText) findViewById(R.id.student_password_edittext)).getText().toString();
     if (validateStudentLogin(username, password)) {
       checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
+      ((EditText) findViewById(R.id.student_mail_edittext)).setText("");
+      ((EditText) findViewById(R.id.student_password_edittext)).setText("");
     } else {
       showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
     }
