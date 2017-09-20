@@ -17,7 +17,7 @@
       android:layout_alignStart="@+id/b_student_login"
       android:layout_marginLeft="10dp"
       android:layout_marginTop="20dp"
-      android:src="@drawable/student_mail_selector"
+      android:src="@drawable/tutor_mail_selector"
       />
 
   <ImageView
@@ -136,7 +136,7 @@
       android:clickable="true"
       android:onClick="googleSignIn"
       android:paddingLeft="20dp"
-      android:text="@string/student_info"
+      android:text="@string/Tutor_info"
       android:textColor="@color/white"
       android:textSize="28sp"
       custom:image="@drawable/google_logo"

@@ -265,8 +265,8 @@
             />
 
         <include
-            layout="@layout/tutor_login"
-            android:id="@+id/tutor_login"
+            layout="@layout/student_login"
+            android:id="@+id/student_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_icon_cabecera_alumnos"

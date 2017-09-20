@@ -251,6 +251,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     //checks for inactive students
     checkStudentsActive();
+
+    showStudentLogin(true);
   }
 
   @Override
@@ -495,22 +497,44 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void showTutorLogin(boolean visible) {
     View loginTutor = findViewById(R.id.tutor_login);
-    View chaneTutorButton = findViewById(R.id.change_tutor_button);
+
+    View changeTutorButton = findViewById(R.id.change_tutor_button);
     View otherTutorButton = findViewById(R.id.other_tutor_button);
     View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
       tutorActivo.setVisibility(View.GONE);
-      chaneTutorButton.setVisibility(View.GONE);
+      changeTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
       tutorActivo.setVisibility(View.VISIBLE);
-      chaneTutorButton.setVisibility(View.VISIBLE);
+      changeTutorButton.setVisibility(View.VISIBLE);
     }
 
     listViewTutors.setVisibility(View.GONE);
     otherTutorButton.setVisibility(View.GONE);
+  }
+
+  public void showStudentLogin(boolean visible) {
+    View loginTutor = findViewById(R.id.student_login);
+
+//    View changeStudentButton = findViewById(R.id.change_student_button);
+    View otherStudentButton = findViewById(R.id.login_alumno_button);
+//    View tutorActivo = findViewById(R.id.tutor_active);
+
+    if (visible) {
+      loginTutor.setVisibility(View.VISIBLE);
+//      tutorActivo.setVisibility(View.GONE);
+//      chaneTutorButton.setVisibility(View.GONE);
+    } else {
+      loginTutor.setVisibility(View.GONE);
+//      tutorActivo.setVisibility(View.VISIBLE);
+//      chaneTutorButton.setVisibility(View.VISIBLE);
+    }
+
+    listViewStudents.setVisibility(View.GONE);
+//    otherTutorButton.setVisibility(View.GONE);
   }
 
 
