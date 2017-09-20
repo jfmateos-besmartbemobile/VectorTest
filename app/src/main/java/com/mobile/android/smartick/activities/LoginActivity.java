@@ -307,6 +307,9 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       return;
     }
 
+    if (listViewStudents.getAdapter().getCount() > 0)
+      showStudentLogin(false);
+
     flipCard();
 
     View layoutLogin = findViewById(R.id.login_layout);
@@ -322,6 +325,8 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       return;
     }
 
+    if (listViewTutors.getAdapter().getCount() > 0)
+      showTutorLogin(false);
     flipCard();
 
     View layoutLogin = findViewById(R.id.login_layout);
