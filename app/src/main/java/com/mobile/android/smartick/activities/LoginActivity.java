@@ -251,8 +251,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     //checks for inactive students
     checkStudentsActive();
-
-    showStudentLogin(true);
   }
 
   @Override
@@ -506,14 +504,15 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
       loginTutor.setVisibility(View.VISIBLE);
       tutorActivo.setVisibility(View.GONE);
       changeTutorButton.setVisibility(View.GONE);
+      listViewTutors.setVisibility(View.GONE);
+      otherTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
       tutorActivo.setVisibility(View.VISIBLE);
       changeTutorButton.setVisibility(View.VISIBLE);
+      listViewTutors.setVisibility(View.VISIBLE);
+      otherTutorButton.setVisibility(View.VISIBLE);
     }
-
-    listViewTutors.setVisibility(View.GONE);
-    otherTutorButton.setVisibility(View.GONE);
   }
 
   public void showStudentLogin(boolean visible) {
@@ -525,16 +524,17 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
+      listViewStudents.setVisibility(View.GONE);
+      otherStudentButton.setVisibility(View.GONE);
 //      tutorActivo.setVisibility(View.GONE);
 //      chaneTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
+      listViewStudents.setVisibility(View.VISIBLE);
+      otherStudentButton.setVisibility(View.VISIBLE);
 //      tutorActivo.setVisibility(View.VISIBLE);
 //      chaneTutorButton.setVisibility(View.VISIBLE);
     }
-
-    listViewStudents.setVisibility(View.GONE);
-//    otherTutorButton.setVisibility(View.GONE);
   }
 
 
@@ -726,15 +726,15 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
         //refresh listview?
         if (type.equals(UserType.ALUMNO)) {
+          showStudentLogin(false);
           refreshListViewContent(listViewStudents, localDB.getUsersByType(UserType.ALUMNO), R.layout.student_login_cell);
           prepareListView(listViewStudents);
         }
         if (type.equals(UserType.TUTOR)) {
+          showTutorLogin(false);
           refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
           prepareListView(listViewTutors);
         }
-
-        showTutorLogin(false);
         resetLoginAlumnoPanel();
         loginStudentShowing = false;
 
@@ -747,8 +747,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   public void checkLoginAlumno(View view) {
-    username = ((EditText) findViewById(R.id.login_alias)).getText().toString();
-    password = ((EditText) findViewById(R.id.login_password)).getText().toString();
+    username = ((EditText) findViewById(R.id.student_mail_edittext)).getText().toString();
+    password = ((EditText) findViewById(R.id.student_password_edittext)).getText().toString();
     if (validateStudentLogin(username, password)) {
       checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
     } else {
@@ -824,6 +824,9 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   private void refreshListViewContent(ListView listView, List<User> userList, int layout) {
     if (listView.getId() == R.id.list_tutores) {
       showTutorLogin(userList.isEmpty());
+    }
+    if (listView.getId() == R.id.list_alumnos) {
+      showStudentLogin(userList.isEmpty());
     }
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
@@ -1003,7 +1006,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void addExistingStudent(View view) {
     showHideAddStudentOptions();
-    setLoginAlumnoPanelVisible(true);
+    showStudentLogin(true);
   }
 
   public void addAllMyStudents(View view) {
@@ -1011,7 +1014,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   public void goToRegister(View view) {
-    showTutorLogin(false);
     startActivity(new Intent(this, RegistroActivity.class));
   }
 

@@ -62,7 +62,7 @@
       android:text="@string/login"
       android:textSize="32sp"
       android:textColor="@color/white"
-      android:onClick="checkLoginstudent"
+      android:onClick="checkLoginAlumno"
       />
 
   <LinearLayout
