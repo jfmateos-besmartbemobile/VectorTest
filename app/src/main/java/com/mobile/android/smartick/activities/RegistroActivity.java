@@ -314,7 +314,6 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         if (isValidName(studentNameEditText.getText().toString())) {
           updateStudentConfirmData();
           scrollToNextPage();
-          studentNameEditText.setEnabled(false);
         } else {
           studentNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
         }
@@ -431,6 +430,10 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     if (currentPage > numPages) {
       currentPage = numPages;
     }
+    if(currentPage == 1){
+      studentNameEditText.setEnabled(true);
+    }else
+      studentNameEditText.setEnabled(false);
     int scrollTo = currentPage * pageWidth;
     scrollView1.customSmoothScroll(scrollTo, RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
   }
@@ -440,7 +443,10 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     if (currentPage < 0) {
       currentPage = 0;
     }
-
+    if(currentPage == 1){
+      studentNameEditText.setEnabled(true);
+    }else
+      studentNameEditText.setEnabled(false);
     int scrollTo = currentPage * pageWidth;
     scrollView1.customSmoothScroll(scrollTo, RegisterScrollView.SMOOTH_SCROLL_SPEED_MID);
   }
