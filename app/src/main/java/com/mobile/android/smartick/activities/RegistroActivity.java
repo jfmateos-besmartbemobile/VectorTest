@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -456,9 +457,16 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentPassword = studentPasswordEditText.getText().toString();
     studentName = studentNameEditText.getText().toString();
     studentCanRead = studentCanReadSwitch.isChecked();
-    studentBirthDay = studentAgeDatePicker.getDayOfMonth();
-    studentBirthMonth = studentAgeDatePicker.getMonth() + 1;
-    studentBirthYear = studentAgeDatePicker.getYear();
+    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(getString(R.string.English))){
+      studentBirthDay = studentAgeDatePicker.getMonth() + 1;
+      studentBirthMonth = studentAgeDatePicker.getDayOfMonth();
+      studentBirthYear = studentAgeDatePicker.getYear();
+    }else{
+      studentBirthDay = studentAgeDatePicker.getDayOfMonth();
+      studentBirthMonth = studentAgeDatePicker.getMonth() + 1;
+      studentBirthYear = studentAgeDatePicker.getYear();
+    }
+
 
     //Confirm tab update
     if (studentSex.equals(MALE)) {
