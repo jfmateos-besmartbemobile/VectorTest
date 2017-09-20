@@ -13,9 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,7 +69,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginActivity extends Activity implements TextWatcher, LanguageSelectorInterface {
+public class LoginActivity extends Activity implements LanguageSelectorInterface {
 
   enum TipoLogin {ALUMNO, TUTOR}
 
@@ -207,8 +204,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     // Inicializamos systemInfo
     sysInfo = new SystemInfo(this.getApplicationContext());
 
-    // Inicialmente ocultamos el panel de login
-    findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.login_bg));
@@ -216,13 +211,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     if (Constants.DEBUG_MODE) {
       findViewById(R.id.login_button_dev_menu).setVisibility(View.VISIBLE);
     }
-
-    //login form validation
-    EditText studentUsernameEditText = (EditText) findViewById(R.id.login_alias);
-    studentUsernameEditText.addTextChangedListener(this);
-
-    EditText studentPasswordEditText = (EditText) findViewById(R.id.login_password);
-    studentPasswordEditText.addTextChangedListener(this);
 
     //TextView font setup
     Typeface tfDidact = Typeface.createFromAsset(getAssets(), FONT);
@@ -315,9 +303,10 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
    */
   public void mostrarLoginAlumno(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
+
+    if (listViewStudents.getAdapter().getCount() > 0)
+      showStudentLogin(false);
 
     flipCard();
 
@@ -330,10 +319,10 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
    */
   public void mostrarLoginTutor(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
+    if (listViewTutors.getAdapter().getCount() > 0)
+      showTutorLogin(false);
     flipCard();
 
     View layoutLogin = findViewById(R.id.login_layout);
@@ -474,9 +463,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void cambiarTutor(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
     listViewTutors.setVisibility(View.VISIBLE);
     changeTutor.setVisibility(View.GONE);
@@ -486,31 +473,46 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void entrarComoOtroTutor(View view) {
 
-    if (loginStudentShowing) {
-      return;
-    }
+    if (loginStudentShowing) return;
 
     showTutorLogin(true);
   }
 
   public void showTutorLogin(boolean visible) {
     View loginTutor = findViewById(R.id.tutor_login);
-    View chaneTutorButton = findViewById(R.id.change_tutor_button);
+
+    View changeTutorButton = findViewById(R.id.change_tutor_button);
     View otherTutorButton = findViewById(R.id.other_tutor_button);
     View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
       tutorActivo.setVisibility(View.GONE);
-      chaneTutorButton.setVisibility(View.GONE);
+      changeTutorButton.setVisibility(View.GONE);
+      listViewTutors.setVisibility(View.GONE);
+      otherTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
       tutorActivo.setVisibility(View.VISIBLE);
-      chaneTutorButton.setVisibility(View.VISIBLE);
+      changeTutorButton.setVisibility(View.VISIBLE);
+      listViewTutors.setVisibility(View.VISIBLE);
+      otherTutorButton.setVisibility(View.VISIBLE);
     }
+  }
 
-    listViewTutors.setVisibility(View.GONE);
-    otherTutorButton.setVisibility(View.GONE);
+  public void showStudentLogin(boolean visible) {
+    View loginTutor = findViewById(R.id.student_login);
+    View otherStudentButton = findViewById(R.id.login_alumno_button);
+
+    if (visible) {
+      loginTutor.setVisibility(View.VISIBLE);
+      listViewStudents.setVisibility(View.GONE);
+      otherStudentButton.setVisibility(View.GONE);
+    } else {
+      loginTutor.setVisibility(View.GONE);
+      listViewStudents.setVisibility(View.VISIBLE);
+      otherStudentButton.setVisibility(View.VISIBLE);
+    }
   }
 
 
@@ -702,34 +704,33 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
         //refresh listview?
         if (type.equals(UserType.ALUMNO)) {
+          showStudentLogin(false);
           refreshListViewContent(listViewStudents, localDB.getUsersByType(UserType.ALUMNO), R.layout.student_login_cell);
           prepareListView(listViewStudents);
         }
         if (type.equals(UserType.TUTOR)) {
+          showTutorLogin(false);
           refreshListViewContent(listViewTutors, localDB.getUsersByType(UserType.TUTOR), R.layout.tutor_login_cell);
           prepareListView(listViewTutors);
         }
-
-        showTutorLogin(false);
-        resetLoginAlumnoPanel();
         loginStudentShowing = false;
 
       } else {
         showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-        resetLoginAlumnoPanel();
       }
     }
 
   }
 
   public void checkLoginAlumno(View view) {
-    username = ((EditText) findViewById(R.id.login_alias)).getText().toString();
-    password = ((EditText) findViewById(R.id.login_password)).getText().toString();
+    username = ((EditText) findViewById(R.id.student_mail_edittext)).getText().toString();
+    password = ((EditText) findViewById(R.id.student_password_edittext)).getText().toString();
     if (validateStudentLogin(username, password)) {
       checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
+      ((EditText) findViewById(R.id.student_mail_edittext)).setText("");
+      ((EditText) findViewById(R.id.student_password_edittext)).setText("");
     } else {
       showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-      resetLoginAlumnoPanel();
     }
   }
 
@@ -746,24 +747,18 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
             Log.d(Constants.LOGIN_LOG_TAG, "check login status - RESPONSE: " + loginStatusResponse.getStatus());
             if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_VALID)) {
               addUser(username, password, type);
-              hideSoftKeyboard();
             } else {
               if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_INVALID)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
-                resetLoginAlumnoPanel();
               }
 
               if (loginStatusResponse.getStatus().equals(SmartickAPI.LOGIN_NO_ACTIVE_SUB)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.User_does_not_have_an_active_subscription), null, null, getString(R.string.OK), null);
-                resetLoginAlumnoPanel();
               }
 
               if (loginStatusResponse.getStatus().equals(SmartickAPI.PASSWORD_INVALID)) {
                 showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.Incorrect_password), null, null, getString(R.string.OK), null);
 
-                //just resets the password
-                ((EditText) findViewById(R.id.login_password)).setText("");
-                ((EditText) findViewById(R.id.login_password2)).setText("");
               }
             }
           }
@@ -779,27 +774,13 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
         });
   }
 
-  private void resetLoginAlumnoPanel() {
-    ((EditText) findViewById(R.id.login_alias)).setText("");
-    ((EditText) findViewById(R.id.login_password)).setText("");
-  }
-
-  private void setLoginAlumnoPanelVisible(boolean visible) {
-    if (visible) {
-      loginStudentShowing = true;
-      enableFlipButtons(false);
-      findViewById(R.id.panel_login_alumno).setVisibility(View.VISIBLE);
-    } else {
-      loginStudentShowing = false;
-      enableFlipButtons(true);
-      findViewById(R.id.panel_login_alumno).setVisibility(View.GONE);
-    }
-  }
-
   //Refreshes listView
   private void refreshListViewContent(ListView listView, List<User> userList, int layout) {
     if (listView.getId() == R.id.list_tutores) {
       showTutorLogin(userList.isEmpty());
+    }
+    if (listView.getId() == R.id.list_alumnos) {
+      showStudentLogin(userList.isEmpty());
     }
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
@@ -807,16 +788,6 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
     if (!userList.isEmpty())
       //TODO Decidir cual es el tutor activo
       activeTutor.setLabel(userList.get(0).getUsername());
-  }
-
-  /**
-   * Oculta el panel de nuevo alumnos
-   */
-  public void cancelar(View view) {
-    setLoginAlumnoPanelVisible(false);
-    loginStudentShowing = false;
-    enableFlipButtons(true);
-    hideSoftKeyboard();
   }
 
   public void checkLoginTutor(View view) {
@@ -979,7 +950,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
 
   public void addExistingStudent(View view) {
     showHideAddStudentOptions();
-    setLoginAlumnoPanelVisible(true);
+    showStudentLogin(true);
   }
 
   public void addAllMyStudents(View view) {
@@ -987,37 +958,8 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   public void goToRegister(View view) {
-    showTutorLogin(false);
     startActivity(new Intent(this, RegistroActivity.class));
   }
-
-
-  //TextWatcher methods
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-  }
-
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-  }
-
-  @Override
-  public void afterTextChanged(Editable s) {
-
-  }
-
-  //Soft keyboard
-  private void hideSoftKeyboard() {
-    EditText e1 = ((EditText) findViewById(R.id.login_alias));
-    EditText e2 = ((EditText) findViewById(R.id.login_password));
-    InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-    imm.hideSoftInputFromWindow(e1.getWindowToken(), 0);
-    imm.hideSoftInputFromWindow(e2.getWindowToken(), 0);
-  }
-
-  //DEBUG MENU
 
   /**
    * Volver a la pantalla de inicio
@@ -1197,9 +1139,7 @@ public class LoginActivity extends Activity implements TextWatcher, LanguageSele
   }
 
   public void doRememberPassword(View view) {
-    if (rememberPasswordStudentUsername == null || rememberPasswordTutorMail == null) {
-      return;
-    }
+    if (rememberPasswordStudentUsername == null || rememberPasswordTutorMail == null) return;
 
     String studentUsername = rememberPasswordStudentUsername.getText().toString();
     String tutorMail = rememberPasswordTutorMail.getText().toString();

@@ -10,10 +10,10 @@
   <ImageView
       android:id="@+id/iv_tutor"
       android:layout_width="80dp"
-      android:padding="10dp"
       android:layout_height="80dp"
       android:layout_marginLeft="30dp"
       android:layout_marginTop="20dp"
+      android:padding="10dp"
       android:src="@drawable/login_tutor_icon"
       android:tint="@color/BlueColor"
       />
