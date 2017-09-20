@@ -418,7 +418,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     }
 
     view.refreshDrawableState();
-    //goNext(null);
+    goNext(null);
   }
 
   public void finishRegister(View view) {
