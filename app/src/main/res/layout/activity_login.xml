@@ -89,7 +89,7 @@
           android:layout_marginTop="10dp"
           android:background="@drawable/login_card_bg_tab"
           android:clickable="true"
-          android:onClick="mostrarLoginAlumno"
+          android:onClick="showStudentPanel"
           android:paddingLeft="10dp"
           android:textColor="#FFF"
           android:textSize="40sp"
@@ -150,6 +150,8 @@
             custom:image="@drawable/login_tutor_icon"
             custom:imageHeight="45dp"
             custom:imageWidth="80dp"
+            android:onClick="activeTutorClick"
+            android:longClickable="true"
             custom:label="@string/change_tutor"
             />
 
@@ -228,7 +230,7 @@
           android:layout_marginTop="10dp"
           android:background="@drawable/login_card_bg_tab"
           android:clickable="true"
-          android:onClick="mostrarLoginTutor"
+          android:onClick="showTutorPanel"
           android:paddingLeft="10dp"
           android:textColor="#FFF"
           android:textSize="40sp"

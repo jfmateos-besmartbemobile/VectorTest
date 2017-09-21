@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -97,6 +98,12 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
   private EditText rememberPasswordStudentUsername;
   private EditText rememberPasswordTutorMail;
+
+  private EditText studentLoginMail;
+  private EditText studentLoginPassword;
+
+  private EditText tutorLoginMail;
+  private EditText tutorLoginPassword;
 
   private LeftImageButton loginStudentFlipButton;
   private LeftImageButton loginTutorFlipButton;
@@ -221,10 +228,25 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
     changeTutor = (LeftImageButton) findViewById(R.id.change_tutor_button);
     activeTutor = (LeftImageButton) findViewById(R.id.tutor_active);
+    activeTutor.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        //TODO falta implementar la logica del tutor activo
+        Toast.makeText(v.getContext(), "Pulsado largo sobre el tutor activo", Toast.LENGTH_SHORT).show();
+        return true;
+      }
+    });
 
     //Flip Buttons setuo
     loginStudentFlipButton = (LeftImageButton) findViewById(R.id.login_student_flip_button);
     loginTutorFlipButton = (LeftImageButton) findViewById(R.id.login_tutor_flip_button);
+
+
+    studentLoginMail = (EditText) findViewById(R.id.student_mail_edittext);
+    studentLoginPassword = (EditText) findViewById(R.id.student_password_edittext);
+
+    tutorLoginMail = (EditText) findViewById(R.id.tutor_mail_edittext);
+    tutorLoginPassword = (EditText) findViewById(R.id.tutor_password_edittext);
 
     //loads users into their respective listView
     //STUDENTS
@@ -239,6 +261,8 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
     //checks for inactive students
     checkStudentsActive();
+
+    setUpOnFocusListeners();
   }
 
   @Override
@@ -252,6 +276,13 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     AppEventsLogger.activateApp(this);
   }
 
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    //Facebook trackers
+    accessTokenTracker.stopTracking();
+  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -263,6 +294,12 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
       handleSignInResult(result);
     }
+  }
+
+  @Override
+  public void languageChanged() {
+    selectorDialog.dismiss();
+    this.recreate();
   }
 
   /**
@@ -297,11 +334,10 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     startActivity(intent);
   }
 
-
   /**
    * Muestra el panel de login de alumnos
    */
-  public void mostrarLoginAlumno(View view) {
+  public void showStudentPanel(View view) {
 
     if (loginStudentShowing) return;
 
@@ -317,13 +353,17 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   /**
    * Muestra el panel de login de tutores
    */
-  public void mostrarLoginTutor(View view) {
+  public void showTutorPanel(View view) {
 
     if (loginStudentShowing) return;
 
     if (listViewTutors.getAdapter().getCount() > 0)
       showTutorLogin(false);
+
     flipCard();
+
+    if (!mostrarAddStudentOptions)
+      showHideAddStudentOptions();
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.tutor_login_bg));
@@ -376,12 +416,10 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (loginStudentShowing) {
-          return;
-        }
+        if (loginStudentShowing) return;
 
         //retreive user
-        User user = (User) adapter.getItem(position);
+        User user = adapter.getItem(position);
         UserType userType = UserType.valueOf(user.getPerfil());
         if (user.getPassword() != null) {
           doLogin(user.getUsername(), user.getPassword(), userType);
@@ -394,11 +432,9 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       @Override
       public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (loginStudentShowing) {
-          return false;
-        }
+        if (loginStudentShowing) return false;
 
-        User user = (User) adapter.getItem(position);
+        User user = adapter.getItem(position);
         usernameToDelete = user.getUsername();
         showUserDeleteDialog(user.getUsername());
         return true;
@@ -409,8 +445,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   /**
    * Muestra panel de login
    */
-
-
   public void addAnotherStudent(View view) {
 
     if (loginStudentShowing) return;
@@ -457,10 +491,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     mostrarAddStudentOptions = !mostrarAddStudentOptions;
   }
 
-  /**
-   * Muestra panel de login
-   */
-
   public void cambiarTutor(View view) {
 
     if (loginStudentShowing) return;
@@ -469,6 +499,21 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     changeTutor.setVisibility(View.GONE);
     otherTutor.setVisibility(View.VISIBLE);
     activeTutor.setVisibility(View.GONE);
+  }
+
+  public void showActiveTutor() {
+
+    if (loginStudentShowing) return;
+
+    listViewTutors.setVisibility(View.GONE);
+    changeTutor.setVisibility(View.VISIBLE);
+    otherTutor.setVisibility(View.GONE);
+    activeTutor.setVisibility(View.VISIBLE);
+  }
+
+  public void activeTutorClick(View view) {
+    //TODO falta implementar la logica del tutor activo
+    Toast.makeText(this, "Pulsado sobre tutor activo", Toast.LENGTH_SHORT).show();
   }
 
   public void entrarComoOtroTutor(View view) {
@@ -483,20 +528,20 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
     View changeTutorButton = findViewById(R.id.change_tutor_button);
     View otherTutorButton = findViewById(R.id.other_tutor_button);
-    View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
-      tutorActivo.setVisibility(View.GONE);
+      activeTutor.setVisibility(View.GONE);
       changeTutorButton.setVisibility(View.GONE);
       listViewTutors.setVisibility(View.GONE);
       otherTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
-      tutorActivo.setVisibility(View.VISIBLE);
+      activeTutor.setVisibility(View.VISIBLE);
       changeTutorButton.setVisibility(View.VISIBLE);
       listViewTutors.setVisibility(View.VISIBLE);
       otherTutorButton.setVisibility(View.VISIBLE);
+      showActiveTutor();
     }
   }
 
@@ -515,6 +560,36 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     }
   }
 
+  private void setUpOnFocusListeners() {
+
+    studentLoginMail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        findViewById(R.id.student_mail_icon).setSelected(hasFocus);
+      }
+    });
+
+    studentLoginPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        findViewById(R.id.student_password_icon).setSelected(hasFocus);
+      }
+    });
+
+    tutorLoginMail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        findViewById(R.id.tutor_mail_icon).setSelected(hasFocus);
+      }
+    });
+
+    tutorLoginPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        findViewById(R.id.tutor_password_icon).setSelected(hasFocus);
+      }
+    });
+  }
 
   public void showActiveTutor(View view) {
     showTutorLogin(false);
@@ -723,14 +798,19 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   }
 
   public void checkLoginAlumno(View view) {
-    username = ((EditText) findViewById(R.id.student_mail_edittext)).getText().toString();
-    password = ((EditText) findViewById(R.id.student_password_edittext)).getText().toString();
-    if (validateStudentLogin(username, password)) {
+    username = studentLoginMail.getText().toString();
+    password = studentLoginPassword.getText().toString();
+
+    if (!validateLoginUsername(username))
+      studentLoginMail.setError("Usuario no valido");
+    if (!validateLoginPassword(password))
+      studentLoginPassword.setError("Contaseña no valida");
+
+
+    if (studentLoginMail.getError() == null && studentLoginPassword.getError() == null) {
       checkLoginStatusAddNewUser(username, password, UserType.ALUMNO);
-      ((EditText) findViewById(R.id.student_mail_edittext)).setText("");
-      ((EditText) findViewById(R.id.student_password_edittext)).setText("");
-    } else {
-      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
+      studentLoginMail.setText("");
+      studentLoginPassword.setText("");
     }
   }
 
@@ -785,24 +865,26 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
 
-    if (!userList.isEmpty())
+    if (!userList.isEmpty()) {
       //TODO Decidir cual es el tutor activo
       activeTutor.setLabel(userList.get(0).getUsername());
+    }
   }
 
   public void checkLoginTutor(View view) {
-    username = ((EditText) findViewById(R.id.tutor_mail_edittext)).getText().toString();
-    password = ((EditText) findViewById(R.id.tutor_password_edittext)).getText().toString();
-    doLogin(username, password);
-  }
+    username = tutorLoginMail.getText().toString();
+    password = tutorLoginPassword.getText().toString();
 
-  private void doLogin(String username, String password) {
-    if (validateTutorLogin(username, password)) {
+    if (!validateLoginUsername(username))
+      tutorLoginMail.setError("Usuario no valido");
+    if (!validateLoginPassword(password))
+      tutorLoginPassword.setError("Contaseña no valida");
+
+
+    if (tutorLoginMail.getError() == null && tutorLoginPassword.getError() == null) {
       checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
-      ((EditText) findViewById(R.id.tutor_mail_edittext)).setText("");
-      ((EditText) findViewById(R.id.tutor_password_edittext)).setText("");
-    } else {
-      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
+      tutorLoginMail.setText("");
+      tutorLoginPassword.setText("");
     }
   }
 
@@ -916,22 +998,18 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     }
   }
 
-  //Login validation
-  private boolean validateStudentLogin(String username, String password) {
-    if (username != null && username.length() >= SmartickAPI.MIN_USERNAME_LENGTH && password != null && password.length() >= SmartickAPI.MIN_PASSWORD_LENGTH) {
-      return true;
-    }
-    return false;
+  /**
+   * Login validations
+   */
+  private boolean validateLoginUsername(String username) {
+    return username != null && username.length() >= SmartickAPI.MIN_USERNAME_LENGTH;
   }
 
-  private boolean validateTutorLogin(String username, String password) {
-    if (username != null && username.length() >= SmartickAPI.MIN_USERNAME_LENGTH && isValidEmail(username) && password != null && password.length() >= SmartickAPI.MIN_PASSWORD_LENGTH) {
-      return true;
-    }
-    return false;
+  private boolean validateLoginPassword(String password) {
+    return password != null && password.length() >= SmartickAPI.MIN_PASSWORD_LENGTH;
   }
 
-  public final static boolean isValidEmail(CharSequence target) {
+  public boolean isValidEmail(CharSequence target) {
     if (TextUtils.isEmpty(target)) {
       return false;
     } else {
@@ -941,7 +1019,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       return matcher.matches();
     }
   }
-
 
   public void addNewStudent(View view) {
     showHideAddStudentOptions();
@@ -961,9 +1038,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     startActivity(new Intent(this, RegistroActivity.class));
   }
 
-  /**
-   * Volver a la pantalla de inicio
-   */
   public void mostrarDevMenu(View view) {
     showModalDebug();
   }
@@ -1058,7 +1132,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     startActivityForResult(signInIntent, RC_SIGN_IN);
   }
 
-
   private void handleSignInResult(GoogleSignInResult result) {
     Log.d(Constants.LOGIN_LOG_TAG, "handleSignInResult:" + result.isSuccess());
     if (result.isSuccess()) {
@@ -1087,13 +1160,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     FragmentManager fm = getFragmentManager();
     selectorDialog.show(fm, "Language selector");
   }
-
-  @Override
-  public void languageChanged() {
-    selectorDialog.dismiss();
-    this.recreate();
-  }
-
 
   //Remember password
   public void mostrarRecordarPasswordAlumno(View view) {
@@ -1196,14 +1262,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     rememberPasswordAlertDialog.dismiss();
     rememberPasswordStudentUsername = null;
     rememberPasswordTutorMail = null;
-  }
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-
-    //Facebook trackers
-    accessTokenTracker.stopTracking();
   }
 
   public void enableFlipButtons(boolean enabled) {
