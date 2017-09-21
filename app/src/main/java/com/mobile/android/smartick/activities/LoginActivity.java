@@ -801,9 +801,9 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     username = studentLoginMail.getText().toString();
     password = studentLoginPassword.getText().toString();
 
-    if (validateLoginUsername(username))
+    if (!validateLoginUsername(username))
       studentLoginMail.setError("Usuario no valido");
-    if (validateLoginPassword(password))
+    if (!validateLoginPassword(password))
       studentLoginPassword.setError("Contaseña no valida");
 
 
@@ -875,9 +875,9 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     username = tutorLoginMail.getText().toString();
     password = tutorLoginPassword.getText().toString();
 
-    if (validateLoginUsername(username))
+    if (!validateLoginUsername(username))
       tutorLoginMail.setError("Usuario no valido");
-    if (validateLoginPassword(password))
+    if (!validateLoginPassword(password))
       tutorLoginPassword.setError("Contaseña no valida");
 
 
