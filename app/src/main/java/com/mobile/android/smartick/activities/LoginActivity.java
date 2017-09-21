@@ -885,8 +885,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       checkLoginStatusAddNewUser(username, password, UserType.TUTOR);
       tutorLoginMail.setText("");
       tutorLoginPassword.setText("");
-    } else {
-      showAlertDialog(getString(R.string.Notice), SweetAlertDialog.WARNING_TYPE, getString(R.string.username_not_valid_or_already_exists), null, null, getString(R.string.OK), null);
     }
   }
 
