@@ -254,6 +254,13 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     AppEventsLogger.activateApp(this);
   }
 
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    //Facebook trackers
+    accessTokenTracker.stopTracking();
+  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -265,6 +272,12 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
       handleSignInResult(result);
     }
+  }
+
+  @Override
+  public void languageChanged() {
+    selectorDialog.dismiss();
+    this.recreate();
   }
 
   /**
@@ -298,7 +311,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     intent.putExtra("socialType", type);
     startActivity(intent);
   }
-
 
   /**
    * Muestra el panel de login de alumnos
@@ -969,7 +981,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     return false;
   }
 
-  public final static boolean isValidEmail(CharSequence target) {
+  public boolean isValidEmail(CharSequence target) {
     if (TextUtils.isEmpty(target)) {
       return false;
     } else {
@@ -979,7 +991,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       return matcher.matches();
     }
   }
-
 
   public void addNewStudent(View view) {
     showHideAddStudentOptions();
@@ -999,9 +1010,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     startActivity(new Intent(this, RegistroActivity.class));
   }
 
-  /**
-   * Volver a la pantalla de inicio
-   */
   public void mostrarDevMenu(View view) {
     showModalDebug();
   }
@@ -1125,12 +1133,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     selectorDialog.show(fm, "Language selector");
   }
 
-  @Override
-  public void languageChanged() {
-    selectorDialog.dismiss();
-    this.recreate();
-  }
-
   //Remember password
   public void mostrarRecordarPasswordAlumno(View view) {
     mostrarRecordarPasswordModal(true);
@@ -1232,14 +1234,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     rememberPasswordAlertDialog.dismiss();
     rememberPasswordStudentUsername = null;
     rememberPasswordTutorMail = null;
-  }
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-
-    //Facebook trackers
-    accessTokenTracker.stopTracking();
   }
 
   public void enableFlipButtons(boolean enabled) {
