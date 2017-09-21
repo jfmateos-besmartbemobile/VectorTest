@@ -29,7 +29,7 @@
     <color name="WhiteColor">#FFFFFF</color>
     <color name="LightOrangeColor">#FDE2B8</color>
     <color name="OrangeColor">#FCA72D</color>
-
     <color name="hintColor">#e0e0e0</color>
     <color name="loginFlipShadowColor">#de000000</color>
+    <color name="RedBorder">#e70315</color>
 </resources>

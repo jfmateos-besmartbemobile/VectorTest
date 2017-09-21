@@ -303,11 +303,15 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         //user needs validation but password is ok
         if (!studentUsernameValid) {
           validateStudentUsername(studentAliasEditText.getText().toString().trim());
+          studentNameEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
         }
 
         if (!passwordStudentValid) {
+
           studentPasswordEditText.setError(getText(R.string.Incorrect_password));
           studentPasswordEditText.requestFocus();
+          studentPasswordEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
+
         }
 
         break;
@@ -317,6 +321,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           scrollToNextPage();
         } else {
           studentNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
+          studentNameEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
         }
         break;
       case 2:
@@ -338,17 +343,22 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         if (!passwordTutorValid) {
           tutorPasswordEditText.setError(getText(R.string.Incorrect_password));
           tutorPasswordEditText.requestFocus();
-        }
+          tutorPasswordEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
+
+        }else
+          tutorPasswordEditText.setBackground(getResources().getDrawable(R.drawable.blue_border_selector));
 
         //user needs validation but password is ok
         if (!tutorMailValid && passwordTutorValid) {
           validateTutorMail(tutorMailEditText.getText().toString().trim());
+          tutorNameEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
           break;
         }
 
         //user needs validation but password is ok
         if (!tutorMailValid) {
           validateTutorMail(tutorMailEditText.getText().toString().trim());
+          tutorNameEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
         }
 
         break;
@@ -360,8 +370,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
         } else {
           if (!isValidName(tutorNameEditText.getText().toString()))
             tutorNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
+            tutorNameEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
           if (!isValidName(tutorLastNameEditText.getText().toString()))
+          {
             tutorLastNameEditText.setError(getText(R.string.Fill_in_the_fields_to_contiune));
+            tutorLastNameEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
+          }
 
         }
         break;
@@ -371,6 +385,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           scrollToNextPage();
         } else {
           tutorPhoneEditText.setError(getText(R.string.Invalid_phone_number));
+          tutorPhoneEditText.setBackground(getResources().getDrawable(R.drawable.red_border_selector));
         }
         break;
       default:
@@ -415,6 +430,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       v.setBackground(getResources().getDrawable(R.drawable.sex_selector_background));
       tvTextBoy.setTextColor(getResources().getColor(R.color.BlueishGreyColor));
       tvTextGirl.setTextColor(getResources().getColor(R.color.BlueColor));
+
     }
     if (view.getId() == R.id.icon_boy) {
       studentSex = MALE;
@@ -479,12 +495,12 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
 
     //Confirm tab update
-    if (studentSex.equals(MALE)) {
-      confirmSexGirl.setVisibility(View.GONE);
-      confirmSexBoy.setVisibility(View.VISIBLE);
-    } else {
+    if (studentSex.equals(FEMALE)) {
       confirmSexGirl.setVisibility(View.VISIBLE);
       confirmSexBoy.setVisibility(View.GONE);
+    } else {
+      confirmSexGirl.setVisibility(View.GONE);
+      confirmSexBoy.setVisibility(View.VISIBLE);
     }
 
     confirmStudentNameTextView.setText(studentName);
@@ -589,6 +605,11 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       @Override
       public void onFocusChange(View view, boolean hasFocus) {
         studentUsernameIcon.setSelected(hasFocus);
+        studentAliasEditText.setSelected(hasFocus);
+        if(hasFocus)
+          studentAliasEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          studentAliasEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
       }
     });
 
@@ -596,6 +617,11 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       @Override
       public void onFocusChange(View view, boolean hasFocus) {
         studentPasswordIcon.setSelected(hasFocus);
+        studentPasswordEditText.setSelected(hasFocus);
+        if(hasFocus)
+          studentPasswordEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          studentPasswordEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
       }
     });
 
@@ -603,6 +629,11 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       @Override
       public void onFocusChange(View view, boolean hasFocus) {
         tutorMailIcon.setSelected(hasFocus);
+        tutorMailEditText.setSelected(hasFocus);
+        if(hasFocus)
+          tutorMailEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          tutorMailEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
       }
     });
 
@@ -610,9 +641,18 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       @Override
       public void onFocusChange(View view, boolean hasFocus) {
         tutorPasswordIcon.setSelected(hasFocus);
+        tutorPasswordEditText.setSelected(hasFocus);
+        if(hasFocus)
+          tutorPasswordEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          tutorPasswordEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
       }
     });
 
+    /**
+     * Al clickar sobre el nombre del usuario en la pantalla
+     * de selección de sexo se cambia el borde del editText
+     */
     studentNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
       @Override
       public void onFocusChange(View view, boolean hasFocus) {
@@ -623,6 +663,42 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
           studentNameEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
       }
     });
+
+
+    tutorNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorNameEditText.setSelected(hasFocus);
+        if(hasFocus)
+          tutorNameEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          tutorNameEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
+      }
+    });
+
+    tutorLastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorLastNameEditText.setSelected(hasFocus);
+        if(hasFocus)
+          tutorLastNameEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          tutorLastNameEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
+      }
+    });
+
+    tutorPhoneEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        tutorPhoneEditText.setSelected(hasFocus);
+        if(hasFocus)
+          tutorPhoneEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          tutorPhoneEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
+      }
+    });
+
+
   }
 
   //validation
