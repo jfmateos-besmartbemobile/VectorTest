@@ -303,7 +303,7 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   /**
    * Muestra el panel de login de alumnos
    */
-  public void mostrarLoginAlumno(View view) {
+  public void showStudentPanel(View view) {
 
     if (loginStudentShowing) return;
 
@@ -319,13 +319,17 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   /**
    * Muestra el panel de login de tutores
    */
-  public void mostrarLoginTutor(View view) {
+  public void showTutorPanel(View view) {
 
     if (loginStudentShowing) return;
 
     if (listViewTutors.getAdapter().getCount() > 0)
       showTutorLogin(false);
+
     flipCard();
+
+    if (!mostrarAddStudentOptions)
+      showHideAddStudentOptions();
 
     View layoutLogin = findViewById(R.id.login_layout);
     layoutLogin.setBackground(getResources().getDrawable(R.drawable.tutor_login_bg));
@@ -411,8 +415,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
   /**
    * Muestra panel de login
    */
-
-
   public void addAnotherStudent(View view) {
 
     if (loginStudentShowing) return;
@@ -523,7 +525,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     }
   }
 
-
   private void setUpOnFocusListeners() {
 
     findViewById(R.id.student_mail_edittext).setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -554,7 +555,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       }
     });
   }
-
 
   public void showActiveTutor(View view) {
     showTutorLogin(false);
@@ -1096,7 +1096,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     startActivityForResult(signInIntent, RC_SIGN_IN);
   }
 
-
   private void handleSignInResult(GoogleSignInResult result) {
     Log.d(Constants.LOGIN_LOG_TAG, "handleSignInResult:" + result.isSuccess());
     if (result.isSuccess()) {
@@ -1131,7 +1130,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     selectorDialog.dismiss();
     this.recreate();
   }
-
 
   //Remember password
   public void mostrarRecordarPasswordAlumno(View view) {
