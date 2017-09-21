@@ -155,4 +155,16 @@
   <string name="RememberFailUser">Usuario incorrecto. Por favor introduce uno válido.</string>
   <string name="RememberFailTutor">Email incorrecto. Por favor introduce uno válido.</string>
 
+  <!-- MODIFICACIONES SIN TRADUCCION -->
+  <string name="Choose_alias">Elige un usuario</string>
+  <string name="Choose_password">Elige una contraseña</string>
+  <string name="change_tutor">Cambiar tutor</string>
+  <string name="no_acount_register_free">No tengo una cuenta de Smartick: Regístrate gratis»</string>
+  <string name="login">Entrar</string>
+  <string name="login_with_fb">Entrar con Facebook</string>
+  <string name="login_with_google">Entrar con Google</string>
+  <string name="add_all_students">Añadir todos mis alumnos</string>
+  <string name="add_new_student">Añadir alumno existente</string>
+  <string name="register_new_student">Registrar nuevo alumno</string>
+  
 </resources>
