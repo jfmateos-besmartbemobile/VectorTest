@@ -49,7 +49,7 @@
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustNothing"
+            android:windowSoftInputMode="stateHidden"
             >
         </activity>
         <activity
