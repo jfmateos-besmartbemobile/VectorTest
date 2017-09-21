@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -221,6 +222,14 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
     changeTutor = (LeftImageButton) findViewById(R.id.change_tutor_button);
     activeTutor = (LeftImageButton) findViewById(R.id.tutor_active);
+    activeTutor.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        //TODO falta implementar la logica del tutor activo
+        Toast.makeText(v.getContext(), "Pulsado largo sobre el tutor activo", Toast.LENGTH_SHORT).show();
+        return true;
+      }
+    });
 
     //Flip Buttons setuo
     loginStudentFlipButton = (LeftImageButton) findViewById(R.id.login_student_flip_button);
@@ -394,12 +403,10 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (loginStudentShowing) {
-          return;
-        }
+        if (loginStudentShowing) return;
 
         //retreive user
-        User user = (User) adapter.getItem(position);
+        User user = adapter.getItem(position);
         UserType userType = UserType.valueOf(user.getPerfil());
         if (user.getPassword() != null) {
           doLogin(user.getUsername(), user.getPassword(), userType);
@@ -412,11 +419,9 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
       @Override
       public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (loginStudentShowing) {
-          return false;
-        }
+        if (loginStudentShowing) return false;
 
-        User user = (User) adapter.getItem(position);
+        User user = adapter.getItem(position);
         usernameToDelete = user.getUsername();
         showUserDeleteDialog(user.getUsername());
         return true;
@@ -491,6 +496,11 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     changeTutor.setVisibility(View.VISIBLE);
     otherTutor.setVisibility(View.GONE);
     activeTutor.setVisibility(View.VISIBLE);
+  }
+
+  public void activeTutorClick(View view) {
+    //TODO falta implementar la logica del tutor activo
+    Toast.makeText(this, "Pulsado sobre tutor activo", Toast.LENGTH_SHORT).show();
   }
 
   public void entrarComoOtroTutor(View view) {

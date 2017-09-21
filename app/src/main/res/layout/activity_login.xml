@@ -150,6 +150,8 @@
             custom:image="@drawable/login_tutor_icon"
             custom:imageHeight="45dp"
             custom:imageWidth="80dp"
+            android:onClick="activeTutorClick"
+            android:longClickable="true"
             custom:label="@string/change_tutor"
             />
 
