@@ -156,7 +156,7 @@
           android:layout_marginTop="40dp"
           android:hint="@string/Name"
           style="@style/register_edit_text"
-          android:onClick="emphasizeBlueBorder"
+          android:background="@drawable/student_select_sex_selector"
           />
 
       <ImageView
@@ -167,8 +167,6 @@
           android:layout_marginLeft="69dp"
           android:layout_toRightOf="@+id/b_goback1"
           android:background="@drawable/sex_selector_background"
-
-          android:onClick="selectSex"
           android:src="@drawable/boy_avatar"
           />
 

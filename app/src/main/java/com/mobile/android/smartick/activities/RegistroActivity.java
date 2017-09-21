@@ -401,7 +401,11 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     tutorPhoneEditText.setText("123456789");
   }
 
+
   public void selectSex(View view) {
+
+    TextView tvTextBoy = (TextView) findViewById(R.id.text_boy);
+    TextView tvTextGirl = (TextView) findViewById(R.id.text_girl);
 
     //sets new background and selection
     if (view.getId() == R.id.icon_girl) {
@@ -409,12 +413,16 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       view.setBackground(getResources().getDrawable(R.drawable.sex_selector_background_selected));
       View v = (View) findViewById(R.id.icon_boy);
       v.setBackground(getResources().getDrawable(R.drawable.sex_selector_background));
+      tvTextBoy.setTextColor(getResources().getColor(R.color.BlueishGreyColor));
+      tvTextGirl.setTextColor(getResources().getColor(R.color.BlueColor));
     }
     if (view.getId() == R.id.icon_boy) {
       studentSex = MALE;
       view.setBackground(getResources().getDrawable(R.drawable.sex_selector_background_selected));
       View v = (View) findViewById(R.id.icon_girl);
       v.setBackground(getResources().getDrawable(R.drawable.sex_selector_background));
+      tvTextGirl.setTextColor(getResources().getColor(R.color.BlueishGreyColor));
+      tvTextBoy.setTextColor(getResources().getColor(R.color.BlueColor));
     }
 
     view.refreshDrawableState();
@@ -431,8 +439,10 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     if (currentPage > numPages) {
       currentPage = numPages;
     }
+    //Habilitar/deshabilitar el editText del nombre del alumno
     if(currentPage == 1){
       studentNameEditText.setEnabled(true);
+
     }else
       studentNameEditText.setEnabled(false);
     int scrollTo = currentPage * pageWidth;
@@ -503,7 +513,7 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
 
       paramsLinear.width = width;
       child.setLayoutParams(paramsLinear);
-    }
+      }
   }
 
   public void setUpRegisterViewElements() {
@@ -517,8 +527,13 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
     studentCanReadSwitch = (Switch) findViewById(R.id.student_canread_switch);
     textBoy = (TextView) findViewById(R.id.text_boy);
     textGirl = (TextView) findViewById(R.id.text_girl);
+    textGirl.setTextColor(getResources().getColor(R.color.BlueishGreyColor));
     iconBoy = (ImageView) findViewById(R.id.icon_boy);
+    //Icon boy selected by default
+    iconBoy.setSelected(true);
     iconGirl = (ImageView) findViewById(R.id.icon_girl);
+    //Girl icon unselected by default
+    iconGirl.setSelected(false);
     titleStudentAge = (TextView) findViewById(R.id.student_age_title);
     studentAgeDatePicker = (DatePicker) findViewById(R.id.student_age_datepicker);
     titleStudentConfirm = (TextView) findViewById(R.id.student_confirm_title);
@@ -595,6 +610,17 @@ public class RegistroActivity extends Activity implements RegisterScrollViewList
       @Override
       public void onFocusChange(View view, boolean hasFocus) {
         tutorPasswordIcon.setSelected(hasFocus);
+      }
+    });
+
+    studentNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View view, boolean hasFocus) {
+        studentNameEditText.setSelected(hasFocus);
+        if(hasFocus)
+          studentNameEditText.setHintTextColor(getResources().getColor(R.color.BlueColor));
+        else
+          studentNameEditText.setHintTextColor(getResources().getColor(R.color.hintColor));
       }
     });
   }
