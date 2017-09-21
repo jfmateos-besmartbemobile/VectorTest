@@ -459,10 +459,6 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     mostrarAddStudentOptions = !mostrarAddStudentOptions;
   }
 
-  /**
-   * Muestra panel de login
-   */
-
   public void cambiarTutor(View view) {
 
     if (loginStudentShowing) return;
@@ -471,6 +467,16 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     changeTutor.setVisibility(View.GONE);
     otherTutor.setVisibility(View.VISIBLE);
     activeTutor.setVisibility(View.GONE);
+  }
+
+  public void showActiveTutor() {
+
+    if (loginStudentShowing) return;
+
+    listViewTutors.setVisibility(View.GONE);
+    changeTutor.setVisibility(View.VISIBLE);
+    otherTutor.setVisibility(View.GONE);
+    activeTutor.setVisibility(View.VISIBLE);
   }
 
   public void entrarComoOtroTutor(View view) {
@@ -485,20 +491,20 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
 
     View changeTutorButton = findViewById(R.id.change_tutor_button);
     View otherTutorButton = findViewById(R.id.other_tutor_button);
-    View tutorActivo = findViewById(R.id.tutor_active);
 
     if (visible) {
       loginTutor.setVisibility(View.VISIBLE);
-      tutorActivo.setVisibility(View.GONE);
+      activeTutor.setVisibility(View.GONE);
       changeTutorButton.setVisibility(View.GONE);
       listViewTutors.setVisibility(View.GONE);
       otherTutorButton.setVisibility(View.GONE);
     } else {
       loginTutor.setVisibility(View.GONE);
-      tutorActivo.setVisibility(View.VISIBLE);
+      activeTutor.setVisibility(View.VISIBLE);
       changeTutorButton.setVisibility(View.VISIBLE);
       listViewTutors.setVisibility(View.VISIBLE);
       otherTutorButton.setVisibility(View.VISIBLE);
+      showActiveTutor();
     }
   }
 
@@ -819,9 +825,10 @@ public class LoginActivity extends Activity implements LanguageSelectorInterface
     UsersListAdapter usersListAdapter = new UsersListAdapter(this, layout, userList);
     listView.setAdapter(usersListAdapter);
 
-    if (!userList.isEmpty())
+    if (!userList.isEmpty()) {
       //TODO Decidir cual es el tutor activo
       activeTutor.setLabel(userList.get(0).getUsername());
+    }
   }
 
   public void checkLoginTutor(View view) {
