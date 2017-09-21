@@ -147,6 +147,8 @@
           />
 
       <EditText
+          android:layout_width="464dp"
+          android:layout_height="83dp"
           android:id="@+id/student_name_edittext"
           android:layout_alignTop="@+id/register_panel2"
           android:layout_centerHorizontal="true"
@@ -154,26 +156,28 @@
           android:layout_marginTop="40dp"
           android:hint="@string/Name"
           style="@style/register_edit_text"
+          android:onClick="emphasizeBlueBorder"
           />
 
       <ImageView
           android:id="@+id/icon_boy"
-          android:layout_width="150dp"
+          android:layout_width="211dp"
           android:layout_height="150dp"
           android:layout_below="@+id/student_name_edittext"
-          android:layout_marginLeft="110dp"
+          android:layout_marginLeft="69dp"
           android:layout_toRightOf="@+id/b_goback1"
           android:background="@drawable/sex_selector_background"
+
           android:onClick="selectSex"
           android:src="@drawable/boy_avatar"
           />
 
       <ImageView
           android:id="@+id/icon_girl"
-          android:layout_width="150dp"
+          android:layout_width="211dp"
           android:layout_height="150dp"
           android:layout_alignTop="@id/icon_boy"
-          android:layout_marginRight="110dp"
+          android:layout_marginRight="67dp"
           android:layout_toLeftOf="@+id/b_gonext1"
           android:background="@drawable/sex_selector_background"
           android:onClick="selectSex"
