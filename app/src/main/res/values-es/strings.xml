@@ -166,5 +166,5 @@
   <string name="add_all_students">Añadir todos mis alumnos</string>
   <string name="add_new_student">Añadir alumno existente</string>
   <string name="register_new_student">Registrar nuevo alumno</string>
-  
+  <string name="password_too_short">La contraseña es demasiado corta</string>
 </resources>

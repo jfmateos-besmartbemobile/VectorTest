@@ -114,7 +114,7 @@
           android:inputType="textPassword"
           style="@style/register_edit_text"
           />
-
+      
       <Button
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -545,6 +545,8 @@
           style="@style/register_edit_text"
           android:background="@drawable/blue_border_selector"
           />
+
+
 
       <LinearLayout
           android:id="@+id/tutor_separator"
